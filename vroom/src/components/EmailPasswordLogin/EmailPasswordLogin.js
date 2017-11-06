@@ -79,7 +79,7 @@ export default class EmailPasswordLogin extends Component {
       <View style={styles.container}>
 
         <View style={styles.header}>
-          <Text style={styles.vroom}>Vroom</Text>
+          <Text style={styles.vroom}>vroom</Text>
         </View>
 
         <View style={styles.input_container}>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     textAlign: 'center',
     fontSize: 80,
-    color: GLOBAL.COLOR.GRAY,
-    marginBottom: -5
+    color: GLOBAL.COLOR.GREEN,
+    marginTop: 20,
   },
   /*
    * Style: Container

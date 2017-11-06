@@ -150,7 +150,7 @@ export default class Login extends Component {
          barStyle="light-content"
        />
         <FadeInView style={styles.header}>
-          <Text style={styles.vroom}>Vroom</Text>
+          <Text style={styles.vroom}>vroom</Text>
           <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
 	      </FadeInView>
         <View style={styles.login}>
