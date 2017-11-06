@@ -9,7 +9,6 @@ import Login from './src/components/Login/Login';
 import Onboarding from './src/components/Onboarding/Onboarding';
 import Dashboard from './src/components/Dashboard/Dashboard';
 import EmailPasswordLogin from './src/components/EmailPasswordLogin/EmailPasswordLogin';
-import Revi from './src/Revi'
 GLOBAL = require('./src/Globals');
 
 // Components
@@ -21,11 +20,6 @@ import {
   StackNavigator,
 } from 'react-navigation';
 import * as firebase from 'firebase';
-
-// Files Needed
-import Login from './src/components/Login/Login';
-import Onboarding from './src/components/Onboarding/Onboarding';
-import Dashboard from './src/components/Dashboard/Dashboard';
 
 /*
  * Constant: Vroom

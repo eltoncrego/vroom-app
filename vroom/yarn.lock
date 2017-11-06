@@ -3501,12 +3501,6 @@ react-native-firebase@^3.0.5:
     bows "^1.6.0"
     prop-types "^15.6.0"
 
-react-native-tab-view@^0.0.69:
-  version "0.0.69"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.69.tgz#f52d4354a98a382f10eb5fcf61db5216c91dc7e7"
-  dependencies:
-    prop-types "^15.5.8"
-    
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
@@ -3584,7 +3578,7 @@ react-native@0.49.3:
     xcode "^0.9.1"
     xmldoc "^0.4.0"
     yargs "^6.4.0"
-    
+
 react-navigation@^1.0.0-beta.19:
   version "1.0.0-beta.19"
   resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.19.tgz#96e159c4b6760f51fc92d5c1c3690790cff4dbcf"
