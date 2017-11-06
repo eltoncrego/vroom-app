@@ -1,9 +1,18 @@
+/*
+ * Import all the necessary components for this page.
+ * Please delete components that aren't used.
+ */
+
+// Global Requirements
 import React, { Component } from 'react';
 import Login from './src/components/Login/Login';
 import Onboarding from './src/components/Onboarding/Onboarding';
 import Dashboard from './src/components/Dashboard/Dashboard';
 import EmailPasswordLogin from './src/components/EmailPasswordLogin/EmailPasswordLogin';
 import Revi from './src/Revi'
+GLOBAL = require('./src/Globals');
+
+// Components
 import {
   AppRegistry,
   StyleSheet,
@@ -13,7 +22,10 @@ import {
 } from 'react-navigation';
 import * as firebase from 'firebase';
 
-GLOBAL = require('./src/Globals');
+// Files Needed
+import Login from './src/components/Login/Login';
+import Onboarding from './src/components/Onboarding/Onboarding';
+import Dashboard from './src/components/Dashboard/Dashboard';
 
 /*
  * Constant: Vroom
@@ -23,9 +35,6 @@ GLOBAL = require('./src/Globals');
  *   that can be used in the application
  */
 const vroom = StackNavigator({
-  // DEBUG: Uncomment Following Line to Test Revi
-  //Revi: {screen: Revi},
-
   Login: {screen: Login},
   EmailPasswordLogin: {screen: EmailPasswordLogin},
   Onboarding: {screen: Onboarding},

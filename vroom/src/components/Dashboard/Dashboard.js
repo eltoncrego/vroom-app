@@ -4,9 +4,17 @@
  */
 import React, { Component } from 'react';
 import {
+  Dimensions,
   View,
   StyleSheet,
+  Image,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from 'react-native';
+import SideMenu from 'react-native-side-menu';
+import Menu from './Menu';
+
 
 /*
  * Class: Dashboard
@@ -46,8 +54,7 @@ export default class Dashboard extends Component {
        *       (for some reason I couldn't figure out how to)
        */
       headerStyle: {
-        fontFamily: 'Nunito',
-        backgroundColor: GLOBAL.COLOR.DARKGRAY
+        backgroundColor: GLOBAL.COLOR.DARKGRAY,
       },
       headerRight: (
         // example navigation:
@@ -58,13 +65,78 @@ export default class Dashboard extends Component {
       )
   });
 
+  /*
+   * Method: constructor(props)
+   * Author: Elton C. Rego
+   *
+   * Purpose: Sets the state text for the card naming
+   * props: the properties passed in from the super class (index.js)
+   */
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+
+    this.state = {
+      text: 'My Car',
+    };
+
+    }
+
+  /*
+   * Method: updateMenuState, onMenuItemSelected, toggle
+   * Author: Tianyi Zhang
+   *
+   * Purpose: Functions for SideMenu
+   * props:
+   */
+
+  toggle() {
+    this.setState({
+      isOpen:!this.state.isOpen,
+      });
+  }
+
+  updateMenuState(isOpen) {
+    this.setState({ isOpen });
+  }
+
+  onMenuItemSelected = item =>
+    this.setState({
+      isOpen: false,
+      selectedItem: item,
+    });
+
   render() {
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
     return (
-      <View>
-      </View>
+  /*
+   * Method: SideMenu
+   * Author: Tianyi Zhang
+   *
+   * Purpose: SideMenu Bar
+   */
+     <SideMenu
+        menu={menu}
+        isOpen={this.state.isOpen}
+        onChange={isOpen => this.updateMenuState(isOpen)}
+      >
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+      >
+        <TouchableOpacity
+            onPress={this.toggle}
+            style={styles.button}
+        >
+          <Text style={styles.menu}>Menu</Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+      </SideMenu>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   /*
@@ -92,4 +164,21 @@ const styles = StyleSheet.create({
       marginTop: 5,
       marginRight: 4
     },
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: GLOBAL.COLOR.DARKGRAY,
+    },
+    menu: {
+      fontSize: 16,
+      fontFamily: 'Nunito',
+      color: GLOBAL.COLOR.GREEN,
+      position: 'relative',
+      right: 150,
+      bottom: 280
+    },
+    button: {
+
+    }
 });

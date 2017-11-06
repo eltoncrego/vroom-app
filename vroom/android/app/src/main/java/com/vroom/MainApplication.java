@@ -6,6 +6,8 @@ import com.facebook.react.ReactApplication;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage; 
 import io.invertase.firebase.RNFirebasePackage;
+import com.zmxv.RNSound.RNSoundPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -28,7 +30,9 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNFirebasePackage(),
 		  new RNFirebaseDatabasePackage(),
-		  new RNFirebaseAuthPackage()
+		  new RNFirebaseAuthPackage(),
+            new RNSoundPackage(),
+            new LottiePackage()
       );
     }
 

@@ -2,23 +2,30 @@
  * Import all the necessary components for this page.
  * Please delete components that aren't used.
  */
+
+// Global Requirements
 import React, { Component } from 'react';
+GLOBAL = require('../../Globals');
+
+// Components
 import {
   View,
   Text,
   Button,
-  Image,
   StyleSheet,
   StatusBar,
   ScrollView,
   Dimensions,
   TextInput,
   KeyboardAvoidingView,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
-import Login from '../Login/Login';
+import Animation from 'lottie-react-native';
 
-GLOBAL = require('../../Globals');
+// Files Needed
+import revi from '../../../assets/animations/revi-hi.json';
+import revi_on from '../../../assets/animations/revi-on.json';
+import revi_super_happy from '../../../assets/animations/revi-super-happy.json';
 
 /*
  * Class: Onboarding
@@ -32,19 +39,6 @@ GLOBAL = require('../../Globals');
  * TODO: Take in make, model, and year and end this screen
  */
 export default class Onboarding extends Component {
-
-  /*
-   * Method: goToLoginPage()
-   * Author: Elton C. Rego
-   *
-   * Purpose: On invocation, will push the LoginPage
-   *   component onto the view stack.
-   *   (Loads the screen.)
-   */
-  goToLoginPage() {
-    const { navigate } = this.props.navigation;
-    navigate('Login');
-  }
 
   /*
    * Static: navigationOptions
@@ -67,7 +61,9 @@ export default class Onboarding extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.scrollView.scrollTo({x: -16})
-    }, 1) // scroll view position fix
+    }, 1);
+    this.animation.play();
+    this.animation2.play();
   }
 
    /*
@@ -97,14 +93,21 @@ export default class Onboarding extends Component {
     this.setState({show_last_card: true});
     this.scrollView.scrollTo({x: 672, y:0, animated: true});
     this.setState({scroll_enabled: false});
+    this.animation3.play();
   }
 
+  /*
+   * Method: goToScrollView()
+   * Author: Teeny
+   *
+   * Purpose: On invocation scrolls to the next page
+   *   in the onboarding
+   */
   goToScrollView() {
     if(this.state.scroll_enabled){
       this.scrollView.scrollTo({x: 328, y: 0, animated: true});
     }
   }
-
 
   /*
    * Method: render
@@ -116,17 +119,50 @@ export default class Onboarding extends Component {
    */
   render() {
 
+    /*
+     * Variable: last_card
+     * Author: Elton C. Rego
+     *
+     * Purpose: Sets the value of last_card based on the
+     *   boolean value of show_last_card. If true, card
+     *   is visible and animation is playable, if not vise
+     *   versa.
+     */
     var last_card = this.state.show_last_card ?
       <View style={styles.card}>
         <Text style={styles.card_title}>{this.state.text}</Text>
-          <Image
-            style={styles.revi_super}
-            source={require('../../../assets/img/car-super-good.png')}
-          />
+          <View style={styles.revi_animations}>
+              <Animation
+                ref={animation => {this.animation3 = animation;}}
+                style={{width: '100%', height: '100%',}}
+                loop={false}
+                source={revi_super_happy}
+              />
+          </View>
         <Text style={styles.card_text}>{"I love it!"}</Text>
       </View>
-      : null;
+      : <View style={styles.card_inactive}>
+        <Text style={styles.card_title}>{this.state.text}</Text>
+          <View style={styles.revi_animations}>
+              <Animation
+                ref={animation => {this.animation3 = animation;}}
+                style={{width: '100%', height: '100%',}}
+                loop={false}
+                source={revi_super_happy}
+              />
+          </View>
+        <Text style={styles.card_text}>{"I love it!"}</Text>
+      </View>;
 
+    /*
+     * Variable: next_button
+     * Author: Elton C. Rego
+     *
+     * Purpose: Sets the value of next_button based on the
+     *   boolean value of scroll_enabled. If scrolling is
+     *   possible, allow button to be show, if not do not show
+     *   button.
+     */
     var next_button = this.state.scroll_enabled ?
       <TouchableOpacity
           style={styles.buttonContainer}
@@ -134,13 +170,9 @@ export default class Onboarding extends Component {
           onPress={
             () => this.goToScrollView()
         }>
-          <Text style={styles.buttonText}>Next</Text>
+          <Text style={styles.buttonText}>{'Next'}</Text>
       </TouchableOpacity>
       : null;
-
-
-    // Grabs the width of the device screen and sets it to 'width'
-    const { width } = Dimensions.get('window');
 
     return (
       <KeyboardAvoidingView
@@ -171,20 +203,28 @@ export default class Onboarding extends Component {
           {/* Card 1 */}
           <View style={styles.card}>
             <Text style={styles.card_title}>{"Hello!"}</Text>
-            <Image
-              style={styles.revi}
-              source={require('../../../assets/img/car-good.png')}
-            />
+            <View style={styles.revi_animations}>
+              <Animation
+                ref={animation => {this.animation = animation;}}
+                style={{width: '100%', height: '100%',}}
+                loop={false}
+                source={revi}
+              />
+            </View>
             <Text style={styles.card_text}>{"I'm your car!"}</Text>
           </View>
 
           {/* Card 2 */}
           <View style={styles.card}>
             <Text style={styles.card_title}>{"My name is.."}</Text>
-            <Image
-              style={styles.revi}
-              source={require('../../../assets/img/car-good.png')}
-            />
+             <View style={styles.revi_animations}>
+              <Animation
+                ref={animation => {this.animation2 = animation;}}
+                style={{width: '100%', height: '100%',}}
+                loop={true}
+                source={revi_on}
+              />
+            </View>
             <TextInput
               style={styles.card_text_input}
               placeholder="Type in my name!"
@@ -280,6 +320,24 @@ const styles = StyleSheet.create({
     margin: 16,
   },
 
+  /*
+   * Style: Card
+   * Author: Elton C. Rego
+   * Purpose: This styles the card view within this page
+   */
+  card_inactive: {
+    display: 'none',
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
+    width: 312,
+    height: 344,
+    borderRadius: 20,
+    alignItems: 'center',
+    overflow: 'hidden',
+    margin: 16,
+  },
+
    /*
    * Style: Card Title
    * Author: Elton C. Rego
@@ -335,6 +393,19 @@ const styles = StyleSheet.create({
     width: 120,
   },
 
+   /*
+   * Style: Revi Animations
+   * Author: Elton C. Rego
+   * Purpose: This styles the Revis on each card
+   */
+  revi_animations: {
+    alignSelf: 'center',
+    height: 240,
+    width: 240,
+    zIndex:2,
+    marginTop: -32,
+  },
+
   /*
    * Style: Revi Super
    * Author: Elton C. Rego
@@ -346,5 +417,4 @@ const styles = StyleSheet.create({
     width: 120,
   },
 
-  inactive: {},
 });
