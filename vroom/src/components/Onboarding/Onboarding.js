@@ -38,16 +38,16 @@ GLOBAL = require('../../Globals');
 export default class Onboarding extends Component {
 
   /*
-   * Method: goToLoginPage()
-   * Author: Elton C. Rego
+   * Method: goToDashboard()
+   * Author: Elton C. Rego, Alec Felt
    *
-   * Purpose: On invocation, will push the LoginPage
+   * Purpose: On invocation, will push the Dashboard
    *   component onto the view stack.
    *   (Loads the screen.)
    */
-  goToLoginPage() {
+  goToDashboard() {
     const { navigate } = this.props.navigation;
-    navigate('Login');
+    navigate('Dashboard');
   }
 
   /*
@@ -116,6 +116,7 @@ export default class Onboarding extends Component {
     if(this.state.scroll_enabled){
       this.scrollView.scrollTo({x: 328, y: 0, animated: true});
     }
+    this.goToDashboard();
   }
 
 
@@ -142,7 +143,7 @@ export default class Onboarding extends Component {
       </View>
       : null;
 
-    var next_button = this.state.scroll_enabled ?
+    var next_button = !this.state.scroll_enabled ?
       <TouchableOpacity
           style={styles.buttonContainer}
           activeOpacity={0.8}

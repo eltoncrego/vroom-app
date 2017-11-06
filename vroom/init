@@ -2,11 +2,11 @@ npm install -g watchman
 npm install -g yarn
 npm install -g react-native-cli
 npm install --save react-navigation
+npm install react-native-side-menu --save
 yarn add lottie-react-native@2.2.7
 npm install react-native-sound --save
 react-native link lottie-ios
 react-native link lottie-react-native
 react-native link
-npm install react-native-side-menu --save
 rm -rf node_modules
 npm install

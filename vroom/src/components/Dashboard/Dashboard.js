@@ -54,8 +54,7 @@ export default class Dashboard extends Component {
        *       (for some reason I couldn't figure out how to)
        */
       headerStyle: {
-        fontFamily: 'Nunito',
-        backgroundColor: GLOBAL.COLOR.DARKGRAY
+        backgroundColor: GLOBAL.COLOR.DARKGRAY,
       },
       headerRight: (
         // example navigation:
@@ -109,8 +108,7 @@ export default class Dashboard extends Component {
     });
 
   render() {
-        const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
-
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
     return (
   /*
    * Method: SideMenu
@@ -127,13 +125,12 @@ export default class Dashboard extends Component {
         style={styles.container}
         behavior="padding"
       >
-      
-      <TouchableOpacity
-          onPress={this.toggle}
-          style={styles.button}
+        <TouchableOpacity
+            onPress={this.toggle}
+            style={styles.button}
         >
-      <Text style={styles.menu}>Menu</Text>        
-      </TouchableOpacity>
+          <Text style={styles.menu}>Menu</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
       </SideMenu>
     );
@@ -167,13 +164,12 @@ const styles = StyleSheet.create({
       marginTop: 5,
       marginRight: 4
     },
-
     container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: GLOBAL.COLOR.DARKGRAY,
-  },
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: GLOBAL.COLOR.DARKGRAY,
+    },
     menu: {
       fontSize: 16,
       fontFamily: 'Nunito',
@@ -181,7 +177,8 @@ const styles = StyleSheet.create({
       position: 'relative',
       right: 150,
       bottom: 280
+    },
+    button: {
+
     }
-
-
 });
