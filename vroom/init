@@ -3,7 +3,7 @@ npm install -g yarn &&
 npm install -g react-native-cli &&
 npm install --save react-navigation &&
 yarn add lottie-react-native@2.2.7 &&
-react-native link &&
 npm install react-native-side-menu --save &&
+react-native link &&
 rm -rf node_modules &&
 npm install

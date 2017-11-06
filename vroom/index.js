@@ -1,8 +1,13 @@
+/*
+ * Import all the necessary components for this page.
+ * Please delete components that aren't used.
+ */
+
+// Global Requirements
 import React, { Component } from 'react';
-import Login from './src/components/Login/Login';
-import Onboarding from './src/components/Onboarding/Onboarding';
-import Dashboard from './src/components/Dashboard/Dashboard';
-import Revi from './src/Revi'
+GLOBAL = require('./src/Globals');
+
+// Components
 import {
   AppRegistry,
   StyleSheet,
@@ -11,7 +16,10 @@ import {
   StackNavigator,
 } from 'react-navigation';
 
-GLOBAL = require('./src/Globals');
+// Files Needed
+import Login from './src/components/Login/Login';
+import Onboarding from './src/components/Onboarding/Onboarding';
+import Dashboard from './src/components/Dashboard/Dashboard';
 
 /*
  * Constant: Vroom

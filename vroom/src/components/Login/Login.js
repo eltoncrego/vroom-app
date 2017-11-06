@@ -2,7 +2,12 @@
  * Import all the necessary components for this page.
  * Please delete components that aren't used.
  */
+
+// Global Requirements
 import React, { Component } from 'react';
+GLOBAL = require('../../Globals');
+
+// Components
 import {
   View,
   Text,
@@ -11,11 +16,10 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
+
+// Files Needed
 import FadeImage from 'react-native-fade-image';
 import Onboarding from '../Onboarding/Onboarding';
-
-GLOBAL = require('../../Globals');
-
 
 /*
  * Class: FadeInView

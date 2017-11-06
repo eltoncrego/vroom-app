@@ -2,12 +2,16 @@
  * Import all the necessary components for this page.
  * Please delete components that aren't used.
  */
+
+// Global Requirements
 import React, { Component } from 'react';
+GLOBAL = require('../../Globals');
+
+// Components
 import {
   View,
   Text,
   Button,
-  Image,
   StyleSheet,
   StatusBar,
   ScrollView,
@@ -15,14 +19,13 @@ import {
   TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Sound,
 } from 'react-native';
 import Animation from 'lottie-react-native';
-import Login from '../Login/Login';
+
+// Files Needed
 import revi from '../../../assets/animations/revi-hi.json';
 import revi_on from '../../../assets/animations/revi-on.json';
-
-GLOBAL = require('../../Globals');
+import revi_super_happy from '../../../assets/animations/revi-super-happy.json';
 
 /*
  * Class: Onboarding
@@ -36,19 +39,6 @@ GLOBAL = require('../../Globals');
  * TODO: Take in make, model, and year and end this screen
  */
 export default class Onboarding extends Component {
-
-  /*
-   * Method: goToDashboard()
-   * Author: Elton C. Rego, Alec Felt
-   *
-   * Purpose: On invocation, will push the Dashboard
-   *   component onto the view stack.
-   *   (Loads the screen.)
-   */
-  goToDashboard() {
-    const { navigate } = this.props.navigation;
-    navigate('Dashboard');
-  }
 
   /*
    * Static: navigationOptions
@@ -103,6 +93,7 @@ export default class Onboarding extends Component {
     this.setState({show_last_card: true});
     this.scrollView.scrollTo({x: 672, y:0, animated: true});
     this.setState({scroll_enabled: false});
+    this.animation3.play();
   }
 
   /*
@@ -116,11 +107,7 @@ export default class Onboarding extends Component {
     if(this.state.scroll_enabled){
       this.scrollView.scrollTo({x: 328, y: 0, animated: true});
     }
-    this.goToDashboard();
   }
-
-
-
 
   /*
    * Method: render
@@ -132,31 +119,60 @@ export default class Onboarding extends Component {
    */
   render() {
 
+    /*
+     * Variable: last_card
+     * Author: Elton C. Rego
+     *
+     * Purpose: Sets the value of last_card based on the
+     *   boolean value of show_last_card. If true, card
+     *   is visible and animation is playable, if not vise
+     *   versa.
+     */
     var last_card = this.state.show_last_card ?
       <View style={styles.card}>
         <Text style={styles.card_title}>{this.state.text}</Text>
-          <Image
-            style={styles.revi_super}
-            source={require('../../../assets/img/car-super-good.png')}
-          />
+          <View style={styles.revi_animations}>
+              <Animation
+                ref={animation => {this.animation3 = animation;}}
+                style={{width: '100%', height: '100%',}}
+                loop={false}
+                source={revi_super_happy}
+              />
+          </View>
         <Text style={styles.card_text}>{"I love it!"}</Text>
       </View>
-      : null;
+      : <View style={styles.card_inactive}>
+        <Text style={styles.card_title}>{this.state.text}</Text>
+          <View style={styles.revi_animations}>
+              <Animation
+                ref={animation => {this.animation3 = animation;}}
+                style={{width: '100%', height: '100%',}}
+                loop={false}
+                source={revi_super_happy}
+              />
+          </View>
+        <Text style={styles.card_text}>{"I love it!"}</Text>
+      </View>;
 
-    var next_button = !this.state.scroll_enabled ?
+    /*
+     * Variable: next_button
+     * Author: Elton C. Rego
+     *
+     * Purpose: Sets the value of next_button based on the
+     *   boolean value of scroll_enabled. If scrolling is
+     *   possible, allow button to be show, if not do not show
+     *   button.
+     */
+    var next_button = this.state.scroll_enabled ?
       <TouchableOpacity
           style={styles.buttonContainer}
           activeOpacity={0.8}
           onPress={
             () => this.goToScrollView()
         }>
-          <Text style={styles.buttonText}>Next</Text>
+          <Text style={styles.buttonText}>{'Next'}</Text>
       </TouchableOpacity>
       : null;
-
-
-    // Grabs the width of the device screen and sets it to 'width'
-    const { width } = Dimensions.get('window');
 
     return (
       <KeyboardAvoidingView
@@ -304,6 +320,24 @@ const styles = StyleSheet.create({
     margin: 16,
   },
 
+  /*
+   * Style: Card
+   * Author: Elton C. Rego
+   * Purpose: This styles the card view within this page
+   */
+  card_inactive: {
+    display: 'none',
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
+    width: 312,
+    height: 344,
+    borderRadius: 20,
+    alignItems: 'center',
+    overflow: 'hidden',
+    margin: 16,
+  },
+
    /*
    * Style: Card Title
    * Author: Elton C. Rego
@@ -383,5 +417,4 @@ const styles = StyleSheet.create({
     width: 120,
   },
 
-  inactive: {},
 });
