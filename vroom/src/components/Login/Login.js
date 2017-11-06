@@ -20,19 +20,24 @@ import {
 // Files Needed
 import FadeImage from 'react-native-fade-image';
 import Onboarding from '../Onboarding/Onboarding';
+import EmailPasswordLogin from '../EmailPasswordLogin/EmailPasswordLogin';
+import * as firebase from 'firebase';
+import Database from '../Database/Database';
+
+GLOBAL = require('../../Globals');
 
 /*
  * Class: FadeInView
  * Author: Elton C. Rego
  *
  * Purpose: Creates a special animateable object for Fading in
- */ 
-class FadeInView extends Component {
+ */
+export class FadeInView extends Component {
 
   /*
-   * state: 
+   * state:
    * Author: Elton C. Rego
-   * 
+   *
    * Purpose: Sets the initial opacity of a fade in component to 0
    */
   state = {
@@ -42,20 +47,20 @@ class FadeInView extends Component {
   /*
    * Method: componentDidMount()
    * Author: Elton C. Rego
-   * 
+   *
    * Purpose: Sets the current state to an opacity of 1 over
    *   a duration of 1000ms
    *
    * Warning: Do not change name!
    */
   componentDidMount() {
-    Animated.timing(                  
-      this.state.fadeAnim,           
+    Animated.timing(
+      this.state.fadeAnim,
       {
-        toValue: 1,       
-        duration: 1000,             
+        toValue: 1,
+        duration: 1000,
       }
-    ).start();                   
+    ).start();
   }
 
   /*
@@ -69,9 +74,9 @@ class FadeInView extends Component {
     let { fadeAnim } = this.state;
 
     return (
-      <Animated.View                 
+      <Animated.View
         style={{
-          opacity: fadeAnim,        
+          opacity: fadeAnim,
         }}
       >
         {this.props.children}
@@ -80,7 +85,7 @@ class FadeInView extends Component {
   }
 }
 
-/* 
+/*
  * Class: Login
  * Author: Connick Shields and Elton C.  Rego
  *
@@ -114,9 +119,19 @@ export default class Login extends Component {
    * TODO: When login is implimented, replace with login
    *   with Google screen.
    */
-  goToOnboardingPage() {
+  // goToOnboardingPage() {
+  //   const { navigate } = this.props.navigation;
+  //   navigate('Onboarding')
+  // }
+
+  /*
+   * Method: goToEmailPasswordLogin()
+   * Author: Alec Felt
+   * Purpose: Will push EmailPasswordLogin component onto view stack
+   */
+  goToEmailPasswordLogin() {
     const { navigate } = this.props.navigation;
-    navigate('Onboarding')
+    navigate('EmailPasswordLogin');
   }
 
   /*
@@ -135,13 +150,13 @@ export default class Login extends Component {
          barStyle="light-content"
        />
         <FadeInView style={styles.header}>
-          <Text style={styles.vroom}>vroom</Text>
+          <Text style={styles.vroom}>Vroom</Text>
           <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
 	      </FadeInView>
         <View style={styles.login}>
-        <TouchableOpacity activeOpacity={0.8} 
+        <TouchableOpacity activeOpacity={0.8}
     	    onPress={
-    		    () => this.goToOnboardingPage()
+    		    () => this.goToEmailPasswordLogin()
     	    }>
           <FadeImage
             source={require('../../../assets/img/google_signin.png')}
