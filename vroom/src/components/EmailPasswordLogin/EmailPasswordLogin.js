@@ -7,13 +7,15 @@ import {
   Animated,
   StatusBar,
   Button,
-  TextInput
+  TextInput,
+  Modal,
+  TouchableHighlight
 } from 'react-native';
 import Onboarding from '../Onboarding/Onboarding';
 import FadeInView from '../Login/Login';
 import * as firebase from 'firebase';
-import {firebaseRef} from '../../../index.js';
-import Database from '../Database/Database';
+import {databaseLogin} from '../Database/Database';
+import {databaseSignup} from '../Database/Database';
 
 GLOBAL = require('../../Globals');
 
@@ -26,7 +28,9 @@ export default class EmailPasswordLogin extends Component {
     this.state = {
       email: '',
       password: '',
-      status: ''
+      status: '',
+      modalVisible: false,
+      modalText: ''
     };
   }
 
@@ -48,33 +52,54 @@ export default class EmailPasswordLogin extends Component {
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase
   login = () => {
-    firebaseRef.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-      console.log(errorCode);
-      // ...
-    });
+    var error = databaseLogin(this.state.email, this.state.password);
+    if (error != "") {this.state.modalText = error; this.setModalVisible(true);}
   }
 
   // Author: Alec Felt
   // Purpose: navigates to a signup component
-  // TODO: Write the function and create the signup component
+  // TODO: Create a sign up component that gathers more info
+  //       than just the email and password
   signup = () => {
-    firebaseRef.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-      console.log(errorCode);
-      // ...
-    });
+    databaseSignup(this.state.email, this.state.password);
+  }
+
+  // Author: Alec Felt
+  // Purpose: sets the modal to visible/invisible
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   // Author: Alec Felt
   // Purpose: Renders UI for login
   render() {
+
+    // Author: Alec Felt
+    // Purpose: Notify the user if login/signup doesn't work
+    // TODO: implement logic to use the modal
+    var modal = this.state.modalVisible ?
+      <View style={{marginTop: 22}}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+        >
+          <View style={{marginTop: 22}}>
+            <View>
+              <Text>{this.state.modalText}</Text>
+              <TouchableHighlight onPress={() => {
+                this.setModalVisible(!this.state.modalVisible)
+              }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+         </View>
+        </Modal>
+      </View>
+    : null;
+
+
     return (
       <View style={styles.container}>
 
@@ -90,6 +115,7 @@ export default class EmailPasswordLogin extends Component {
               placeholderTextColor={GLOBAL.COLOR.GRAY}
               style={styles.input}
               placeholder="email"
+              autoCapitalize="none"
               onChangeText={(text) => this.setState({email: text})}
               onSubmitEditing={ () => this.login() }
             />
@@ -102,6 +128,8 @@ export default class EmailPasswordLogin extends Component {
               placeholderTextColor={GLOBAL.COLOR.GRAY}
               style={styles.input}
               placeholder="password"
+              autoCapitalize="none"
+              secureTextEntry={true}
               onChangeText={ (text) => this.setState( {password: text} ) }
               onSubmitEditing={ () => this.login() }
             />
@@ -125,6 +153,8 @@ export default class EmailPasswordLogin extends Component {
           </TouchableOpacity>
 
         </View>
+
+        {modal}
 
       </View>
     );

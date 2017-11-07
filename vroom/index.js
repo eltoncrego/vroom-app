@@ -43,14 +43,14 @@ const vroom = StackNavigator({
  */
  // Initialize Firebase
  const config = {
-   apiKey: "AIzaSyBqhwQ347WWd_LraUv25AKsog5Xl-uiXKg",
+   apiKey: "AIzaSyAmJxDUilgKOlQDyji9qmMNh2Bb73WcP7U",
    authDomain: "vroom-d5c0e.firebaseapp.com",
    databaseURL: "https://vroom-d5c0e.firebaseio.com",
    projectId: "vroom-d5c0e",
    storageBucket: "vroom-d5c0e.appspot.com",
    messagingSenderId: "52629805323"
  };
- export const firebaseRef = firebase.initializeApp(config);
+ firebase.initializeApp(config);
 
 // Pushes the Navigation Stack onto the View
 AppRegistry.registerComponent('vroom', () => vroom);
