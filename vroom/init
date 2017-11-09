@@ -7,4 +7,5 @@ yarn add lottie-react-native@2.2.7 &&
 npm install react-native-side-menu --save &&
 react-native link &&
 rm -rf node_modules &&
-npm install
+npm install &&
+npm rebuild --build-from-source
