@@ -9,7 +9,7 @@ import {
   Button,
   TextInput,
   Modal,
-  TouchableHighlight
+  KeyboardAvoidingView,
 } from 'react-native';
 import Onboarding from './Onboarding';
 import FadeInView from '../Login/Login';
@@ -32,10 +32,6 @@ export default class EmailPasswordLogin extends Component {
       modalVisible: false,
       modalText: ''
     };
-  }
-
-  componentDidMount() {
-
   }
 
   static navigationOptions = {
@@ -101,62 +97,53 @@ export default class EmailPasswordLogin extends Component {
 
 
     return (
-      <View style={styles.container}>
-
+      <KeyboardAvoidingView 
+        style={styles.container}
+        behavior="padding"
+      >
         <View style={styles.header}>
           <Text style={styles.vroom}>vroom</Text>
         </View>
 
-        <View style={styles.input_container}>
-
-          <View style={styles.inputs}>
-
-            <TextInput
-              placeholderTextColor={GLOBAL.COLOR.GRAY}
-              style={styles.input}
-              placeholder="email"
-              autoCapitalize="none"
-              onChangeText={(text) => this.setState({email: text})}
-              onSubmitEditing={ () => this.login() }
-            />
-
-          </View>
-
-          <View style={styles.inputs}>
-
-            <TextInput
-              placeholderTextColor={GLOBAL.COLOR.GRAY}
-              style={styles.input}
-              placeholder="password"
-              autoCapitalize="none"
-              secureTextEntry={true}
-              onChangeText={ (text) => this.setState( {password: text} ) }
-              onSubmitEditing={ () => this.login() }
-            />
-
-          </View>
-
-        </View>
-
-        <View style={styles.buttons}>
-
-          <TouchableOpacity activeOpacity={0.8} onPress={ () => this.login() }>
+        <View style={styles.card}>
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="email"
+            autoCapitalize="none"
+            onChangeText={(text) => this.setState({email: text})}
+            onSubmitEditing={ () => this.login() }
+          />
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="password"
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={ (text) => this.setState( {password: text} ) }
+            onSubmitEditing={ () => this.login() }
+          />
+          <TouchableOpacity 
+            activeOpacity={0.8} 
+            onPress={ () => this.login() }
+            style={styles.button_container}
+          >
             <View>
               <Text style={styles.button}>Login</Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity activeOpacity={0.8} onPress={ () => this.signup() }>
+          <TouchableOpacity 
+            activeOpacity={0.8} 
+            onPress={ () => this.signup() }
+            style={styles.button_container}
+          >
             <View>
               <Text style={styles.button}>Signup</Text>
             </View>
           </TouchableOpacity>
-
         </View>
-
         {modal}
-
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 
@@ -217,34 +204,28 @@ const styles = StyleSheet.create({
   },
   /*
    * Style: button
+   * Author: Elton C. Rego
+   * Purpose: Adds styling to the touchable opacity elements
+   */
+   button_container: {
+      backgroundColor: GLOBAL.COLOR.GREEN,
+      padding: 12,
+      paddingHorizontal: 24,
+      borderRadius: 20,
+      margin: 8,
+   },
+  /*
+   * Style: button
    * Author: Alec Felt
    * Purpose: add style to the login and signup buttons
    */
   button: {
+    textAlign: 'center',
     fontFamily: 'Nunito',
-    color: GLOBAL.COLOR.GREEN,
-    fontSize: 30,
-    marginTop: 3
-  },
-  /*
-   * Style: buttons
-   * Author: Alec Felt
-   * Purpose: adds alignment/spacing to the buttons
-   */
-  buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  /*
-   * Style: inputs
-   * Author: Alec Felt
-   * Purpose: adds alignment/spacing to the textInputs
-   */
-  inputs: {
-    marginBottom: 10,
-    borderWidth: 5,
-    borderRadius: 20,
-    borderColor: GLOBAL.COLOR.GREEN,
+    color: GLOBAL.COLOR.WHITE,
+    backgroundColor: 'transparent',
+    fontSize: 20,
+    fontWeight: '600',
   },
   /*
    * Style: input
@@ -252,18 +233,30 @@ const styles = StyleSheet.create({
    * Purpose: adds alignment/spacing to the textInputs
    */
   input: {
-    width: 200,
-    height: 40,
-    marginBottom: 3,
-    color: GLOBAL.COLOR.WHITE,
-    padding: 10,
+    fontFamily: 'Nunito',
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontSize: 20,
+    marginBottom: 32,
+    borderBottomWidth: 2,
+    paddingBottom: 2,
+    width: '80%',
+    borderColor: GLOBAL.COLOR.GREEN,
   },
   /*
    * Style: input_container
-   * Author: Alec Felt
-   * Purpose: adds alignment/spacing to the textInputs
+   * Author: Elton
+   * Purpose: Creates a card for the inputs to sit on
    */
-  input_container: {
-
+  card: {
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
+    width: 312,
+    borderRadius: 20,
+    alignItems: 'center',
+    overflow: 'hidden',
+    paddingTop: 32,
+    paddingBottom: 32,
   }
 });

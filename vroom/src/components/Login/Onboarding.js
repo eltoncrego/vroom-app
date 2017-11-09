@@ -289,13 +289,6 @@ const styles = StyleSheet.create({
    * Author: Elton C. Rego
    * Purpose: This styles the scroll
    */
-  scroll: { },
-
-  /*
-   * Style: scroll
-   * Author: Elton C. Rego
-   * Purpose: This styles the scroll
-   */
   cards_container: {
     height: 350,
     width: '100%',

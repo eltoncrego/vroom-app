@@ -5,10 +5,6 @@
 
 // Global Requirements
 import React, { Component } from 'react';
-import Login from './src/components/Login/Login';
-import Onboarding from './src/components/Login/Onboarding';
-import Dashboard from './src/components/Dashboard/Dashboard';
-import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
 GLOBAL = require('./src/Globals');
 
 // Components
@@ -20,6 +16,12 @@ import {
   StackNavigator,
 } from 'react-navigation';
 import * as firebase from 'firebase';
+
+// Necessary Files
+import Login from './src/components/Login/Login';
+import Onboarding from './src/components/Login/Onboarding';
+import Dashboard from './src/components/Dashboard/Dashboard';
+import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
 
 /*
  * Constant: Vroom

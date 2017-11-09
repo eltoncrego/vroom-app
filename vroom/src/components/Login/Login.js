@@ -16,15 +16,13 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
+import * as firebase from 'firebase';
 
 // Files Needed
 import FadeImage from 'react-native-fade-image';
 import Onboarding from './Onboarding';
 import EmailPasswordLogin from './EmailPasswordLogin';
-import * as firebase from 'firebase';
 import Database from '../Database/Database';
-
-GLOBAL = require('../../Globals');
 
 /*
  * Class: FadeInView
