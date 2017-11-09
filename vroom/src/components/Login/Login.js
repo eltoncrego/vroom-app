@@ -19,8 +19,8 @@ import {
 
 // Files Needed
 import FadeImage from 'react-native-fade-image';
-import Onboarding from '../Onboarding/Onboarding';
-import EmailPasswordLogin from '../EmailPasswordLogin/EmailPasswordLogin';
+import Onboarding from './Onboarding';
+import EmailPasswordLogin from './EmailPasswordLogin';
 import * as firebase from 'firebase';
 import Database from '../Database/Database';
 

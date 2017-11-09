@@ -49,3 +49,11 @@ Above a major chunk of code, defined as a function, large variable, constant, or
  * TODO: <anything left to do, repeat if necessary, one for each task>
  */
 ```
+
+When installing new components and modules into our react-native project. Please add all shell commands to the init script with the following format:
+
+```shell
+echo "<command to be executed>";
+<command to be executed>
+echo "success";
+```

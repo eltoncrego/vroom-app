@@ -1,11 +1,43 @@
+echo "npm install -g watchman";
 npm install -g watchman &&
+echo "success";
+
+echo "npm install -g yarn";
 npm install -g yarn &&
+echo "success";
+
+echo "npm install -g react-native-cli";
 npm install -g react-native-cli &&
+echo "success";
+
+echo "npm install --save react-navigation";
 npm install --save react-navigation &&
+echo "success";
+
+echo "npm install --save -g firebase";
 npm install --save -g firebase &&
+echo "success";
+
+echo "yarn add lottie-react-native@2.2.7";
 yarn add lottie-react-native@2.2.7 &&
+echo "success";
+
+echo "npm install react-native-side-menu --save";
 npm install react-native-side-menu --save &&
+echo "success";
+
+echo "react-native link";
 react-native link &&
+echo "success";
+
+echo "rm -rf node_modules";
 rm -rf node_modules &&
-npm install &&
-npm rebuild --build-from-source
+echo "success";
+
+echo "npm rebuild --build-from-source";
+npm rebuild --build-from-source &&
+echo "success";
+
+echo "npm install";
+npm install
+echo "success";

@@ -11,7 +11,7 @@ import {
   Modal,
   TouchableHighlight
 } from 'react-native';
-import Onboarding from '../Onboarding/Onboarding';
+import Onboarding from './Onboarding';
 import FadeInView from '../Login/Login';
 import * as firebase from 'firebase';
 import {databaseLogin} from '../Database/Database';
