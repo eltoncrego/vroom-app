@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '600',
   },
   /*
