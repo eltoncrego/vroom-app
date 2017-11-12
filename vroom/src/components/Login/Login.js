@@ -16,13 +16,12 @@ import {
   Animated,
   StatusBar,
 } from 'react-native';
-import * as firebase from 'firebase';
+import { goTo } from "../Navigation/Navigation";
 
 // Files Needed
 import FadeImage from 'react-native-fade-image';
 import Onboarding from './Onboarding';
 import EmailPasswordLogin from './EmailPasswordLogin';
-import Database from '../Database/Database';
 
 /*
  * Class: FadeInView
@@ -107,32 +106,6 @@ export default class Login extends Component {
   };
 
   /*
-   * Method: goToOnboarding()
-   * Author: Elton C. Rego
-   *
-   * Purpose: On invocation, will push the Onboarding
-   *   component onto the view stack.
-   *   (Loads the onboarding screen.)
-   *
-   * TODO: When login is implimented, replace with login
-   *   with Google screen.
-   */
-  // goToOnboardingPage() {
-  //   const { navigate } = this.props.navigation;
-  //   navigate('Onboarding')
-  // }
-
-  /*
-   * Method: goToEmailPasswordLogin()
-   * Author: Alec Felt
-   * Purpose: Will push EmailPasswordLogin component onto view stack
-   */
-  goToEmailPasswordLogin() {
-    const { navigate } = this.props.navigation;
-    navigate('EmailPasswordLogin');
-  }
-
-  /*
    * Method: render
    * Author: Connick Shields
    *
@@ -154,7 +127,7 @@ export default class Login extends Component {
         <View style={styles.login}>
         <TouchableOpacity activeOpacity={0.8}
     	    onPress={
-    		    () => this.goToEmailPasswordLogin()
+    		    () => { goTo(this.props.navigation, 'EmailPasswordLogin'); }
     	    }>
           <FadeImage
             source={require('../../../assets/img/google_signin.png')}

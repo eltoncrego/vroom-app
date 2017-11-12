@@ -8,30 +8,33 @@ import {
   StatusBar,
   Button,
   TextInput,
-  Modal,
   KeyboardAvoidingView,
+  TouchableHighlight,
 } from 'react-native';
 import Onboarding from './Onboarding';
+import Dashboard from '../Dashboard/Dashboard';
+import { goTo } from '../Navigation/Navigation';
 import FadeInView from '../Login/Login';
-import * as firebase from 'firebase';
-import {databaseLogin} from '../Database/Database';
-import {databaseSignup} from '../Database/Database';
+import {firebaseRef} from '../../../index';
+import {
+  databaseLogin,
+  databaseSignup,
+  authListener,
+} from '../Database/Database';
+
 
 GLOBAL = require('../../Globals');
 
 export default class EmailPasswordLogin extends Component {
 
   // Author: Alec Felt
-  // Purpose: sets up state for TextInput/Authentication use
+  // Purpose: sets up state for component
   constructor(props) {
     super(props);
-    this.state = {
-      email: '',
-      password: '',
-      status: '',
-      modalVisible: false,
-      modalText: ''
-    };
+  }
+
+  componentDidMount() {
+    if(firebaseRef.auth().currentUser) goTo(this.props.navigation, 'Dashboard');
   }
 
   static navigationOptions = {
@@ -39,17 +42,11 @@ export default class EmailPasswordLogin extends Component {
     header: null,
   };
 
-  goToOnboardingPage() {
-    const { navigate } = this.props.navigation;
-    navigate('Onboarding')
-  }
-
   // Author: Alec Felt
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase
   login = () => {
-    var error = databaseLogin(this.state.email, this.state.password);
-    if (error != "") {this.state.modalText = error; this.setModalVisible(true);}
+    if(databaseLogin(this.state.email, this.state.password)) goTo(this.props.navigation, 'Dashboard');
   }
 
   // Author: Alec Felt
@@ -57,47 +54,15 @@ export default class EmailPasswordLogin extends Component {
   // TODO: Create a sign up component that gathers more info
   //       than just the email and password
   signup = () => {
-    databaseSignup(this.state.email, this.state.password);
-  }
-
-  // Author: Alec Felt
-  // Purpose: sets the modal to visible/invisible
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    if(databaseSignup(this.state.email, this.state.password)) goTo(this.props.navigation, 'Onboarding');
   }
 
   // Author: Alec Felt
   // Purpose: Renders UI for login
   render() {
 
-    // Author: Alec Felt
-    // Purpose: Notify the user if login/signup doesn't work
-    // TODO: implement logic to use the modal
-    var modal = this.state.modalVisible ?
-      <View style={{marginTop: 22}}>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
-        >
-          <View style={{marginTop: 22}}>
-            <View>
-              <Text>{this.state.modalText}</Text>
-              <TouchableHighlight onPress={() => {
-                this.setModalVisible(!this.state.modalVisible)
-              }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-         </View>
-        </Modal>
-      </View>
-    : null;
-
-
     return (
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         style={styles.container}
         behavior="padding"
       >
@@ -123,8 +88,8 @@ export default class EmailPasswordLogin extends Component {
             onChangeText={ (text) => this.setState( {password: text} ) }
             onSubmitEditing={ () => this.login() }
           />
-          <TouchableOpacity 
-            activeOpacity={0.8} 
+          <TouchableOpacity
+            activeOpacity={0.8}
             onPress={ () => this.login() }
             style={styles.button_container}
           >
@@ -132,8 +97,8 @@ export default class EmailPasswordLogin extends Component {
               <Text style={styles.button}>Login</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity 
-            activeOpacity={0.8} 
+          <TouchableOpacity
+            activeOpacity={0.8}
             onPress={ () => this.signup() }
             style={styles.button_container}
           >
@@ -142,7 +107,6 @@ export default class EmailPasswordLogin extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        {modal}
       </KeyboardAvoidingView>
     );
   }

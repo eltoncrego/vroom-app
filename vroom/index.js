@@ -52,7 +52,7 @@ const vroom = StackNavigator({
    storageBucket: "vroom-d5c0e.appspot.com",
    messagingSenderId: "52629805323"
  };
- firebase.initializeApp(config);
+ export const firebaseRef = firebase.initializeApp(config);
 
 // Pushes the Navigation Stack onto the View
 AppRegistry.registerComponent('vroom', () => vroom);

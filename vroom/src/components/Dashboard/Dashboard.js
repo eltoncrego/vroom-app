@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Menu from './Menu';
+import {logOut} from "../Database/Database";
+import {clearNavStack} from "../Navigation/Navigation";
 
 
 /*
@@ -59,8 +61,8 @@ export default class Dashboard extends Component {
       headerRight: (
         // example navigation:
         //  onPress={() => {navigation.navigate('Login');}}
-        <TouchableOpacity onPress={() => { ; }}>
-          <Text style={styles.button_header}>Next</Text>
+        <TouchableOpacity onPress={() => { logOut(); clearNavStack(navigation, 'Login'); } }>
+          <Text style={styles.button_header}>Logout</Text>
         </TouchableOpacity>
       )
   });
@@ -80,8 +82,7 @@ export default class Dashboard extends Component {
     this.state = {
       text: 'My Car',
     };
-
-    }
+  }
 
   /*
    * Method: updateMenuState, onMenuItemSelected, toggle
