@@ -1,2 +1,4 @@
 List any error messages that will be delivered to users here (so the team can write consistent error messages):
 
+(When user login fails):  "Error: incorrect username or password"
+(When user logout fails): "Error: logout failed"
