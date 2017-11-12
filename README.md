@@ -57,3 +57,15 @@ echo "<command to be executed>";
 <command to be executed>
 echo "success";
 ```
+## Error Messages
+When writing error messages that are delivered to users, please record your error message in the Error Messages file, so the rest of the team can write consistent messages. 
+
+Also keep in mind these guidelines (from Microsoft):
+
+  A well-written error message provides the following information to the user:
+  
+     -What happened and why?
+  
+     -What is the end result for the user?
+  
+     -What can the user do to prevent it from happening again?
