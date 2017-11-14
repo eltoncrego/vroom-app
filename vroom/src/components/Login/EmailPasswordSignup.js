@@ -26,7 +26,7 @@ import {
 
 GLOBAL = require('../../Globals');
 
-export default class EmailPasswordLogin extends Component {
+export default class EmailPasswordSignup extends Component {
 
   // Author: Alec Felt
   // Purpose: sets up state for component
@@ -37,33 +37,27 @@ export default class EmailPasswordLogin extends Component {
   state = {
     email: null,
     password: null,
-  }
-
-  componentDidMount() {
-    if(firebaseRef.auth().currentUser) goTo(this.props.navigation, 'Dashboard');
+    password2: null,
   }
 
   static navigationOptions = {
-    title: 'EmailPasswordLogin',
+    title: 'EmailPasswordSignup',
     header: null,
   };
 
-  // Author: Alec Felt
-  // Purpose: Checks state.email and state.password and
-  //          authenticates the user with Firebase
-  login = () => {
+  // Author: Connick Shields
+  // Purpose: navigates to a signup component
+
+  signup = () => {
     if((!this.state.email) || (!this.state.password)){
         Alert.alert('Field Left Blank', 'Please make sure to fill in all fields.');
         return;
     }
-    if(databaseLogin(this.state.email, this.state.password)) goTo(this.props.navigation, 'Dashboard');
-  }
-
-  // Author: Alec Felt
-  // Purpose: navigates to a signup component
-
-  signup = () => {
-    goTo(this.props.navigation, 'EmailPasswordSignup');
+    if(this.state.password != this.state.password2){
+        Alert.alert('Passwords Don\'t Match!', 'Please make sure the passwords match.');
+        return;
+    }
+    if(databaseSignup(this.state.email, this.state.password)) goTo(this.props.navigation, 'Onboarding');
   }
 
   // Author: Alec Felt
@@ -75,10 +69,6 @@ export default class EmailPasswordLogin extends Component {
         style={styles.container}
         behavior="padding"
       >
-        <View style={styles.header}>
-          <Text style={styles.vroom}>vroom</Text>
-          <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
-        </View>
 
         <View style={styles.card}>
           <TextInput
@@ -96,22 +86,26 @@ export default class EmailPasswordLogin extends Component {
             autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={ (text) => this.setState( {password: text} ) }
-            onSubmitEditing={ () => this.login() }
+            //onSubmitEditing={ () => this.login() }
+          />
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="retype password"
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={ (text) => this.setState( {password2: text} ) }
+            onSubmitEditing={ () => this.signup() }
           />
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={ () => this.login() }
+            onPress={ () => this.signup() }
             style={styles.button_container}
           >
             <View>
-              <Text style={styles.button}>Login</Text>
+              <Text style={styles.button}>Sign Up</Text>
             </View>
           </TouchableOpacity>
-          <View>
-            <Text style={styles.signin}
-            onPress={ () => this.signup() }
-            >Dont have an account? Sign Up!</Text>
-          </View>
         </View>
       </KeyboardAvoidingView>
     );
@@ -171,18 +165,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#ffffff',
     marginBottom: 20
-  },
-  /*
-   * Style: Container
-   * Author: Connick Shields
-   * Purpose: This styles the sign in line
-   */
-  signin: {
-    fontFamily: 'Nunito',
-    textAlign: 'center',
-    fontSize: 15,
-    color: GLOBAL.COLOR.GREEN,
-    marginTop: 10,
   },
   /*
    * Style: button

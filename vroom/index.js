@@ -22,6 +22,7 @@ import Login from './src/components/Login/Login';
 import Onboarding from './src/components/Login/Onboarding';
 import Dashboard from './src/components/Dashboard/Dashboard';
 import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
+import EmailPasswordSignup from './src/components/Login/EmailPasswordSignup';
 
 /*
  * Constant: Vroom
@@ -31,8 +32,9 @@ import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
  *   that can be used in the application
  */
 const vroom = StackNavigator({
-  Login: {screen: Login},
+  //Login: {screen: Login},
   EmailPasswordLogin: {screen: EmailPasswordLogin},
+  EmailPasswordSignup: {screen: EmailPasswordSignup},
   Onboarding: {screen: Onboarding},
   Dashboard: {screen: Dashboard},
 
