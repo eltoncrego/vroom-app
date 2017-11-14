@@ -51,6 +51,8 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   *
   * @param: void
   * @return: boolean
+
+  TODO rewrite this function
   */
   export function authListener() {
     return firebaseRef.auth().onAuthStateChanged(function(user) {
@@ -77,6 +79,7 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   * @return: boolean
   */
   export function logOut(n) {
+    // if signOut() returns void, then go back to login
     firebaseRef.auth().signOut().then((vo) => {
       if(!vo){
         clearNavStack(n, 'EmailPasswordLogin');
@@ -94,6 +97,8 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   *
   * @param: (jsonObj) = JSON object with profile info
   * @return: boolean
+
+  TODO rewrite
   */
   export function updateUserProfile (jsonObj) {
     var user = firebaseRef.auth().currentUser;
