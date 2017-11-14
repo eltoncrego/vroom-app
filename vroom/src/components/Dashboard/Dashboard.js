@@ -15,7 +15,7 @@ import {
 import SideMenu from 'react-native-side-menu';
 import Menu from '../Navigation/Menu';
 import {logOut} from "../Database/Database";
-import {clearNavStack} from "../Navigation/Navigation";
+import {goTo, clearNavStack} from "../Navigation/Navigation";
 
 /*
  * Class: Dashboard
@@ -24,7 +24,7 @@ import {clearNavStack} from "../Navigation/Navigation";
  * Purpose: Be the main screen on the application
  */
 export default class Dashboard extends Component {
-  
+
   /*
    * Method: constructor(props)
    * Author: Elton C. Rego
@@ -99,10 +99,10 @@ export default class Dashboard extends Component {
         backgroundColor: GLOBAL.COLOR.DARKGRAY,
       },
       headerRight: (
-        // example navigation:
-        //  onPress={() => {navigation.navigate('Login');}}
-        <TouchableOpacity onPress={() => { logOut(); clearNavStack(navigation, 'EmailPasswordLogin'); } }>
-          <Text style={styles.button_header}>Logout</Text>
+        <TouchableOpacity onPress={() => {
+          logOut(navigation);
+        }}>
+          <Text style={styles.button_header}>Log Out</Text>
         </TouchableOpacity>
       ),
       headerLeft: (
