@@ -12,6 +12,10 @@ import {
 const window = Dimensions.get('window');
 const uri = 'https://www.aber.ac.uk/staff-profile-assets/img/noimg.png';
 
+/*
+ * Author: Tianyi Zhang and Elton C. Rego
+ * Purpose: Styles the menu navigation elements
+ */
 const styles = StyleSheet.create({
   menu: {
     flex: 1,
@@ -35,47 +39,51 @@ const styles = StyleSheet.create({
   },
 });
 
+/*
+ * Author: Tianyi Zhang and Elton C. Rego
+ * Purpose: Returns the menu navigation elements
+ */
 export default function Menu({ onItemSelected }) {
   return (
     <ScrollView scrollsToTop={false} style={styles.menu}>
       <Text style = {styles.menu_title}>Menu</Text>
       <Text
-        onPress={() => onItemSelected('Home')}
+        onPress={() => onItemSelected('home')}
         style={styles.item}
       >
         home
       </Text>
 
       <Text
-        onPress={() => onItemSelected(' My_maintenance')}
+        onPress={() => onItemSelected(' my_maintenance')}
         style={styles.item}
       >
         my maintenance
       </Text>
 
       <Text
-        onPress={() => onItemSelected('Nearby')}
+        onPress={() => onItemSelected('nearby')}
         style={styles.item}
       >
         nearby
       </Text>
 
       <Text
-        onPress={() => onItemSelected('About_my_car')}
+        onPress={() => onItemSelected('about_my_car')}
         style={styles.item}
       >
         about my car
       </Text>
 
       <Text
-        onPress={() => onItemSelected('Car_management')}
+        onPress={() => onItemSelected('car_management')}
         style={styles.item}
       >
         car management
       </Text>
 
       <Text
-        onPress={() => onItemSelected(' Settings')}
+        onPress={() => onItemSelected(' settings')}
         style={styles.item}
       >
         settings
