@@ -13,10 +13,9 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import SideMenu from 'react-native-side-menu';
-import Menu from './Menu';
+import Menu from '../Navigation/Menu';
 import {logOut} from "../Database/Database";
 import {clearNavStack} from "../Navigation/Navigation";
-
 
 /*
  * Class: Dashboard
@@ -27,6 +26,8 @@ import {clearNavStack} from "../Navigation/Navigation";
 export default class Dashboard extends Component {
 
   /*
+<<<<<<< HEAD
+=======
    * Static: navigationOptions
    * Author: Elton C. Rego, Alec Felt
    *
@@ -68,6 +69,7 @@ export default class Dashboard extends Component {
   });
 
   /*
+>>>>>>> 9f563b25d398d49bb3768f115b26523f2a9bb680
    * Method: constructor(props)
    * Author: Elton C. Rego
    *
@@ -95,7 +97,7 @@ export default class Dashboard extends Component {
   toggle() {
     this.setState({
       isOpen:!this.state.isOpen,
-      });
+    });
   }
 
   updateMenuState(isOpen) {
@@ -108,31 +110,67 @@ export default class Dashboard extends Component {
       selectedItem: item,
     });
 
-  render() {
-    const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
-    return (
   /*
-   * Method: SideMenu
-   * Author: Tianyi Zhang
+   * Static: navigationOptions
+   * Author: Elton C. Rego, Alec Felt
    *
-   * Purpose: SideMenu Bar
+   * Purpose: To set the navigation bar options for this page
    */
+  static navigationOptions = ({navigation, screenProps}) => ({
+
+      /*
+       * navigationOptions: title
+       * Author: Alec Felt
+       *
+       * Purpose: Add logo to navbar
+       */
+      title: (<Text style={styles.header_middle}>Dashboard</Text>),
+
+      /*
+       * navigationOptions: headerStyle, headerRight
+       * Author: Elton C. Rego, Alec Felt
+       *
+       * Purpose: Add color/font to navbar
+       *          Add button on headerRight for navigation
+       *          options in the future
+       *
+       * TODO: style Back button on the navbar
+       * TODO: add navigation functionaility to Next button
+       * TODO: get Next/Back button styled with Nunito fontFamily
+       *       (for some reason I couldn't figure out how to)
+       */
+      headerStyle: {
+        backgroundColor: GLOBAL.COLOR.DARKGRAY,
+      },
+      headerRight: (
+        // example navigation:
+        //  onPress={() => {navigation.navigate('Login');}}
+        <TouchableOpacity onPress={() => { logOut(); clearNavStack(navigation, 'EmailPasswordLogin'); } }>
+          <Text style={styles.button_header}>Logout</Text>
+        </TouchableOpacity>
+      ),
+      headerLeft: (
+        <TouchableOpacity onPress={this.toggle} style={styles.button}>
+          <Text style={styles.menu}>Menu</Text>
+        </TouchableOpacity>
+      ),
+  });
+
+  render() {
+
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
+
+    return (
      <SideMenu
         menu={menu}
         isOpen={this.state.isOpen}
         onChange={isOpen => this.updateMenuState(isOpen)}
       >
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior="padding"
-      >
-        <TouchableOpacity
-            onPress={this.toggle}
-            style={styles.button}
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior="padding"
         >
-          <Text style={styles.menu}>Menu</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
       </SideMenu>
     );
   }
@@ -159,11 +197,19 @@ const styles = StyleSheet.create({
     *          to stay consistent with project theme
     */
     button_header: {
-      fontSize: 16,
       fontFamily: 'Nunito',
-      color: GLOBAL.COLOR.GREEN,
-      marginTop: 5,
-      marginRight: 4
+      color: GLOBAL.COLOR.BLUE,
+      margin: 20,
+    },
+    header_middle: {
+      color: GLOBAL.COLOR.BLUE,
+      fontFamily: 'Nunito',
+      margin: 20,
+    },
+    menu: {
+      fontFamily: 'Nunito',
+      color: GLOBAL.COLOR.BLUE,
+      margin: 20,
     },
     container: {
       flex: 1,
@@ -171,15 +217,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       backgroundColor: GLOBAL.COLOR.DARKGRAY,
     },
-    menu: {
-      fontSize: 16,
-      fontFamily: 'Nunito',
-      color: GLOBAL.COLOR.GREEN,
-      position: 'relative',
-      right: 150,
-      bottom: 280
-    },
     button: {
 
-    }
+    },
 });
