@@ -9,7 +9,6 @@ import {
   Button,
   TextInput,
   KeyboardAvoidingView,
-  TouchableHighlight,
   Alert,
 } from 'react-native';
 import Onboarding from './Onboarding';
@@ -18,7 +17,6 @@ import { goTo } from '../Navigation/Navigation';
 import FadeInView from '../Login/Login';
 import {firebaseRef} from '../../../index';
 import {
-  databaseLogin,
   databaseSignup,
   authListener,
 } from '../Database/Database';

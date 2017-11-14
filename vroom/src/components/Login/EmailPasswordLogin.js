@@ -9,7 +9,6 @@ import {
   Button,
   TextInput,
   KeyboardAvoidingView,
-  TouchableHighlight,
   Alert,
 } from 'react-native';
 import Onboarding from './Onboarding';
@@ -19,7 +18,6 @@ import FadeInView from '../Login/Login';
 import {firebaseRef} from '../../../index';
 import {
   databaseLogin,
-  databaseSignup,
   authListener,
 } from '../Database/Database';
 
@@ -110,7 +108,7 @@ export default class EmailPasswordLogin extends Component {
           <View>
             <Text style={styles.signin}
             onPress={ () => this.signup() }
-            >Dont have an account? Sign Up!</Text>
+            >No account? Sign Up!</Text>
           </View>
         </View>
       </KeyboardAvoidingView>

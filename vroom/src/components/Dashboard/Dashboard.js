@@ -61,7 +61,7 @@ export default class Dashboard extends Component {
       headerRight: (
         // example navigation:
         //  onPress={() => {navigation.navigate('Login');}}
-        <TouchableOpacity onPress={() => { logOut(); clearNavStack(navigation, 'Login'); } }>
+        <TouchableOpacity onPress={() => { logOut(); clearNavStack(navigation, 'EmailPasswordLogin'); } }>
           <Text style={styles.button_header}>Logout</Text>
         </TouchableOpacity>
       )
