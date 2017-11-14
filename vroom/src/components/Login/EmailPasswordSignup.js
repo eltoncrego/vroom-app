@@ -14,7 +14,6 @@ import {
 import Onboarding from './Onboarding';
 import Dashboard from '../Dashboard/Dashboard';
 import { goTo } from '../Navigation/Navigation';
-import FadeInView from '../Login/Login';
 import {firebaseRef} from '../../../index';
 import {
   databaseSignup,

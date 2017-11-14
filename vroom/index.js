@@ -18,7 +18,7 @@ import {
 import * as firebase from 'firebase';
 
 // Necessary Files
-import Login from './src/components/Login/Login';
+//import Login from './src/components/Login/Login';
 import Onboarding from './src/components/Login/Onboarding';
 import Dashboard from './src/components/Dashboard/Dashboard';
 import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
