@@ -35,6 +35,6 @@ export function clearNavStack(nav, page) {
 * @return: void
 */
 export function goTo(nav, page) {
-  const { navigate } = nav
-  navigate(page)
+  const { navigate } = nav;
+  navigate(page);
 }

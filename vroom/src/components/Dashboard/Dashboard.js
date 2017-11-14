@@ -26,6 +26,50 @@ import {clearNavStack} from "../Navigation/Navigation";
 export default class Dashboard extends Component {
 
   /*
+<<<<<<< HEAD
+=======
+   * Static: navigationOptions
+   * Author: Elton C. Rego, Alec Felt
+   *
+   * Purpose: To set the navigation bar options for this page
+   */
+  static navigationOptions = ({navigation, screenProps}) => ({
+
+      /*
+       * navigationOptions: title
+       * Author: Alec Felt
+       *
+       * Purpose: Add logo to navbar
+       */
+      title: <Image style={styles.icon_header} source={require('../../../assets/img/ios.png')}/>,
+
+      /*
+       * navigationOptions: headerStyle, headerRight
+       * Author: Elton C. Rego, Alec Felt
+       *
+       * Purpose: Add color/font to navbar
+       *          Add button on headerRight for navigation
+       *          options in the future
+       *
+       * TODO: style Back button on the navbar
+       * TODO: add navigation functionaility to Next button
+       * TODO: get Next/Back button styled with Nunito fontFamily
+       *       (for some reason I couldn't figure out how to)
+       */
+      headerStyle: {
+        backgroundColor: GLOBAL.COLOR.DARKGRAY,
+      },
+      headerRight: (
+        // example navigation:
+        //  onPress={() => {navigation.navigate('Login');}}
+        <TouchableOpacity onPress={() => { logOut(); clearNavStack(navigation, 'EmailPasswordLogin'); } }>
+          <Text style={styles.button_header}>Log Out</Text>
+        </TouchableOpacity>
+      )
+  });
+
+  /*
+>>>>>>> 9f563b25d398d49bb3768f115b26523f2a9bb680
    * Method: constructor(props)
    * Author: Elton C. Rego
    *

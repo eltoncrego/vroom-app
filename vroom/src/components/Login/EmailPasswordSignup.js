@@ -47,18 +47,18 @@ export default class EmailPasswordSignup extends Component {
 
   signup = () => {
     if((!this.state.email) || (!this.state.password)){
-        Alert.alert('Field Left Blank', 'Please make sure to fill in all fields.');
+        Alert.alert('Please make sure to fill in all fields.');
         return;
     }
     if(this.state.password != this.state.password2){
-        Alert.alert('Passwords Don\'t Match!', 'Please make sure the passwords match.');
+        Alert.alert('Please make sure both passwords match.');
         return;
     }
-    if(databaseSignup(this.state.email, this.state.password)) goTo(this.props.navigation, 'Onboarding');
+    databaseSignup(this.state.email, this.state.password, this.props.navigation);
   }
 
-  // Author: Alec Felt
-  // Purpose: Renders UI for login
+  // Author: Connick Shields
+  // Purpose: Renders UI for sign up
   render() {
 
     return (
