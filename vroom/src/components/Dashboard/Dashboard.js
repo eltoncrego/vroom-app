@@ -112,6 +112,7 @@ export default class Dashboard extends Component {
        * TODO: add navigation functionaility to Next button
        * TODO: get Next/Back button styled with Nunito fontFamily
        *       (for some reason I couldn't figure out how to)
+        TODO create custom style for sign out button
        */
       headerStyle: {
         backgroundColor: GLOBAL.COLOR.DARKGRAY,
@@ -120,7 +121,7 @@ export default class Dashboard extends Component {
         <TouchableOpacity onPress={() => {
           logOut(navigation);
         }}>
-          <Text style={styles.button_header}>Log Out</Text>
+          <Text style={styles.button_header}>Sign Out</Text>
         </TouchableOpacity>
       ),
       headerLeft: (
@@ -157,7 +158,7 @@ export default class Dashboard extends Component {
 
             <Text style={styles.task_title}>Tread Depth</Text>
             <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's har, you should definitely get some new rubbers.</Text>
-            
+
             {/* Card 1 */}
             <View style={styles.card}>
               <Text style={styles.card_title}>{"I'm okay"}</Text>
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
       backgroundColor: GLOBAL.COLOR.DARKGRAY,
     },
 
-    /* 
+    /*
      * Day to day stylings
      * Author: Elton C. Rego
      * Purpose: To style the tasks that might come up on a day to day
