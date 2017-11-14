@@ -2,7 +2,12 @@
  * Import all the necessary components for this page.
  * Please delete components that aren't used.
  */
+
+// Global Requirements
 import React, { Component } from 'react';
+GLOBAL = require('../../Globals');
+
+// Components
 import {
   Dimensions,
   View,
@@ -15,9 +20,10 @@ import {
 import SideMenu from 'react-native-side-menu';
 import Menu from '../Navigation/Menu';
 import Animation from 'lottie-react-native';
+
+// Files Needed
 import {logOut} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
-
 import revi_sad from '../../../assets/animations/revi-to-worried.json';
 
 /*
@@ -63,17 +69,14 @@ export default class Dashboard extends Component {
    * Purpose: Functions for SideMenu
    * props:
    */
-
   toggle() {
     this.setState({
       isOpen:!this.state.isOpen,
     });
   }
-
   updateMenuState(isOpen) {
     this.setState({ isOpen });
   }
-
   onMenuItemSelected = item =>
     this.setState({
       isOpen: false,
@@ -142,9 +145,6 @@ export default class Dashboard extends Component {
           behavior="padding"
         >
           <ScrollView>
-            <TouchableOpacity onPress={this.toggle} style={styles.button}>
-              <Text style={styles.menu}>Menu</Text>
-            </TouchableOpacity>
             <Text style={styles.day_title}>Take 5</Text>
             <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
 

@@ -18,7 +18,6 @@ import {
 import * as firebase from 'firebase';
 
 // Necessary Files
-//import Login from './src/components/Login/Login';
 import Onboarding from './src/components/Login/Onboarding';
 import Dashboard from './src/components/Dashboard/Dashboard';
 import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
@@ -32,10 +31,9 @@ import EmailPasswordSignup from './src/components/Login/EmailPasswordSignup';
  *   that can be used in the application
  */
 const vroom = StackNavigator({
-  //Login: {screen: Login},
-  EmailPasswordLogin: {screen: EmailPasswordLogin},
-  EmailPasswordSignup: {screen: EmailPasswordSignup},
-  Onboarding: {screen: Onboarding},
+  // EmailPasswordLogin: {screen: EmailPasswordLogin},
+  // EmailPasswordSignup: {screen: EmailPasswordSignup},
+  // Onboarding: {screen: Onboarding},
   Dashboard: {screen: Dashboard},
 
 });
