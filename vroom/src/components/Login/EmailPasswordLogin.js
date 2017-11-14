@@ -37,6 +37,7 @@ export default class EmailPasswordLogin extends Component {
   }
 
   componentDidMount() {
+    // if user is logged in, go to dashboard TODO move this to another comp
     firebaseRef.auth().onAuthStateChanged((user) => {
       if(user){
         clearNavStack(this.props.navigation, 'Dashboard');
