@@ -104,13 +104,13 @@ export default class EmailPasswordLogin extends Component {
             style={styles.button_container}
           >
             <View>
-              <Text style={styles.button}>Login</Text>
+              <Text style={styles.button}>Log in</Text>
             </View>
           </TouchableOpacity>
           <View>
             <Text style={styles.signin}
             onPress={ () => this.signup() }
-            >No account? Sign Up!</Text>
+            >No account? Sign up!</Text>
           </View>
         </View>
       </KeyboardAvoidingView>

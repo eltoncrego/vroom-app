@@ -15,7 +15,7 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   export function databaseLogin(e, p, n) {
     firebaseRef.auth().signInWithEmailAndPassword(e, p).then((user) => {
       if(user){
-        goTo(n, 'Dashboard');
+        clearNavStack(n, 'Dashboard');
       }
     }, error => {
       alert(error.message);
