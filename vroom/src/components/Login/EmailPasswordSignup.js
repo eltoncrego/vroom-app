@@ -66,7 +66,9 @@ export default class EmailPasswordSignup extends Component {
         style={styles.container}
         behavior="padding"
       >
-
+        <StatusBar
+         barStyle="light-content"
+       />
         <View style={styles.card}>
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
