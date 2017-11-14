@@ -16,6 +16,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Menu from '../Navigation/Menu';
@@ -144,6 +145,9 @@ export default class Dashboard extends Component {
           style={styles.container}
           behavior="padding"
         >
+          <StatusBar
+             barStyle="light-content"
+           />
           <ScrollView>
             <Text style={styles.day_title}>Take 5</Text>
             <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
