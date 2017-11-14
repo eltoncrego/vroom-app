@@ -20,81 +20,65 @@ const styles = StyleSheet.create({
     backgroundColor:  GLOBAL.COLOR.GRAY,
     padding: 20,
   },
-  avatarContainer: {
-    marginBottom: 20,
-    marginTop: 20,
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    flex: 1,
-  },
-  name: {
-    position: 'absolute',
-    left: 70,
-    top: 20,
+  menu_title: {
+    color: GLOBAL.COLOR.DARKBLUE,
+    fontFamily: 'Nunito',
+    fontWeight: '900',
+    fontSize: 40,
   },
   item: {
     fontSize: 22,
-    fontWeight: '300',
+    fontWeight: '500',
     paddingTop: 20,
     color: GLOBAL.COLOR.DARKBLUE,
-    fontFamily: 'Helvetica'
+    fontFamily: 'Nunito'
   },
 });
 
 export default function Menu({ onItemSelected }) {
   return (
     <ScrollView scrollsToTop={false} style={styles.menu}>
-      <View style={styles.avatarContainer}>
-        <Image
-          style={styles.avatar}
-          source={{ uri }}
-        />
-        <Text style={styles.name}>Profile name</Text>
-      </View>
-
+      <Text style = {styles.menu_title}>Menu</Text>
       <Text
         onPress={() => onItemSelected('Home')}
         style={styles.item}
       >
-        Home
+        home
       </Text>
 
       <Text
         onPress={() => onItemSelected(' My_maintenance')}
         style={styles.item}
       >
-        My maintenance
+        my maintenance
       </Text>
 
       <Text
         onPress={() => onItemSelected('Nearby')}
         style={styles.item}
       >
-        Nearby
+        nearby
       </Text>
 
       <Text
         onPress={() => onItemSelected('About_my_car')}
         style={styles.item}
       >
-        About my car
+        about my car
       </Text>
 
       <Text
         onPress={() => onItemSelected('Car_management')}
         style={styles.item}
       >
-        Car management
+        car management
       </Text>
 
       <Text
         onPress={() => onItemSelected(' Settings')}
         style={styles.item}
       >
-        Settings
+        settings
       </Text>
     </ScrollView>
   );
