@@ -35,7 +35,6 @@ const vroom = StackNavigator({
   EmailPasswordSignup: {screen: EmailPasswordSignup},
   Onboarding: {screen: Onboarding},
   Dashboard: {screen: Dashboard},
-
 });
 
 /*

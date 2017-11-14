@@ -173,7 +173,6 @@ export default class Dashboard extends Component {
               </View>
               <Text style={styles.card_text}>{"but I could be better"}</Text>
             </View>
-
           </ScrollView>
         </View>
       </SideMenu>
