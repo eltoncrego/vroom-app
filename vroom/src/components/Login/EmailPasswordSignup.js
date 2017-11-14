@@ -31,6 +31,7 @@ export default class EmailPasswordSignup extends Component {
     super(props);
   }
 
+  // initialize vars
   state = {
     email: null,
     password: null,
@@ -46,14 +47,17 @@ export default class EmailPasswordSignup extends Component {
   // Purpose: navigates to a signup component
 
   signup = () => {
+    // check to see if any text fields are empty
     if((!this.state.email) || (!this.state.password)){
         Alert.alert('Please make sure to fill in all fields.');
         return;
     }
+    // make sure passwords match
     if(this.state.password != this.state.password2){
         Alert.alert('Please make sure both passwords match.');
         return;
     }
+    // sign up the user
     databaseSignup(this.state.email, this.state.password, this.props.navigation);
   }
 
@@ -76,7 +80,6 @@ export default class EmailPasswordSignup extends Component {
             placeholder="email"
             autoCapitalize="none"
             onChangeText={(text) => this.setState({email: text})}
-            //onSubmitEditing={ () => this.login() }
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -85,7 +88,6 @@ export default class EmailPasswordSignup extends Component {
             autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={ (text) => this.setState( {password: text} ) }
-            //onSubmitEditing={ () => this.login() }
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -52,6 +53,7 @@
 		92E63AA4EDC246F49C1FA5AF /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EFB6B9B83EC4812B26BF3BD /* Nunito-BoldItalic.ttf */; };
 		95C3E6558F20416D9DC2D652 /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F485CE2C10824673997BD027 /* Nunito-Italic.ttf */; };
 		A3995717FE6B4171AECF3F9C /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A7971CCE1C745ACBAFB747C /* Nunito-BlackItalic.ttf */; };
+		AD8613061A0640CEADEACFDC /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C977FA9BB04007B0FE59DC /* libRNSound.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AE50996DEB864F19927FF8CC /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5D770C75B49040D19F4099E4 /* Nunito-ExtraLightItalic.ttf */; };
 		AF7B62CE71321697A307E370 /* libPods-vroom-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85E18A7366551EA19D62D86A /* libPods-vroom-tvOS.a */; };
@@ -61,7 +63,6 @@
 		E0E80BCD8B3A49048F272D45 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D9BD0D1C1344E4784AB9982 /* Nunito-ExtraBoldItalic.ttf */; };
 		F64B5A2333364872868A4FDB /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FCFDC9AFD55C4F90A1A350E8 /* Nunito-Bold.ttf */; };
 		FD5F44AFC6F64DDAA8F24776 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FEC9DAA9FBC453C83320AB6 /* Nunito-Regular.ttf */; };
-		AD8613061A0640CEADEACFDC /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C977FA9BB04007B0FE59DC /* libRNSound.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -324,6 +325,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		77DA08B41FBB9E86007B1563 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0718574FDDA7438F9E5D2E79 /* RNSound.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19825A1E1BD4A89800EE0337;
+			remoteInfo = RNSound;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -358,6 +366,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* vroomTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = vroomTests.m; sourceTree = "<group>"; };
 		01F7F26CAD6F4E2885C54C41 /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/lib/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
+		0718574FDDA7438F9E5D2E79 /* RNSound.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 		0A7971CCE1C745ACBAFB747C /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../assets/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
 		0EFB6B9B83EC4812B26BF3BD /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../assets/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
 		11957055E25A40838ECCCE70 /* libLottieReactNative.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottieReactNative.a; sourceTree = "<group>"; };
@@ -375,6 +384,7 @@
 		2D02E47B1E0B4A5D006451C7 /* vroom-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vroom-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* vroom-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "vroom-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3307F19AF614015369321579 /* Pods-vroomTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vroomTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-vroomTests/Pods-vroomTests.release.xcconfig"; sourceTree = "<group>"; };
+		37C977FA9BB04007B0FE59DC /* libRNSound.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSound.a; sourceTree = "<group>"; };
 		4BDF610BE90772F33B37C0F6 /* Pods-vroom-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vroom-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vroom-tvOS/Pods-vroom-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		5D770C75B49040D19F4099E4 /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../assets/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -394,9 +404,9 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B212F0B5244247C6A3F27FBF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		D2F316861402C013FBA7E73D /* Pods-vroom-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vroom-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vroom-tvOSTests/Pods-vroom-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D2F6A3BA4846436793E1D347 /* Lottie.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
 		D8C9C4B6D7AD877FCAA9D9B7 /* libPods-vroom-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-vroom-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF125E8ED82A2C0D5475D414 /* libPods-vroom.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-vroom.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2F6A3BA4846436793E1D347 /* Lottie.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
 		E4118C73C59F4D2AA6BAE88F /* Nunito-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Black.ttf"; path = "../assets/fonts/Nunito-Black.ttf"; sourceTree = "<group>"; };
 		EEA40F5ADC3C4C1EA50B20CA /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../assets/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
 		EFE042E7F7C739468DD51AE1 /* Pods-vroom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vroom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vroom/Pods-vroom.debug.xcconfig"; sourceTree = "<group>"; };
@@ -406,8 +416,6 @@
 		FCFDC9AFD55C4F90A1A350E8 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		FF33FE3CD8BE45F38BA1581D /* libLottie.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottie.a; sourceTree = "<group>"; };
 		FFBD266D19C547BA812C55C4 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
-		0718574FDDA7438F9E5D2E79 /* RNSound.xcodeproj */ = {isa = PBXFileReference; name = "RNSound.xcodeproj"; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		37C977FA9BB04007B0FE59DC /* libRNSound.a */ = {isa = PBXFileReference; name = "libRNSound.a"; path = "libRNSound.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -650,6 +658,7 @@
 			isa = PBXGroup;
 			children = (
 				B212F0B5244247C6A3F27FBF /* libRNFirebase.a */,
+				37C977FA9BB04007B0FE59DC /* libRNSound.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -658,6 +667,14 @@
 			isa = PBXGroup;
 			children = (
 				72A9B71C1FA053EC00903DDA /* libRNFirebase.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		77DA08B11FBB9E86007B1563 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				77DA08B51FBB9E86007B1563 /* libRNSound.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -950,6 +967,10 @@
 					ProductGroup = 72A9B7181FA053EB00903DDA /* Products */;
 					ProjectRef = 889DDCBE86404140946649E2 /* RNFirebase.xcodeproj */;
 				},
+				{
+					ProductGroup = 77DA08B11FBB9E86007B1563 /* Products */;
+					ProjectRef = 0718574FDDA7438F9E5D2E79 /* RNSound.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1205,6 +1226,13 @@
 			fileType = archive.ar;
 			path = libRNFirebase.a;
 			remoteRef = 72A9B71B1FA053EC00903DDA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		77DA08B51FBB9E86007B1563 /* libRNSound.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSound.a;
+			remoteRef = 77DA08B41FBB9E86007B1563 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {

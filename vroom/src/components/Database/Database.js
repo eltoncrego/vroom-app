@@ -55,7 +55,7 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   export function authListener() {
     return firebaseRef.auth().onAuthStateChanged(function(user) {
       user = firebaseRef.auth().currentUser;
-      if (user != null) {
+      if (user) {
         // User is signed in.
         return true;
         // ...

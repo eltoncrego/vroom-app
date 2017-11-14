@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Onboarding from './Onboarding';
 import Dashboard from '../Dashboard/Dashboard';
-import { goTo } from '../Navigation/Navigation';
+import { goTo, clearNavStack } from '../Navigation/Navigation';
 import {firebaseRef} from '../../../index';
 import {
   databaseLogin,
@@ -37,7 +37,11 @@ export default class EmailPasswordLogin extends Component {
   }
 
   componentDidMount() {
-    if(firebaseRef.auth().currentUser) goTo(this.props.navigation, 'Dashboard');
+    firebaseRef.auth().onAuthStateChanged((user) => {
+      if(user){
+        clearNavStack(this.props.navigation, 'Dashboard');
+      }
+    });
   }
 
   static navigationOptions = {
@@ -45,10 +49,11 @@ export default class EmailPasswordLogin extends Component {
     header: null,
   };
 
-  // Author: Alec Felt
+  // Author: Alec Felt, Connick Shields
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase
   login = () => {
+    //check to see if any text fields are empty
     if((!this.state.email) || (!this.state.password)){
         Alert.alert('Please make sure to fill in all fields.');
         return;
