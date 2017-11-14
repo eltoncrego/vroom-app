@@ -121,12 +121,16 @@ export default class Dashboard extends Component {
         menu={menu}
         isOpen={this.state.isOpen}
         onChange={isOpen => this.updateMenuState(isOpen)}
+        disableGestures={true}
       >
-        <KeyboardAvoidingView
+        <View
           style={styles.container}
           behavior="padding"
         >
-        </KeyboardAvoidingView>
+          <TouchableOpacity onPress={this.toggle} style={styles.button}>
+          <Text style={styles.menu}>Menu</Text>
+        </TouchableOpacity>
+        </View>
       </SideMenu>
     );
   }
