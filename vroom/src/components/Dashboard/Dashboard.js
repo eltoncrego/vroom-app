@@ -24,7 +24,7 @@ import {clearNavStack} from "../Navigation/Navigation";
  * Purpose: Be the main screen on the application
  */
 export default class Dashboard extends Component {
-
+  
   /*
    * Method: constructor(props)
    * Author: Elton C. Rego

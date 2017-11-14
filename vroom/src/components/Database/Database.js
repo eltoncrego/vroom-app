@@ -1,6 +1,6 @@
 import React from 'react';
 import {firebaseRef} from '../../../index';
-import {goTo} from '../Navigation/Navigation';
+import {goTo, clearNavStack} from '../Navigation/Navigation';
 
 /*
 * Database function: databaseLogin()
@@ -69,21 +69,20 @@ import {goTo} from '../Navigation/Navigation';
 
   /*
   * Database function: logOut()
-  * Author: Alec Felt
+  * Author: Alec Felt and Connick Shields
   *
   * Purpose: log the current user out
   *
   * @param: void
   * @return: boolean
   */
-  export function logOut() {
-    firebaseRef.auth().signOut().then(function() {
-      // Sign-out successful.
-      return true;
-    }).catch(function(error) {
-      // An error happened.
-      alert("Error logging out");
-      return false;
+  export function logOut(n) {
+    firebaseRef.auth().signOut().then((vo) => {
+      if(!vo){
+        clearNavStack(n, 'EmailPasswordLogin');
+      }
+    }, error => {
+      alert(error.message);
     });
   }
 
