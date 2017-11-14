@@ -110,7 +110,7 @@ export default class EmailPasswordLogin extends Component {
             style={styles.button_container}
           >
             <View>
-              <Text style={styles.button}>Log in</Text>
+              <Text style={styles.button}>Sign In</Text>
             </View>
           </TouchableOpacity>
           <View>
