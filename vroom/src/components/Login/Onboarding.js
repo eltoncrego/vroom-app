@@ -179,7 +179,9 @@ export default class Onboarding extends Component {
         style={styles.container}
         behavior="padding"
       >
-
+        <StatusBar
+         barStyle="light-content"
+       />
         <View style={styles.cards_container}>
         <StatusBar
           barStyle="light-content"

@@ -72,6 +72,9 @@ export default class EmailPasswordLogin extends Component {
         style={styles.container}
         behavior="padding"
       >
+       <StatusBar
+         barStyle="light-content"
+       />
         <View style={styles.header}>
           <Text style={styles.vroom}>vroom</Text>
           <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
