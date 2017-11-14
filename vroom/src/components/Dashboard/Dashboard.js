@@ -59,9 +59,9 @@ export default class Dashboard extends Component {
         backgroundColor: GLOBAL.COLOR.DARKGRAY,
       },
       headerRight: (
-        // example navigation:
-        //  onPress={() => {navigation.navigate('Login');}}
-        <TouchableOpacity onPress={() => { logOut(); clearNavStack(navigation, 'EmailPasswordLogin'); } }>
+        <TouchableOpacity onPress={() => {
+          logOut(navigation);
+        }}>
           <Text style={styles.button_header}>Log Out</Text>
         </TouchableOpacity>
       )
