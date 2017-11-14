@@ -10,12 +10,15 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  KeyboardAvoidingView
+  ScrollView,
 } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Menu from '../Navigation/Menu';
+import Animation from 'lottie-react-native';
 import {logOut} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
+
+import revi_sad from '../../../assets/animations/revi-to-worried.json';
 
 /*
  * Class: Dashboard
@@ -40,6 +43,17 @@ export default class Dashboard extends Component {
     this.state = {
       text: 'My Car',
     };
+  }
+
+   /*
+   * Method: componentDidMount()
+   * Author: Elton C. Rego
+   *
+   * Purpose: When a component specified sucessfully is rendered,
+   *   it runs the action
+   */
+  componentDidMount() {
+    this.animation.play();
   }
 
   /*
@@ -127,9 +141,35 @@ export default class Dashboard extends Component {
           style={styles.container}
           behavior="padding"
         >
-          <TouchableOpacity onPress={this.toggle} style={styles.button}>
-          <Text style={styles.menu}>Menu</Text>
-        </TouchableOpacity>
+          <ScrollView>
+            <TouchableOpacity onPress={this.toggle} style={styles.button}>
+              <Text style={styles.menu}>Menu</Text>
+            </TouchableOpacity>
+            <Text style={styles.day_title}>Take 5</Text>
+            <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
+
+            <Text style={styles.task_title}>Tire Pressure</Text>
+            <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
+
+            <Text style={styles.task_title}>Tread Depth</Text>
+            <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's har, you should definitely get some new rubbers.</Text>
+            
+            {/* Card 1 */}
+            <View style={styles.card}>
+              <Text style={styles.card_title}>{"I'm okay"}</Text>
+              <View style={styles.revi_animations}>
+                <Animation
+                  ref={animation => {this.animation = animation;}}
+                  style={{width: '100%', height: '100%',}}
+                  loop={false}
+                  speed={0.40}
+                  source={revi_sad}
+                />
+              </View>
+              <Text style={styles.card_text}>{"but I could be better"}</Text>
+            </View>
+
+          </ScrollView>
         </View>
       </SideMenu>
     );
@@ -177,7 +217,99 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       backgroundColor: GLOBAL.COLOR.DARKGRAY,
     },
-    button: {
 
+    /* 
+     * Day to day stylings
+     * Author: Elton C. Rego
+     * Purpose: To style the tasks that might come up on a day to day
+     */
+    day_title: {
+      fontFamily: 'Nunito',
+      fontSize: 40,
+      fontWeight: '900',
+      color: GLOBAL.COLOR.YELLOW,
+      margin: 20,
     },
+    day_caption: {
+      fontFamily: 'Nunito',
+      fontSize: 20,
+      fontWeight: '400',
+      color: GLOBAL.COLOR.WHITE,
+      margin: 20,
+      marginTop: -20,
+    },
+    task_title: {
+      fontFamily: 'Nunito',
+      fontSize: 20,
+      fontWeight: '900',
+      color: GLOBAL.COLOR.WHITE,
+      margin: 20,
+      marginTop: 8,
+    },
+    task_caption: {
+      fontFamily: 'Nunito',
+      fontSize: 15,
+      fontWeight: '200',
+      color: GLOBAL.COLOR.WHITE,
+      margin: 20,
+      marginTop: -20,
+    },
+
+    /*
+   * Style: Card
+   * Author: Elton C. Rego
+   * Purpose: This styles the card view within this page
+   */
+  card: {
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
+    width: 312,
+    height: 344,
+    borderRadius: 20,
+    alignItems: 'center',
+    overflow: 'hidden',
+    margin: 16,
+  },
+
+   /*
+   * Style: Card Title
+   * Author: Elton C. Rego
+   * Purpose: This styles the card titles on this page
+   */
+  card_title: {
+    fontFamily: 'Nunito',
+    fontWeight: '900',
+    color: GLOBAL.COLOR.DARKGRAY,
+    textAlign: 'center',
+    fontSize: 40,
+    marginTop: 32,
+  },
+
+   /*
+   * Style: Card Text
+   * Author: Elton C. Rego
+   * Purpose: This styles the card descriptions
+   */
+  card_text: {
+    fontFamily: 'Nunito',
+    textAlign: 'center',
+    color: GLOBAL.COLOR.DARKGRAY,
+    fontSize: 20,
+    marginBottom: 32,
+  },
+
+  /*
+   * Style: Revi Animations
+   * Author: Elton C. Rego
+   * Purpose: This styles the Revis on each card
+   */
+  revi_animations: {
+    alignSelf: 'center',
+    height: 240,
+    width: 240,
+    zIndex:2,
+    marginTop: -32,
+  },
+
 });
