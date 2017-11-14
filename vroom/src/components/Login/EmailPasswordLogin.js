@@ -50,10 +50,10 @@ export default class EmailPasswordLogin extends Component {
   //          authenticates the user with Firebase
   login = () => {
     if((!this.state.email) || (!this.state.password)){
-        Alert.alert('Field Left Blank', 'Please make sure to fill in all fields.');
+        Alert.alert('Please make sure to fill in all fields.');
         return;
     }
-    if(databaseLogin(this.state.email, this.state.password)) goTo(this.props.navigation, 'Dashboard');
+    databaseLogin(this.state.email, this.state.password, this.props.navigation);
   }
 
   // Author: Alec Felt

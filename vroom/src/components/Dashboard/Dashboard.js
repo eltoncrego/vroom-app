@@ -62,7 +62,7 @@ export default class Dashboard extends Component {
         // example navigation:
         //  onPress={() => {navigation.navigate('Login');}}
         <TouchableOpacity onPress={() => { logOut(); clearNavStack(navigation, 'EmailPasswordLogin'); } }>
-          <Text style={styles.button_header}>Logout</Text>
+          <Text style={styles.button_header}>Log Out</Text>
         </TouchableOpacity>
       )
   });

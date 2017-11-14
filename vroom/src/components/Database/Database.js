@@ -4,7 +4,7 @@ import {goTo} from '../Navigation/Navigation';
 
 /*
 * Database function: databaseLogin()
-* Author: Alec Felt
+* Author: Alec Felt and Connick Shields
 *
 * Purpose: login the user
 *
@@ -12,23 +12,19 @@ import {goTo} from '../Navigation/Navigation';
 *         (p) = password
 * @return: boolean
 */
-  export function databaseLogin(e, p) {
-    var authResult = firebaseRef.auth().signInWithEmailAndPassword(e, p).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-      console.log(errorCode);
-      alert("Login error");
-      return false;
-      // ...
+  export function databaseLogin(e, p, n) {
+    firebaseRef.auth().signInWithEmailAndPassword(e, p).then((user) => {
+      if(user){
+        goTo(n, 'Dashboard');
+      }
+    }, error => {
+      alert(error.message);
     });
-    return true;
   }
 
   /*
   * Database function: databaseSignup
-  * Author: Alec Felt
+  * Author: Alec Felt and Connick Shields
   *
   * Purpose: signup a user with email/password
   *
@@ -36,18 +32,15 @@ import {goTo} from '../Navigation/Navigation';
   *         (p) = password
   * @return: boolean
   */
-  export function databaseSignup(e, p) {
-    var result;
-    result = firebaseRef.auth().createUserWithEmailAndPassword(e, p).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-      console.log(errorCode);
-      return false;
-      // ...
-    });
-    if(result != null) { return true; } else { return false; }
+  export function databaseSignup(e, p, n) {
+    firebaseRef.auth().createUserWithEmailAndPassword(e, p)
+      .then((user) => {
+        if(user){
+          goTo(n, 'Onboarding');
+        }
+      }, error => {
+        alert(error.message);
+      });
   }
 
   /*
