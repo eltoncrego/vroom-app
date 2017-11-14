@@ -144,12 +144,12 @@ export default class Dashboard extends Component {
       >
         <View
           style={styles.container}
-          behavior="padding"
         >
-          <StatusBar
+          
+          <ScrollView>
+           <StatusBar
              barStyle="light-content"
            />
-          <ScrollView>
             <Text style={styles.day_title}>Take 5</Text>
             <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
 
