@@ -26,7 +26,6 @@ import * as firebase from 'firebase';
 import Onboarding from './src/components/Login/Onboarding';
 import Dashboard from './src/components/Dashboard/Dashboard';
 import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
-import EmailPasswordSignup from './src/components/Login/EmailPasswordSignup';
 
 /*
  * Constant: Vroom
@@ -67,7 +66,6 @@ const InnerNavigator = DrawerNavigator ({
 
 const vroom = StackNavigator({
   // EmailPasswordLogin: {screen: EmailPasswordLogin},
-  // EmailPasswordSignup: {screen: EmailPasswordSignup},
   // Onboarding: {screen: Onboarding},
   Dashboard: {screen: InnerNavigator},
 });
