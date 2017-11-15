@@ -82,7 +82,7 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
     // if signOut() returns void, then go back to login
     firebaseRef.auth().signOut().then((vo) => {
       if(!vo){
-        //clearNavStack(n, 'EmailPasswordLogin');
+        clearNavStack(n, 'EmailPasswordLogin');
       }
     }, error => {
       alert(error.message);
