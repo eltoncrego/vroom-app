@@ -28,6 +28,8 @@ import {logOut} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import revi_sad from '../../../assets/animations/revi-to-worried.json';
 
+import {firebaseRef} from '../../../index';
+
 /*
  * Class: Dashboard
  * Author: Elton C.  Rego
@@ -63,6 +65,12 @@ export default class Dashboard extends Component {
    */
   componentDidMount() {
     this.initAnimation();
+    // if user is logged out, go to login
+    firebaseRef.auth().onAuthStateChanged((user) => {
+      if(!user){
+        clearNavStack(this.props.navigation, 'EmailPasswordLogin');
+      }
+    });
   }
 
   /*
@@ -160,7 +168,7 @@ export default class Dashboard extends Component {
          <StatusBar
            barStyle="light-content"
          />
-          <FlipCard 
+          <FlipCard
             style={styles.card}
             friction={10}
             perspective={1000}

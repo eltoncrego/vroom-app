@@ -48,7 +48,7 @@ const DrawerContent = (props) => (
  * Author: Elton C. Rego
  *
  * Purpose: Handles the stack navigator component within the
- *   Drawer navigator. Allows us to maintain our custom navigation 
+ *   Drawer navigator. Allows us to maintain our custom navigation
  *   bar with an overlayed drawer navigation. Place screens that
  *   should not have a drawer menu here.
  */
@@ -63,8 +63,8 @@ const InnerNavigator = StackNavigator ({
  * Author: Elton C. Rego
  *
  * Purpose: Impliments a Drawer Navigator that has a nested
- *   Stack navigtor within. Allows for a drawer menu in the 
- *   screens mentioned here, but still supports our old method 
+ *   Stack navigtor within. Allows for a drawer menu in the
+ *   screens mentioned here, but still supports our old method
  *   of navigating between screens
  */
 const vroom = DrawerNavigator({

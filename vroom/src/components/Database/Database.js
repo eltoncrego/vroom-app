@@ -15,7 +15,7 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   export function databaseLogin(e, p) {
     firebaseRef.auth().signInWithEmailAndPassword(e, p).then((user) => {
       if(user){
-        // do something
+        console.log("signed user in");
       }
     }, error => {
       alert(error.message);
@@ -32,41 +32,15 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   *         (p) = password
   * @return: boolean
   */
-  export function databaseSignup(e, p, n) {
+  export function databaseSignup(e, p) {
     firebaseRef.auth().createUserWithEmailAndPassword(e, p)
       .then((user) => {
         if(user){
-          // do something
+          console.log("signed user up");
         }
       }, error => {
         alert(error.message);
       });
-  }
-
-  /*
-  * Database function
-  * Author: Alec Felt
-  *
-  * Purpose: set an onChange listener to the global firebase auth object
-  *
-  * @param: void
-  * @return: boolean
-
-  TODO rewrite this function
-  */
-  export function authListener() {
-    return firebaseRef.auth().onAuthStateChanged(function(user) {
-      user = firebaseRef.auth().currentUser;
-      if (user) {
-        // User is signed in.
-        return true;
-        // ...
-      } else {
-        return false;
-        // User is signed out.
-        // ...
-      }
-    });
   }
 
   /*
@@ -78,11 +52,11 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   * @param: void
   * @return: boolean
   */
-  export function logOut(n) {
+  export function logOut() {
     // if signOut() returns void, then go back to login
     firebaseRef.auth().signOut().then((vo) => {
       if(!vo){
-        clearNavStack(n, 'EmailPasswordLogin');
+        console.log("signed user out");
       }
     }, error => {
       alert(error.message);

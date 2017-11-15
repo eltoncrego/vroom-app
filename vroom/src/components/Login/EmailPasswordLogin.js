@@ -45,7 +45,7 @@ export default class EmailPasswordLogin extends Component {
   }
 
   componentDidMount() {
-    // if user is logged in, go to dashboard TODO move this to another comp
+    // if user is logged in, go to dashboard TODO separate sign in / sign up
     firebaseRef.auth().onAuthStateChanged((user) => {
       if(user){
         clearNavStack(this.props.navigation, 'Dashboard');
@@ -67,7 +67,7 @@ export default class EmailPasswordLogin extends Component {
         Alert.alert('Please make sure to fill in all fields.');
         return;
     }
-    databaseLogin(this.state.em, this.state.pw, this.props.navigation);
+    databaseLogin(this.state.em, this.state.pw);
   }
 
   // Author: Connick Shields
@@ -85,7 +85,7 @@ export default class EmailPasswordLogin extends Component {
         return;
     }
     // sign up the user
-    databaseSignup(this.state.ems, this.state.pws, this.props.navigation);
+    databaseSignup(this.state.ems, this.state.pws);
   }
 
   // Author: Connick Shields
