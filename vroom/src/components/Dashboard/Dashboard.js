@@ -95,13 +95,24 @@ export default class Dashboard extends Component {
       ),
   });
 
-  render() {
 
+  /*
+   * Method: render
+   * Author: Elton C. Rego
+   *
+   * Purpose: Renders the Dashboard page.
+   *  As of now this just contains some dummy tasks that
+   *  we can learn to populate later.
+   *
+   */
+  render() {
     return (
       <View
         style={styles.container}
       >
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+        >
          <StatusBar
            barStyle="light-content"
          />
@@ -112,9 +123,9 @@ export default class Dashboard extends Component {
           <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
 
           <Text style={styles.task_title}>Tread Depth</Text>
-          <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's har, you should definitely get some new rubbers.</Text>
+          <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's hat, you should definitely get some new rubbers.</Text>
 
-          {/* Card 1 */}
+          {/* Card */}
           <View style={styles.card}>
             <Text style={styles.card_title}>{"I'm okay"}</Text>
             <View style={styles.revi_animations}>

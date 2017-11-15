@@ -29,13 +29,12 @@ import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
 import EmailPasswordSignup from './src/components/Login/EmailPasswordSignup';
 
 /*
- * Constant: Vroom
+ * Constant: DrawerContent
  * Author: Elton C. Rego
  *
- * Purpose: Creates a stack of the possible screens
- *   that can be used in the application
+ * Purpose: Creates a custom drawer DOM which can be styled according
+ *   to our design guidelines
  */
-
 const DrawerContent = (props) => (
   <ScrollView scrollsToTop={false} style={styles.menu}>
     <SafeAreaView style={styles.drawer_container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -45,11 +44,35 @@ const DrawerContent = (props) => (
   </ScrollView>
 );
 
-const InnerNavigator = DrawerNavigator ({
-    Dashboard: { screen: Dashboard},
-    Tutorial: {screen: Onboarding},
-  }, {
-    contentComponent: DrawerContent,
+/*
+ * Constant: InnerNavigator
+ * Author: Elton C. Rego
+ *
+ * Purpose: Handles the stack navigator component within the
+ *   Drawer navigator. Allows us to maintain our custom navigation 
+ *   bar with an overlayed drawer navigation. Place screens that
+ *   should not have a drawer menu here.
+ */
+const InnerNavigator = StackNavigator ({
+  EmailPasswordLogin: {screen: EmailPasswordLogin},
+  EmailPasswordSignup: {screen: EmailPasswordSignup},
+  Onboarding: {screen: Onboarding},
+  Dashboard: { screen: Dashboard},
+});
+
+/*
+ * Constant: Vroom
+ * Author: Elton C. Rego
+ *
+ * Purpose: Impliments a Drawer Navigator that has a nested
+ *   Stack navigtor within. Allows for a drawer menu in the 
+ *   screens mentioned here, but still supports our old method 
+ *   of navigating between screens
+ */
+const vroom = DrawerNavigator({
+  Dashboard: {screen: InnerNavigator},
+},{
+  contentComponent: DrawerContent,
     contentOptions: {
       activeTintColor: GLOBAL.COLOR.GREEN,
       inactiveTintColor: GLOBAL.COLOR.BLUE,
@@ -65,34 +88,33 @@ const InnerNavigator = DrawerNavigator ({
     },
 });
 
-const vroom = StackNavigator({
-  // EmailPasswordLogin: {screen: EmailPasswordLogin},
-  // EmailPasswordSignup: {screen: EmailPasswordSignup},
-  // Onboarding: {screen: Onboarding},
-  Dashboard: {screen: InnerNavigator},
-});
-
 
 
 /*
  * Congfiguration: firebase.initializeApp
  * Author: Alec Felt
- * Purpose: Attach our app to our database
+ *   Purpose: Attach our app to our database
  */
  // Initialize Firebase
- const config = {
+const config = {
    apiKey: "AIzaSyAmJxDUilgKOlQDyji9qmMNh2Bb73WcP7U",
    authDomain: "vroom-d5c0e.firebaseapp.com",
    databaseURL: "https://vroom-d5c0e.firebaseio.com",
    projectId: "vroom-d5c0e",
    storageBucket: "vroom-d5c0e.appspot.com",
    messagingSenderId: "52629805323"
- };
- export const firebaseRef = firebase.initializeApp(config);
+};
+export const firebaseRef = firebase.initializeApp(config);
 
 // Pushes the Navigation Stack onto the View
 AppRegistry.registerComponent('vroom', () => vroom);
 
+/*
+ * Constant: Styles
+ * Author: Elton C. Rego
+ *
+ * Purpose: Styles the drawer navigation menu
+ */
 const styles = StyleSheet.create({
   menu: {
     flex: 1,

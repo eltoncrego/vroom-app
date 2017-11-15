@@ -116,7 +116,8 @@ export default class Onboarding extends Component {
    * Author: Elton C. Rego
    *
    * Purpose: Renders the onboarding page.
-   *  The onboarding page has nothing right now.
+   *  There are three current cards with information about how
+   *  to name your car
    *
    */
   render() {
