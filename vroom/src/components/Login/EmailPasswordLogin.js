@@ -67,6 +67,7 @@ export default class EmailPasswordLogin extends Component {
   static navigationOptions = {
     title: 'EmailPasswordLogin',
     header: null,
+    drawerLockMode: 'locked-closed',
   };
 
   // Author: Alec Felt, Connick Shields
