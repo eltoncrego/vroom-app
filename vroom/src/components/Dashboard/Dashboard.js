@@ -44,11 +44,10 @@ export default class Dashboard extends Component {
    */
   constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
-
     this.state = {
       text: 'My Car',
+      isOpen: false,
     };
   }
 
@@ -72,7 +71,7 @@ export default class Dashboard extends Component {
    */
   toggle() {
     this.setState({
-      isOpen:!this.state.isOpen,
+      isOpen:!this.state.isOpen
     });
   }
   updateMenuState(isOpen) {
@@ -93,37 +92,25 @@ export default class Dashboard extends Component {
   static navigationOptions = ({navigation, screenProps}) => ({
 
       /*
-       * navigationOptions: title
-       * Author: Alec Felt
-       *
-       * Purpose: Add logo to navbar
-       */
-      title: (<Text style={styles.header_middle}>Dashboard</Text>),
-
-      /*
        * navigationOptions: headerStyle, headerRight
        * Author: Elton C. Rego, Alec Felt
        *
        * Purpose: Add color/font to navbar
        *          Add button on headerRight for navigation
        *          options in the future
-       *
-       * TODO: style Back button on the navbar
-       * TODO: add navigation functionaility to Next button
-       * TODO: get Next/Back button styled with Nunito fontFamily
-       *       (for some reason I couldn't figure out how to)
-        TODO create custom style for sign out button
        */
       headerStyle: {
         backgroundColor: GLOBAL.COLOR.DARKGRAY,
       },
+
+      title: (<Text style={styles.header_middle}>Dashboard</Text>),
+
       headerRight: (
-        <TouchableOpacity onPress={() => {
-          logOut(navigation);
-        }}>
+        <TouchableOpacity onPress={() => { logOut(navigation); }}>
           <Text style={styles.button_header}>Sign Out</Text>
         </TouchableOpacity>
       ),
+
       headerLeft: (
         <TouchableOpacity onPress={this.toggle} style={styles.button}>
           <Text style={styles.menu}>Menu</Text>
@@ -150,6 +137,9 @@ export default class Dashboard extends Component {
            <StatusBar
              barStyle="light-content"
            />
+            <TouchableOpacity onPress={this.toggle} style={styles.button}>
+              <Text style={styles.menu}>Menu</Text>
+            </TouchableOpacity>
             <Text style={styles.day_title}>Take 5</Text>
             <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
 
@@ -179,7 +169,6 @@ export default class Dashboard extends Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   /*

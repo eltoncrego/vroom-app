@@ -31,9 +31,9 @@ import EmailPasswordSignup from './src/components/Login/EmailPasswordSignup';
  *   that can be used in the application
  */
 const vroom = StackNavigator({
-  EmailPasswordLogin: {screen: EmailPasswordLogin},
-  EmailPasswordSignup: {screen: EmailPasswordSignup},
-  Onboarding: {screen: Onboarding},
+  // EmailPasswordLogin: {screen: EmailPasswordLogin},
+  // EmailPasswordSignup: {screen: EmailPasswordSignup},
+  // Onboarding: {screen: Onboarding},
   Dashboard: {screen: Dashboard},
 });
 
