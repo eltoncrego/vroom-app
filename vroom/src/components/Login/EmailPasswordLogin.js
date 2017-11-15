@@ -23,6 +23,7 @@ import { goTo, clearNavStack } from '../Navigation/Navigation';
 import {firebaseRef} from '../../../index';
 import {
   databaseLogin,
+  databaseSignup,
   authListener,
 } from '../Database/Database';
 
