@@ -41,7 +41,6 @@ export default class EmailPasswordLogin extends Component {
     pw: null,
     pws: null,
     pws2: null,
-    first: true,
     isFirst: true,
   }
 
@@ -93,7 +92,7 @@ export default class EmailPasswordLogin extends Component {
   // Purpose: swap view cards
 
   swapCards(){
-    if(this.state.first){
+    if(this.state.isFirst){
       // go to sign up
       this.setState({isFirst:!this.state.isFirst});
     } else {
@@ -114,7 +113,6 @@ export default class EmailPasswordLogin extends Component {
             placeholder="email"
             autoCapitalize="none"
             onChangeText={(text) => this.setState({em: text})}
-            //onSubmitEditing={ () => this.login() }
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
