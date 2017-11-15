@@ -1,3 +1,6 @@
+echo "STARTING DEV ENVIRONMENT INITIALIZATION"
+echo "======================================="
+
 echo "npm install -g watchman";
 npm install -g watchman &&
 echo "success";
@@ -22,10 +25,6 @@ echo "yarn add lottie-react-native@2.2.7";
 yarn add lottie-react-native@2.2.7 &&
 echo "success";
 
-echo "npm install react-native-side-menu --save";
-npm install react-native-side-menu --save &&
-echo "success";
-
 echo "react-native link";
 react-native link &&
 echo "success";
@@ -39,5 +38,8 @@ npm rebuild --build-from-source &&
 echo "success";
 
 echo "npm install";
-npm install
+npm install &&
 echo "success";
+
+echo "======================================="
+echo "DEV ENVIROMENT INITIALIZATION SUCCESS"
