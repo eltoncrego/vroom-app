@@ -18,7 +18,6 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
-import SideMenu from 'react-native-side-menu';
 import Animation from 'lottie-react-native';
 import FlipCard from 'react-native-flip-card'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';

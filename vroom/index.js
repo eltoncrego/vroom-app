@@ -25,6 +25,7 @@ import * as firebase from 'firebase';
 // Necessary Files
 import Onboarding from './src/components/Login/Onboarding';
 import Dashboard from './src/components/Dashboard/Dashboard';
+import Settings from './src/components/Database/Settings';
 import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
 
 /*
@@ -56,6 +57,7 @@ const InnerNavigator = StackNavigator ({
   EmailPasswordLogin: {screen: EmailPasswordLogin},
   Onboarding: {screen: Onboarding},
   Dashboard: { screen: Dashboard},
+  Settings: {screen: Settings},
 });
 
 /*
@@ -69,6 +71,7 @@ const InnerNavigator = StackNavigator ({
  */
 const vroom = DrawerNavigator({
   Dashboard: {screen: InnerNavigator},
+  Settings: {screen: Settings},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
