@@ -40,6 +40,7 @@ export default class EmailPasswordLogin extends Component {
     pws: null,
     pws2: null,
     first: true,
+    isFirst: true,
   }
 
   componentDidMount() {
@@ -92,9 +93,10 @@ export default class EmailPasswordLogin extends Component {
   swapCards(){
     if(this.state.first){
       // go to sign up
+      this.setState({isFirst:!this.state.isFirst});
     } else {
       // go to sign in
-      this.state.first = !this.state.first;
+      this.setState({isFirst:!this.state.isFirst});
     }
   }
 
@@ -102,36 +104,9 @@ export default class EmailPasswordLogin extends Component {
   // Purpose: Renders UI for login
   render() {
 
-    return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior="padding"
-      >
-       <StatusBar
-         barStyle="light-content"
-       />
-        <View style={styles.header}>
-          <Text style={styles.vroom}>vroom</Text>
-          <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
-        </View>
-        <ScrollView
-          ref={(scrollView) => { this.scrollView = scrollView; }}
-          style={styles.scroll}
-          horizontal={true}
-          decelerationRate={0}
-          snapToInterval={312+32}
-          snapToAlignment={"center"}
-          showsHorizontalScrollIndicator={false}
-          contentInset={{
-            top: 0,
-            left: 16,
-            bottom: 0,
-            right: 16,
-          }}
-          scrollEnabled={this.state.scroll_enabled}
-        >
-        <View style={styles.card}>
-          <TextInput
+    var sign_in_card = this.state.isFirst ?
+      <View style={styles.card}>
+        <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
             style={styles.input}
             placeholder="email"
@@ -163,6 +138,7 @@ export default class EmailPasswordLogin extends Component {
             >No account? Sign up!</Text>
           </View>
         </View>
+          :
         <View style={styles.card}>
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -202,8 +178,21 @@ export default class EmailPasswordLogin extends Component {
             onPress={ () => this.swapCards() }
             >Have an account? Sign in!</Text>
           </View>
+        </View>;
+
+    return (
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+      >
+       <StatusBar
+         barStyle="light-content"
+       />
+        <View style={styles.header}>
+          <Text style={styles.vroom}>vroom</Text>
+          <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
         </View>
-        </ScrollView>
+        {sign_in_card}
       </KeyboardAvoidingView>
     );
   }
@@ -331,5 +320,5 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     paddingTop: 32,
     paddingBottom: 32,
-  }
+  },
 });
