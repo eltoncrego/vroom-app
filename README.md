@@ -8,8 +8,10 @@ Design of Vroom is being done in Sketch and exported to this github for easy acc
 Please pull the repository and reference the exports/assets folders for completed designs.
 If you wish to collaborate a trial or license of Sketch is necessary to do so.
 
+Animations are being completed in AfterEffect using the BodyMovin plugin in conjunction with Lottie React Native by Airbnb. An active license of Adobe Create Cloud is necessary to work on these files.
+
 ## Development Phase 
-## Layout
+### Layout
 Always begin the file with any imports that you might need for that component. Include the following comment at the top:
 
 ```javascript
