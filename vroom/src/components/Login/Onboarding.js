@@ -81,7 +81,7 @@ export default class Onboarding extends Component {
       text: 'My Car',
       show_last_card: false,
       scroll_enabled: true,
-      user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
+      ur: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
     };
   }
 
@@ -234,7 +234,10 @@ export default class Onboarding extends Component {
             <TextInput
               style={styles.card_text_input}
               placeholder="Type in my name!"
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => {
+                this.setState({text});
+                this.state.ur.child('vehicles').set({1:{name:text,}})
+              }}
               underlineColorAndroid={'#ffffff'}
               onSubmitEditing={ () => this.nameEntered()}
             />
