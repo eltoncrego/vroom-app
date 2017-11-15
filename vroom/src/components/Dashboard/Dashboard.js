@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
    *
    */
    calendar: {
-      marginTop: 32,
+      margin: 32,
    },
 
    /*
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#ffffff',
     width: 312,
-    height: 344,
+    // height: 344,
     borderRadius: 20,
     alignItems: 'center',
     overflow: 'hidden',
