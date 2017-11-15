@@ -21,6 +21,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Animation from 'lottie-react-native';
+import {firebaseRef} from '../../../index';
 
 // Files Needed
 import revi from '../../../assets/animations/revi-hi.json';
@@ -79,6 +80,7 @@ export default class Onboarding extends Component {
       text: 'My Car',
       show_last_card: false,
       scroll_enabled: true,
+      user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
     };
   }
 

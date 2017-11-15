@@ -145,7 +145,7 @@ export default class Dashboard extends Component {
         <View
           style={styles.container}
         >
-          
+
           <ScrollView>
            <StatusBar
              barStyle="light-content"

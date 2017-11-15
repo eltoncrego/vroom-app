@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   Animated,
   StatusBar,
+  ScrollView,
   Button,
   TextInput,
   KeyboardAvoidingView,
   Alert,
+  Dimensions,
 } from 'react-native';
 import Onboarding from './Onboarding';
 import Dashboard from '../Dashboard/Dashboard';
@@ -32,8 +34,12 @@ export default class EmailPasswordLogin extends Component {
   }
 
   state = {
-    email: null,
-    password: null,
+    em: null,
+    ems: null,
+    pw: null,
+    pws: null,
+    pws2: null,
+    first: true,
   }
 
   componentDidMount() {
@@ -55,18 +61,41 @@ export default class EmailPasswordLogin extends Component {
   //          authenticates the user with Firebase
   login = () => {
     //check to see if any text fields are empty
-    if((!this.state.email) || (!this.state.password)){
+    if((!this.state.em) || (!this.state.pw)){
         Alert.alert('Please make sure to fill in all fields.');
         return;
     }
-    databaseLogin(this.state.email, this.state.password, this.props.navigation);
+    databaseLogin(this.state.em, this.state.pw, this.props.navigation);
   }
 
-  // Author: Alec Felt
+  // Author: Connick Shields
   // Purpose: navigates to a signup component
 
   signup = () => {
-    goTo(this.props.navigation, 'EmailPasswordSignup');
+    // check to see if any text fields are empty
+    if((!this.state.ems) || (!this.state.pws)){
+        Alert.alert('Please make sure to fill in all fields.');
+        return;
+    }
+    // make sure passwords match
+    if(this.state.pws != this.state.pws2){
+        Alert.alert('Please make sure both passwords match.');
+        return;
+    }
+    // sign up the user
+    databaseSignup(this.state.ems, this.state.pws, this.props.navigation);
+  }
+
+  // Author: Connick Shields
+  // Purpose: swap view cards
+
+  swapCards(){
+    if(this.state.first){
+      // go to sign up
+    } else {
+      // go to sign in
+      this.state.first = !this.state.first;
+    }
   }
 
   // Author: Alec Felt
@@ -85,14 +114,29 @@ export default class EmailPasswordLogin extends Component {
           <Text style={styles.vroom}>vroom</Text>
           <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
         </View>
-
+        <ScrollView
+          ref={(scrollView) => { this.scrollView = scrollView; }}
+          style={styles.scroll}
+          horizontal={true}
+          decelerationRate={0}
+          snapToInterval={312+32}
+          snapToAlignment={"center"}
+          showsHorizontalScrollIndicator={false}
+          contentInset={{
+            top: 0,
+            left: 16,
+            bottom: 0,
+            right: 16,
+          }}
+          scrollEnabled={this.state.scroll_enabled}
+        >
         <View style={styles.card}>
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
             style={styles.input}
             placeholder="email"
             autoCapitalize="none"
-            onChangeText={(text) => this.setState({email: text})}
+            onChangeText={(text) => this.setState({em: text})}
             //onSubmitEditing={ () => this.login() }
           />
           <TextInput
@@ -101,7 +145,7 @@ export default class EmailPasswordLogin extends Component {
             placeholder="password"
             autoCapitalize="none"
             secureTextEntry={true}
-            onChangeText={ (text) => this.setState( {password: text} ) }
+            onChangeText={ (text) => this.setState( {pw: text} ) }
             onSubmitEditing={ () => this.login() }
           />
           <TouchableOpacity
@@ -115,10 +159,51 @@ export default class EmailPasswordLogin extends Component {
           </TouchableOpacity>
           <View>
             <Text style={styles.signin}
-            onPress={ () => this.signup() }
+            onPress={ () => this.swapCards() }
             >No account? Sign up!</Text>
           </View>
         </View>
+        <View style={styles.card}>
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="email"
+            autoCapitalize="none"
+            onChangeText={(text) => this.setState({ems: text})}
+          />
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="password"
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={ (text) => this.setState( {pws: text} ) }
+          />
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="retype password"
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={ (text) => this.setState( {pws2: text} ) }
+            onSubmitEditing={ () => this.signup() }
+          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={ () => this.signup() }
+            style={styles.button_container}
+          >
+            <View>
+              <Text style={styles.button}>Sign Up</Text>
+            </View>
+          </TouchableOpacity>
+          <View>
+            <Text style={styles.signin}
+            onPress={ () => this.swapCards() }
+            >Have an account? Sign in!</Text>
+          </View>
+        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     );
   }

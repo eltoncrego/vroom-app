@@ -12,10 +12,10 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
 *         (p) = password
 * @return: boolean
 */
-  export function databaseLogin(e, p, n) {
+  export function databaseLogin(e, p) {
     firebaseRef.auth().signInWithEmailAndPassword(e, p).then((user) => {
       if(user){
-        clearNavStack(n, 'Dashboard');
+        // do something
       }
     }, error => {
       alert(error.message);
@@ -36,7 +36,7 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
     firebaseRef.auth().createUserWithEmailAndPassword(e, p)
       .then((user) => {
         if(user){
-          goTo(n, 'Onboarding');
+          // do something
         }
       }, error => {
         alert(error.message);
