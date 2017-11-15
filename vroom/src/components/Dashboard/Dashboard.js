@@ -243,15 +243,16 @@ export default class Dashboard extends Component {
             }>
               <Text style={styles.buttonText}>{this.state.button}</Text>
           </TouchableOpacity>
+          <View style={styles.dayly}>
+            <Text style={styles.day_title}>Take 5</Text>
+            <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
 
-          <Text style={styles.day_title}>Take 5</Text>
-          <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
+            <Text style={styles.task_title}>Tire Pressure</Text>
+            <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
 
-          <Text style={styles.task_title}>Tire Pressure</Text>
-          <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
-
-          <Text style={styles.task_title}>Tread Depth</Text>
-          <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's hat, you should definitely get some new rubbers.</Text>
+            <Text style={styles.task_title}>Tread Depth</Text>
+            <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's hat, you should definitely get some new rubbers.</Text>
+          </View>
         </ScrollView>
       </View>
     );
@@ -268,12 +269,11 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     backgroundColor: GLOBAL.COLOR.YELLOW,
-    padding: 12,
-    paddingHorizontal: 24,
-    marginTop: 16,
-    marginBottom: 32,
+    padding: 8,
+    paddingHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 16,
     borderRadius: 20,
-    width: '50%',
     alignSelf: 'center',
   },
 
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito',
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '600',
   },
 
@@ -341,36 +341,35 @@ const styles = StyleSheet.create({
      * Author: Elton C. Rego
      * Purpose: To style the tasks that might come up on a day to day
      */
+    dayly: {
+      padding: 32,
+    },
+
     day_title: {
       fontFamily: 'Nunito',
       fontSize: 40,
       fontWeight: '900',
       color: GLOBAL.COLOR.YELLOW,
-      margin: 20,
     },
     day_caption: {
       fontFamily: 'Nunito',
       fontSize: 20,
       fontWeight: '400',
       color: GLOBAL.COLOR.WHITE,
-      margin: 20,
-      marginTop: -20,
+      marginBottom: 32,
     },
     task_title: {
       fontFamily: 'Nunito',
       fontSize: 20,
       fontWeight: '900',
       color: GLOBAL.COLOR.WHITE,
-      margin: 20,
-      marginTop: 8,
     },
     task_caption: {
       fontFamily: 'Nunito',
       fontSize: 15,
       fontWeight: '200',
       color: GLOBAL.COLOR.WHITE,
-      margin: 20,
-      marginTop: -20,
+      marginBottom: 32,
     },
 
     /*
@@ -387,7 +386,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     overflow: 'hidden',
-    margin: 16,
+    marginVertical: 32,
   },
 
    /*
