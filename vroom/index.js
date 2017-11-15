@@ -11,9 +11,14 @@ GLOBAL = require('./src/Globals');
 import {
   AppRegistry,
   StyleSheet,
+  ScrollView,
+  Text,
 } from 'react-native';
 import {
   StackNavigator,
+  DrawerNavigator,
+  DrawerItems,
+  SafeAreaView
 } from 'react-navigation';
 import * as firebase from 'firebase';
 
@@ -30,12 +35,44 @@ import EmailPasswordSignup from './src/components/Login/EmailPasswordSignup';
  * Purpose: Creates a stack of the possible screens
  *   that can be used in the application
  */
+
+const DrawerContent = (props) => (
+  <ScrollView scrollsToTop={false} style={styles.menu}>
+    <SafeAreaView style={styles.drawer_container} forceInset={{ top: 'always', horizontal: 'never' }}>
+      <Text style={styles.menu_title}>Menu</Text>
+      <DrawerItems {...props} />
+    </SafeAreaView>
+  </ScrollView>
+);
+
+const InnerNavigator = DrawerNavigator ({
+    Dashboard: { screen: Dashboard},
+    Tutorial: {screen: Onboarding},
+  }, {
+    contentComponent: DrawerContent,
+    contentOptions: {
+      activeTintColor: GLOBAL.COLOR.GREEN,
+      inactiveTintColor: GLOBAL.COLOR.BLUE,
+      labelStyle:{
+        fontSize: 22,
+        fontWeight: '500',
+        fontFamily: 'Nunito',
+        paddingLeft: 5,
+      },
+      itemsContainerStyle: {
+        marginVertical: 0,
+      },
+    },
+});
+
 const vroom = StackNavigator({
   // EmailPasswordLogin: {screen: EmailPasswordLogin},
   // EmailPasswordSignup: {screen: EmailPasswordSignup},
   // Onboarding: {screen: Onboarding},
-  Dashboard: {screen: Dashboard},
+  Dashboard: {screen: InnerNavigator},
 });
+
+
 
 /*
  * Congfiguration: firebase.initializeApp
@@ -55,3 +92,19 @@ const vroom = StackNavigator({
 
 // Pushes the Navigation Stack onto the View
 AppRegistry.registerComponent('vroom', () => vroom);
+
+const styles = StyleSheet.create({
+  menu: {
+    flex: 1,
+    width: window.width,
+    height: window.height,
+    backgroundColor:  GLOBAL.COLOR.GRAY,
+  },
+  menu_title: {
+    color: GLOBAL.COLOR.DARKBLUE,
+    fontFamily: 'Nunito',
+    fontWeight: '900',
+    fontSize: 40,
+    padding: 20,
+  },
+});

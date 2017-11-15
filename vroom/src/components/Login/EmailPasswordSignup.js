@@ -1,4 +1,8 @@
+// Global Requirements
 import React, { Component } from 'react';
+GLOBAL = require('../../Globals');
+
+// Components
 import {
   View,
   Text,
@@ -19,9 +23,6 @@ import {
   databaseSignup,
   authListener,
 } from '../Database/Database';
-
-
-GLOBAL = require('../../Globals');
 
 export default class EmailPasswordSignup extends Component {
 

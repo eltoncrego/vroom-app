@@ -19,7 +19,6 @@ import {
   StatusBar,
 } from 'react-native';
 import SideMenu from 'react-native-side-menu';
-import Menu from '../Navigation/Menu';
 import Animation from 'lottie-react-native';
 
 // Files Needed
@@ -44,14 +43,14 @@ export default class Dashboard extends Component {
    */
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
+    // this.toggle = this.toggle.bind(this);
     this.state = {
       text: 'My Car',
-      isOpen: false,
+      // isOpen: false,
     };
   }
 
-   /*
+  /*
    * Method: componentDidMount()
    * Author: Elton C. Rego
    *
@@ -61,27 +60,6 @@ export default class Dashboard extends Component {
   componentDidMount() {
     this.animation.play();
   }
-
-  /*
-   * Method: updateMenuState, onMenuItemSelected, toggle
-   * Author: Tianyi Zhang
-   *
-   * Purpose: Functions for SideMenu
-   * props:
-   */
-  toggle() {
-    this.setState({
-      isOpen:!this.state.isOpen
-    });
-  }
-  updateMenuState(isOpen) {
-    this.setState({ isOpen });
-  }
-  onMenuItemSelected = item =>
-    this.setState({
-      isOpen: false,
-      selectedItem: item,
-    });
 
   /*
    * Static: navigationOptions
@@ -110,67 +88,54 @@ export default class Dashboard extends Component {
           <Text style={styles.button_header}>Sign Out</Text>
         </TouchableOpacity>
       ),
-
       headerLeft: (
-        <TouchableOpacity onPress={this.toggle} style={styles.button}>
-          <Text style={styles.menu}>Menu</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={styles.button}>
+            <Text style={styles.menu}>Menu</Text>
+          </TouchableOpacity>
       ),
   });
 
   render() {
 
-    const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
-
     return (
-     <SideMenu
-        menu={menu}
-        isOpen={this.state.isOpen}
-        onChange={isOpen => this.updateMenuState(isOpen)}
-        disableGestures={true}
+      <View
+        style={styles.container}
       >
-        <View
-          style={styles.container}
-        >
+        <ScrollView>
+         <StatusBar
+           barStyle="light-content"
+         />
+          <Text style={styles.day_title}>Take 5</Text>
+          <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
 
-          <ScrollView>
-           <StatusBar
-             barStyle="light-content"
-           />
-            <TouchableOpacity onPress={this.toggle} style={styles.button}>
-              <Text style={styles.menu}>Menu</Text>
-            </TouchableOpacity>
-            <Text style={styles.day_title}>Take 5</Text>
-            <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
+          <Text style={styles.task_title}>Tire Pressure</Text>
+          <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
 
-            <Text style={styles.task_title}>Tire Pressure</Text>
-            <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
+          <Text style={styles.task_title}>Tread Depth</Text>
+          <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's har, you should definitely get some new rubbers.</Text>
 
-            <Text style={styles.task_title}>Tread Depth</Text>
-            <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's har, you should definitely get some new rubbers.</Text>
-
-            {/* Card 1 */}
-            <View style={styles.card}>
-              <Text style={styles.card_title}>{"I'm okay"}</Text>
-              <View style={styles.revi_animations}>
-                <Animation
-                  ref={animation => {this.animation = animation;}}
-                  style={{width: '100%', height: '100%',}}
-                  loop={false}
-                  speed={0.40}
-                  source={revi_sad}
-                />
-              </View>
-              <Text style={styles.card_text}>{"but I could be better"}</Text>
+          {/* Card 1 */}
+          <View style={styles.card}>
+            <Text style={styles.card_title}>{"I'm okay"}</Text>
+            <View style={styles.revi_animations}>
+              <Animation
+                ref={animation => {this.animation = animation;}}
+                style={{width: '100%', height: '100%',}}
+                loop={false}
+                speed={0.40}
+                source={revi_sad}
+              />
             </View>
-          </ScrollView>
-        </View>
-      </SideMenu>
+            <Text style={styles.card_text}>{"but I could be better"}</Text>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+
   /*
    * Style: Icon Header
    * Author: Alec Felt
