@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Animation from 'lottie-react-native';
+import FlipCard from 'react-native-flip-card'
 
 // Files Needed
 import {logOut} from "../Database/Database";
@@ -43,10 +44,9 @@ export default class Dashboard extends Component {
    */
   constructor(props) {
     super(props);
-    // this.toggle = this.toggle.bind(this);
+    this.initAnimation = this.initAnimation.bind(this);
     this.state = {
       text: 'My Car',
-      // isOpen: false,
     };
   }
 
@@ -58,7 +58,24 @@ export default class Dashboard extends Component {
    *   it runs the action
    */
   componentDidMount() {
-    this.animation.play();
+    this.initAnimation();
+  }
+
+  /*
+   * Method: initAnimation()
+   * Author: Elton C. Rego
+   *
+   * Purpose: Verifies if animation is accessible
+   *   if so, triggers it's start
+   */
+  initAnimation(){
+    if (!this.animation){
+      setTimeout(() => {
+        this.initAnimation();
+      }, 100);
+    } else {
+        this.animation.play();
+    }
   }
 
   /*
@@ -116,18 +133,19 @@ export default class Dashboard extends Component {
          <StatusBar
            barStyle="light-content"
          />
-          <Text style={styles.day_title}>Take 5</Text>
-          <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
-
-          <Text style={styles.task_title}>Tire Pressure</Text>
-          <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
-
-          <Text style={styles.task_title}>Tread Depth</Text>
-          <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's hat, you should definitely get some new rubbers.</Text>
-
-          {/* Card */}
-          <View style={styles.card}>
-            <Text style={styles.card_title}>{"I'm okay"}</Text>
+          <FlipCard 
+            style={styles.card}
+            friction={10}
+            perspective={1000}
+            flipHorizontal={true}
+            flipVertical={false}
+            flip={false}
+            clickable={true}
+            onFlipEnd={(isFlipEnd) => {this.initAnimation()}}
+          >
+            {/* Face Side */}
+            <View style={styles.face}>
+              <Text style={styles.card_title}>{"I'm okay"}</Text>
             <View style={styles.revi_animations}>
               <Animation
                 ref={animation => {this.animation = animation;}}
@@ -138,7 +156,21 @@ export default class Dashboard extends Component {
               />
             </View>
             <Text style={styles.card_text}>{"but I could be better"}</Text>
-          </View>
+            </View>
+            {/* Back Side */}
+            <View style={styles.back}>
+              <Text>IT GON BE A CALENDAR</Text>
+            </View>
+          </FlipCard>
+
+          <Text style={styles.day_title}>Take 5</Text>
+          <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
+
+          <Text style={styles.task_title}>Tire Pressure</Text>
+          <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
+
+          <Text style={styles.task_title}>Tread Depth</Text>
+          <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's hat, you should definitely get some new rubbers.</Text>
         </ScrollView>
       </View>
     );

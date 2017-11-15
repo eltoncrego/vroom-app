@@ -25,6 +25,10 @@ echo "yarn add lottie-react-native@2.2.7";
 yarn add lottie-react-native@2.2.7 &&
 echo "success";
 
+echo "npm i react-native-flip-card";
+npm i react-native-flip-card &&
+echo "success";
+
 echo "react-native link";
 react-native link &&
 echo "success";

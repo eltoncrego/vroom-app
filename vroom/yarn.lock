@@ -3501,6 +3501,12 @@ react-native-firebase@^3.0.5:
     bows "^1.6.0"
     prop-types "^15.6.0"
 
+react-native-flip-card@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-flip-card/-/react-native-flip-card-3.5.2.tgz#6563f4a6d95b999c21e82deec9b2f502175847d6"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
