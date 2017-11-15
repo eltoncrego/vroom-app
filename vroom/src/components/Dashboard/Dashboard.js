@@ -191,9 +191,9 @@ export default class Dashboard extends Component {
                 style={styles.calendar}
 
                 theme={{
-                  selectedDayBackgroundColor: GLOBAL.COLOR.GREEN,
-                  selectedDayTextColor: GLOBAL.COLOR.WHITE,
-                  todayTextColor: GLOBAL.COLOR.GREEN,
+                  selectedDayBackgroundColor: GLOBAL.COLOR.DARKBLUE,
+                  selectedDayTextColor: GLOBAL.COLOR.GRAY,
+                  todayTextColor: GLOBAL.COLOR.YELLOW,
                   dayTextColor: GLOBAL.COLOR.DARKGRAY,
                   textDisabledColor: GLOBAL.COLOR.DARKBLUE,
                   dotColor: GLOBAL.COLOR.GREEN,
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
    */
 
   buttonContainer: {
-    backgroundColor: GLOBAL.COLOR.DARKBLUE,
+    backgroundColor: GLOBAL.COLOR.YELLOW,
     padding: 12,
     paddingHorizontal: 24,
     marginTop: 16,
