@@ -112,7 +112,10 @@ export default class EmailPasswordLogin extends Component {
             style={styles.input}
             placeholder="email"
             autoCapitalize="none"
-            onChangeText={(text) => this.setState({em: text})}
+            onChangeText={(text) => {
+              this.setState({em: text});
+              this.setState({ems: text});
+            }}
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -120,7 +123,10 @@ export default class EmailPasswordLogin extends Component {
             placeholder="password"
             autoCapitalize="none"
             secureTextEntry={true}
-            onChangeText={ (text) => this.setState( {pw: text} ) }
+            onChangeText={(text) => {
+              this.setState({pw: text});
+              this.setState({pws: text});
+            }}
             onSubmitEditing={ () => this.login() }
           />
           <TouchableOpacity
@@ -145,7 +151,10 @@ export default class EmailPasswordLogin extends Component {
             style={styles.input}
             placeholder="email"
             autoCapitalize="none"
-            onChangeText={(text) => this.setState({ems: text})}
+            onChangeText={(text) => {
+              this.setState({em: text});
+              this.setState({ems: text});
+            }}
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -153,7 +162,10 @@ export default class EmailPasswordLogin extends Component {
             placeholder="password"
             autoCapitalize="none"
             secureTextEntry={true}
-            onChangeText={ (text) => this.setState( {pws: text} ) }
+            onChangeText={(text) => {
+              this.setState({pw: text});
+              this.setState({pws: text});
+            }}
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
