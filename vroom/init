@@ -29,6 +29,10 @@ echo "npm i react-native-flip-card";
 npm i react-native-flip-card &&
 echo "success";
 
+echo "npm install --save react-native-calendars"
+npm install --save react-native-calendars &&
+echo "success";
+
 echo "react-native link";
 react-native link &&
 echo "success";
@@ -37,12 +41,12 @@ echo "rm -rf node_modules";
 rm -rf node_modules &&
 echo "success";
 
-echo "npm rebuild --build-from-source";
-npm rebuild --build-from-source &&
-echo "success";
-
 echo "npm install";
 npm install &&
+echo "success";
+
+echo "npm rebuild --build-from-source";
+npm rebuild --build-from-source &&
 echo "success";
 
 echo "======================================="

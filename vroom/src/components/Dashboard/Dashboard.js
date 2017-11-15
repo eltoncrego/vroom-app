@@ -21,6 +21,7 @@ import {
 import SideMenu from 'react-native-side-menu';
 import Animation from 'lottie-react-native';
 import FlipCard from 'react-native-flip-card'
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 // Files Needed
 import {logOut} from "../Database/Database";
@@ -45,8 +46,11 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.initAnimation = this.initAnimation.bind(this);
+    this.onDayPress = this.onDayPress.bind(this);
+    this.flipCard = this.flipCard.bind(this);
     this.state = {
       text: 'My Car',
+      button: 'View Calendar'
     };
   }
 
@@ -75,6 +79,26 @@ export default class Dashboard extends Component {
       }, 100);
     } else {
         this.animation.play();
+    }
+  }
+
+  onDayPress(day) {
+    this.setState({
+      selected: day.dateString
+    });
+  }
+
+  flipCard(){
+    if(this.state.flip){
+      this.setState({
+        flip: false,
+        button: 'View Calendar',
+      });
+    } else {
+      this.setState({
+        flip: true,
+        button: 'View Your Car',
+      });
     }
   }
 
@@ -123,6 +147,9 @@ export default class Dashboard extends Component {
    *
    */
   render() {
+
+    var d = new Date();
+
     return (
       <View
         style={styles.container}
@@ -139,8 +166,8 @@ export default class Dashboard extends Component {
             perspective={1000}
             flipHorizontal={true}
             flipVertical={false}
-            flip={false}
-            clickable={true}
+            flip={this.state.flip}
+            clickable={false}
             onFlipEnd={(isFlipEnd) => {this.initAnimation()}}
           >
             {/* Face Side */}
@@ -151,7 +178,7 @@ export default class Dashboard extends Component {
                 ref={animation => {this.animation = animation;}}
                 style={{width: '100%', height: '100%',}}
                 loop={false}
-                speed={0.40}
+                speed={0.75}
                 source={revi_sad}
               />
             </View>
@@ -159,9 +186,63 @@ export default class Dashboard extends Component {
             </View>
             {/* Back Side */}
             <View style={styles.back}>
-              <Text>IT GON BE A CALENDAR</Text>
+              <Calendar
+                // Pulls from style sheet
+                style={styles.calendar}
+
+                theme={{
+                  selectedDayBackgroundColor: GLOBAL.COLOR.GREEN,
+                  selectedDayTextColor: GLOBAL.COLOR.WHITE,
+                  todayTextColor: GLOBAL.COLOR.GREEN,
+                  dayTextColor: GLOBAL.COLOR.DARKGRAY,
+                  textDisabledColor: GLOBAL.COLOR.DARKBLUE,
+                  dotColor: GLOBAL.COLOR.GREEN,
+                  selectedDotColor: GLOBAL.COLOR.GREEN,
+                  arrowColor: GLOBAL.COLOR.DARKBLUE,
+                  monthTextColor: GLOBAL.COLOR.DARKGRAY,
+                  textDayFontFamily: 'Nunito',
+                  textMonthFontFamily: 'Nunito',
+                  textDayHeaderFontFamily: 'Nunito',
+                  textDayFontSize: 16,
+                  textMonthFontSize: 16,
+                  textDayHeaderFontSize: 16,
+                }}
+
+                // Initially visible month. Default = Date()
+                current={d}
+
+                // Handler which gets executed on day press. Default = undefined
+                onDayPress={(day) => {this.onDayPress(day)}}
+
+                // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+                monthFormat={'MMMM yyyy'}
+
+                // Do not show days of other months in month page. Default = false
+                hideExtraDays={true}
+
+                // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
+                // day from another month that is visible in calendar page. Default = false
+                disableMonthChange={true}
+
+                // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
+                firstDay={1}
+
+                // Hide day names. Default = false
+                hideDayNames={true}
+
+                markedDates={{[this.state.selected]: {selected: true}}}
+              />
             </View>
           </FlipCard>
+
+          <TouchableOpacity
+              style={styles.buttonContainer}
+              activeOpacity={0.8}
+              onPress={
+                () => this.flipCard()
+            }>
+              <Text style={styles.buttonText}>{this.state.button}</Text>
+          </TouchableOpacity>
 
           <Text style={styles.day_title}>Take 5</Text>
           <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
@@ -180,6 +261,32 @@ export default class Dashboard extends Component {
 const styles = StyleSheet.create({
 
   /*
+   * Style: Button
+   * Author: Tianyi Zhang
+   * Purpose: This styles the Next button
+   */
+
+  buttonContainer: {
+    backgroundColor: GLOBAL.COLOR.DARKBLUE,
+    padding: 12,
+    paddingHorizontal: 24,
+    marginTop: 16,
+    marginBottom: 32,
+    borderRadius: 20,
+    width: '50%',
+    alignSelf: 'center',
+  },
+
+  buttonText: {
+    textAlign: 'center',
+    fontFamily: 'Nunito',
+    color: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
+    fontSize: 20,
+    fontWeight: '600',
+  },
+
+  /*
    * Style: Icon Header
    * Author: Alec Felt
    * Purpose: Add style to the navbar icon
@@ -189,6 +296,16 @@ const styles = StyleSheet.create({
      height: 35,
      width: 35,
      marginTop: 7
+   },
+
+   /*
+   * Style: Calendar
+   * Author: Elton C. Rego
+   * Purpose: Styles the calendar element on the back of the card
+   *
+   */
+   calendar: {
+      marginTop: 32,
    },
 
    /*
