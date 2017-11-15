@@ -44,11 +44,22 @@ export default class EmailPasswordLogin extends Component {
     isFirst: true,
   }
 
+  // defUser = {
+  //   cars: [],
+  //   ob: false,
+  // }
+
   componentDidMount() {
     // if user is logged in, go to dashboard TODO separate sign in / sign up
     firebaseRef.auth().onAuthStateChanged((user) => {
       if(user){
-        clearNavStack(this.props.navigation, 'Dashboard');
+        var ur = firebaseRef.database().ref("users/");
+        if(ur.child("ob").key === true){
+          clearNavStack(this.props.navigation, 'Dashboard');
+        } else {
+          ur.child(user.uid).set({ob: false,});
+          clearNavStack(this.props.navigation, 'Onboarding');
+        }
       }
     });
   }

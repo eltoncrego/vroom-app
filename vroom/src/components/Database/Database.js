@@ -39,6 +39,11 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
           console.log("signed user up");
         }
       }, error => {
+        if(error.code == "auth/email-already-in-use"){
+          alert("Your email is already registered. Attemping to sign you in automatically.")
+          databaseLogin(e, p);
+          return;
+        }
         alert(error.message);
       });
   }
