@@ -59,7 +59,7 @@ export default class EmailPasswordLogin extends Component {
         ref.once("value").then(function (snapshot) {
             var data = snapshot.val();
             if(data.ob == false){
-              clearNavStack(that.props.navigation, 'Dashboard');
+              clearNavStack(that.props.navigation, 'MainApp');
             } else {
               ref.set({ob: false});
               clearNavStack(that.props.navigation, 'Onboarding');
@@ -68,13 +68,7 @@ export default class EmailPasswordLogin extends Component {
       }
     });
   }
-
-  static navigationOptions = {
-    title: 'Login',
-    header: null,
-    drawerLockMode: 'locked-closed',
-  };
-
+  
   // Author: Alec Felt, Connick Shields
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase

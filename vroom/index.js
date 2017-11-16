@@ -45,7 +45,7 @@ const DrawerContent = (props) => (
 );
 
 /*
- * Constant: InnerNavigator
+ * Constant: MainApp
  * Author: Elton C. Rego
  *
  * Purpose: Handles the stack navigator component within the
@@ -53,24 +53,8 @@ const DrawerContent = (props) => (
  *   bar with an overlayed drawer navigation. Place screens that
  *   should not have a drawer menu here.
  */
-const LoginItems = StackNavigator ({
-  EmailPasswordLogin: {screen: EmailPasswordLogin},
-  Onboarding: {screen: Onboarding},
-  Dashboard: { screen: Dashboard},
-});
-
-/*
- * Constant: Vroom
- * Author: Elton C. Rego
- *
- * Purpose: Impliments a Drawer Navigator that has a nested
- *   Stack navigtor within. Allows for a drawer menu in the
- *   screens mentioned here, but still supports our old method
- *   of navigating between screens
- */
-const vroom = DrawerNavigator({
-  LoginItems: {screen: LoginItems},
-  Dashboard: { screen: Dashboard},
+const MainApp = DrawerNavigator({
+  Dashboard: {screen: Dashboard},
   Settings: {screen: Settings},
 },{
   contentComponent: DrawerContent,
@@ -87,6 +71,38 @@ const vroom = DrawerNavigator({
         marginVertical: 0,
       },
     },
+});
+
+
+ /*
+ * Constant: Vroom
+ * Author: Elton C. Rego
+ *
+ * Purpose: Impliments a Drawer Navigator that has a nested
+ *   Stack navigtor within. Allows for a drawer menu in the
+ *   screens mentioned here, but still supports our old method
+ *   of navigating between screens
+ */
+const vroom = StackNavigator ({
+  EmailPasswordLogin: {
+    screen: EmailPasswordLogin,
+    navigationOptions: {
+      title: 'Login',
+      header: null,
+      drawerLockMode: 'locked-closed',
+    },
+  },
+  Onboarding: {
+    screen: Onboarding,
+    navigationOptions: {
+      title: 'Welcome',
+      header: null,
+      drawerLockMode: 'locked-closed',
+    },
+  },
+  MainApp: {
+    screen: MainApp,
+  },
 });
 
 /*
