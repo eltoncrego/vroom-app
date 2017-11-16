@@ -51,7 +51,7 @@ echo "success";
 
 echo "gradlew clean";
 cd android
-gradlew clean
+./gradlew clean
 cd ..
 echo "success";
 
