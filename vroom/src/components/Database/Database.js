@@ -95,3 +95,18 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
     }
     return false;
   }
+
+  /*
+  * Database function: deleteUser()
+  * Author: Elton C. Rego
+  *
+  * Purpose: Deletes the current user account
+  */
+  export function deleteUser(){
+    var user = firebaseRef.auth().currentUser;
+    user.delete().then(function() {
+      logOut()
+    }).catch(function(error) {
+      alert("Sorry, your account is unable to be deleted.")
+    });
+  }

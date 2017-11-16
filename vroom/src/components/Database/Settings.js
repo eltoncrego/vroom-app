@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 // Files Needed
-import {logOut} from "../Database/Database";
+import {logOut, deleteUser} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import {firebaseRef} from '../../../index';
 
@@ -55,6 +55,12 @@ export default class Settings extends Component {
       }
     });
   }
+
+  deleteAccount() {
+    alert("This action cannot be undone");
+    deleteUser();
+  }
+
 
   /*
    * Static: navigationOptions
@@ -110,6 +116,14 @@ export default class Settings extends Component {
         >
           Settings
         </Text>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          activeOpacity={0.8}
+          onPress={
+              () => this.deleteAccount()
+          }>
+          <Text style={styles.buttonText}>Delete Account</Text>
+      </TouchableOpacity>
       </View>
     );
   }
@@ -154,6 +168,26 @@ const styles = StyleSheet.create({
       fontWeight: '900',
       fontSize: 40,
       color: GLOBAL.COLOR.GRAY,
-    }
+    },
+
+    /*
+   * Style: Button
+   * Author: Elton C. Rego
+   * Purpose: This styles the Next button
+   */
+  buttonContainer: {
+    backgroundColor: GLOBAL.COLOR.RED,
+    padding: 12,
+    paddingHorizontal: 24,
+    borderRadius: 20,
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontFamily: 'Nunito',
+    color: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
+    fontSize: 20,
+    fontWeight: '600',
+  },
 
 });
