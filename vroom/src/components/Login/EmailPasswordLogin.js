@@ -54,12 +54,17 @@ export default class EmailPasswordLogin extends Component {
     firebaseRef.auth().onAuthStateChanged((user) => {
       if(user){
         var ur = firebaseRef.database().ref("users/");
-        if(ur.child("ob").key === true){
-          clearNavStack(this.props.navigation, 'Dashboard');
-        } else {
-          ur.child(user.uid).set({ob: false,});
-          clearNavStack(this.props.navigation, 'Onboarding');
-        }
+        var ref = ur.child(user.uid);
+        var that = this;
+        ref.once("value").then(function (snapshot) {
+            var data = snapshot.val();
+            if(data.ob == false){
+              clearNavStack(that.props.navigation, 'Onboarding');
+            } else {
+              ref.set({ob: false});
+              clearNavStack(that.props.navigation, 'Onboarding');
+            }
+        });
       }
     });
   }
@@ -76,7 +81,7 @@ export default class EmailPasswordLogin extends Component {
   login = () => {
     //check to see if any text fields are empty
     if((!this.state.em) || (!this.state.pw)){
-        Alert.alert('Please make sure to fill in all fields.');
+        alert('Please make sure to fill in all fields.');
         return;
     }
     databaseLogin(this.state.em, this.state.pw);
