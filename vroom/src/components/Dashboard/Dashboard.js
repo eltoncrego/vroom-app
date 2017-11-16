@@ -71,10 +71,14 @@ export default class Dashboard extends Component {
       }
     });
 
-    // Update car_name with the database's stored value
-
-    const {setParams} = this.props.navigation;
-    setParams({title: this.state.car_name,});
+    var that = this;
+    var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
+    ref.once("value").then(function (snapshot) {
+      var data = snapshot.val();
+      that.setState({
+        car_name: data.name
+      });
+    });
   }
 
   /*
@@ -137,7 +141,7 @@ export default class Dashboard extends Component {
           backgroundColor: GLOBAL.COLOR.DARKGRAY,
         },
 
-        title: (<Text ref={"headerTitle"} style={styles.header_middle}>{params.title}</Text>),
+        title: (<Text ref={"headerTitle"} style={styles.header_middle}>Dashboard</Text>),
     
         headerRight: (
           <TouchableOpacity onPress={() => { logOut(navigation); }}>

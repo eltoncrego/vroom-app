@@ -267,17 +267,15 @@ const styles = StyleSheet.create({
 
   /*
    * Style: Button
-   * Author: Tianyi Zhang
+   * Author: Elton C. Rego
    * Purpose: This styles the Next button
    */
-
   buttonContainer: {
     backgroundColor: GLOBAL.COLOR.GREEN,
     padding: 12,
     paddingHorizontal: 24,
     borderRadius: 20,
   },
-
   buttonText: {
     textAlign: 'center',
     fontFamily: 'Nunito',
