@@ -22,6 +22,7 @@ import {
 } from 'react-native';
 import Animation from 'lottie-react-native';
 import {firebaseRef} from '../../../index';
+import { goTo, clearNavStack } from '../Navigation/Navigation';
 
 // Files Needed
 import revi from '../../../assets/animations/revi-hi.json';
@@ -81,7 +82,7 @@ export default class Onboarding extends Component {
       text: 'My Car',
       show_last_card: false,
       scroll_enabled: true,
-      ur: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
+      user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
     };
   }
 
@@ -234,12 +235,12 @@ export default class Onboarding extends Component {
             <TextInput
               style={styles.card_text_input}
               placeholder="Type in my name!"
-              onChangeText={(text) => {
-                this.setState({text});
-                this.state.ur.child('vehicles').set({1:{name:text,}})
-              }}
+              onChangeText={(text) => {this.setState({text});}}
               underlineColorAndroid={'#ffffff'}
-              onSubmitEditing={ () => this.nameEntered()}
+              onSubmitEditing={ () => {
+                this.nameEntered();
+                this.state.user.child('vehicles').set({1:{name: this.state.text,}});
+              }}
             />
           </View>
 

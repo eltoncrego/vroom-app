@@ -50,8 +50,9 @@ export default class Dashboard extends Component {
     this.onDayPress = this.onDayPress.bind(this);
     this.flipCard = this.flipCard.bind(this);
     this.state = {
-      text: 'My Car',
-      button: 'View Calendar'
+      button: 'View Calendar',
+      user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
+      car_name: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1").child("name").key,
     };
   }
 
@@ -70,6 +71,8 @@ export default class Dashboard extends Component {
         clearNavStack(this.props.navigation, 'EmailPasswordLogin');
       }
     });
+    const {setParams} = this.props.navigation;
+    setParams({title: this.state.car_name,});
   }
 
   /*
@@ -104,7 +107,7 @@ export default class Dashboard extends Component {
     } else {
       this.setState({
         flip: true,
-        button: 'View Your Car',
+        button: `View ${this.state.car_name}`,
       });
     }
   }
@@ -115,33 +118,39 @@ export default class Dashboard extends Component {
    *
    * Purpose: To set the navigation bar options for this page
    */
-  static navigationOptions = ({navigation, screenProps}) => ({
+  static navigationOptions = ({navigation, screenProps}) => {
 
-      /*
-       * navigationOptions: headerStyle, headerRight
-       * Author: Elton C. Rego, Alec Felt
-       *
-       * Purpose: Add color/font to navbar
-       *          Add button on headerRight for navigation
-       *          options in the future
-       */
-      headerStyle: {
-        backgroundColor: GLOBAL.COLOR.DARKGRAY,
-      },
+      const params = navigation.state.params || {};
 
-      title: (<Text style={styles.header_middle}>Dashboard</Text>),
+      return{
+        /*
+         * navigationOptions: headerStyle, headerRight
+         * Author: Elton C. Rego, Alec Felt
+         *
+         * Purpose: Add color/font to navbar
+         *          Add button on headerRight for navigation
+         *          options in the future
+         */
+        headerStyle: {
+          backgroundColor: GLOBAL.COLOR.DARKGRAY,
+        },
 
-      headerRight: (
-        <TouchableOpacity onPress={() => { logOut(navigation); }}>
-          <Text style={styles.button_header}>Sign Out</Text>
-        </TouchableOpacity>
-      ),
-      headerLeft: (
-          <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={styles.button}>
-            <Text style={styles.menu}>Menu</Text>
+        title: (<Text style={styles.header_middle}>{params.title}</Text>),
+    
+        headerRight: (
+          <TouchableOpacity onPress={() => { logOut(navigation); }}>
+            <Text style={styles.button_header}>Sign Out</Text>
           </TouchableOpacity>
-      ),
-  });
+        ),
+
+        headerLeft: (
+            <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={styles.button}>
+              <Text style={styles.menu}>Menu</Text>
+            </TouchableOpacity>
+        ),
+      }
+
+  }
 
 
   /*
