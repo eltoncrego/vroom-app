@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Onboarding from './Onboarding';
 import Dashboard from '../Dashboard/Dashboard';
-import { goTo, clearNavStack } from '../Navigation/Navigation';
+import { goTo, clearNavStack, goToDrawerNav } from '../Navigation/Navigation';
 import {firebaseRef} from '../../../index';
 import {
   databaseLogin,
@@ -59,12 +59,12 @@ export default class EmailPasswordLogin extends Component {
         ref.once("value").then(function (snapshot) {
             var data = snapshot.val();
             if(data.ob == false){
-              clearNavStack(that.props.navigation, 'Onboarding');
+              clearNavStack(that.props.navigation, 'Dashboard');
             } else {
               ref.set({ob: false});
               clearNavStack(that.props.navigation, 'Onboarding');
             }
-        });
+        }); 
       }
     });
   }

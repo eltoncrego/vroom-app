@@ -25,6 +25,25 @@ export function clearNavStack(nav, page) {
 }
 
 /*
+* Navigation function: goToNav
+* Author: Elton C. Rego
+*
+* Purpose: Clears the current navigation stack
+*   navigates to an item in the upper, drawer navigation
+*/
+export function goToDrawerNav(nav, page){
+  nav.dispatch({
+    type: 'Reset',
+    index: 0,
+    key: null, // Add this
+    action: {
+      type: 'Navigate',
+      routeName: page,
+    },
+  })
+}
+
+/*
 * Navigation function: goTo
 * Author: Alec Felt
 *

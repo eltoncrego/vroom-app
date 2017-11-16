@@ -53,11 +53,10 @@ const DrawerContent = (props) => (
  *   bar with an overlayed drawer navigation. Place screens that
  *   should not have a drawer menu here.
  */
-const InnerNavigator = StackNavigator ({
+const LoginItems = StackNavigator ({
   EmailPasswordLogin: {screen: EmailPasswordLogin},
   Onboarding: {screen: Onboarding},
   Dashboard: { screen: Dashboard},
-  Settings: {screen: Settings},
 });
 
 /*
@@ -70,7 +69,8 @@ const InnerNavigator = StackNavigator ({
  *   of navigating between screens
  */
 const vroom = DrawerNavigator({
-  Dashboard: {screen: InnerNavigator},
+  LoginItems: {screen: LoginItems},
+  Dashboard: { screen: Dashboard},
   Settings: {screen: Settings},
 },{
   contentComponent: DrawerContent,
