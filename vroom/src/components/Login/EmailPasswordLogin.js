@@ -57,7 +57,7 @@ export default class EmailPasswordLogin extends Component {
         if(ur.child("ob").key === true){
           clearNavStack(this.props.navigation, 'Dashboard');
         } else {
-          // ur.child(user.uid).set({ob: false,});
+          ur.child(user.uid).set({ob: false,});
           clearNavStack(this.props.navigation, 'Onboarding');
         }
       }
@@ -65,7 +65,7 @@ export default class EmailPasswordLogin extends Component {
   }
 
   static navigationOptions = {
-    title: 'EmailPasswordLogin',
+    title: 'Login',
     header: null,
     drawerLockMode: 'locked-closed',
   };
