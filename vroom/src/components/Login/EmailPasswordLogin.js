@@ -59,7 +59,7 @@ export default class EmailPasswordLogin extends Component {
         ref.once("value").then(function (snapshot) {
             var data = snapshot.val();
             if(data.ob == false){
-              clearNavStack(that.props.navigation, 'Dashboard');
+              clearNavStack(that.props.navigation, 'Onboarding');
             } else {
               ref.set({ob: false});
               clearNavStack(that.props.navigation, 'Onboarding');

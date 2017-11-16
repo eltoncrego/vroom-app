@@ -83,6 +83,7 @@ export default class Onboarding extends Component {
       text: 'My Car',
       show_last_card: false,
       scroll_enabled: true,
+      text_button: 'Next',
       user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
     };
   }
@@ -97,7 +98,10 @@ export default class Onboarding extends Component {
   nameEntered() {
     this.setState({show_last_card: true});
     this.scrollView.scrollTo({x: 672, y:0, animated: true});
-    this.setState({scroll_enabled: false});
+    this.setState({
+      scroll_enabled: false,
+      text_button: `Continue to ${this.state.text}`
+    });
     this.animation3.play();
   }
 
@@ -112,6 +116,17 @@ export default class Onboarding extends Component {
     if(this.state.scroll_enabled){
       this.scrollView.scrollTo({x: 328, y: 0, animated: true});
     }
+  }
+
+  /*
+   * Method: goToDashboard()
+   * Author: Elton C. Rego
+   *
+   * Purpose: On invocation, clears the stack and navigates 
+   *   to the dashboard.
+   */
+  goToDashboard() {
+     clearNavStack(this.props.navigation, 'Dashboard');
   }
 
   /*
@@ -176,9 +191,16 @@ export default class Onboarding extends Component {
           onPress={
             () => this.goToScrollView()
         }>
-          <Text style={styles.buttonText}>{'Next'}</Text>
+          <Text style={styles.buttonText}>{this.state.text_button}</Text>
       </TouchableOpacity>
-      : null;
+      : <TouchableOpacity
+          style={styles.buttonContainer}
+          activeOpacity={0.8}
+          onPress={
+            () => this.goToDashboard()
+        }>
+          <Text style={styles.buttonText}>{this.state.text_button}</Text>
+      </TouchableOpacity>;
 
     return (
       <KeyboardAvoidingView
