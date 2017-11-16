@@ -51,9 +51,7 @@ export default class Dashboard extends Component {
     this.flipCard = this.flipCard.bind(this);
     this.state = {
       button: 'View Calendar',
-      car_name: firebaseRef.database().ref("users/").child(firebaseRef
-        .auth().currentUser.uid).child("vehicles").child("1")
-        .child("name").key,
+      car_name: "My Car",
     };
   }
 
@@ -72,6 +70,13 @@ export default class Dashboard extends Component {
         clearNavStack(this.props.navigation, 'EmailPasswordLogin');
       }
     });
+
+    var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
+    ref.once("value").then(function (snapshot) {
+      var data = snapshot.val();
+      this.setState({car_name: data.val()});
+    });
+
     const {setParams} = this.props.navigation;
     setParams({title: this.state.car_name,});
   }
