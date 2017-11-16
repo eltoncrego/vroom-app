@@ -40,6 +40,7 @@ import revi_super_happy from '../../../assets/animations/revi-super-happy.json';
  * TODO: Animate a Revi object
  * TODO: Take in make, model, and year and end this screen
  */
+
 export default class Onboarding extends Component {
 
   /*
@@ -239,7 +240,11 @@ export default class Onboarding extends Component {
               underlineColorAndroid={'#ffffff'}
               onSubmitEditing={ () => {
                 this.nameEntered();
-                this.state.user.child('vehicles').set({1:{name: this.state.text,}});
+                this.state.user.child('vehicles').set({
+                  1:{
+                    name: this.state.text,
+                  }
+                });
               }}
             />
           </View>

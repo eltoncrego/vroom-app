@@ -51,8 +51,9 @@ export default class Dashboard extends Component {
     this.flipCard = this.flipCard.bind(this);
     this.state = {
       button: 'View Calendar',
-      user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
-      car_name: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1").child("name").key,
+      car_name: firebaseRef.database().ref("users/").child(firebaseRef
+        .auth().currentUser.uid).child("vehicles").child("1")
+        .child("name").key,
     };
   }
 
