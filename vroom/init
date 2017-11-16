@@ -49,5 +49,11 @@ echo "npm rebuild --build-from-source";
 npm rebuild --build-from-source &&
 echo "success";
 
+echo "gradlew clean";
+cd android
+gradlew clean
+cd ..
+echo "success";
+
 echo "======================================="
 echo "DEV ENVIROMENT INITIALIZATION SUCCESS"
