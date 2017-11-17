@@ -33,6 +33,10 @@ echo "npm install --save react-native-calendars"
 npm install --save react-native-calendars &&
 echo "success";
 
+echo "npm install --save react-native-material-dropdown"
+npm install --save react-native-material-dropdown &&
+echo "success";
+
 echo "react-native link";
 react-native link &&
 echo "success";
