@@ -23,6 +23,7 @@ import {
 import Animation from 'lottie-react-native';
 import {firebaseRef} from '../../../index';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
+import { Dropdown } from 'react-native-material-dropdown';
 
 // Files Needed
 import revi from '../../../assets/animations/revi-hi.json';
@@ -202,6 +203,40 @@ export default class Onboarding extends Component {
           <Text style={styles.buttonText}>{this.state.text_button}</Text>
       </TouchableOpacity>;
 
+      /*
+     * Variable: year-make-model
+     * Author: Tianyi Zhang
+     *
+     * Purpose: Data for the dropdown picker
+     */
+      let year = [{
+      value: '1990',
+    }, {
+      value: '1991',
+    }, {
+      value: '1992',
+    }, {
+      value: '1993',
+    },{
+      value: '1994',
+    },{
+      value: '1995',
+    },{
+      value: '1996',
+    },{
+      value: '1997',
+    },{
+      value: '1998',
+    }];
+
+    let make = [{
+      value: 'Acura',
+    }, {
+      value: 'BMW',
+    }, {
+      value: 'Civic',
+    }];
+
     return (
       <KeyboardAvoidingView
         style={styles.container}
@@ -273,6 +308,27 @@ export default class Onboarding extends Component {
 
           {/* Card 3: Hide if no name*/}
           {last_card}
+        {/* Card 4 */}
+          <View style={styles.card}>
+            <Text style={styles.card_title}>{"Add your car"}</Text>
+           <View style={{
+          backgroundColor: 'white',
+          alignSelf: 'stretch',
+          margin: 20,
+        }}>
+
+         <Dropdown
+        label='YEAR'
+        data={year}
+      />
+       <Dropdown
+        label='MAKE'
+        data={make}
+      />
+        </View>
+            <Text style={styles.card_text}></Text>
+          </View>
+
         </ScrollView>
         </View>
         {next_button}
