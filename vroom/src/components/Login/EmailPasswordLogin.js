@@ -53,18 +53,18 @@ export default class EmailPasswordLogin extends Component {
     // if user is logged in, go to dashboard TODO separate sign in / sign up
     firebaseRef.auth().onAuthStateChanged((user) => {
       if(user){
-        var ur = firebaseRef.database().ref("users/");
-        var ref = ur.child(user.uid);
+
         var that = this;
+        var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
         ref.once("value").then(function (snapshot) {
-            var data = snapshot.val();
-            if(data.ob == false){
-              clearNavStack(that.props.navigation, 'MainApp');
-            } else {
-              ref.set({ob: false});
-              clearNavStack(that.props.navigation, 'Onboarding');
-            }
-        }); 
+          var data = snapshot.val();
+          if(data != null){
+            clearNavStack(that.props.navigation, 'MainApp');
+          } else {
+            clearNavStack(that.props.navigation, 'Onboarding');
+          }
+        });
+
       }
     });
   }

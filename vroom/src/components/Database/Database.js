@@ -37,7 +37,6 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
       .then((user) => {
         if(user){
           console.log("signed user up");
-          firebaseRef.database().ref("users/").child(user.uid).set({ob: true});
         }
       }, error => {
         if(error.code == "auth/email-already-in-use"){

@@ -99,7 +99,7 @@ export default class Onboarding extends Component {
    *   and scroll to it
    */
   nameEntered() {
-    this.setState({show_last_card: true});
+    this.setState({show_last_card: true}); 
     this.scrollView.scrollTo({x: 328, y:0, animated: true});
     this.setState({
       scroll_enabled: false,
