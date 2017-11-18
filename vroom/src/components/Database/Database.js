@@ -103,9 +103,13 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   */
   export function deleteUser(){
     var user = firebaseRef.auth().currentUser;
-    user.delete().then(function() {
-      logOut()
-    }).catch(function(error) {
-      alert("Sorry, your account is unable to be deleted.")
-    });
+      if (user) {
+        user.delete().then(function() {
+          logOut()
+        }).catch(function(error) {
+          alert("Sorry, your account is unable to be deleted.")
+        });
+      } else {
+        alert("user is null");
+      }
   }
