@@ -65,7 +65,9 @@ export default class Onboarding extends Component {
    */
   componentDidMount() {
     setTimeout(() => {
-      this.scrollView.scrollTo({x: -16})
+      if(this.scrollView != null){
+        this.scrollView.scrollTo({x: -16})
+      }
     }, 1);
     this.animation.play();
     this.animation2.play();
@@ -98,7 +100,7 @@ export default class Onboarding extends Component {
    */
   nameEntered() {
     this.setState({show_last_card: true});
-    this.scrollView.scrollTo({x: 672, y:0, animated: true});
+    this.scrollView.scrollTo({x: 328, y:0, animated: true});
     this.setState({
       scroll_enabled: false,
       text_button: `Continue to ${this.state.text}`
@@ -279,6 +281,26 @@ export default class Onboarding extends Component {
             <Text style={styles.card_text}>{"I'm your car!"}</Text>
           </View>
 
+          {/* Card 4 */}
+          <View style={styles.card}>
+            <Text style={styles.card_title}>{"Add your car"}</Text>
+            <View style={{
+              backgroundColor: 'white',
+              alignSelf: 'stretch',
+              margin: 20,
+            }}>
+              <Dropdown
+                label='Year'
+                data={year}
+              />
+              <Dropdown
+                label='Make'
+                data={make}
+              />
+            </View>
+            <Text style={styles.card_text}></Text>
+          </View>
+
           {/* Card 2 */}
           <View style={styles.card}>
             <Text style={styles.card_title}>{"My name is.."}</Text>
@@ -308,27 +330,6 @@ export default class Onboarding extends Component {
 
           {/* Card 3: Hide if no name*/}
           {last_card}
-        {/* Card 4 */}
-          <View style={styles.card}>
-            <Text style={styles.card_title}>{"Add your car"}</Text>
-           <View style={{
-          backgroundColor: 'white',
-          alignSelf: 'stretch',
-          margin: 20,
-        }}>
-
-         <Dropdown
-        label='YEAR'
-        data={year}
-      />
-       <Dropdown
-        label='MAKE'
-        data={make}
-      />
-        </View>
-            <Text style={styles.card_text}></Text>
-          </View>
-
         </ScrollView>
         </View>
         {next_button}
