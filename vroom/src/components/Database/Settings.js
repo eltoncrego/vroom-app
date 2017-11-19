@@ -14,6 +14,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 
 // Files Needed
@@ -57,8 +58,14 @@ export default class Settings extends Component {
   }
 
   deleteAccount() {
-    alert("This action cannot be undone");
-    deleteUser();
+    Alert.alert(
+      'Confirm Deletion',
+      'Are you sure you want to delete your account?',
+      [
+        {text: "Yes", onPress: () => deleteUser()},
+        {text: "No"},
+      ]
+    )
   }
 
 
