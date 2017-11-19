@@ -60,7 +60,7 @@ export default class Settings extends Component {
   deleteAccount() {
     Alert.alert(
       'Confirm Deletion',
-      'Are you sure you want to delete your account?',
+      'Are you sure you want to delete your account? This action cannot be undone!',
       [
         {text: "Yes", onPress: () => deleteUser()},
         {text: "No"},
