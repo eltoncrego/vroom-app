@@ -11,6 +11,9 @@ If you wish to collaborate a trial or license of Sketch is necessary to do so.
 Animations are being completed in AfterEffect using the BodyMovin plugin in conjunction with Lottie React Native by Airbnb. An active license of Adobe Create Cloud is necessary to work on these files.
 
 ## Development Phase 
+
+Please follow our filename conventions! All folders should be lowercase and words within the same name should be separated by underscores.
+
 ### Layout
 Always begin the file with any imports that you might need for that component. Include the following comment at the top:
 
