@@ -108,6 +108,11 @@ export default class Onboarding extends Component {
       text_button: `Continue to ${this.state.text}`
     });
     this.animation3.play();
+    this.state.user.child('vehicles').set({
+      1:{
+        name: this.state.text,
+      }
+    });
   }
 
   /*
@@ -148,7 +153,7 @@ export default class Onboarding extends Component {
    *   to the dashboard.
    */
   goToDashboard() {
-     clearNavStack(this.props.navigation, 'Dashboard');
+     goTo(this.props.navigation, 'Dashboard');
   }
 
   /*
@@ -304,11 +309,11 @@ export default class Onboarding extends Component {
 
           {/* Card 2 */}
           <View style={styles.card}>
-            <Text style={styles.card_title}>{"Add your car"}</Text>
+            <Text style={styles.card_title}>{"I am a:"}</Text>
             <View style={{
               backgroundColor: 'white',
               alignSelf: 'stretch',
-              margin: 20,
+              marginHorizontal: 20,
             }}>
               <Dropdown
                 label='Year'
@@ -319,7 +324,7 @@ export default class Onboarding extends Component {
                 data={make}
               />
             </View>
-            <Text style={styles.card_text}></Text>
+            <Text style={styles.card_text}>minor existencial crisis</Text>
           </View>
 
           {/* Card 3 */}
@@ -340,11 +345,6 @@ export default class Onboarding extends Component {
               underlineColorAndroid={'#ffffff'}
               onSubmitEditing={ () => {
                 this.nameEntered();
-                this.state.user.child('vehicles').set({
-                  1:{
-                    name: this.state.text,
-                  }
-                });
               }}
             />
           </View>
