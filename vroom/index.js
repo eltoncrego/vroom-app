@@ -100,7 +100,7 @@ const Vroom = StackNavigator ({
     },
   },
   MainApp: {
-    screen: MainApp,
+    screen: MainApp
   }
 });
 
