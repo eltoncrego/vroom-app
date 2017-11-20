@@ -61,7 +61,7 @@ When installing new components and modules into our react-native project. Please
 
 ```shell
 echo "<command to be executed>";
-<command to be executed>
+<command to be executed> &&
 echo "success";
 ```
 ## Error Messages
