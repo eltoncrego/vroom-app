@@ -21,6 +21,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Animation from 'lottie-react-native';
+import {firebaseRef} from '../../../index';
+import { goTo, clearNavStack } from '../Navigation/Navigation';
+import { Dropdown } from 'react-native-material-dropdown';
 
 // Files Needed
 import revi from '../../../assets/animations/revi-hi.json';
@@ -38,6 +41,7 @@ import revi_super_happy from '../../../assets/animations/revi-super-happy.json';
  * TODO: Animate a Revi object
  * TODO: Take in make, model, and year and end this screen
  */
+
 export default class Onboarding extends Component {
 
   /*
@@ -49,6 +53,7 @@ export default class Onboarding extends Component {
   static navigationOptions = {
     title: 'Welcome',
     header: null,
+    drawerLockMode: 'locked-closed',
   };
 
    /*
@@ -60,7 +65,9 @@ export default class Onboarding extends Component {
    */
   componentDidMount() {
     setTimeout(() => {
-      this.scrollView.scrollTo({x: -16})
+      if(this.scrollView != null){
+        this.scrollView.scrollTo({x: -16})
+      }
     }, 1);
     this.animation.play();
     this.animation2.play();
@@ -79,6 +86,8 @@ export default class Onboarding extends Component {
       text: 'My Car',
       show_last_card: false,
       scroll_enabled: true,
+      text_button: 'Next',
+      user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
     };
   }
 
@@ -90,9 +99,12 @@ export default class Onboarding extends Component {
    *   and scroll to it
    */
   nameEntered() {
-    this.setState({show_last_card: true});
-    this.scrollView.scrollTo({x: 672, y:0, animated: true});
-    this.setState({scroll_enabled: false});
+    this.setState({show_last_card: true}); 
+    this.scrollView.scrollTo({x: 328, y:0, animated: true});
+    this.setState({
+      scroll_enabled: false,
+      text_button: `Continue to ${this.state.text}`
+    });
     this.animation3.play();
   }
 
@@ -104,9 +116,20 @@ export default class Onboarding extends Component {
    *   in the onboarding
    */
   goToScrollView() {
-    if(this.state.scroll_enabled){
+    // if(this.state.scroll_enabled){
       this.scrollView.scrollTo({x: 328, y: 0, animated: true});
-    }
+    // }
+  }
+
+  /*
+   * Method: goToDashboard()
+   * Author: Elton C. Rego
+   *
+   * Purpose: On invocation, clears the stack and navigates 
+   *   to the dashboard.
+   */
+  goToDashboard() {
+     clearNavStack(this.props.navigation, 'Dashboard');
   }
 
   /*
@@ -114,7 +137,8 @@ export default class Onboarding extends Component {
    * Author: Elton C. Rego
    *
    * Purpose: Renders the onboarding page.
-   *  The onboarding page has nothing right now.
+   *  There are three current cards with information about how
+   *  to name your car
    *
    */
   render() {
@@ -141,7 +165,8 @@ export default class Onboarding extends Component {
           </View>
         <Text style={styles.card_text}>{"I love it!"}</Text>
       </View>
-      : <View style={styles.card_inactive}>
+      : 
+      <View style={styles.card_inactive}>
         <Text style={styles.card_title}>{this.state.text}</Text>
           <View style={styles.revi_animations}>
               <Animation
@@ -170,16 +195,59 @@ export default class Onboarding extends Component {
           onPress={
             () => this.goToScrollView()
         }>
-          <Text style={styles.buttonText}>{'Next'}</Text>
+          <Text style={styles.buttonText}>{this.state.text_button}</Text>
       </TouchableOpacity>
-      : null;
+      : <TouchableOpacity
+          style={styles.buttonContainer}
+          activeOpacity={0.8}
+          onPress={
+            () => this.goToDashboard()
+        }>
+          <Text style={styles.buttonText}>{this.state.text_button}</Text>
+      </TouchableOpacity>;
+
+      /*
+     * Variable: year-make-model
+     * Author: Tianyi Zhang
+     *
+     * Purpose: Data for the dropdown picker
+     */
+      let year = [{
+      value: '1990',
+    }, {
+      value: '1991',
+    }, {
+      value: '1992',
+    }, {
+      value: '1993',
+    },{
+      value: '1994',
+    },{
+      value: '1995',
+    },{
+      value: '1996',
+    },{
+      value: '1997',
+    },{
+      value: '1998',
+    }];
+
+    let make = [{
+      value: 'Acura',
+    }, {
+      value: 'BMW',
+    }, {
+      value: 'Civic',
+    }];
 
     return (
       <KeyboardAvoidingView
         style={styles.container}
         behavior="padding"
       >
-
+        <StatusBar
+         barStyle="light-content"
+       />
         <View style={styles.cards_container}>
         <StatusBar
           barStyle="light-content"
@@ -216,6 +284,25 @@ export default class Onboarding extends Component {
 
           {/* Card 2 */}
           <View style={styles.card}>
+            <Text style={styles.card_title}>{"Add your car"}</Text>
+            <View style={{
+              backgroundColor: 'white',
+              alignSelf: 'stretch',
+              margin: 20,
+            }}>
+              <Dropdown
+                label='Year'
+                data={year}
+              />
+              <Dropdown
+                label='Make'
+                data={make}
+              />
+            </View>
+          </View>
+
+          {/* Card 3 */}
+          <View style={styles.card}>
             <Text style={styles.card_title}>{"My name is.."}</Text>
              <View style={styles.revi_animations}>
               <Animation
@@ -228,13 +315,20 @@ export default class Onboarding extends Component {
             <TextInput
               style={styles.card_text_input}
               placeholder="Type in my name!"
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => {this.setState({text});}}
               underlineColorAndroid={'#ffffff'}
-              onSubmitEditing={ () => this.nameEntered()}
+              onSubmitEditing={ () => {
+                this.nameEntered();
+                this.state.user.child('vehicles').set({
+                  1:{
+                    name: this.state.text,
+                  }
+                });
+              }}
             />
           </View>
 
-          {/* Card 3: Hide if no name*/}
+          {/* Card 4: Hide if no name*/}
           {last_card}
         </ScrollView>
         </View>
@@ -252,17 +346,15 @@ const styles = StyleSheet.create({
 
   /*
    * Style: Button
-   * Author: Tianyi Zhang
+   * Author: Elton C. Rego
    * Purpose: This styles the Next button
    */
-
   buttonContainer: {
     backgroundColor: GLOBAL.COLOR.GREEN,
     padding: 12,
     paddingHorizontal: 24,
     borderRadius: 20,
   },
-
   buttonText: {
     textAlign: 'center',
     fontFamily: 'Nunito',

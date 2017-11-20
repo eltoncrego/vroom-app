@@ -1,4 +1,8 @@
+// Global Requirements
 import React, { Component } from 'react';
+GLOBAL = require('../../Globals');
+
+// Components
 import {
   View,
   Text,
@@ -6,113 +10,123 @@ import {
   TouchableOpacity,
   Animated,
   StatusBar,
+  ScrollView,
   Button,
   TextInput,
-  Modal,
   KeyboardAvoidingView,
+  Alert,
+  Dimensions,
 } from 'react-native';
 import Onboarding from './Onboarding';
-import FadeInView from '../Login/Login';
-import * as firebase from 'firebase';
-import {databaseLogin} from '../Database/Database';
-import {databaseSignup} from '../Database/Database';
-
-GLOBAL = require('../../Globals');
+import Dashboard from '../Dashboard/Dashboard';
+import { goTo, clearNavStack, goToDrawerNav } from '../Navigation/Navigation';
+import {firebaseRef} from '../../../index';
+import {
+  databaseLogin,
+  databaseSignup,
+  authListener,
+} from '../Database/Database';
 
 export default class EmailPasswordLogin extends Component {
 
   // Author: Alec Felt
-  // Purpose: sets up state for TextInput/Authentication use
+  // Purpose: sets up state for component
   constructor(props) {
     super(props);
-    this.state = {
-      email: '',
-      password: '',
-      status: '',
-      modalVisible: false,
-      modalText: ''
-    };
   }
 
-  static navigationOptions = {
-    title: 'EmailPasswordLogin',
-    header: null,
-  };
-
-  goToOnboardingPage() {
-    const { navigate } = this.props.navigation;
-    navigate('Onboarding')
+  state = {
+    em: null,
+    ems: null,
+    pw: null,
+    pws: null,
+    pws2: null,
+    isFirst: true,
   }
 
-  // Author: Alec Felt
+  // defUser = {
+  //   cars: [],
+  //   ob: false,
+  // }
+
+  componentDidMount() {
+    // if user is logged in, go to dashboard TODO separate sign in / sign up
+    firebaseRef.auth().onAuthStateChanged((user) => {
+      if(user){
+
+        var that = this;
+        var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
+        ref.once("value").then(function (snapshot) {
+          var data = snapshot.val();
+          if(data != null){
+            clearNavStack(that.props.navigation, 'MainApp');
+          } else {
+            clearNavStack(that.props.navigation, 'Onboarding');
+          }
+        });
+
+      }
+    });
+  }
+  
+  // Author: Alec Felt, Connick Shields
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase
   login = () => {
-    var error = databaseLogin(this.state.email, this.state.password);
-    if (error != "") {this.state.modalText = error; this.setModalVisible(true);}
+    //check to see if any text fields are empty
+    if((!this.state.em) || (!this.state.pw)){
+        alert('Please make sure to fill in all fields.');
+        return;
+    }
+    databaseLogin(this.state.em, this.state.pw);
   }
 
-  // Author: Alec Felt
+  // Author: Connick Shields
   // Purpose: navigates to a signup component
-  // TODO: Create a sign up component that gathers more info
-  //       than just the email and password
+
   signup = () => {
-    databaseSignup(this.state.email, this.state.password);
+    // check to see if any text fields are empty
+    if((!this.state.ems) || (!this.state.pws)){
+        Alert.alert('Please make sure to fill in all fields.');
+        return;
+    }
+    // make sure passwords match
+    if(this.state.pws != this.state.pws2){
+        Alert.alert('Please make sure both passwords match.');
+        return;
+    }
+    // sign up the user
+    databaseSignup(this.state.ems, this.state.pws);
   }
 
-  // Author: Alec Felt
-  // Purpose: sets the modal to visible/invisible
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+  // Author: Connick Shields
+  // Purpose: swap view cards
+
+  swapCards(){
+    if(this.state.isFirst){
+      // go to sign up
+      this.setState({isFirst:!this.state.isFirst});
+    } else {
+      // go to sign in
+      this.setState({isFirst:!this.state.isFirst});
+    }
   }
 
   // Author: Alec Felt
   // Purpose: Renders UI for login
   render() {
 
-    // Author: Alec Felt
-    // Purpose: Notify the user if login/signup doesn't work
-    // TODO: implement logic to use the modal
-    var modal = this.state.modalVisible ?
-      <View style={{marginTop: 22}}>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
-        >
-          <View style={{marginTop: 22}}>
-            <View>
-              <Text>{this.state.modalText}</Text>
-              <TouchableHighlight onPress={() => {
-                this.setModalVisible(!this.state.modalVisible)
-              }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-         </View>
-        </Modal>
-      </View>
-    : null;
-
-
-    return (
-      <KeyboardAvoidingView 
-        style={styles.container}
-        behavior="padding"
-      >
-        <View style={styles.header}>
-          <Text style={styles.vroom}>vroom</Text>
-        </View>
-
-        <View style={styles.card}>
-          <TextInput
+    var sign_in_card = this.state.isFirst ?
+      <View style={styles.card}>
+        <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
             style={styles.input}
             placeholder="email"
             autoCapitalize="none"
-            onChangeText={(text) => this.setState({email: text})}
-            onSubmitEditing={ () => this.login() }
+            onChangeText={(text) => {
+              this.setState({em: text});
+              this.setState({ems: text});
+            }}
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -120,29 +134,88 @@ export default class EmailPasswordLogin extends Component {
             placeholder="password"
             autoCapitalize="none"
             secureTextEntry={true}
-            onChangeText={ (text) => this.setState( {password: text} ) }
+            onChangeText={(text) => {
+              this.setState({pw: text});
+              this.setState({pws: text});
+            }}
             onSubmitEditing={ () => this.login() }
           />
-          <TouchableOpacity 
-            activeOpacity={0.8} 
+          <TouchableOpacity
+            activeOpacity={0.8}
             onPress={ () => this.login() }
             style={styles.button_container}
           >
             <View>
-              <Text style={styles.button}>Login</Text>
+              <Text style={styles.button}>Sign In</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity 
-            activeOpacity={0.8} 
+          <View>
+            <Text style={styles.signin}
+            onPress={ () => this.swapCards() }
+            >No account? Sign up!</Text>
+          </View>
+        </View>
+          :
+        <View style={styles.card}>
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="email"
+            autoCapitalize="none"
+            onChangeText={(text) => {
+              this.setState({em: text});
+              this.setState({ems: text});
+            }}
+          />
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="password"
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={(text) => {
+              this.setState({pw: text});
+              this.setState({pws: text});
+            }}
+          />
+          <TextInput
+            placeholderTextColor={GLOBAL.COLOR.GRAY}
+            style={styles.input}
+            placeholder="retype password"
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={ (text) => this.setState( {pws2: text} ) }
+            onSubmitEditing={ () => this.signup() }
+          />
+          <TouchableOpacity
+            activeOpacity={0.8}
             onPress={ () => this.signup() }
             style={styles.button_container}
           >
             <View>
-              <Text style={styles.button}>Signup</Text>
+              <Text style={styles.button}>Sign Up</Text>
             </View>
           </TouchableOpacity>
+          <View>
+            <Text style={styles.signin}
+            onPress={ () => this.swapCards() }
+            >Have an account? Sign in!</Text>
+          </View>
+        </View>;
+
+    return (
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+      >
+       <StatusBar
+         barStyle="light-content"
+       />
+        <View style={styles.header}>
+          <Text style={styles.vroom}>vroom</Text>
+          <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
         </View>
-        {modal}
+        {sign_in_card}
       </KeyboardAvoidingView>
     );
   }
@@ -203,6 +276,18 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   /*
+   * Style: Container
+   * Author: Connick Shields
+   * Purpose: This styles the sign in line
+   */
+  signin: {
+    fontFamily: 'Nunito',
+    textAlign: 'center',
+    fontSize: 15,
+    color: GLOBAL.COLOR.GREEN,
+    marginTop: 10,
+  },
+  /*
    * Style: button
    * Author: Elton C. Rego
    * Purpose: Adds styling to the touchable opacity elements
@@ -258,5 +343,5 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     paddingTop: 32,
     paddingBottom: 32,
-  }
+  },
 });
