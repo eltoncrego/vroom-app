@@ -116,9 +116,9 @@ export default class Onboarding extends Component {
    *   in the onboarding
    */
   goToScrollView() {
-    if(this.state.scroll_enabled){
+    // if(this.state.scroll_enabled){
       this.scrollView.scrollTo({x: 328, y: 0, animated: true});
-    }
+    // }
   }
 
   /*
@@ -165,7 +165,8 @@ export default class Onboarding extends Component {
           </View>
         <Text style={styles.card_text}>{"I love it!"}</Text>
       </View>
-      : <View style={styles.card_inactive}>
+      : 
+      <View style={styles.card_inactive}>
         <Text style={styles.card_title}>{this.state.text}</Text>
           <View style={styles.revi_animations}>
               <Animation
@@ -281,7 +282,7 @@ export default class Onboarding extends Component {
             <Text style={styles.card_text}>{"I'm your car!"}</Text>
           </View>
 
-          {/* Card 4 */}
+          {/* Card 2 */}
           <View style={styles.card}>
             <Text style={styles.card_title}>{"Add your car"}</Text>
             <View style={{
@@ -298,10 +299,9 @@ export default class Onboarding extends Component {
                 data={make}
               />
             </View>
-            <Text style={styles.card_text}></Text>
           </View>
 
-          {/* Card 2 */}
+          {/* Card 3 */}
           <View style={styles.card}>
             <Text style={styles.card_title}>{"My name is.."}</Text>
              <View style={styles.revi_animations}>
@@ -328,7 +328,7 @@ export default class Onboarding extends Component {
             />
           </View>
 
-          {/* Card 3: Hide if no name*/}
+          {/* Card 4: Hide if no name*/}
           {last_card}
         </ScrollView>
         </View>
