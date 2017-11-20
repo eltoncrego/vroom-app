@@ -73,7 +73,6 @@ const MainApp = DrawerNavigator({
     },
 });
 
-
  /*
  * Constant: Vroom
  * Author: Elton C. Rego
@@ -83,7 +82,7 @@ const MainApp = DrawerNavigator({
  *   screens mentioned here, but still supports our old method
  *   of navigating between screens
  */
-const vroom = StackNavigator ({
+const Vroom = StackNavigator ({
   EmailPasswordLogin: {
     screen: EmailPasswordLogin,
     navigationOptions: {
@@ -102,7 +101,7 @@ const vroom = StackNavigator ({
   },
   MainApp: {
     screen: MainApp,
-  },
+  }
 });
 
 /*
@@ -122,7 +121,7 @@ const config = {
 export const firebaseRef = firebase.initializeApp(config);
 
 // Pushes the Navigation Stack onto the View
-AppRegistry.registerComponent('vroom', () => vroom);
+AppRegistry.registerComponent('vroom', () => Vroom);
 
 /*
  * Constant: Styles
