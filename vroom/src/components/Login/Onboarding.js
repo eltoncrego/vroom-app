@@ -87,7 +87,9 @@ export default class Onboarding extends Component {
       show_last_card: false,
       scroll_enabled: true,
       text_button: 'Next',
+      button_switch: false,
       user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
+      scroll_pos: 0,
     };
   }
 
@@ -100,7 +102,7 @@ export default class Onboarding extends Component {
    */
   nameEntered() {
     this.setState({show_last_card: true}); 
-    this.scrollView.scrollTo({x: 328, y:0, animated: true});
+    this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y:0, animated: true});
     this.setState({
       scroll_enabled: false,
       text_button: `Continue to ${this.state.text}`
@@ -116,9 +118,26 @@ export default class Onboarding extends Component {
    *   in the onboarding
    */
   goToScrollView() {
-    // if(this.state.scroll_enabled){
-      this.scrollView.scrollTo({x: 328, y: 0, animated: true});
-    // }
+    if(this.state.button_switch){
+      this.nameEntered();
+    } else {
+      if(this.state.scroll_enabled && this.state.scroll_pos != 672){
+        this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y: 0, animated: true});
+      }
+    }
+  }  
+  
+
+  handleScroll(event){
+    if(event.nativeEvent.contentOffset.x == 672){
+      this.setState({
+        scroll_pos: event.nativeEvent.contentOffset.x,
+        button_switch: true,
+        text_button: 'Submit',
+      })
+    } else {
+      this.setState({scroll_pos: event.nativeEvent.contentOffset.x});
+    } 
   }
 
   /*
@@ -267,6 +286,7 @@ export default class Onboarding extends Component {
             right: 16,
           }}
           scrollEnabled={this.state.scroll_enabled}
+          onScroll={(event) => {this.handleScroll(event);}}
         >
           {/* Card 1 */}
           <View style={styles.card}>
@@ -299,6 +319,7 @@ export default class Onboarding extends Component {
                 data={make}
               />
             </View>
+            <Text style={styles.card_text}></Text>
           </View>
 
           {/* Card 3 */}
