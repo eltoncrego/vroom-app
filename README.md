@@ -12,6 +12,10 @@ Animations are being completed in AfterEffect using the BodyMovin plugin in conj
 
 Please follow our filename conventions! All folders should be lowercase and words within the same name should be separated by underscores.
 
+Example:
+filename.ext
+folder_name_with_multiple_words
+
 ### Layout
 Always begin the file with any imports that you might need for that component. Include the following comment at the top:
 

@@ -19,6 +19,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import Animation from 'lottie-react-native';
 import {firebaseRef} from '../../../index';
@@ -124,6 +125,7 @@ export default class Onboarding extends Component {
    */
   goToScrollView() {
     if(this.state.button_switch){
+      Keyboard.dismiss();
       this.nameEntered();
     } else {
       if(this.state.scroll_enabled && this.state.scroll_pos != 672){
