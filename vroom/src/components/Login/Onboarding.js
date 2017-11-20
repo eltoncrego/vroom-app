@@ -266,6 +266,14 @@ export default class Onboarding extends Component {
       value: 'Civic',
     }];
 
+    let model = [{
+      value: 'Model 1',
+    }, {
+      value: 'Jetta',
+    }, {
+      value: 'Model 3',
+    }];
+
     return (
       <KeyboardAvoidingView
         style={styles.container}
@@ -316,6 +324,7 @@ export default class Onboarding extends Component {
               backgroundColor: 'white',
               alignSelf: 'stretch',
               marginHorizontal: 20,
+              marginTop: -10,
             }}>
               <Dropdown
                 label='Year'
@@ -325,13 +334,17 @@ export default class Onboarding extends Component {
                 label='Make'
                 data={make}
               />
+              <Dropdown
+                label='Model'
+                data={model}
+              />
             </View>
-            <Text style={styles.card_text}>minor existencial crisis</Text>
+            <Text style={styles.card_text}></Text>
           </View>
 
           {/* Card 3 */}
           <View style={styles.card}>
-            <Text style={styles.card_title}>{"My name is.."}</Text>
+            <Text style={styles.card_title}>{"My name is..."}</Text>
              <View style={styles.revi_animations}>
               <Animation
                 ref={animation => {this.animation2 = animation;}}
