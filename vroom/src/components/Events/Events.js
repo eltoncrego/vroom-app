@@ -70,11 +70,15 @@ export default class Events extends Component {
    *
    * Purpose: Creates a new event,
    *          links event and user
+   *
+   * TODO: link this up with the UI
    */
    addEvent() {
      // Checks state variables assoicated with the event's inputs
      if(this.state.name!="" && this.state.year!="" && this.state.month!="" && this.state.day!="" && this.state.time!="") {
        pushEvent(this.state.name, this.state.year, this.state.month, this.state.day, this.state.time);
+     } else {
+       alert("Error: please set date/time of event");
      }
      // Test Code
      // pushEvent("Alec", "2017", "11", "20", "10:05 pm");
@@ -131,8 +135,8 @@ export default class Events extends Component {
         <Text style={styles.header}>
           Events
         </Text>
-        <TouchableOpacity onPress={ () => this.addEvent() }>
-          <Text>
+        <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.addEvent() }>
+          <Text style={styles.buttonText}>
             Create Event
           </Text>
         </TouchableOpacity>
