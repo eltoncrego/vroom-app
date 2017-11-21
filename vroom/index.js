@@ -44,6 +44,7 @@ const DrawerContent = (props) => (
   </ScrollView>
 );
 
+
 /*
  * Constant: MainApp
  * Author: Elton C. Rego
@@ -100,7 +101,7 @@ const Vroom = StackNavigator ({
     },
   },
   MainApp: {
-    screen: MainApp
+    screen: MainApp,
   }
 });
 
