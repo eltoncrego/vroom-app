@@ -2,16 +2,50 @@ import React from 'react';
 import {firebaseRef} from '../../../index';
 import {goTo, clearNavStack} from '../Navigation/Navigation';
 
-/*
-* Database function: databaseLogin()
-* Author: Alec Felt and Connick Shields
-*
-* Purpose: login the user
-*
-* @param: (e) = email
-*         (p) = password
-* @return: boolean
-*/
+  /*
+  * Database function: pushEvent()
+  * Author: Alec Felt and Connick Shields
+  *
+  * Purpose: push Event object to database,
+  *          link user with event
+  *
+  * @param: (n) = name
+  *         (y) = year
+  *         (m) = month
+  *         (d) = day
+  *         (t) = time
+  * @return: void
+  */
+  export function pushEvent(n, y, m, d, t) {
+    var u = firebaseRef.auth().currentUser.uid;
+    if(u != null) {
+      var eventObject = {
+        name: n,
+        year: y,
+        month: m,
+        day: d,
+        time: t,
+        uid: u,
+      }
+      var postRef = firebaseRef.database().ref("events").push();
+      postRef.set(eventObject);
+      var key = postRef.key;
+      firebaseRef.database().ref("users/" + u + "/events/" + key).set(true);
+    } else {
+      // error message
+    }
+  }
+
+  /*
+  * Database function: databaseLogin()
+  * Author: Alec Felt and Connick Shields
+  *
+  * Purpose: login the user
+  *
+  * @param: (e) = email
+  *         (p) = password
+  * @return: boolean
+  */
   export function databaseLogin(e, p) {
     firebaseRef.auth().signInWithEmailAndPassword(e, p).then((user) => {
       if(user){
