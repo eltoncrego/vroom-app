@@ -27,6 +27,7 @@ import Onboarding from './src/components/Login/Onboarding';
 import Dashboard from './src/components/Dashboard/Dashboard';
 import Settings from './src/components/Database/Settings';
 import EmailPasswordLogin from './src/components/Login/EmailPasswordLogin';
+import Events from './src/components/Events/Events';
 
 /*
  * Constant: DrawerContent
@@ -57,6 +58,7 @@ const DrawerContent = (props) => (
 const MainApp = DrawerNavigator({
   Dashboard: {screen: Dashboard},
   Settings: {screen: Settings},
+  Events: {screen: Events},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
