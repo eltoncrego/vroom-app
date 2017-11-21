@@ -2,3 +2,4 @@ List any error messages that will be delivered to users here (so the team can wr
 
 (When user login fails):  "Error: incorrect username or password"
 (When user logout fails): "Error: logout failed"
+(When make,model,year dropdowns aren't set by user): "Error: please set Make, Year, and Model dropdowns"
