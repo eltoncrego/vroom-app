@@ -68,7 +68,7 @@ export default class EmailPasswordLogin extends Component {
       }
     });
   }
-  
+
   // Author: Alec Felt, Connick Shields
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase

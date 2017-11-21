@@ -91,29 +91,43 @@ export default class Onboarding extends Component {
       button_switch: false,
       user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
       scroll_pos: 0,
+      make: null,
+      model: null,
+      year: null,
     };
   }
 
   /*
    * Method: nameEntered()
-   * Author: Elton C. Rego
+   * Author: Elton C. Rego, Alec Felt
    *
-   * Purpose: On invocation, show the last card
-   *   and scroll to it
+   * Purpose: On invocation, check dropdown input,
+   *          update user's database entry, show the last card,
+   *          and scroll to it
    */
   nameEntered() {
-    this.setState({show_last_card: true}); 
-    this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y:0, animated: true});
-    this.setState({
-      scroll_enabled: false,
-      text_button: `Continue to ${this.state.text}`
-    });
-    this.animation3.play();
-    this.state.user.child('vehicles').set({
-      1:{
-        name: this.state.text,
-      }
-    });
+    // Checks the state variables associated with the make,year,model dropdowns
+    if(!(this.state.make==null) && !(this.state.model==null) && !(this.state.year==null)) {
+      this.setState({show_last_card: true});
+      this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y:0, animated: true});
+      this.setState({
+        scroll_enabled: false,
+        text_button: `Continue to ${this.state.text}`
+      });
+      this.animation3.play();
+      // populates user's Firebase entry
+      this.state.user.child('vehicles').set({
+        1:{
+          name: this.state.text,
+          year: this.state.year,
+          make: this.state.make,
+          model: this.state.model,
+        }
+      });
+    // make,year,model dropdowns haven't been properly set
+    } else {
+      alert("Error: please set Make, Year, and Model dropdowns");
+    }
   }
 
   /*
@@ -132,8 +146,8 @@ export default class Onboarding extends Component {
         this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y: 0, animated: true});
       }
     }
-  }  
-  
+  }
+
 
   handleScroll(event){
     if(event.nativeEvent.contentOffset.x == 672){
@@ -144,14 +158,14 @@ export default class Onboarding extends Component {
       })
     } else {
       this.setState({scroll_pos: event.nativeEvent.contentOffset.x});
-    } 
+    }
   }
 
   /*
    * Method: goToDashboard()
    * Author: Elton C. Rego
    *
-   * Purpose: On invocation, clears the stack and navigates 
+   * Purpose: On invocation, clears the stack and navigates
    *   to the dashboard.
    */
   goToDashboard() {
@@ -191,7 +205,7 @@ export default class Onboarding extends Component {
           </View>
         <Text style={styles.card_text}>{"I love it!"}</Text>
       </View>
-      : 
+      :
       <View style={styles.card_inactive}>
         <Text style={styles.card_title}>{this.state.text}</Text>
           <View style={styles.revi_animations}>
@@ -329,14 +343,17 @@ export default class Onboarding extends Component {
               <Dropdown
                 label='Year'
                 data={year}
+                onChangeText={(value,index,data) => {this.setState({year: value});}}
               />
               <Dropdown
                 label='Make'
                 data={make}
+                onChangeText={(value,index,data) => {this.setState({make: value});}}
               />
               <Dropdown
                 label='Model'
                 data={model}
+                onChangeText={(value,index,data) => {this.setState({model: value});}}
               />
             </View>
             <Text style={styles.card_text}></Text>
