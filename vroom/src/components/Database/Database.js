@@ -15,6 +15,7 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
   *         (d) = day
   *         (t) = time
   * @return: void
+  * TODO create error message, update event object fields, add notifications?
   */
   export function pushEvent(n, y, m, d, t) {
     var u = firebaseRef.auth().currentUser.uid;
