@@ -1,6 +1,7 @@
 import React from 'react';
 import {firebaseRef} from '../../../index';
 import {goTo, clearNavStack} from '../Navigation/Navigation';
+import "firebase/firestore";
 
   /*
   * Database function: pushEvent()
@@ -28,10 +29,21 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
         time: t,
         uid: u,
       }
-      var postRef = firebaseRef.database().ref("events").push();
-      postRef.set(eventObject);
-      var key = postRef.key;
-      firebaseRef.database().ref("users/" + u + "/events/" + key).set(true);
+      var key="";
+      firebaseRef.firestore().collection("events").add(eventObject)
+      .then(function(docRef) {
+        key = docRef.id;
+        firebaseRef.firestore().collection("users").doc(u).collection("events").doc(key).set({yo: "true"})
+        .then(function(docRef) {
+          ;
+        })
+        .catch(function(error) {
+          alert("Error: can't push event key to user object");
+        });
+      })
+      .catch(function(error) {
+        alert("Error: can't push event object to the database");
+      });
     } else {
       // error message
     }

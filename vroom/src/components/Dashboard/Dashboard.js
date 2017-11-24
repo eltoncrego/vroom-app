@@ -142,7 +142,7 @@ export default class Dashboard extends Component {
         },
 
         title: (<Text ref={"headerTitle"} style={styles.header_middle}>Dashboard</Text>),
-    
+
         headerRight: (
           <TouchableOpacity onPress={() => { logOut(navigation); }}>
             <Text style={styles.button_header}>Sign Out</Text>
@@ -273,7 +273,7 @@ export default class Dashboard extends Component {
             <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
 
             <Text style={styles.task_title}>Tread Depth</Text>
-            <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's hat, you should definitely get some new rubbers.</Text>
+            <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abes hat, you should definitely get some new rubbers.</Text>
           </View>
         </ScrollView>
       </View>
