@@ -26,6 +26,7 @@ import {
   databaseSignup,
   authListener,
 } from '../Database/Database';
+import 'firebase/firestore';
 
 export default class EmailPasswordLogin extends Component {
 
@@ -55,14 +56,16 @@ export default class EmailPasswordLogin extends Component {
       if(user){
 
         var that = this;
-        var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
-        ref.once("value").then(function (snapshot) {
-          var data = snapshot.val();
-          if(data != null){
-            clearNavStack(that.props.navigation, 'MainApp');
+        var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");
+        ref.doc("1").get().then(function(doc) {
+          if (doc.exists) {
+            goTo(that.props.navigation, "MainApp");
           } else {
-            clearNavStack(that.props.navigation, 'Onboarding');
+            console.log("No such document!");
+            goTo(that.props.navigation, "Onboarding");
           }
+        }).catch(function(error) {
+          console.log("Error getting document:", error);
         });
 
       }
