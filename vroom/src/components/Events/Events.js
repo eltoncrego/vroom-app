@@ -81,7 +81,7 @@ export default class Events extends Component {
        alert("Error: please set date/time of event");
      }
      // Test Code
-     // pushEvent("Alec", "2017", "11", "20", "10:05 pm");
+     pushEvent("Alec", "2017", "11", "20", "10:05 pm");
    }
 
   /*

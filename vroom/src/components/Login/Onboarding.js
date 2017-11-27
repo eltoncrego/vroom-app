@@ -23,6 +23,7 @@ import {
 } from 'react-native';
 import Animation from 'lottie-react-native';
 import {firebaseRef} from '../../../index';
+import 'firebase/firestore';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
 import { Dropdown } from 'react-native-material-dropdown';
 
@@ -89,7 +90,7 @@ export default class Onboarding extends Component {
       scroll_enabled: true,
       text_button: 'Next',
       button_switch: false,
-      user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
+      user: firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid),
       scroll_pos: 0,
       make: null,
       model: null,
@@ -116,13 +117,11 @@ export default class Onboarding extends Component {
       });
       this.animation3.play();
       // populates user's Firebase entry
-      this.state.user.child('vehicles').set({
-        1:{
+      this.state.user.collection('vehicles').doc("1").set({
           name: this.state.text,
           year: this.state.year,
           make: this.state.make,
           model: this.state.model,
-        }
       });
     // make,year,model dropdowns haven't been properly set
     } else {
@@ -169,7 +168,8 @@ export default class Onboarding extends Component {
    *   to the dashboard.
    */
   goToDashboard() {
-     clearNavStack(this.props.navigation, 'MainApp');
+    // clearNavStack(this.props.navaigation, 'MainApp');
+     goTo(this.props.navigation, 'MainApp');
   }
 
   /*
