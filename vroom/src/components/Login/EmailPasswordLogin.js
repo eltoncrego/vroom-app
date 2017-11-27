@@ -17,14 +17,14 @@ import {
   Alert,
   Dimensions,
 } from 'react-native';
-import Onboarding from './Onboarding';
-import Dashboard from '../Dashboard/Dashboard';
+import Onboarding from '../Screens/Onboarding';
+import Dashboard from '../Screens/Dashboard';
 import { goTo, clearNavStack, goToDrawerNav } from '../Navigation/Navigation';
-import {firebaseRef} from '../../../index';
 import {
   databaseLogin,
   databaseSignup,
   authListener,
+  firebaseRef,
 } from '../Database/Database';
 import 'firebase/firestore';
 
@@ -51,25 +51,25 @@ export default class EmailPasswordLogin extends Component {
   // }
 
   componentDidMount() {
-    // if user is logged in, go to dashboard TODO separate sign in / sign up
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if(user){
+    // // if user is logged in, go to dashboard TODO separate sign in / sign up
+    // firebaseRef.auth().onAuthStateChanged((user) => {
+    //   if(user){
 
-        var that = this;
-        var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");
-        ref.doc("1").get().then(function(doc) {
-          if (doc.exists) {
-            goTo(that.props.navigation, "MainApp");
-          } else {
-            console.log("No such document!");
-            goTo(that.props.navigation, "Onboarding");
-          }
-        }).catch(function(error) {
-          console.log("Error getting document:", error);
-        });
+    //     var that = this;
+    //     var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");
+    //     ref.doc("1").get().then(function(doc) {
+    //       if (doc.exists) {
+    //         clearNavStack(that.props.navigation, "Dashboard");
+    //       } else {
+    //         console.log("No such document!");
+    //         clearNavStack(that.props.navigation, "Onboarding");
+    //       }
+    //     }).catch(function(error) {
+    //       console.log("Error getting document:", error);
+    //     });
 
-      }
-    });
+    //   }
+    // });
   }
 
   // Author: Alec Felt, Connick Shields

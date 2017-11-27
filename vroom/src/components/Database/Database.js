@@ -1,7 +1,23 @@
 import React from 'react';
-import {firebaseRef} from '../../../index';
 import {goTo, clearNavStack} from '../Navigation/Navigation';
+import * as firebase from 'firebase';
 import "firebase/firestore";
+
+  /*
+   * Congfiguration: firebase.initializeApp
+   * Author: Alec Felt
+   *   Purpose: Attach our app to our database
+   */
+   // Initialize Firebase
+  const config = {
+     apiKey: "AIzaSyAmJxDUilgKOlQDyji9qmMNh2Bb73WcP7U",
+     authDomain: "vroom-d5c0e.firebaseapp.com",
+     databaseURL: "https://vroom-d5c0e.firebaseio.com",
+     projectId: "vroom-d5c0e",
+     storageBucket: "vroom-d5c0e.appspot.com",
+     messagingSenderId: "52629805323"
+  };
+  export const firebaseRef = firebase.initializeApp(config);
 
   /*
   * Database function: pushEvent()

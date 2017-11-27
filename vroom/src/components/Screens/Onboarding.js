@@ -22,7 +22,7 @@ import {
   Keyboard,
 } from 'react-native';
 import Animation from 'lottie-react-native';
-import {firebaseRef} from '../../../index';
+import {firebaseRef} from '../Database/Database';
 import 'firebase/firestore';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -55,7 +55,6 @@ export default class Onboarding extends Component {
   static navigationOptions = {
     title: 'Welcome',
     header: null,
-    drawerLockMode: 'locked-closed',
   };
 
    /*
