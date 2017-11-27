@@ -4,9 +4,7 @@
  */
 
 // Global Requirements
-import React, { 
-  Component,
-} from 'react';
+import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
 
 // Components
@@ -27,6 +25,7 @@ import EmailPasswordLogin from '../Login/EmailPasswordLogin';
 import Onboarding from '../Screens/Onboarding';
 import Dashboard from '../Screens/Dashboard';
 import Settings from '../Screens/Settings';
+import Events from '../Screens/Events';
 
 /*
  * Constant: DrawerContent
@@ -74,6 +73,7 @@ export const SignedIn = DrawerNavigator({
   Dashboard: {screen: Dashboard},
   Onboarding: { screen: Onboarding},
   Settings: {screen: Settings},
+  Events: {screen: Events},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
