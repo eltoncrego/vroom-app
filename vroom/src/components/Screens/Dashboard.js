@@ -65,20 +65,20 @@ export default class Dashboard extends Component {
   componentDidMount() {
     this.initAnimation();
     // if user is logged out, go to login
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if(!user){
-        clearNavStack(this.props.navigation, 'EmailPasswordLogin');
-      }
-    });
+    // firebaseRef.auth().onAuthStateChanged((user) => {
+    //   if(!user){
+    //     clearNavStack(this.props.navigation, 'EmailPasswordLogin');
+    //   }
+    // });
 
-    var that = this;
-    var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
-    ref.once("value").then(function (snapshot) {
-      var data = snapshot.val();
-      that.setState({
-        car_name: data.name
-      });
-    });
+    // var that = this;
+    // var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
+    // ref.once("value").then(function (snapshot) {
+    //   var data = snapshot.val();
+    //   that.setState({
+    //     car_name: data.name
+    //   });
+    // });
   }
 
   /*
