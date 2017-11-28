@@ -50,18 +50,6 @@ export default class EmailPasswordLogin extends Component {
     }
   }
 
-  componentDidMount() {
-    // if user is logged in, go to dashboard TODO separate sign in / sign up
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if (user) {
-        alert("user is signed in!");
-      }
-      else {
-        alert("user is signed out!");
-      }
-    });
-  }
-
   // Author: Alec Felt, Connick Shields
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase
