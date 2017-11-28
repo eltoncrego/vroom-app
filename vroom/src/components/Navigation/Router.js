@@ -21,7 +21,7 @@ import {
 } from "react-native";
 
 // Necessary Files
-import EmailPasswordLogin from '../Login/EmailPasswordLogin';
+import Login from '../Login/Login';
 import Onboarding from '../Screens/Onboarding';
 import Dashboard from '../Screens/Dashboard';
 import Settings from '../Screens/Settings';
@@ -51,8 +51,8 @@ const DrawerContent = (props) => (
  *   for when a user is logged out.
  */
 export const SignedOut = StackNavigator ({
-  EmailPasswordLogin: {
-    screen: EmailPasswordLogin,
+  Login: {
+    screen: Login,
     navigationOptions: {
       title: 'Login',
       header: null,

@@ -18,9 +18,8 @@ import {
 } from 'react-native';
 
 // Files Needed
-import {logOut, deleteUser} from "../Database/Database";
+import {logOut, deleteUser, firebaseRef} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
-import {firebaseRef} from '../../../index';
 
 /*
  * Class: Settings
