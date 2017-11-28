@@ -56,12 +56,7 @@ export default class Events extends Component {
    *   it runs the action
    */
   componentDidMount() {
-    // if user is logged out, go to login
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if(!user){
-        clearNavStack(this.props.navigation, 'EmailPasswordLogin');
-      }
-    });
+    console.log("Events component mounted");
   }
 
   /*

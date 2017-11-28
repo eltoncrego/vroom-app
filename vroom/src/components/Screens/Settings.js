@@ -49,12 +49,7 @@ export default class Settings extends Component {
    *   it runs the action
    */
   componentDidMount() {
-    // if user is logged out, go to login
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if(!user){
-        clearNavStack(this.props.navigation, 'SignedOut');
-      }
-    });
+    console.log("Settings component mounted");
   }
 
   deleteAccount() {
@@ -64,7 +59,7 @@ export default class Settings extends Component {
       [
         {text: "Yes", onPress: () => {
           deleteUser();
-          this.props.navigation.navigate("SignedOut");
+          goTo(this.props.navigation, "SignedOut");
         }},
         {text: "No"},
       ]

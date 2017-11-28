@@ -65,14 +65,8 @@ export default class Dashboard extends Component {
    *   it runs the action
    */
   componentDidMount() {
+    console.log("Dashboard component mounted");
     this.initAnimation();
-
-    // if user is logged out, go to login
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if(!user){
-        clearNavStack(this.props.navigation, 'EmailPasswordLogin');
-      }
-    });
 
     var that = this;
     var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");

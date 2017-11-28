@@ -72,6 +72,10 @@ export default class Auth extends Component {
     });
   }
 
+  componentDidMount() {
+    console.log("Auth component mounted");
+  }
+
   /*
    * Method: render()
    * Author: Elton C. Rego

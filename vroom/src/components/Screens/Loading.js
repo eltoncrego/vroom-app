@@ -32,6 +32,10 @@ export default class Events extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    console.log("Loading component mounted");
+  }
+
   /*
    * Static: navigationOptions
    * Author: Elton C. Rego, Alec Felt

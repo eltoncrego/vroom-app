@@ -19,12 +19,12 @@ import {
 } from 'react-native';
 import Onboarding from '../Screens/Onboarding';
 import Dashboard from '../Screens/Dashboard';
-import { 
-  goTo, 
-  clearNavStack, 
-  goToDrawerNav 
+import {
+  goTo,
+  clearNavStack,
+  goToDrawerNav
 } from '../Navigation/Navigation';
-import { 
+import {
   databaseLogin,
   databaseSignup,
   authListener,
@@ -48,6 +48,10 @@ export default class EmailPasswordLogin extends Component {
       password_signup_verification: null,
       signup: true,
     }
+  }
+
+  componentDidMount() {
+    console.log("Login component mounted");
   }
 
   // Author: Alec Felt, Connick Shields
