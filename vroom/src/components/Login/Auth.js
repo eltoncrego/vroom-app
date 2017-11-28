@@ -13,6 +13,8 @@ import {
   SignedIn,
   SignedUp,
 } from "../Navigation/Router";
+
+import Loading from '../Screens/Loading';
 import {firebaseRef} from '../Database/Database';
 
 /*
@@ -81,7 +83,7 @@ export default class Auth extends Component {
     
     if (!this.state.checkedSignIn) {
       // HERE WOULD BE A GOOD PLACE FOR A LOADING ANIMATION
-      return null;
+      return <Loading/>;
     }
 
     if (this.state.signedIn) {
