@@ -23,10 +23,10 @@ import {pushEvent, logOut, deleteUser, firebaseRef} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 
 /*
- * Class: Settings
+ * Class: Events
  * Author: Elton C.  Rego
  *
- * Purpose: Be the main area where users can customize their experience
+ * Purpose: Be the main area where users can customize their events
  */
 export default class Events extends Component {
 
