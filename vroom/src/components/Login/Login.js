@@ -19,8 +19,12 @@ import {
 } from 'react-native';
 import Onboarding from '../Screens/Onboarding';
 import Dashboard from '../Screens/Dashboard';
-import { goTo, clearNavStack, goToDrawerNav } from '../Navigation/Navigation';
-import {
+import { 
+  goTo, 
+  clearNavStack, 
+  goToDrawerNav 
+} from '../Navigation/Navigation';
+import { 
   databaseLogin,
   databaseSignup,
   authListener,
@@ -30,46 +34,40 @@ import 'firebase/firestore';
 
 export default class EmailPasswordLogin extends Component {
 
-  // Author: Alec Felt
-  // Purpose: sets up state for component
+ /*
+  * Author: Alec Felt
+  * Purpose: Set up state for this specific component
+  */
   constructor(props) {
     super(props);
+    this.state = {
+      em: null,
+      ems: null,
+      pw: null,
+      pws: null,
+      pws2: null,
+      isFirst: true,
+    }
   }
-
-  state = {
-    em: null,
-    ems: null,
-    pw: null,
-    pws: null,
-    pws2: null,
-    isFirst: true,
-  }
-
-  // defUser = {
-  //   cars: [],
-  //   ob: false,
-  // }
 
   componentDidMount() {
-    // // if user is logged in, go to dashboard TODO separate sign in / sign up
-    // firebaseRef.auth().onAuthStateChanged((user) => {
-    //   if(user){
-
-    //     var that = this;
-    //     var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");
-    //     ref.doc("1").get().then(function(doc) {
-    //       if (doc.exists) {
-    //         clearNavStack(that.props.navigation, "Dashboard");
-    //       } else {
-    //         console.log("No such document!");
-    //         clearNavStack(that.props.navigation, "Onboarding");
-    //       }
-    //     }).catch(function(error) {
-    //       console.log("Error getting document:", error);
-    //     });
-
-    //   }
-    // });
+    // if user is logged in, go to dashboard TODO separate sign in / sign up
+    firebaseRef.auth().onAuthStateChanged((user) => {
+      if(user){
+        var that = this;
+        var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");
+        ref.doc("1").get().then(function(doc) {
+          if (doc.exists) {
+            // the documentation exists; go to dashboard
+          } else {
+            // the documentation does not exist; go to onboarding
+            console.log("No such document!");
+          }
+        }).catch(function(error) {
+          console.log("Error getting document:", error);
+        });
+      }
+    });
   }
 
   // Author: Alec Felt, Connick Shields
@@ -287,7 +285,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito',
     textAlign: 'center',
     fontSize: 15,
-    color: GLOBAL.COLOR.GREEN,
+    color: GLOBAL.COLOR.GRAY,
     marginTop: 10,
   },
   /*
