@@ -14,7 +14,8 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Alert
+  Alert,
+  StatusBar,
 } from 'react-native';
 
 // Files Needed
@@ -131,6 +132,9 @@ export default class Events extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+           barStyle="light-content"
+         />
         <Text style={styles.header}>
           Events
         </Text>

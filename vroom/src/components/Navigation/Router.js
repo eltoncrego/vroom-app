@@ -44,6 +44,18 @@ const DrawerContent = (props) => (
 );
 
 /*
+ * Class: Hidden
+ * Author: Elton C. Rego
+ * Purpose: Return when you want to have a drawer item be hidden
+ */
+export class Hidden extends Component {
+  render() {
+    return null;
+  }
+}
+
+
+/*
  * Constant: SignedOut
  * Author: Elton C. Rego
  *
@@ -101,6 +113,42 @@ export const EventsScreen = StackNavigator({
 });
 
 /*
+ * Constant: SignedUp
+ * Author: Elton C. Rego
+ *
+ * Purpose: Handles the drawer navigator component within the
+ *   Drawer navigator. Allows us to maintain our custom navigation
+ *   bar with an overlayed drawer navigation. Place screens that
+ *   should not have a drawer menu here.
+ */
+export const SignedUp = DrawerNavigator({
+  Onboarding: { 
+    screen: OnboardingScreen,
+    navigationOptions: {
+      drawerLabel: <Hidden/>
+    },
+  },
+  Dashboard: {screen: DashboardScreen},
+  Settings: {screen: SettingsScreen},
+  Events: {screen: EventsScreen},
+},{
+  contentComponent: DrawerContent,
+    contentOptions: {
+      activeTintColor: GLOBAL.COLOR.GREEN,
+      inactiveTintColor: GLOBAL.COLOR.BLUE,
+      labelStyle:{
+        fontSize: 22,
+        fontWeight: '500',
+        fontFamily: 'Nunito',
+        paddingLeft: 5,
+      },
+      itemsContainerStyle: {
+        marginVertical: 0,
+      },
+    },
+});
+
+/*
  * Constant: SignedIn
  * Author: Elton C. Rego
  *
@@ -111,7 +159,12 @@ export const EventsScreen = StackNavigator({
  */
 export const SignedIn = DrawerNavigator({
   Dashboard: {screen: DashboardScreen},
-  Onboarding: { screen: OnboardingScreen},
+  Onboarding: { 
+    screen: OnboardingScreen,
+    navigationOptions: {
+      drawerLabel: <Hidden/>
+    },
+  },
   Settings: {screen: SettingsScreen},
   Events: {screen: EventsScreen},
 },{

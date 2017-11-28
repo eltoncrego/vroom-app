@@ -14,7 +14,8 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Alert
+  Alert,
+  StatusBar,
 } from 'react-native';
 
 // Files Needed
@@ -120,6 +121,9 @@ export default class Settings extends Component {
       <View
         style={styles.container}
       >
+        <StatusBar
+           barStyle="light-content"
+         />
         <Text
           style={styles.header}
         >
