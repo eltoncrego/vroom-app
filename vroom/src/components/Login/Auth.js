@@ -11,6 +11,7 @@ GLOBAL = require('../../Globals');
 import { 
   SignedOut,
   SignedIn,
+  SignedUp,
 } from "../Navigation/Router";
 import {firebaseRef} from '../Database/Database';
 
@@ -84,7 +85,11 @@ export default class Auth extends Component {
     }
 
     if (this.state.signedIn) {
-      return <SignedIn/>
+      if (this.state.onboarding){
+        return <SignedUp/>;
+      } else {
+        return <SignedIn/>
+      }
     } else {
       return <SignedOut/>;
     }

@@ -55,6 +55,7 @@ export default class Onboarding extends Component {
   static navigationOptions = {
     title: 'Welcome',
     header: null,
+    lockMode: 'locked-closed',
   };
 
    /*
