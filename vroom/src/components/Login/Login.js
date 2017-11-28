@@ -41,31 +41,23 @@ export default class EmailPasswordLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      em: null,
-      ems: null,
-      pw: null,
-      pws: null,
-      pws2: null,
-      isFirst: true,
+      email: null,
+      email_signup: null,
+      password: null,
+      password_signup: null,
+      password_signup_verification: null,
+      signup: true,
     }
   }
 
   componentDidMount() {
     // if user is logged in, go to dashboard TODO separate sign in / sign up
     firebaseRef.auth().onAuthStateChanged((user) => {
-      if(user){
-        var that = this;
-        var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");
-        ref.doc("1").get().then(function(doc) {
-          if (doc.exists) {
-            // the documentation exists; go to dashboard
-          } else {
-            // the documentation does not exist; go to onboarding
-            console.log("No such document!");
-          }
-        }).catch(function(error) {
-          console.log("Error getting document:", error);
-        });
+      if (user) {
+        alert("user is signed in!");
+      }
+      else {
+        alert("user is signed out!");
       }
     });
   }
@@ -75,11 +67,13 @@ export default class EmailPasswordLogin extends Component {
   //          authenticates the user with Firebase
   login = () => {
     //check to see if any text fields are empty
-    if((!this.state.em) || (!this.state.pw)){
+    if((!this.state.email) || (!this.state.password)){
         alert('Please make sure to fill in all fields.');
         return;
     }
-    databaseLogin(this.state.em, this.state.pw);
+
+    // login the user
+    databaseLogin(this.state.email, this.state.password);
   }
 
   // Author: Connick Shields
@@ -87,29 +81,29 @@ export default class EmailPasswordLogin extends Component {
 
   signup = () => {
     // check to see if any text fields are empty
-    if((!this.state.ems) || (!this.state.pws)){
+    if((!this.state.email_signup) || (!this.state.password_signup)){
         Alert.alert('Please make sure to fill in all fields.');
         return;
     }
     // make sure passwords match
-    if(this.state.pws != this.state.pws2){
+    if(this.state.password_signup != this.state.password_signup_verification){
         Alert.alert('Please make sure both passwords match.');
         return;
     }
+
     // sign up the user
-    databaseSignup(this.state.ems, this.state.pws);
+    databaseSignup(this.state.email_signup, this.state.password_signup);
   }
 
   // Author: Connick Shields
   // Purpose: swap view cards
-
   swapCards(){
-    if(this.state.isFirst){
+    if(this.state.signup){
       // go to sign up
-      this.setState({isFirst:!this.state.isFirst});
+      this.setState({signup:!this.state.signup});
     } else {
       // go to sign in
-      this.setState({isFirst:!this.state.isFirst});
+      this.setState({signup:!this.state.signup});
     }
   }
 
@@ -117,7 +111,7 @@ export default class EmailPasswordLogin extends Component {
   // Purpose: Renders UI for login
   render() {
 
-    var sign_in_card = this.state.isFirst ?
+    var sign_in_card = this.state.signup ?
       <View style={styles.card}>
         <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -125,8 +119,8 @@ export default class EmailPasswordLogin extends Component {
             placeholder="email"
             autoCapitalize="none"
             onChangeText={(text) => {
-              this.setState({em: text});
-              this.setState({ems: text});
+              this.setState({email: text});
+              this.setState({email_signup: text});
             }}
           />
           <TextInput
@@ -136,8 +130,8 @@ export default class EmailPasswordLogin extends Component {
             autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={(text) => {
-              this.setState({pw: text});
-              this.setState({pws: text});
+              this.setState({password: text});
+              this.setState({password_signup: text});
             }}
             onSubmitEditing={ () => this.login() }
           />
@@ -164,8 +158,8 @@ export default class EmailPasswordLogin extends Component {
             placeholder="email"
             autoCapitalize="none"
             onChangeText={(text) => {
-              this.setState({em: text});
-              this.setState({ems: text});
+              this.setState({email: text});
+              this.setState({email_signup: text});
             }}
           />
           <TextInput
@@ -175,8 +169,8 @@ export default class EmailPasswordLogin extends Component {
             autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={(text) => {
-              this.setState({pw: text});
-              this.setState({pws: text});
+              this.setState({password: text});
+              this.setState({password_signup: text});
             }}
           />
           <TextInput
@@ -185,7 +179,7 @@ export default class EmailPasswordLogin extends Component {
             placeholder="retype password"
             autoCapitalize="none"
             secureTextEntry={true}
-            onChangeText={ (text) => this.setState( {pws2: text} ) }
+            onChangeText={ (text) => this.setState( {password_signup_verification: text} ) }
             onSubmitEditing={ () => this.signup() }
           />
           <TouchableOpacity

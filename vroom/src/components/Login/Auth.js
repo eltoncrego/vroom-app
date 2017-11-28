@@ -34,7 +34,8 @@ export default class Auth extends Component {
     super(props);
     this.state = {
       signedIn: false,
-      checkedSignIn: false
+      checkedSignIn: false,
+      onboarding: true,
     };
   }
 
@@ -50,7 +51,19 @@ export default class Auth extends Component {
      var that = this;
      firebaseRef.auth().onAuthStateChanged(function(user) {
       if (user) {
-        // User is signed in.
+        var ref = firebaseRef.firestore().collection("users").doc(user.uid).collection("vehicles");
+        ref.doc("1").get().then(function(doc) {
+          if (doc.exists) {
+            that.setState({onboarding: false});
+          } else {
+            // the documentation does not exist; go to onboarding
+            console.log("No such document!");
+            that.setState({onboarding: true});
+          }
+        }).catch(function(error) {
+          console.log("Error getting document:", error);
+        });
+
         that.setState({signedIn: true, checkedSignIn: true});
       } else {
         // No user is signed in.

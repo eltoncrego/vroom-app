@@ -23,7 +23,7 @@ import FlipCard from 'react-native-flip-card'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 // Files Needed
-import {logOut} from "../Database/Database";
+import {logOut, getName} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import revi_sad from '../../../assets/animations/revi-to-worried.json';
 
@@ -73,11 +73,10 @@ export default class Dashboard extends Component {
     });
 
     var that = this;
-    var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
-    ref.once("value").then(function (snapshot) {
-      var data = snapshot.val();
+    var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");
+    ref.doc("1").get().then(doc => {
       that.setState({
-        car_name: data.name
+        car_name: doc.data().name
       });
     });
   }
