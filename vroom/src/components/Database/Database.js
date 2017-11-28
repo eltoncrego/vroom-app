@@ -110,7 +110,7 @@ import "firebase/firestore";
         alert(error.message);
       });
   }
-  
+
   /*
   * Database function: logOut()
   * Author: Alec Felt and Connick Shields

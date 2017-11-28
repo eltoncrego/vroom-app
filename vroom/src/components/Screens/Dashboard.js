@@ -126,8 +126,6 @@ export default class Dashboard extends Component {
    */
   static navigationOptions = ({navigation, screenProps}) => {
 
-      const params = navigation.state.params || {};
-
       return{
         /*
          * navigationOptions: headerStyle, headerRight

@@ -61,6 +61,46 @@ export const SignedOut = StackNavigator ({
 });
 
 /*
+ * Constant: DashboardScreen
+ * Author: Elton C. Rego
+ * Purpose: Handles the stack navigator component for the dashboard 
+ *   allows us to have a nav bar with the drawer navigator
+ */
+export const DashboardScreen = StackNavigator({
+  Dashboard: {screen: Dashboard},
+});
+
+/*
+ * Constant: OnboardingScreen
+ * Author: Elton C. Rego
+ * Purpose: Handles the stack navigator component for the onboarding 
+ *   allows us to have a nav bar with the drawer navigator
+ */
+export const OnboardingScreen = StackNavigator({
+  Onboarding: {screen: Onboarding},
+});
+
+/*
+ * Constant: SettingsScreen
+ * Author: Elton C. Rego
+ * Purpose: Handles the stack navigator component for the settings 
+ *   allows us to have a nav bar with the drawer navigator
+ */
+export const SettingsScreen = StackNavigator({
+  Settings: {screen: Settings},
+});
+
+/*
+ * Constant: EventsScreen
+ * Author: Elton C. Rego
+ * Purpose: Handles the stack navigator component for the events 
+ *   allows us to have a nav bar with the drawer navigator
+ */
+export const EventsScreen = StackNavigator({
+  Events: {screen: Events},
+});
+
+/*
  * Constant: SignedIn
  * Author: Elton C. Rego
  *
@@ -69,33 +109,11 @@ export const SignedOut = StackNavigator ({
  *   bar with an overlayed drawer navigation. Place screens that
  *   should not have a drawer menu here.
  */
-export const SignedIn_D = DrawerNavigator({
-  Dashboard: {screen: Dashboard},
-  Onboarding: { screen: Onboarding},
-  Settings: {screen: Settings},
-  Events: {screen: Events},
-},{
-  contentComponent: DrawerContent,
-    contentOptions: {
-      activeTintColor: GLOBAL.COLOR.GREEN,
-      inactiveTintColor: GLOBAL.COLOR.BLUE,
-      labelStyle:{
-        fontSize: 22,
-        fontWeight: '500',
-        fontFamily: 'Nunito',
-        paddingLeft: 5,
-      },
-      itemsContainerStyle: {
-        marginVertical: 0,
-      },
-    },
-});
-
-export const SignedIn_O = DrawerNavigator({
-  Onboarding: { screen: Onboarding},
-  Dashboard: {screen: Dashboard},
-  Settings: {screen: Settings},
-  Events: {screen: Events},
+export const SignedIn = DrawerNavigator({
+  Dashboard: {screen: DashboardScreen},
+  Onboarding: { screen: OnboardingScreen},
+  Settings: {screen: SettingsScreen},
+  Events: {screen: EventsScreen},
 },{
   contentComponent: DrawerContent,
     contentOptions: {

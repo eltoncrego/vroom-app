@@ -51,7 +51,7 @@ export default class Settings extends Component {
     // if user is logged out, go to login
     firebaseRef.auth().onAuthStateChanged((user) => {
       if(!user){
-        clearNavStack(this.props.navigation, 'EmailPasswordLogin');
+        clearNavStack(this.props.navigation, 'SignedOut');
       }
     });
   }
@@ -61,7 +61,10 @@ export default class Settings extends Component {
       'Confirm Deletion',
       'Are you sure you want to delete your account? This action cannot be undone!',
       [
-        {text: "Yes", onPress: () => deleteUser()},
+        {text: "Yes", onPress: () => {
+          deleteUser();
+          this.props.navigation.navigate("SignedOut");
+        }},
         {text: "No"},
       ]
     )
