@@ -26,6 +26,8 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import {logOut, getName} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import revi_sad from '../../../assets/animations/revi-to-worried.json';
+import SignedOut from '../Navigation/Router';
+import Auth from '../Login/Auth';
 
 import {firebaseRef} from '../Database/Database';
 
@@ -142,7 +144,7 @@ export default class Dashboard extends Component {
         title: (<Text ref={"headerTitle"} style={styles.header_middle}>Dashboard</Text>),
 
         headerRight: (
-          <TouchableOpacity onPress={() => { logOut(navigation); }}>
+          <TouchableOpacity onPress={() => { logOut(); }}>
             <Text style={styles.button_header}>Sign Out</Text>
           </TouchableOpacity>
         ),

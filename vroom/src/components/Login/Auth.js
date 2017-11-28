@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 GLOBAL = require('../../Globals');
 
 // Components
-import { 
+import {
   SignedOut,
   SignedIn,
   SignedUp,
@@ -63,7 +63,7 @@ export default class Auth extends Component {
             that.setState({onboarding: true, signedIn: true, checkedSignIn: true});
           }
         }).catch(function(error) {
-          console.log("Error getting document:", error);
+          console.log("Error getting document:", error.message);
         });
       } else {
         // No user is signed in.
@@ -80,7 +80,7 @@ export default class Auth extends Component {
    *   application view based on the status of the login
    */
   render() {
-    
+
     if (!this.state.checkedSignIn) {
       // HERE WOULD BE A GOOD PLACE FOR A LOADING ANIMATION
       return <Loading/>;
@@ -98,4 +98,3 @@ export default class Auth extends Component {
 
   }
 }
-

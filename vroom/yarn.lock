@@ -3474,9 +3474,9 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-calendars@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.11.0.tgz#0194779fb71954d69b14712221e75c6f698a3aa5"
+react-native-calendars@^1.14.2:
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.14.2.tgz#7d1f870cc7de91a99cef131fee3da7670163d5f3"
   dependencies:
     prop-types "^15.5.10"
     xdate "^0.8.0"
