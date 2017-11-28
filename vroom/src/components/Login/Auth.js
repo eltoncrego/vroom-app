@@ -10,7 +10,8 @@ GLOBAL = require('../../Globals');
 // Components
 import { 
   SignedOut,
-  SignedIn,
+  SignedIn_D,
+  SignedIn_O,
 } from "../Navigation/Router";
 import {firebaseRef} from '../Database/Database';
 
@@ -54,17 +55,14 @@ export default class Auth extends Component {
         var ref = firebaseRef.firestore().collection("users").doc(user.uid).collection("vehicles");
         ref.doc("1").get().then(function(doc) {
           if (doc.exists) {
-            that.setState({onboarding: false});
+            that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
           } else {
-            // the documentation does not exist; go to onboarding
             console.log("No such document!");
-            that.setState({onboarding: true});
+            that.setState({onboarding: true, signedIn: true, checkedSignIn: true});
           }
         }).catch(function(error) {
           console.log("Error getting document:", error);
         });
-
-        that.setState({signedIn: true, checkedSignIn: true});
       } else {
         // No user is signed in.
         that.setState({signedIn: false, checkedSignIn: true});
@@ -87,7 +85,12 @@ export default class Auth extends Component {
     }
 
     if (this.state.signedIn) {
-      return <SignedIn/>;
+      // Go to the proper signed in
+      if (this.state.onboarding){
+        return <SignedIn_O/>
+      } else {
+        return <SignedIn_D/>
+      }
     } else {
       return <SignedOut/>;
     }

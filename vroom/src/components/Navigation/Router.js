@@ -69,9 +69,31 @@ export const SignedOut = StackNavigator ({
  *   bar with an overlayed drawer navigation. Place screens that
  *   should not have a drawer menu here.
  */
-export const SignedIn = DrawerNavigator({
+export const SignedIn_D = DrawerNavigator({
   Dashboard: {screen: Dashboard},
   Onboarding: { screen: Onboarding},
+  Settings: {screen: Settings},
+  Events: {screen: Events},
+},{
+  contentComponent: DrawerContent,
+    contentOptions: {
+      activeTintColor: GLOBAL.COLOR.GREEN,
+      inactiveTintColor: GLOBAL.COLOR.BLUE,
+      labelStyle:{
+        fontSize: 22,
+        fontWeight: '500',
+        fontFamily: 'Nunito',
+        paddingLeft: 5,
+      },
+      itemsContainerStyle: {
+        marginVertical: 0,
+      },
+    },
+});
+
+export const SignedIn_O = DrawerNavigator({
+  Onboarding: { screen: Onboarding},
+  Dashboard: {screen: Dashboard},
   Settings: {screen: Settings},
   Events: {screen: Events},
 },{
