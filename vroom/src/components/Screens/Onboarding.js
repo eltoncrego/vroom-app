@@ -167,8 +167,7 @@ export default class Onboarding extends Component {
    *   to the dashboard.
    */
   goToDashboard() {
-    // clearNavStack(this.props.navaigation, 'MainApp');
-     goTo(this.props.navigation, 'MainApp');
+     goTo(this.props.navigation, 'Dashboard');
   }
 
   /*
