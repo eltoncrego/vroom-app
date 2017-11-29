@@ -54,10 +54,12 @@ import "firebase/firestore";
           ;
         })
         .catch(function(error) {
+          console.log(error.message);
           alert("Error: can't push event key to user object");
         });
       })
       .catch(function(error) {
+        console.log(error.message);
         alert("Error: can't push event object to the database");
       });
     } else {
@@ -81,6 +83,7 @@ import "firebase/firestore";
         console.log("signed user in");
       }
     }, error => {
+      console.log(error.message);
       alert(error.message);
     });
   }
@@ -102,6 +105,7 @@ import "firebase/firestore";
           console.log("signed user up");
         }
       }, error => {
+        console.log(error.message);
         if(error.code == "auth/email-already-in-use"){
           alert("Your email is already registered. Attemping to sign you in automatically.")
           databaseLogin(e, p);
@@ -127,6 +131,7 @@ import "firebase/firestore";
         console.log("signed user out");
       }
     }, error => {
+      console.log(error.message);
       alert(error.message);
     });
   }
@@ -150,8 +155,9 @@ import "firebase/firestore";
         // Update successful.
         alert("success!");
         return true;
-      }).catch(function(error) {
+      }, error => {
         // An error happened.
+        console.log(error.message);
         alert("Error updating user profile info");
       });
     }
@@ -171,6 +177,7 @@ import "firebase/firestore";
           logOut()
         }).catch(function(error) {
           alert("Sorry, your account is unable to be deleted at this time.")
+          console.log(error.message);
         });
       } else {
         alert("user is null");
