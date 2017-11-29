@@ -66,6 +66,7 @@ export default class Onboarding extends Component {
    *   it runs the action
    */
   componentDidMount() {
+    console.log("Auth component mounted");
     setTimeout(() => {
       if(this.scrollView != null){
         this.scrollView.scrollTo({x: -16})
