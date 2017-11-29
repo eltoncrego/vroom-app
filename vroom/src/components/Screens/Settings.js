@@ -17,10 +17,13 @@ import {
   Alert,
   StatusBar,
 } from 'react-native';
+import { Dropdown } from 'react-native-material-dropdown';
+
 
 // Files Needed
 import {logOut, deleteUser, firebaseRef} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
+
 
 /*
  * Class: Settings
@@ -64,7 +67,6 @@ export default class Settings extends Component {
       [
         {text: "Yes", onPress: () => {
           deleteUser();
-          this.props.navigation.navigate("SignedOut");
         }},
         {text: "No"},
       ]
@@ -106,7 +108,6 @@ export default class Settings extends Component {
       ),
   });
 
-
   /*
    * Method: render
    * Author: Elton C. Rego
@@ -117,6 +118,15 @@ export default class Settings extends Component {
    *
    */
   render() {
+
+    let timeframe = [{
+      value: 'One Week',
+    }, {
+      value: 'Two Weeks',
+    }, {
+      value: 'One Month',
+    }];
+
     return (
       <View
         style={styles.container}
@@ -129,6 +139,21 @@ export default class Settings extends Component {
         >
           Settings
         </Text>
+        <Text style={styles.settings_title}>
+          Notification Timeframe
+        </Text>
+        <Text style={styles.settings_text}>
+          How far in advance would you like to recieve notifications?
+        </Text>
+        <Dropdown
+          label='Timeframe'
+          data={timeframe}
+          value={timeframe[0].value}
+          baseColor={GLOBAL.COLOR.WHITE}
+          selectedItemColor={GLOBAL.COLOR.GREEN}
+          textColor={GLOBAL.COLOR.WHITE}
+          
+        />
         <TouchableOpacity
           style={styles.buttonContainer}
           activeOpacity={0.8}
@@ -180,27 +205,41 @@ const styles = StyleSheet.create({
       fontFamily: 'Nunito',
       fontWeight: '900',
       fontSize: 40,
-      color: GLOBAL.COLOR.GRAY,
+      color: GLOBAL.COLOR.BLUE,
     },
 
-    /*
-   * Style: Button
-   * Author: Elton C. Rego
-   * Purpose: This styles the Next button
-   */
-  buttonContainer: {
-    backgroundColor: GLOBAL.COLOR.RED,
-    padding: 12,
-    paddingHorizontal: 24,
-    borderRadius: 20,
-  },
-  buttonText: {
-    textAlign: 'center',
-    fontFamily: 'Nunito',
-    color: GLOBAL.COLOR.DARKGRAY,
-    backgroundColor: 'transparent',
-    fontSize: 20,
-    fontWeight: '600',
-  },
+      /*
+     * Style: Button
+     * Author: Elton C. Rego
+     * Purpose: This styles the Next button
+     */
+    buttonContainer: {
+      backgroundColor: GLOBAL.COLOR.RED,
+      padding: 12,
+      paddingHorizontal: 24,
+      borderRadius: 20,
+      margin: 32,
+    },
+    buttonText: {
+      textAlign: 'center',
+      fontFamily: 'Nunito',
+      color: GLOBAL.COLOR.DARKGRAY,
+      backgroundColor: 'transparent',
+      fontSize: 20,
+      fontWeight: '600',
+    },
+
+    settings_title: {
+      fontFamily: 'Nunito',
+      fontSize: 20,
+      fontWeight: '900',
+      color: GLOBAL.COLOR.WHITE,
+    },
+    settings_text: {
+      fontFamily: 'Nunito',
+      fontSize: 15,
+      fontWeight: '200',
+      color: GLOBAL.COLOR.WHITE,
+    },
 
 });
