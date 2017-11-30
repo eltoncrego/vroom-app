@@ -114,6 +114,7 @@ export default class EmailPasswordLogin extends Component {
               this.setState({email: text});
               this.setState({email_signup: text});
             }}
+            underlineColorAndroid='transparent'
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -125,7 +126,11 @@ export default class EmailPasswordLogin extends Component {
               this.setState({password: text});
               this.setState({password_signup: text});
             }}
-            onSubmitEditing={ () => this.login() }
+            onSubmitEditing={ () => {
+              this.login() 
+              this.props.navigation.navigate("SignedIn")
+            }}
+            underlineColorAndroid='transparent'
           />
           <TouchableOpacity
             activeOpacity={0.8}
@@ -153,6 +158,7 @@ export default class EmailPasswordLogin extends Component {
               this.setState({email: text});
               this.setState({email_signup: text});
             }}
+            underlineColorAndroid='transparent'
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -164,6 +170,7 @@ export default class EmailPasswordLogin extends Component {
               this.setState({password: text});
               this.setState({password_signup: text});
             }}
+            underlineColorAndroid='transparent'
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -172,7 +179,11 @@ export default class EmailPasswordLogin extends Component {
             autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={ (text) => this.setState( {password_signup_verification: text} ) }
-            onSubmitEditing={ () => this.signup() }
+            onSubmitEditing={ () => {
+              this.signup()
+              this.props.navigation.navigate("SignedIn")
+            }}
+            underlineColorAndroid='transparent'
           />
           <TouchableOpacity
             activeOpacity={0.8}
