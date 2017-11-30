@@ -74,6 +74,7 @@ export default class Auth extends Component {
 
   componentDidMount() {
     console.log("Auth component mounted");
+    this.render();
   }
 
   /*
