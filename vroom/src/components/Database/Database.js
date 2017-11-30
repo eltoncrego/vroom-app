@@ -176,8 +176,8 @@ import "firebase/firestore";
         user.delete().then(function() {
           logOut()
         }).catch(function(error) {
+          alert("Sorry, your account is unable to be deleted at this time.")
           console.log(error.message);
-          alert("Sorry, your account is unable to be deleted.")
         });
       } else {
         alert("user is null");
