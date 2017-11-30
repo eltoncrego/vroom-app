@@ -96,6 +96,7 @@ export default class Onboarding extends Component {
       make: null,
       model: null,
       year: null,
+      choices: null,
     };
   }
 
@@ -123,6 +124,7 @@ export default class Onboarding extends Component {
           year: this.state.year,
           make: this.state.make,
           model: this.state.model,
+          choices: this.state.choices,
       });
     // make,year,model dropdowns haven't been properly set
     } else {
@@ -288,6 +290,12 @@ export default class Onboarding extends Component {
       value: 'Model 3',
     }];
 
+    let choices = [{
+      value: 'Yes',
+    }, {
+      value: 'No',
+        }];
+
     return (
       <KeyboardAvoidingView
         style={styles.container}
@@ -379,6 +387,49 @@ export default class Onboarding extends Component {
                 this.nameEntered();
               }}
             />
+          </View>
+
+           {/* Card 3.5 */}
+          <View style={styles.card}>
+            <Text style={styles.card_title}>{"My owner's experience"}</Text>
+            <View style={{
+              backgroundColor: 'white',
+              alignSelf: 'stretch',
+              marginHorizontal: 20,
+              marginTop: -10,
+            }}>
+              <Dropdown
+                label='Question1'
+                data={choices}
+                onChangeText={(value,index,data) => {this.setState({choices: value});}}
+              />
+              <Dropdown
+                label='Question2'
+                data={choices}
+                onChangeText={(value,index,data) => {this.setState({choices: value});}}
+              />
+              <Dropdown
+                label='Question3'
+                data={choices}
+                onChangeText={(value,index,data) => {this.setState({choices: value});}}
+              />
+            </View>
+            <Text style={styles.card_text}></Text>
+          </View>
+
+
+        {/* Card 4 */}
+          <View style={styles.card}>
+            <Text style={styles.card_title}>{"Hello!"}</Text>
+            <View style={styles.revi_animations}>
+              <Animation
+                ref={animation => {this.animation = animation;}}
+                style={{width: '100%', height: '100%',}}
+                loop={false}
+                source={revi}
+              />
+            </View>
+            <Text style={styles.card_text}>{"I'm your car!"}</Text>
           </View>
 
           {/* Card 4: Hide if no name*/}
