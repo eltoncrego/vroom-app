@@ -70,11 +70,11 @@ export default class Events extends Component {
    */
    addEvent() {
      // Checks state variables assoicated with the event's inputs
-     if(this.state.name!="" && this.state.year!="" && this.state.month!="" && this.state.day!="" && this.state.time!="") {
-       pushEvent(this.state.name, this.state.year, this.state.month, this.state.day, this.state.time);
-     } else {
-       alert("Error: please set date/time of event");
-     }
+     // if(this.state.name!="" && this.state.year!="" && this.state.month!="" && this.state.day!="" && this.state.time!="") {
+     //   pushEvent(this.state.name, this.state.year, this.state.month, this.state.day, this.state.time);
+     // } else {
+     //   alert("Error: please set date/time of event");
+     
      // Test Code
      pushEvent("Alec", "2017", "11", "20", "10:05 pm");
    }

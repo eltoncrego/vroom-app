@@ -38,12 +38,12 @@ import "firebase/firestore";
     var u = firebaseRef.auth().currentUser.uid;
     if(u != null) {
       var eventObject = {
-        name: n,
-        year: y,
-        month: m,
-        day: d,
-        time: t,
-        uid: u,
+          name: n,
+          year: y,
+          month: m,
+          day: d,
+          time: t,
+          uid: u,
       }
       var key="";
       firebaseRef.firestore().collection("events").add(eventObject)
