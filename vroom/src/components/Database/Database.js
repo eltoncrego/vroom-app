@@ -17,6 +17,7 @@ import "firebase/firestore";
      storageBucket: "vroom-d5c0e.appspot.com",
      messagingSenderId: "52629805323"
   };
+
   export const firebaseRef = firebase.initializeApp(config);
 
   /*
@@ -35,7 +36,7 @@ import "firebase/firestore";
     var u = firebaseRef.auth().currentUser.uid;
     if(u != null) {
       var taskObject = {
-          ttRef: n,
+          ttRef: ttr,
           date: d,
           uid: u,
       }
@@ -55,7 +56,7 @@ import "firebase/firestore";
       //   console.log(error.message);
       //   alert("Error: can't push task object to the database");
       // });
-  }
+  }}
 
   /*
   * Database function: databaseLogin()

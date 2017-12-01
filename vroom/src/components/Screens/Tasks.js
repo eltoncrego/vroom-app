@@ -40,11 +40,7 @@ export default class Tasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      year: "",
-      month: "",
-      day: "",
-      time: "",
+      data: "",
     }
   }
 
@@ -76,7 +72,10 @@ export default class Tasks extends Component {
      //   alert("Error: please set date/time of task");
 
      // Test Code
-     pushTask("Alec", "2017", "11", "22", "10:05 pm");
+     for(var i = 1; i < 30; i++){
+        console.log(i);
+        pushTask("Test Ref", "2017-11-" + i);
+     }
    }
 
   /*
@@ -131,8 +130,7 @@ export default class Tasks extends Component {
            barStyle="light-content"
          />
         <Text style={styles.header}>
-          T
-          asks
+          Tasks
         </Text>
         <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.addTask() }>
           <Text style={styles.buttonText}>

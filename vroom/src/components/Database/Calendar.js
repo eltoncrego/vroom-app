@@ -12,8 +12,8 @@ import {firebaseRef} from "./Database";
 
 export function getTaskDates(u){
     return new Promise((resolve, reject) => {
-      firebaseRef.firestore().collection("users").doc(u).collection("tasks")
-      .get()
+      firebaseRef.firestore().collection("tasks")
+      .where("uid", "==", u).get()
       .then(function(querySnapshot) {
           var dates = {};
           var i = 0;
@@ -43,10 +43,14 @@ export function getTaskDates(u){
 
 export function getTaskByDate(d, u){
   return new Promise((resolve, reject) => {
-    firebaseRef.firestore().collection("users").doc(u).collection("tasks")
-    .get().where(doc.id, "==", d)
-    .then(function(data) {
-
+    firebaseRef.firestore().collection("tasks")
+    .where("uid", "==", u).where("date", "==", d).get()
+    .then(function(querySnapshot) {
+        var data = {};
+        var i = 0;
+        querySnapshot.forEach(function(doc) {
+          data[i++] = doc.id;
+        });
         console.log(data);
         resolve(data);
     })

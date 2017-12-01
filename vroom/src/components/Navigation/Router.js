@@ -25,7 +25,7 @@ import Login from '../Login/Login';
 import Onboarding from '../Screens/Onboarding';
 import Dashboard from '../Screens/Dashboard';
 import Settings from '../Screens/Settings';
-import Events from '../Screens/Events';
+import Tasks from '../Screens/Tasks';
 
 /*
  * Constant: DrawerContent
@@ -75,7 +75,7 @@ export const SignedOut = StackNavigator ({
 /*
  * Constant: DashboardScreen
  * Author: Elton C. Rego
- * Purpose: Handles the stack navigator component for the dashboard 
+ * Purpose: Handles the stack navigator component for the dashboard
  *   allows us to have a nav bar with the drawer navigator
  */
 export const DashboardScreen = StackNavigator({
@@ -85,7 +85,7 @@ export const DashboardScreen = StackNavigator({
 /*
  * Constant: OnboardingScreen
  * Author: Elton C. Rego
- * Purpose: Handles the stack navigator component for the onboarding 
+ * Purpose: Handles the stack navigator component for the onboarding
  *   allows us to have a nav bar with the drawer navigator
  */
 export const OnboardingScreen = StackNavigator({
@@ -95,7 +95,7 @@ export const OnboardingScreen = StackNavigator({
 /*
  * Constant: SettingsScreen
  * Author: Elton C. Rego
- * Purpose: Handles the stack navigator component for the settings 
+ * Purpose: Handles the stack navigator component for the settings
  *   allows us to have a nav bar with the drawer navigator
  */
 export const SettingsScreen = StackNavigator({
@@ -103,13 +103,13 @@ export const SettingsScreen = StackNavigator({
 });
 
 /*
- * Constant: EventsScreen
+ * Constant: TasksScreen
  * Author: Elton C. Rego
- * Purpose: Handles the stack navigator component for the events 
+ * Purpose: Handles the stack navigator component for the tasks 
  *   allows us to have a nav bar with the drawer navigator
  */
-export const EventsScreen = StackNavigator({
-  Events: {screen: Events},
+export const TasksScreen = StackNavigator({
+  Tasks: {screen: Tasks},
 });
 
 /*
@@ -122,7 +122,7 @@ export const EventsScreen = StackNavigator({
  *   should not have a drawer menu here.
  */
 export const SignedUp = DrawerNavigator({
-  Onboarding: { 
+  Onboarding: {
     screen: OnboardingScreen,
     navigationOptions: {
       drawerLabel: <Hidden/>
@@ -130,7 +130,7 @@ export const SignedUp = DrawerNavigator({
   },
   Dashboard: {screen: DashboardScreen},
   Settings: {screen: SettingsScreen},
-  Events: {screen: EventsScreen},
+  Tasks: {screen: TasksScreen},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
@@ -159,14 +159,14 @@ export const SignedUp = DrawerNavigator({
  */
 export const SignedIn = DrawerNavigator({
   Dashboard: {screen: DashboardScreen},
-  Onboarding: { 
+  Onboarding: {
     screen: OnboardingScreen,
     navigationOptions: {
       drawerLabel: <Hidden/>
     },
   },
   Settings: {screen: SettingsScreen},
-  Events: {screen: EventsScreen},
+  Tasks: {screen: TasksScreen},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
