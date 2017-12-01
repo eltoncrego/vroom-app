@@ -74,9 +74,9 @@ export default class Events extends Component {
      //   pushEvent(this.state.name, this.state.year, this.state.month, this.state.day, this.state.time);
      // } else {
      //   alert("Error: please set date/time of event");
-     
+
      // Test Code
-     pushEvent("Alec", "2017", "11", "20", "10:05 pm");
+     pushEvent("Alec", "2017", "11", "22", "10:05 pm");
    }
 
   /*

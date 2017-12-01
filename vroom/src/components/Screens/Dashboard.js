@@ -55,6 +55,7 @@ export default class Dashboard extends Component {
     this.state = {
       button: 'View Calendar',
       car_name: "My Car",
+      eventDates: {},
     };
   }
 
@@ -96,11 +97,9 @@ export default class Dashboard extends Component {
   }
 
   onDayPress(day) {
-    alert(day.dateString);
     this.setState({
       selected: day.dateString
     });
-    getEventDates(firebaseRef.auth().currentUser.uid);
   }
 
   flipCard(){
@@ -110,6 +109,12 @@ export default class Dashboard extends Component {
         button: 'View Calendar',
       });
     } else {
+      getEventDates(firebaseRef.auth().currentUser.uid)
+          .then(dates => {
+              this.setState({
+                eventDates: dates,
+              });
+      });
       this.setState({
         flip: true,
         button: `View ${this.state.car_name}`,
@@ -249,7 +254,10 @@ export default class Dashboard extends Component {
                 // Hide day names. Default = false
                 hideDayNames={true}
 
-                markedDates={{[this.state.selected]: {selected: true}}}
+                markedDates={{
+                  [this.state.selected]: {selected: true},
+                }}
+
               />
             </View>
           </FlipCard>

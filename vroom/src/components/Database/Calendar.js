@@ -11,15 +11,22 @@ import {firebaseRef} from "./Database";
 */
 
 export function getEventDates(u){
-    firebaseRef.firestore().collection("users").doc(u).collection("events")
-    .get()
-    .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            console.log(doc.id, " => ", doc.data());
-        });
-    })
-    .catch(function(error) {
-        console.log("Error getting events: ", error);
+    return new Promise((resolve, reject) => {
+      firebaseRef.firestore().collection("users").doc(u).collection("events")
+      .get()
+      .then(function(querySnapshot) {
+          var dates = {};
+          var i = 0;
+          querySnapshot.forEach(function(doc) {
+              dates[i++] = doc.id;
+          });
+          console.log(dates);
+          resolve(dates);
+      })
+      .catch(function(error) {
+          console.log("Error getting events: ", error);
+          reject(error);
+      });
     });
 }
 
