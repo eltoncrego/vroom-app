@@ -49,10 +49,9 @@ import "firebase/firestore";
       firebaseRef.firestore().collection("events").add(eventObject)
       .then(function(docRef) {
         key = docRef.id;
-        firebaseRef.firestore().collection("users").doc(u).collection("events").doc(key).set({yo: "true"})
-        .then(function(docRef) {
-          ;
-        })
+        date = ""+y+"-"+m+"-"+d;
+        eventRef = firebaseRef.firestore().collection("events").doc(key);
+        firebaseRef.firestore().collection("users").doc(u).collection("events").doc(date).set({eventRef})
         .catch(function(error) {
           console.log(error.message);
           alert("Error: can't push event key to user object");

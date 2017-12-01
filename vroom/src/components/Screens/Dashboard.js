@@ -30,6 +30,7 @@ import SignedOut from '../Navigation/Router';
 import Auth from '../Login/Auth';
 
 import {firebaseRef} from '../Database/Database';
+import {getEventDates} from '../Database/Calendar';
 
 /*
  * Class: Dashboard
@@ -95,9 +96,11 @@ export default class Dashboard extends Component {
   }
 
   onDayPress(day) {
+    alert(day.dateString);
     this.setState({
       selected: day.dateString
     });
+    getEventDates(firebaseRef.auth().currentUser.uid);
   }
 
   flipCard(){
