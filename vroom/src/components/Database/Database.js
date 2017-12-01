@@ -20,50 +20,41 @@ import "firebase/firestore";
   export const firebaseRef = firebase.initializeApp(config);
 
   /*
-  * Database function: pushEvent()
+  * Database function: pushTask()
   * Author: Alec Felt and Connick Shields
   *
-  * Purpose: push Event object to database,
-  *          link user with event
+  * Purpose: push Task object to database,
+  *          link user with task
   *
-  * @param: (n) = name
-  *         (y) = year
-  *         (m) = month
-  *         (d) = day
-  *         (t) = time
+  * @param: (ttr) = task type reference
+  *         (d) = date string (yyyy-mm-dd)
   * @return: void
-  * TODO create error message, update event object fields, add notifications?
+  * TODO create error message, update task object fields, add notifications?
   */
-  export function pushEvent(n, y, m, d, t) {
+  export function pushTask(ttr, d) {
     var u = firebaseRef.auth().currentUser.uid;
     if(u != null) {
-      var eventObject = {
-          name: n,
-          year: y,
-          month: m,
-          day: d,
-          time: t,
+      var taskObject = {
+          ttRef: n,
+          date: d,
           uid: u,
       }
       var key="";
-      firebaseRef.firestore().collection("events").add(eventObject)
-      .then(function(docRef) {
-        key = docRef.id;
-        date = ""+y+"-"+m+"-"+d;
-        eventRef = firebaseRef.firestore().collection("events").doc(key);
-        firebaseRef.firestore().collection("users").doc(u).collection("events").doc(date).set({eventRef})
-        .catch(function(error) {
-          console.log(error.message);
-          alert("Error: can't push event key to user object");
-        });
-      })
-      .catch(function(error) {
-        console.log(error.message);
-        alert("Error: can't push event object to the database");
-      });
-    } else {
-      // error message
-    }
+      firebaseRef.firestore().collection("tasks").add(taskObject);
+      // .then(function(docRef) {
+      //   key = docRef.id;
+      //   date = ""+y+"-"+m+"-"+d;
+      //   taskRef = firebaseRef.firestore().collection("tasks").doc(key);
+      //   firebaseRef.firestore().collection("users").doc(u).collection("tasks").doc(date).set({taskRef})
+      //   .catch(function(error) {
+      //     console.log(error.message);
+      //     alert("Error: can't push task key to user object");
+      //   });
+      // })
+      // .catch(function(error) {
+      //   console.log(error.message);
+      //   alert("Error: can't push task object to the database");
+      // });
   }
 
   /*
