@@ -110,16 +110,16 @@ export default class Dashboard extends Component {
         button: 'View Calendar',
       });
     } else {
-      getTaskDates(firebaseRef.auth().currentUser.uid)
-          .then(dates => {
-              var i = 0;
-              for(i; i<dates.length; i++){
-                this.taskDates[i]
-              }
-              this.setState({
-                taskDates: dates,
-              });
-      });
+      getTaskDates(firebaseRef.auth().currentUser.uid);
+          //.then(dates => {
+              //var i = 0;
+              //for(i; i<dates.length; i++){
+              //  this.taskDates[i]
+              //}
+              //this.setState({
+            //    taskDates: dates,
+            //  });
+      //});
       this.setState({
         flip: true,
         button: `View ${this.state.car_name}`,
