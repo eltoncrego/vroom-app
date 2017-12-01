@@ -18,7 +18,7 @@ export function getTaskDates(u){
           var dates = {};
           var i = 0;
           querySnapshot.forEach(function(doc) {
-              dates[i++] = doc.id;
+              dates[i++] = doc.data().date;
           });
           console.log(dates);
           resolve(dates);
@@ -49,7 +49,7 @@ export function getTaskByDate(d, u){
         var data = {};
         var i = 0;
         querySnapshot.forEach(function(doc) {
-          data[i++] = doc.id;
+          data[i++] = doc.data();
         });
         console.log(data);
         resolve(data);

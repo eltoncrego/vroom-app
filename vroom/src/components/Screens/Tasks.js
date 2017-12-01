@@ -132,6 +132,7 @@ export default class Tasks extends Component {
         <Text style={styles.header}>
           Tasks
         </Text>
+        <Text>Clicking the button will add 29 tasks for the user.</Text>
         <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.addTask() }>
           <Text style={styles.buttonText}>
             Create Task
