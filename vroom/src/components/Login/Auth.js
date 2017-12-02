@@ -9,9 +9,10 @@ GLOBAL = require('../../Globals');
 
 // Components
 import {
-  SignedOut,
-  SignedIn,
-  SignedUp,
+  // SignedOut,
+  // SignedIn,
+  // SignedUp,
+  createMainApplication,
 } from "../Navigation/Router";
 
 import Loading from '../Screens/Loading';
@@ -74,7 +75,6 @@ export default class Auth extends Component {
 
   componentDidMount() {
     console.log("Auth component mounted");
-    this.render();
   }
 
   /*
@@ -85,21 +85,13 @@ export default class Auth extends Component {
    *   application view based on the status of the login
    */
   render() {
-
     if (!this.state.checkedSignIn) {
       // HERE WOULD BE A GOOD PLACE FOR A LOADING ANIMATION
       return <Loading/>;
     }
 
-    if (this.state.signedIn) {
-      if (this.state.onboarding){
-        return <SignedUp/>;
-      } else {
-        return <SignedIn/>
-      }
-    } else {
-      return <SignedOut/>;
-    }
+   const MainApp = createMainApplication(this.state.signedIn);
+   return <MainApp/>;
 
   }
 }

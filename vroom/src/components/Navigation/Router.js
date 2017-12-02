@@ -129,8 +129,8 @@ export const SignedUp = DrawerNavigator({
     },
   },
   Dashboard: {screen: DashboardScreen},
-  Settings: {screen: SettingsScreen},
   Events: {screen: EventsScreen},
+  Settings: {screen: SettingsScreen},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
@@ -165,8 +165,8 @@ export const SignedIn = DrawerNavigator({
       drawerLabel: <Hidden/>
     },
   },
-  Settings: {screen: SettingsScreen},
   Events: {screen: EventsScreen},
+  Settings: {screen: SettingsScreen},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
@@ -183,6 +183,27 @@ export const SignedIn = DrawerNavigator({
       },
     },
 });
+
+export const createMainApplication = (signedIn = false) => {
+  return StackNavigator({
+    SignedIn: {
+      screen: SignedIn,
+      navigationOptions: {
+        gesturesEnabled: false
+      }
+    },
+      SignedOut: {
+        screen: SignedOut,
+        navigationOptions: {
+          gesturesEnabled: false
+        }
+      }
+  },{
+    headerMode: "none",
+    mode: "modal",
+    initialRouteName: signedIn ? "SignedIn" : "SignedOut"
+  });
+};
 
 /*
  * Constant: Styles
