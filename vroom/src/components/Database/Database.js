@@ -39,9 +39,10 @@ import "firebase/firestore";
           ttRef: ttr,
           date: d,
           uid: u,
-      }
-      var key="";
-      firebaseRef.firestore().collection("tasks").add(taskObject);
+      };
+    }
+    firebaseRef.database().ref('tasks/').set(taskObject);
+      //firebaseRef.firestore().collection("tasks").add(taskObject);
       // .then(function(docRef) {
       //   key = docRef.id;
       //   date = ""+y+"-"+m+"-"+d;
@@ -56,7 +57,11 @@ import "firebase/firestore";
       //   console.log(error.message);
       //   alert("Error: can't push task object to the database");
       // });
-  }}
+  }
+
+  export function pushJSONTask(ob) {
+    firebaseRef.database().ref('tasks/').set(ob);
+  }
 
   /*
   * Database function: databaseLogin()

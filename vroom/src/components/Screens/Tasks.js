@@ -72,10 +72,24 @@ export default class Tasks extends Component {
      //   alert("Error: please set date/time of task");
 
      // Test Code
-     for(var i = 1; i < 30; i++){
+     for(var i = 1; i < 5; i++){
         console.log(i);
         pushTask("Test Ref", "2017-11-" + i);
      }
+   }
+
+  /*
+   * Firebase Function: addJSONTask()
+   * Author: Payam Katoozian
+   *
+   * Purpose: Creates a new task,
+   *          links task and user,
+   *          but using a JSON object
+   *          this time
+   */
+   addJSONTask(){
+    console.log("Pushing a JSON task");
+    pushJSONTask(taskOb);
    }
 
   /*
