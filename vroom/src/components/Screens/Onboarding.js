@@ -91,7 +91,7 @@ export default class Onboarding extends Component {
       scroll_enabled: true,
       text_button: 'Next',
       button_switch: false,
-      user: firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid),
+      user: firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid),
       scroll_pos: 0,
       make: null,
       model: null,
@@ -119,7 +119,7 @@ export default class Onboarding extends Component {
       });
       this.animation3.play();
       // populates user's Firebase entry
-      this.state.user.collection('vehicles').doc("1").set({
+      this.state.user.child('vehicles/1').set({
           name: this.state.text,
           year: this.state.year,
           make: this.state.make,
