@@ -1,8 +1,8 @@
 {        
     "Check Engine Oil": {
-        "intervalMileage": 0,
-        "intervalMonth": 1,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
         "action": "Check",
         "item": "engine oil level",
         "itemDescription": "Incorrect oil levels can cause severe engine damage!",
@@ -10,9 +10,9 @@
     },
 
     "Check Lighting": {
-        "intervalMileage": 0,
-        "intervalMonth": 1,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
         "action": "Check",
         "item": "lighting",
         "itemDescription": "Check lights from front to back to make sure you're not left in the dark!",
@@ -20,9 +20,9 @@
     },
 
     "Check Tire Pressure": {
-        "intervalMileage": 0,
-        "intervalMonth": 1,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
         "action": "Check",
         "item": "tire pressure",
         "itemDescription": "Make sure you keep a spring in your car's step!",
@@ -30,9 +30,9 @@
     },
 
     "Check Tire Tread": {
-        "intervalMileage": 0,
-        "intervalMonth": 1,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
         "action": "Check",
         "item": "tire tread",
         "itemDescription": "Watch out for wear or foreign objects in your tread!",
@@ -40,9 +40,9 @@
     },
 
     "Check Wiper Fluid": {
-        "intervalMileage": 0,
-        "intervalMonth": 1,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
         "action": "Check",
         "item": "windshield washer fluid level",
         "itemDescription": "Gotta keep your windshield squeaky clean!",
@@ -50,9 +50,9 @@
     },
 
     "Check Battery Connections": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check",
         "item": "battery connections",
         "itemDescription": "Make sure your car's feeling electric!",
@@ -60,9 +60,9 @@
     },
 
     "Check Drain Holes": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check",
         "item": "body and door drain holes for obstructions",
         "itemDescription": "You wouldn't want your car holding too much water!",
@@ -70,9 +70,9 @@
     },
 
     "Check Coolant": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check",
         "item": "cooling system fluid level and strength",
         "itemDescription": "Stay cool, dude.",
@@ -80,9 +80,9 @@
     },
 
     "Check Door Weatherstrips": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check",
         "item": "door weatherstrips for wear",
         "itemDescription": "Make sure everything's sealed up tight!",
@@ -90,9 +90,9 @@
     },
 
     "Check Door Locks": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check operation of",
         "item": "hinges, latches, and outside locks",
         "itemDescription": "Lock it down!",
@@ -100,9 +100,9 @@
     },
 
     "Check Parking Brake": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check operation of",
         "item": "parking brake",
         "itemDescription": "Make sure the parking brake won't let you down!",
@@ -110,9 +110,9 @@
     },
 
     "Check Seat Belts": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check",
         "item": "safety belts and seat latches for wear and function",
         "itemDescription": "Buckle up!",
@@ -120,9 +120,9 @@
     },
 
     "Check Dashboard Lights": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check operation of",
         "item": "dashboard warning lamps (brake, ABS, airbag, and safety belt)",
         "itemDescription": "What do the lights mean???",
@@ -130,9 +130,9 @@
     },
 
     "Check Washer Spray and Wipers": {
-        "intervalMileage": 0,
-        "intervalMonth": 6,
-        "frequency": 4,
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
         "action": "Check operation of",
         "item": "washer spray and wipers",
         "itemDescription": "Gotta keep your windshield squeaky clean!",
@@ -140,9 +140,9 @@
     },
 
     "Multi-Point Inspection": {
-        "intervalMileage": 10000,
-        "intervalMonth": 12,
-        "frequency": 4,
+        "intervalMileage": "10000",
+        "intervalMonth": "12",
+        "frequency": "4",
         "action": "Multi-point inspection of",
         "item": "entire vehicle",
         "itemDescription": "Time for a full checkup!",
