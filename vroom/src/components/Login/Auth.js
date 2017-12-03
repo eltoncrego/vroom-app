@@ -52,7 +52,7 @@ export default class Auth extends Component {
          console.log("user is signed in");
          firebaseRef.database().ref("users").child(user.uid).child("vehicles").once('value').then(function(snapshot) {
            console.log("inside database call");
-           if(snapshot != null) {
+           if(snapshot.name != null) {
              that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
            } else {
              console.log("No such document!");
@@ -106,6 +106,8 @@ export default class Auth extends Component {
    */
   render() {
 
+    // alert( this.state.onboarding);
+
     if (!this.state.checkedSignIn) {
       // HERE WOULD BE A GOOD PLACE FOR A LOADING ANIMATION
       return <Loading/>;
@@ -117,10 +119,10 @@ export default class Auth extends Component {
    // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
     if(this.state.signedIn){
        if(this.state.onboarding){
-         return <SignedUp/>
-       } else return <SignedIn/>
+         return <SignedUp/>;
+       } else return <SignedIn/>;
     } else {
-       return <SignedOut/>
+       return <SignedOut/>;
     }
 
   }
