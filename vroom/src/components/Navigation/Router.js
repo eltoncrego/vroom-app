@@ -185,26 +185,59 @@ export const SignedIn = DrawerNavigator({
     },
 });
 
-export const createMainApplication = (signedIn = false) => {
-  return StackNavigator({
-    SignedIn: {
-      screen: SignedIn,
-      navigationOptions: {
-        gesturesEnabled: false
-      }
-    },
-      SignedOut: {
-        screen: SignedOut,
-        navigationOptions: {
-          gesturesEnabled: false
-        }
-      }
-  },{
-    headerMode: "none",
-    mode: "modal",
-    initialRouteName: signedIn ? "SignedIn" : "SignedOut"
-  });
-};
+// export const createMainApplication = (signedIn, onboarding) => {
+//   if(onboarding){
+//     return StackNavigator({
+//       SignedIn: {
+//         screen: SignedIn,
+//         navigationOptions: {
+//           gesturesEnabled: false
+//         }
+//       },
+//       SignedUp: {
+//         screen: SignedIn,
+//         navigationOptions: {
+//           gesturesEnabled: false
+//         }
+//       },
+//         SignedOut: {
+//           screen: SignedOut,
+//           navigationOptions: {
+//             gesturesEnabled: false
+//           }
+//         }
+//     },{
+//       headerMode: "none",
+//       mode: "modal",
+//       initialRouteName: signedIn ? "SignedUp" : "SignedOut",
+//     });
+//   } else {
+//     return StackNavigator({
+//       SignedIn: {
+//         screen: SignedIn,
+//         navigationOptions: {
+//           gesturesEnabled: false
+//         }
+//       },
+//       SignedUp: {
+//         screen: SignedIn,
+//         navigationOptions: {
+//           gesturesEnabled: false
+//         }
+//       },
+//         SignedOut: {
+//           screen: SignedOut,
+//           navigationOptions: {
+//             gesturesEnabled: false
+//           }
+//         }
+//     },{
+//       headerMode: "none",
+//       mode: "modal",
+//       initialRouteName: signedIn ? "SignedIn" : "SignedOut",
+//     });
+//   }
+// };
 
 /*
  * Constant: Styles

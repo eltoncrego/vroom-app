@@ -9,10 +9,10 @@ GLOBAL = require('../../Globals');
 
 // Components
 import {
-  // SignedOut,
-  // SignedIn,
-  // SignedUp,
-  createMainApplication,
+  SignedOut,
+  SignedIn,
+  SignedUp,
+  // createMainApplication,
 } from "../Navigation/Router";
 
 import Loading from '../Screens/Loading';
@@ -110,8 +110,14 @@ export default class Auth extends Component {
       return <Loading/>;
     }
 
-   const MainApp = createMainApplication(this.state.signedIn);
-   return <MainApp/>;
+   // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
+   if(this.state.signedIn){
+      if(this.state.onboarding){
+        return <SignedUp/>
+      } else return <SignedIn/>
+   } else {
+      return <SignedOut/>
+   }
 
   }
 }
