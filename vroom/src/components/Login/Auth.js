@@ -43,6 +43,43 @@ export default class Auth extends Component {
     };
   }
 
+  setListener = () => {
+    console.log("setListener()");
+    var that = this;
+    firebaseRef.auth().onAuthStateChanged(function(user) {
+
+       if (user) {
+         console.log("user is signed in");
+         firebaseRef.database().ref("users").child(user.uid).child("vehicles").once('value').then(function(snapshot) {
+           console.log("inside database call");
+           if(snapshot != null) {
+             that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
+           } else {
+             console.log("No such document!");
+             that.setState({onboarding: true, signedIn: true, checkedSignIn: true});
+           }
+         }).catch(function(error) {
+           console.log("Error getting document:", error.message);
+         });
+
+       // var ref = firebaseRef.firestore().collection("users").doc(user.uid).collection("vehicles");
+       // ref.doc("1").get().then(function(doc) {
+       //   if (doc.exists) {
+       //     that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
+       //   } else {
+       //     console.log("No such document!");
+       //     that.setState({onboarding: true, signedIn: true, checkedSignIn: true});
+       //   }
+       // }).catch(function(error) {
+       //   console.log("Error getting document:", error.message);
+       // });
+     } else {
+       // No user is signed in.
+       that.setState({signedIn: false, checkedSignIn: true});
+     }
+   });
+  }
+
   /*
    * Method: componentDidMount()
    * Author: Elton C. Rego
@@ -53,26 +90,10 @@ export default class Auth extends Component {
    */
   componentDidMount() {
     console.log("Auth component mounted");
-    var that = this;
-     firebaseRef.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        var ref = firebaseRef.firestore().collection("users").doc(user.uid).collection("vehicles");
-        ref.doc("1").get().then(function(doc) {
-          if (doc.exists) {
-            that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
-          } else {
-            console.log("No such document!");
-            that.setState({onboarding: true, signedIn: true, checkedSignIn: true});
-          }
-        }).catch(function(error) {
-          console.log("Error getting document:", error.message);
-        });
-      } else {
-        // No user is signed in.
-        that.setState({signedIn: false, checkedSignIn: true});
-      }
-    });
-    this.render();
+
+    this.setListener();
+
+    // this.render();
   }
 
   /*
