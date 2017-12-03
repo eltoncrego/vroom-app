@@ -44,15 +44,16 @@ export default class Auth extends Component {
   }
 
   /*
-   * Method: componentWillMount()
+   * Method: componentDidMount()
    * Author: Elton C. Rego
    *
    * Purpose: Will reference the database to check if the user is
    *   logged in when this component is called to be mounted in the
    *   view. Sets the state variables with the appropriate values.
    */
-  componentWillMount() {
-     var that = this;
+  componentDidMount() {
+    console.log("Auth component mounted");
+    var that = this;
      firebaseRef.auth().onAuthStateChanged(function(user) {
       if (user) {
         var ref = firebaseRef.firestore().collection("users").doc(user.uid).collection("vehicles");
@@ -71,10 +72,7 @@ export default class Auth extends Component {
         that.setState({signedIn: false, checkedSignIn: true});
       }
     });
-  }
-
-  componentDidMount() {
-    console.log("Auth component mounted");
+    this.render();
   }
 
   /*
@@ -85,6 +83,7 @@ export default class Auth extends Component {
    *   application view based on the status of the login
    */
   render() {
+
     if (!this.state.checkedSignIn) {
       // HERE WOULD BE A GOOD PLACE FOR A LOADING ANIMATION
       return <Loading/>;
