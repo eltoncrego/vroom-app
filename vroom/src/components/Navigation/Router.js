@@ -129,8 +129,8 @@ export const SignedUp = DrawerNavigator({
     },
   },
   Dashboard: {screen: DashboardScreen},
-  Settings: {screen: SettingsScreen},
   Tasks: {screen: TasksScreen},
+  Settings: {screen: SettingsScreen},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
@@ -165,8 +165,9 @@ export const SignedIn = DrawerNavigator({
       drawerLabel: <Hidden/>
     },
   },
-  Settings: {screen: SettingsScreen},
+  
   Tasks: {screen: TasksScreen},
+  Settings: {screen: SettingsScreen},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
@@ -183,6 +184,60 @@ export const SignedIn = DrawerNavigator({
       },
     },
 });
+
+// export const createMainApplication = (signedIn, onboarding) => {
+//   if(onboarding){
+//     return StackNavigator({
+//       SignedIn: {
+//         screen: SignedIn,
+//         navigationOptions: {
+//           gesturesEnabled: false
+//         }
+//       },
+//       SignedUp: {
+//         screen: SignedIn,
+//         navigationOptions: {
+//           gesturesEnabled: false
+//         }
+//       },
+//         SignedOut: {
+//           screen: SignedOut,
+//           navigationOptions: {
+//             gesturesEnabled: false
+//           }
+//         }
+//     },{
+//       headerMode: "none",
+//       mode: "modal",
+//       initialRouteName: signedIn ? "SignedUp" : "SignedOut",
+//     });
+//   } else {
+//     return StackNavigator({
+//       SignedIn: {
+//         screen: SignedIn,
+//         navigationOptions: {
+//           gesturesEnabled: false
+//         }
+//       },
+//       SignedUp: {
+//         screen: SignedIn,
+//         navigationOptions: {
+//           gesturesEnabled: false
+//         }
+//       },
+//         SignedOut: {
+//           screen: SignedOut,
+//           navigationOptions: {
+//             gesturesEnabled: false
+//           }
+//         }
+//     },{
+//       headerMode: "none",
+//       mode: "modal",
+//       initialRouteName: signedIn ? "SignedIn" : "SignedOut",
+//     });
+//   }
+// };
 
 /*
  * Constant: Styles
