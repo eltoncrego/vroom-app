@@ -127,8 +127,7 @@ export default class EmailPasswordLogin extends Component {
               this.setState({password_signup: text});
             }}
             onSubmitEditing={ () => {
-              this.login() 
-              this.props.navigation.navigate("SignedIn")
+              this.login();
             }}
             underlineColorAndroid='transparent'
           />
@@ -180,14 +179,15 @@ export default class EmailPasswordLogin extends Component {
             secureTextEntry={true}
             onChangeText={ (text) => this.setState( {password_signup_verification: text} ) }
             onSubmitEditing={ () => {
-              this.signup()
-              this.props.navigation.navigate("SignedIn")
+              this.signup();
             }}
             underlineColorAndroid='transparent'
           />
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={ () => this.signup() }
+            onPress={ () => {
+              this.signup();
+            }}
             style={styles.button_container}
           >
             <View>
