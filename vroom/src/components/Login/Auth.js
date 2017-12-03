@@ -75,6 +75,7 @@ export default class Auth extends Component {
        // });
      } else {
        // No user is signed in.
+       console.log("user is signed out");
        that.setState({signedIn: false, checkedSignIn: true});
      }
    });
@@ -110,7 +111,7 @@ export default class Auth extends Component {
       return <Loading/>;
     }
 
-   // alert 
+   // alert
    // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
    // return <MainApp/>;
    // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
