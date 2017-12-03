@@ -26,6 +26,7 @@ import {firebaseRef} from '../Database/Database';
 import 'firebase/firestore';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
 import { Dropdown } from 'react-native-material-dropdown';
+import { TextField } from 'react-native-material-textfield';
 
 // Files Needed
 import revi from '../../../assets/animations/revi-hi.json';
@@ -399,17 +400,17 @@ export default class Onboarding extends Component {
               marginTop: -10,
             }}>
               <Dropdown
-                label='Question1'
+                label='Did you check around your car before you start it everytime?'
                 data={choices}
                 onChangeText={(value,index,data) => {this.setState({choices: value});}}
               />
               <Dropdown
-                label='Question2'
+                label='Did you do your maintenances on time?'
                 data={choices}
                 onChangeText={(value,index,data) => {this.setState({choices: value});}}
               />
               <Dropdown
-                label='Question3'
+                label='Did you check your car regularly even you barely drive it?'
                 data={choices}
                 onChangeText={(value,index,data) => {this.setState({choices: value});}}
               />
