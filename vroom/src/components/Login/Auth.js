@@ -88,14 +88,17 @@ export default class Auth extends Component {
       return <Loading/>;
     }
 
+   // alert 
    // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
-   if(this.state.signedIn){
-      if(this.state.onboarding){
-        return <SignedUp/>
-      } else return <SignedIn/>
-   } else {
-      return <SignedOut/>
-   }
+   // return <MainApp/>;
+   // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
+    if(this.state.signedIn){
+       if(this.state.onboarding){
+         return <SignedUp/>
+       } else return <SignedIn/>
+    } else {
+       return <SignedOut/>
+    }
 
   }
 }
