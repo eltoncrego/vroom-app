@@ -71,11 +71,18 @@ export default class Dashboard extends Component {
     this.initAnimation();
 
     var that = this;
-    var ref = firebaseRef.firestore().collection("users").doc(firebaseRef.auth().currentUser.uid).collection("vehicles");
-    ref.doc("1").get().then(doc => {
-      that.setState({
-        car_name: doc.data().name
-      });
+    console.log("Dashboard: querying car_name");
+    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/vehicles/1/name").once("value").then(function(snapshot) {
+      console.log("query successful");
+      console.log(snapshot.key);
+      if(snapshot.exists()) {
+        console.log("exists");
+        that.setState({
+          car_name: snapshot.val()
+        });
+      } else {
+        console.log("user hasn't gone through onboarding");
+      }
     });
   }
 
@@ -176,7 +183,7 @@ export default class Dashboard extends Component {
    *
    */
   render() {
-
+    console.log("Dashboard: rendering beginning");
     var d = new Date();
 
     return (
