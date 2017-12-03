@@ -84,7 +84,7 @@ export default class Dashboard extends Component {
         console.log(i);
         pushTask("Test Ref", "2017-11-" + i);
      }
-    pushJSONTask(MiataTaskOb);
+   // pushJSONTask(MiataTaskOb);
   }
 
   /*
