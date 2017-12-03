@@ -19,16 +19,16 @@ import {
 } from 'react-native';
 
 // Files Needed
-import {pushEvent, logOut, deleteUser, firebaseRef} from "../Database/Database";
+import {pushTask, logOut, deleteUser, firebaseRef} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 
 /*
- * Class: Events
+ * Class: Tasks
  * Author: Elton C.  Rego
  *
- * Purpose: Be the main area where users can customize their events
+ * Purpose: Be the main area where users can customize their tasks
  */
-export default class Events extends Component {
+export default class Tasks extends Component {
 
   /*
    * Method: constructor(props)
@@ -40,11 +40,7 @@ export default class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      year: "",
-      month: "",
-      day: "",
-      time: "",
+      data: "",
     }
   }
 
@@ -56,27 +52,30 @@ export default class Events extends Component {
    *   it runs the action
    */
   componentDidMount() {
-    console.log("Events component mounted");
+    console.log("Tasks component mounted");
   }
 
   /*
-   * Firebase Function: addEvent()
+   * Firebase Function: addTask()
    * Author: Alec Felt
    *
-   * Purpose: Creates a new event,
-   *          links event and user
+   * Purpose: Creates a new task,
+   *          links task and user
    *
    * TODO: link this up with the UI
    */
-   addEvent() {
-     // Checks state variables assoicated with the event's inputs
+   addTask() {
+     // Checks state variables assoicated with the task's inputs
      // if(this.state.name!="" && this.state.year!="" && this.state.month!="" && this.state.day!="" && this.state.time!="") {
-     //   pushEvent(this.state.name, this.state.year, this.state.month, this.state.day, this.state.time);
+     //   pushTask(this.state.name, this.state.year, this.state.month, this.state.day, this.state.time);
      // } else {
-     //   alert("Error: please set date/time of event");
-     
+     //   alert("Error: please set date/time of task");
+
      // Test Code
-     pushEvent("Alec", "2017", "11", "20", "10:05 pm");
+     for(var i = 1; i < 30; i++){
+        console.log(i);
+        pushTask("Test Ref", "2017-11-" + i);
+     }
    }
 
   /*
@@ -99,7 +98,7 @@ export default class Events extends Component {
         backgroundColor: GLOBAL.COLOR.DARKGRAY,
       },
 
-      title: (<Text style={styles.header_middle}>Events</Text>),
+      title: (<Text style={styles.header_middle}>Tasks</Text>),
 
       headerRight: (
         <TouchableOpacity onPress={() => { logOut(navigation); }}>
@@ -118,9 +117,9 @@ export default class Events extends Component {
    * Method: render
    * Author: Alec Felt
    *
-   * Purpose: Renders the Events page.
+   * Purpose: Renders the tasks page.
    *  As of now this just contains a header,
-   *  but we can add event creation and notifiction
+   *  but we can add task creation and notifiction
    *  functionality later on
    *
    */
@@ -131,11 +130,12 @@ export default class Events extends Component {
            barStyle="light-content"
          />
         <Text style={styles.header}>
-          Events
+          Tasks
         </Text>
-        <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.addEvent() }>
+        <Text>Clicking the button will add 29 tasks for the user.</Text>
+        <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.addTask() }>
           <Text style={styles.buttonText}>
-            Create Event
+            Create Task
           </Text>
         </TouchableOpacity>
       </View>

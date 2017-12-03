@@ -22,7 +22,7 @@ import {
  *
  * Purpose: A screen to be displayed while the app is loading
  */
-export default class Events extends Component {
+export default class Loading extends Component {
 
   /*
    * Method: constructor(props)
@@ -60,10 +60,7 @@ export default class Events extends Component {
    * Method: render
    * Author: Alec Felt
    *
-   * Purpose: Renders the Events page.
-   *  As of now this just contains a header,
-   *  but we can add event creation and notifiction
-   *  functionality later on
+   * Purpose: Renders the loading page.
    *
    */
   render() {

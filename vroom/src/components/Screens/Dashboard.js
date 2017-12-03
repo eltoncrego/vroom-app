@@ -30,6 +30,7 @@ import SignedOut from '../Navigation/Router';
 import Auth from '../Login/Auth';
 
 import {firebaseRef} from '../Database/Database';
+import {getTaskDates, getTaskByDate} from '../Database/Calendar';
 
 /*
  * Class: Dashboard
@@ -54,6 +55,7 @@ export default class Dashboard extends Component {
     this.state = {
       button: 'View Calendar',
       car_name: "My Car",
+      taskDates: {},
     };
   }
 
@@ -98,6 +100,7 @@ export default class Dashboard extends Component {
     this.setState({
       selected: day.dateString
     });
+    getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid);
   }
 
   flipCard(){
@@ -107,6 +110,16 @@ export default class Dashboard extends Component {
         button: 'View Calendar',
       });
     } else {
+      getTaskDates(firebaseRef.auth().currentUser.uid);
+          //.then(dates => {
+              //var i = 0;
+              //for(i; i<dates.length; i++){
+              //  this.taskDates[i]
+              //}
+              //this.setState({
+            //    taskDates: dates,
+            //  });
+      //});
       this.setState({
         flip: true,
         button: `View ${this.state.car_name}`,
@@ -246,7 +259,8 @@ export default class Dashboard extends Component {
                 // Hide day names. Default = false
                 hideDayNames={true}
 
-                markedDates={{[this.state.selected]: {selected: true}}}
+                markedDates={this.state.taskDates}
+
               />
             </View>
           </FlipCard>
