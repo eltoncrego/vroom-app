@@ -105,6 +105,8 @@ export default class Auth extends Component {
    */
   render() {
 
+    alert( this.state.onboarding);
+
     if (!this.state.checkedSignIn) {
       // HERE WOULD BE A GOOD PLACE FOR A LOADING ANIMATION
       return <Loading/>;
@@ -116,10 +118,10 @@ export default class Auth extends Component {
    // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
     if(this.state.signedIn){
        if(this.state.onboarding){
-         return <SignedUp/>
-       } else return <SignedIn/>
+         return <SignedUp/>;
+       } else return <SignedIn/>;
     } else {
-       return <SignedOut/>
+       return <SignedOut/>;
     }
 
   }
