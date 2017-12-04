@@ -97,6 +97,7 @@ export default class Onboarding extends Component {
       model: null,
       year: null,
       choices: null,
+      array: null,
     };
   }
 
@@ -115,7 +116,7 @@ export default class Onboarding extends Component {
       this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y:0, animated: true});
       this.setState({
         scroll_enabled: false,
-        text_button: `Continue to ${this.state.text}`
+        text_button: `Continue to ${this.state.text}`,
       });
       this.animation3.play();
       // populates user's Firebase entry
@@ -123,7 +124,6 @@ export default class Onboarding extends Component {
           nickname: this.state.text,
           path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
           choices: this.state.choices,
-
       });
     // make,year,model dropdowns haven't been properly set
     } else {
@@ -176,7 +176,7 @@ export default class Onboarding extends Component {
 arrayToJSON(input){
     console.log("input array");
     console.log(input);
-    console.log("array type is", typeof input); 
+    console.log("array type is", typeof input);
     console.log("array length is", input.length);
     console.log("input['0'] =", input['0']);
 
@@ -197,19 +197,16 @@ arrayToJSON(input){
 
   getModelYears(){
     var ret = [];
-
+    var that = this;
     firebaseRef.database().ref('cars').once("value")
     .then(function(snapshot){
       snapshot.forEach(function(childSnapshot){
+        console.log("yo");
         ret[ret.length] = childSnapshot.key;
       });
+      that.arrayToJSON(ret);
     });
-    console.log("array");
-    console.log(ret);
-    var rett = this.arrayToJSON(ret);
-    console.log("JSON");
-    console.log(rett);
-    return rett;
+    return ret;
   }
 
 
