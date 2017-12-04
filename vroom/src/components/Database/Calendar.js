@@ -19,7 +19,6 @@ export function getTaskDates(u){
               //console.log(child);
               dates[dates.length] = child.val().date;
           });
-          console.log(dates);
           resolve(dates);
       })
       .catch(function(error) {
@@ -50,7 +49,6 @@ export function getTaskByDate(d, u){
               data[data.length] = child.val();
           }
         });
-        console.log(data);
         resolve(data);
     })
     .catch(function(error) {
