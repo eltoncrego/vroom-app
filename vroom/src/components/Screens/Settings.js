@@ -63,16 +63,21 @@ export default class Settings extends Component {
   }
 
   deleteAccount() {
-    Alert.alert(
-      'Confirm Deletion',
-      'Are you sure you want to delete your account? This action cannot be undone!',
-      [
-        {text: "Yes", onPress: () => {
-          this.setState({ reAuth: true });
-        }},
-        {text: "No"},
-      ]
-    )
+    if(this.state.reAuth){
+      this.reAuth();
+    } else {
+      Alert.alert(
+        'Oh No!',
+        'We\'re sorry to see you go.\nAre you sure you want to delete your account? This action cannot be undone!',
+        [
+          {text: "Yes", onPress: () => {
+            alert("Please enter your credentials to confirm account deletion");
+            this.setState({ reAuth: true });
+          }},
+          {text: "No"},
+        ]
+      )
+    }
   }
 
   reAuth() {
@@ -150,9 +155,7 @@ export default class Settings extends Component {
     }];
 
     var reAuth = this.state.reAuth ?
-      null
-      :
-      <View>
+      <View style={styles.delete_confirm}>
         <TextInput
           placeholderTextColor={GLOBAL.COLOR.GRAY}
           style={styles.input}
@@ -168,25 +171,15 @@ export default class Settings extends Component {
           style={styles.input}
           placeholder="password"
           autoCapitalize="none"
+          secureTextEntry={true}
           onChangeText={(text) => {
             this.setState({password: text});
           }}
           underlineColorAndroid='transparent'
         />
-
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={ () => {
-            this.reAuth();
-          }}
-          style={styles.button_container}
-        >
-          <View>
-            <Text style={styles.button}>re-authenticate</Text>
-          </View>
-        </TouchableOpacity>
       </View>
-      ;
+      :
+      null;
 
     return (
       <View
@@ -216,6 +209,7 @@ export default class Settings extends Component {
           onChangeText={(value,index,data) => {
           }}
         />
+        {reAuth}
         <TouchableOpacity
           style={styles.buttonContainer}
           activeOpacity={0.8}
@@ -224,7 +218,6 @@ export default class Settings extends Component {
           }>
           <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
-        {reAuth}
       </View>
     );
   }
@@ -267,12 +260,14 @@ const styles = StyleSheet.create({
       fontFamily: 'Nunito',
       textAlign: 'center',
       justifyContent: 'center',
+      alignSelf: 'center',
       fontSize: 20,
       marginBottom: 32,
       borderBottomWidth: 2,
       paddingBottom: 2,
       width: '80%',
-      borderColor: GLOBAL.COLOR.GREEN,
+      borderColor: GLOBAL.COLOR.RED,
+      color: GLOBAL.COLOR.RED
     },
     /*
      * Style: button
@@ -343,6 +338,9 @@ const styles = StyleSheet.create({
       fontSize: 15,
       fontWeight: '200',
       color: GLOBAL.COLOR.WHITE,
+    },
+    delete_confirm: {
+      marginTop: 32,
     },
 
 });
