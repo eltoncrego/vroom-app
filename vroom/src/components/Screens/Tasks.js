@@ -131,7 +131,7 @@ export default class Tasks extends Component {
         <Text style={styles.header}>
           Tasks
         </Text>
-        <Text>Clicking the button will add some cars to the database.</Text>
+        <Text style={styles.text}>Clicking the button will add some cars to the database.</Text>
         <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.addTasks() }>
           <Text style={styles.buttonText}>
             Create Task
@@ -172,27 +172,16 @@ const styles = StyleSheet.create({
     },
 
     /*
-    * Style: Settings Header
-    * Author: Elton C. Rego
-    * Purpose: Styles the header of the settings page
-    */
-    header: {
-      fontFamily: 'Nunito',
-      fontWeight: '900',
-      fontSize: 40,
-      color: GLOBAL.COLOR.GRAY,
-    },
-
-    /*
    * Style: Button
    * Author: Elton C. Rego
    * Purpose: This styles the Next button
    */
   buttonContainer: {
-    backgroundColor: GLOBAL.COLOR.RED,
+    backgroundColor: GLOBAL.COLOR.GREEN,
     padding: 12,
     paddingHorizontal: 24,
     borderRadius: 20,
+    margin: 32,
   },
   buttonText: {
     textAlign: 'center',
@@ -202,5 +191,29 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
   },
+
+  /*
+    * Style: Settings Header
+    * Author: Elton C. Rego
+    * Purpose: Styles the header of the settings page
+    */
+    header: {
+      fontFamily: 'Nunito',
+      fontWeight: '900',
+      fontSize: 40,
+      color: GLOBAL.COLOR.BLUE,
+    },
+    sub_title: {
+      fontFamily: 'Nunito',
+      fontSize: 20,
+      fontWeight: '900',
+      color: GLOBAL.COLOR.WHITE,
+    },
+    text: {
+      fontFamily: 'Nunito',
+      fontSize: 15,
+      fontWeight: '200',
+      color: GLOBAL.COLOR.WHITE,
+    },
 
 });

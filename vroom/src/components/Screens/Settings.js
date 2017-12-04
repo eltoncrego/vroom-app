@@ -24,6 +24,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 // Files Needed
 import {logOut, deleteUser, firebaseRef} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
+import * as firebase from 'firebase';
 
 
 /*
@@ -83,6 +84,12 @@ export default class Settings extends Component {
     console.log("reAuth()");
     var email = this.state.email;
     var password = this.state.password;
+    var credential = firebase.auth.EmailAuthProvider.credential(email, password);
+    firebaseRef.auth().currentUser.reauthenticateWithCredential(credential).then(() => {
+      deleteUser();
+    }).catch((error) => {
+      alert("Incorrect credentials.");
+    });
   }
 
 
@@ -158,6 +165,7 @@ export default class Settings extends Component {
           style={styles.input}
           placeholder="password"
           autoCapitalize="none"
+          secureTextEntry={true}
           onChangeText={(text) => {
             this.setState({password: text});
           }}
@@ -253,6 +261,7 @@ const styles = StyleSheet.create({
       paddingBottom: 2,
       width: '80%',
       borderColor: GLOBAL.COLOR.RED,
+      color: GLOBAL.COLOR.RED
     },
     /*
      * Style: button
