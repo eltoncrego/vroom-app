@@ -20,6 +20,26 @@ import "firebase/firestore";
 
   export const firebaseRef = firebase.initializeApp(config);
 
+
+
+  /*
+   * Firebase Function: pushToDatabase()
+   * Author: Will Coates
+   * 
+   * Purpose: A generic function for pushing to our Realtime Database,
+   *          can fill in with whatever is needed and call where convenient
+   *          (currently pushes Task Types for demo cars, called when pressing
+   *           Create Task button in Tasks.js)
+   *
+   */
+   export function pushToDatabase(){
+    // 2006 Honda Accord
+    console.log("Pushing 2030 Honda Accord Task Types");
+    var path = "cars/2030/honda/accord";
+    var taskTypesOb = require('../Database/Maintenance_Schedules/2006_honda_accord.json');
+    pushJSONTask(path, taskTypesOb);
+   }
+
   /*
   * Database function: pushTask()
   * Author: Alec Felt and Connick Shields
@@ -39,9 +59,10 @@ import "firebase/firestore";
           ttRef: ttr,
           date: d,
           uid: u,
-      }
-      var key="";
-      firebaseRef.firestore().collection("tasks").add(taskObject);
+      };
+    }
+    //firebaseRef.database().ref('tasks/').set(taskObject);
+      //firebaseRef.firestore().collection("tasks").add(taskObject);
       // .then(function(docRef) {
       //   key = docRef.id;
       //   date = ""+y+"-"+m+"-"+d;
@@ -56,7 +77,23 @@ import "firebase/firestore";
       //   console.log(error.message);
       //   alert("Error: can't push task object to the database");
       // });
-  }}
+  }
+
+ /*
+  * Database function: pushTaskTypes()
+  * Author: Payam Katoozian and Will Coates
+  *
+  * Purpose: push a JSON file with the maintenance task types
+             to the database
+  *
+  * @param: (path) = string: path to place in database
+  *         (ob)   = JSON object to be pushed
+  * @return: void
+  * TODO create error message, update task object fields, add notifications?
+  */
+  export function pushJSONTask(path, ob) {
+    firebaseRef.database().ref(path).set(ob);
+  }
 
   /*
   * Database function: databaseLogin()

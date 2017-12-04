@@ -120,7 +120,12 @@ export default class Onboarding extends Component {
       });
       this.animation3.play();
       // populates user's Firebase entry
+<<<<<<< HEAD
       this.state.user.child('vehicles/1').set({
+=======
+      this.state.user.collection('vehicles').doc("1").set({
+      // this.state.user.ref('/vehicles/1').set({
+>>>>>>> 983ddbdae7866f4afafd6df502e9cdd30c168125
           name: this.state.text,
           year: this.state.year,
           make: this.state.make,
@@ -256,39 +261,35 @@ export default class Onboarding extends Component {
      * Purpose: Data for the dropdown picker
      */
       let year = [{
-      value: '1990',
+      value: '2000',
     }, {
-      value: '1991',
+      value: '2006',
     }, {
-      value: '1992',
-    }, {
-      value: '1993',
+      value: '2010',
     },{
-      value: '1994',
-    },{
-      value: '1995',
-    },{
-      value: '1996',
-    },{
-      value: '1997',
-    },{
-      value: '1998',
+      value: '2014'
     }];
 
     let make = [{
-      value: 'Acura',
+      value: 'Ford',
     }, {
-      value: 'BMW',
+      value: 'Honda',
     }, {
-      value: 'Civic',
+      value: 'Mazda',
+    }, {
+      value: 'Toyota',
     }];
 
     let model = [{
-      value: 'Model 1',
+      value: 'Fiesta',
     }, {
-      value: 'Jetta',
+      value: 'Miata',
     }, {
-      value: 'Model 3',
+      value: 'Accord',
+    }, {
+      value: 'Mustang',
+    }, {
+      value: 'Prius',
     }];
 
     let choices = [{
