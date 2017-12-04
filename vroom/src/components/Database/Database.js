@@ -161,7 +161,7 @@ import * as firebase from 'firebase';
           firebaseRef.database().ref(user.uid).remove();
           logOut();
         }).catch(function(error) {
-          alert("Sorry, your account is unable to be deleted at this time.")
+          alert("Sorry, your account is unable to be deleted at this time. Please reauthenticate");
           console.log(error.message);
         });
       } else {

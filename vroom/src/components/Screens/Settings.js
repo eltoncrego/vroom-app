@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   Alert,
   StatusBar,
+  TextInput,
 } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 
@@ -42,6 +43,11 @@ export default class Settings extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      reAuth: false,
+      email: "",
+      password: "",
+    }
   }
 
   /*
@@ -61,11 +67,18 @@ export default class Settings extends Component {
       'Are you sure you want to delete your account? This action cannot be undone!',
       [
         {text: "Yes", onPress: () => {
-          deleteUser();
+          this.setState({ reAuth: true });
         }},
         {text: "No"},
       ]
     )
+  }
+
+  reAuth() {
+    console.log("reAuth()");
+    var email = this.state.email;
+    var password = this.state.password;
+    
   }
 
 
@@ -98,7 +111,9 @@ export default class Settings extends Component {
       ),
       headerLeft: (
           <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={styles.button}>
-            <Text style={styles.menu}>Menu</Text>
+            <View>
+              <Text style={styles.menu}>Menu</Text>
+            </View>
           </TouchableOpacity>
       ),
   });
@@ -121,6 +136,45 @@ export default class Settings extends Component {
     }, {
       value: 'One Month',
     }];
+
+    var reAuth = this.state.reAuth ?
+      null
+      :
+      <View>
+        <TextInput
+          placeholderTextColor={GLOBAL.COLOR.GRAY}
+          style={styles.input}
+          placeholder="email"
+          autoCapitalize="none"
+          onChangeText={(text) => {
+            this.setState({email: text});
+          }}
+          underlineColorAndroid='transparent'
+        />
+        <TextInput
+          placeholderTextColor={GLOBAL.COLOR.GRAY}
+          style={styles.input}
+          placeholder="password"
+          autoCapitalize="none"
+          onChangeText={(text) => {
+            this.setState({password: text});
+          }}
+          underlineColorAndroid='transparent'
+        />
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={ () => {
+            this.reAuth();
+          }}
+          style={styles.button_container}
+        >
+          <View>
+            <Text style={styles.button}>re-authenticate</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      ;
 
     return (
       <View
@@ -147,7 +201,7 @@ export default class Settings extends Component {
           baseColor={GLOBAL.COLOR.WHITE}
           selectedItemColor={GLOBAL.COLOR.GREEN}
           textColor={GLOBAL.COLOR.WHITE}
-          
+
         />
         <TouchableOpacity
           style={styles.buttonContainer}
@@ -156,7 +210,8 @@ export default class Settings extends Component {
               () => this.deleteAccount()
           }>
           <Text style={styles.buttonText}>Delete Account</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        {reAuth}
       </View>
     );
   }
@@ -190,7 +245,47 @@ const styles = StyleSheet.create({
       backgroundColor: GLOBAL.COLOR.DARKGRAY,
       padding: 32,
     },
-
+    /*
+     * Style: input
+     * Author: Alec Felt
+     * Purpose: adds alignment/spacing to the textInputs
+     */
+    input: {
+      fontFamily: 'Nunito',
+      textAlign: 'center',
+      justifyContent: 'center',
+      fontSize: 20,
+      marginBottom: 32,
+      borderBottomWidth: 2,
+      paddingBottom: 2,
+      width: '80%',
+      borderColor: GLOBAL.COLOR.GREEN,
+    },
+    /*
+     * Style: button
+     * Author: Elton C. Rego
+     * Purpose: Adds styling to the touchable opacity elements
+     */
+     button_container: {
+        backgroundColor: GLOBAL.COLOR.GREEN,
+        padding: 12,
+        paddingHorizontal: 24,
+        borderRadius: 20,
+        margin: 8,
+     },
+     /*
+      * Style: button
+      * Author: Alec Felt
+      * Purpose: add style to the login and signup buttons
+      */
+     button: {
+       textAlign: 'center',
+       fontFamily: 'Nunito',
+       color: GLOBAL.COLOR.WHITE,
+       backgroundColor: 'transparent',
+       fontSize: 15,
+       fontWeight: '600',
+    },
     /*
     * Style: Settings Header
     * Author: Elton C. Rego
