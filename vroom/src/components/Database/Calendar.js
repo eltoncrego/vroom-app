@@ -12,7 +12,7 @@ import {firebaseRef} from "./Database";
 
 export function getTaskDates(u){
     return new Promise((resolve, reject) => {
-      firebaseRef.firestore().collection("tasks")
+      firebaseRef.database().ref('tasks/')
       .where("uid", "==", u).get()
       .then(function(querySnapshot) {
           var dates = {};

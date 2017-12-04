@@ -25,7 +25,7 @@ import "firebase/firestore";
   /*
    * Firebase Function: pushToDatabase()
    * Author: Will Coates
-   * 
+   *
    * Purpose: A generic function for pushing to our Realtime Database,
    *          can fill in with whatever is needed and call where convenient
    *          (currently pushes Task Types for demo cars, called when pressing
@@ -61,22 +61,7 @@ import "firebase/firestore";
           uid: u,
       };
     }
-    //firebaseRef.database().ref('tasks/').set(taskObject);
-      //firebaseRef.firestore().collection("tasks").add(taskObject);
-      // .then(function(docRef) {
-      //   key = docRef.id;
-      //   date = ""+y+"-"+m+"-"+d;
-      //   taskRef = firebaseRef.firestore().collection("tasks").doc(key);
-      //   firebaseRef.firestore().collection("users").doc(u).collection("tasks").doc(date).set({taskRef})
-      //   .catch(function(error) {
-      //     console.log(error.message);
-      //     alert("Error: can't push task key to user object");
-      //   });
-      // })
-      // .catch(function(error) {
-      //   console.log(error.message);
-      //   alert("Error: can't push task object to the database");
-      // });
+    firebaseRef.database().ref('tasks/').push(taskObject);
   }
 
  /*
@@ -165,34 +150,6 @@ import "firebase/firestore";
   }
 
   /*
-  * Database function: updateUserProfile
-  * Author: Alec Felt
-  *
-  * Purpose: updates built-in user profile info
-  *
-  * @param: (jsonObj) = JSON object with profile info
-  * @return: boolean
-
-  TODO rewrite
-  */
-  export function updateUserProfile (jsonObj) {
-    var user = firebaseRef.auth().currentUser;
-
-    if(user != undefined && user != null) {
-      user.updateProfile(jsonObj).then(function() {
-        // Update successful.
-        alert("success!");
-        return true;
-      }, error => {
-        // An error happened.
-        console.log(error.message);
-        alert("Error updating user profile info");
-      });
-    }
-    return false;
-  }
-
-  /*
   * Database function: deleteUser()
   * Author: Elton C. Rego
   *
@@ -202,7 +159,8 @@ import "firebase/firestore";
     var user = firebaseRef.auth().currentUser;
       if (user) {
         user.delete().then(function() {
-          logOut()
+          logOut();
+          firebaseRef.database().ref(user.uid).remove();
         }).catch(function(error) {
           alert("Sorry, your account is unable to be deleted at this time.")
           console.log(error.message);
