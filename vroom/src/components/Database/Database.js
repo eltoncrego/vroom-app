@@ -1,7 +1,6 @@
 import React from 'react';
 import {goTo, clearNavStack} from '../Navigation/Navigation';
 import * as firebase from 'firebase';
-import "firebase/firestore";
 
   /*
    * Congfiguration: firebase.initializeApp
@@ -61,7 +60,7 @@ import "firebase/firestore";
           uid: u,
       };
     }
-    firebaseRef.database().ref('tasks/').push(taskObject);
+    firebaseRef.database().ref('tasks').push(taskObject);
   }
 
  /*
