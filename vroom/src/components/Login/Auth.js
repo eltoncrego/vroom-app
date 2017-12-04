@@ -52,7 +52,7 @@ export default class Auth extends Component {
          console.log("user is signed in");
          firebaseRef.database().ref("users").child(user.uid).child("vehicles").once('value').then(function(snapshot) {
            if(snapshot.val() != null) {
-             console.log("no car object for this user! going to Onboarding");
+             console.log("car object for this user! going to Dashboard");
              that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
            } else {
              console.log("no car object for this user! going to Onboarding");
