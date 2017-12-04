@@ -12,9 +12,9 @@ import {
   SignedOut,
   SignedIn,
   SignedUp,
-  // createMainApplication,
 } from "../Navigation/Router";
 
+// Necessary Files
 import Loading from '../Screens/Loading';
 import {firebaseRef} from '../Database/Database';
 
@@ -43,6 +43,12 @@ export default class Auth extends Component {
     };
   }
 
+  /*
+   * Method: setListener
+   * Author: Alec Felt
+   *
+   * Purpose: sets global Firebase Authentication listener
+   */
   setListener = () => {
     console.log("setListener()");
     var that = this;
@@ -91,21 +97,14 @@ export default class Auth extends Component {
    *
    * Purpose: References the state variables and loades the correct
    *   application view based on the status of the login
+   *   if the state hasn't been checked, we return the loading screen
+   *   if the state has been checked then load the proper
    */
   render() {
-
-    // alert( this.state.onboarding);
-
     if (!this.state.checkedSignIn) {
-      // HERE WOULD BE A GOOD PLACE FOR A LOADING ANIMATION
       return <Loading/>;
     }
 
-
-    // return <Loading/>;
-   // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
-   // return <MainApp/>;
-   // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
     if(this.state.signedIn){
        if(this.state.onboarding){
          return <SignedUp/>;
@@ -113,6 +112,5 @@ export default class Auth extends Component {
     } else {
        return <SignedOut/>;
     }
-
   }
 }
