@@ -24,6 +24,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 // Files Needed
 import {logOut, deleteUser, firebaseRef} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
+import * as firebase from 'firebase';
 
 
 /*
@@ -78,7 +79,12 @@ export default class Settings extends Component {
     console.log("reAuth()");
     var email = this.state.email;
     var password = this.state.password;
-
+    var credential = firebase.auth.EmailAuthProvider.credential(email, password);
+    firebaseRef.auth().currentUser.reauthenticateWithCredential(credential).then(() => {
+      deleteUser();
+    }).catch((error) => {
+      alert("Incorrect credentials.");
+    });
   }
 
 
