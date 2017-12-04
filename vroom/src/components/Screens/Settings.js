@@ -79,7 +79,7 @@ export default class Settings extends Component {
         'We\'re sorry to see you go.\nAre you sure you want to delete your account? This action cannot be undone!',
         [
           {text: "Yes", onPress: () => {
-            alert("Please enter your credentials to confirm account deletion");
+            alert("Please enter your credentials to confirm account deletion.\nSimply leave the settings page to cancel.");
             this.setState({ reAuth: true });
           }},
           {text: "No"},
