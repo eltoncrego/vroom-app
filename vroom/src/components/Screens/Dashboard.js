@@ -278,7 +278,7 @@ export default class Dashboard extends Component {
                 // Hide day names. Default = false
                 hideDayNames={true}
 
-                markedDates={...this.state.taskDates}
+                // markedDates={...this.state.taskDates}
 
                 //{{[this.state.selected]: {selected: true}}}
 
