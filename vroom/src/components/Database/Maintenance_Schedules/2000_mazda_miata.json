@@ -1,0 +1,101 @@
+{
+    "Check Brake Fluid": {
+        "intervalMileage": "0",
+        "intervalMonth": "0.5",
+        "frequency": "4",
+        "action": "Check",
+        "item": "brake fluid level",
+        "itemDescription": "Brakes, obviously, need to be in tip-top shape!",
+        "severity": "moderate"
+    },
+
+    "Check Cutch Fluid": {
+        "intervalMileage": "0",
+        "intervalMonth": "0.5",
+        "frequency": "4",
+        "action": "Check",
+        "item": "clutch fluid level",
+        "itemDescription": "Your car's got to perform in the clutch!",
+        "severity": "mild"
+    },
+
+    "Check Engine Oil": {
+        "intervalMileage": "0",
+        "intervalMonth": "0.5",
+        "frequency": "4",
+        "action": "Check",
+        "item": "engine oil level",
+        "itemDescription": "Incorrect oil levels can cause severe engine damage!",
+        "severity": "mild"
+    },
+
+    "Check Engine Coolant": {
+        "intervalMileage": "0",
+        "intervalMonth": "0.5",
+        "frequency": "4",
+        "action": "Check",
+        "item": "engine coolant level",
+        "itemDescription": "Stay cool, dude.",
+        "severity": "moderate"
+    },
+
+    "Check Wiper Fluid Level": {
+        "intervalMileage": "0",
+        "intervalMonth": "0.5",
+        "frequency": "4",
+        "action": "Check",
+        "item": "windshield washer fluid level",
+        "itemDescription": "Gotta keep your windshield squeaky clean!",
+        "severity": "mild"
+    },
+   
+    "Check Lighting": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check operation of",
+        "item": "lighting",
+        "itemDescription": "Check lights from front to back to make sure you're not left in the dark!",
+        "severity": "mild"
+    },
+
+    "Check Transmission Fluid Level": {
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Check ",
+        "item": "transmission fluid level",
+        "itemDescription": "Transmission fluid keeps shifting smooth!",
+        "severity": "mild"
+    },
+
+    "Check Power Steering Fluid": {
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Check",
+        "item": "power steering fluid level",
+        "itemDescription": "Feel the power!",
+        "severity": "mild"
+    },
+
+    "Check Tire Pressure": {    
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "tire pressure",
+        "itemDescription": "Make sure you keep a spring in your car's step!",
+        "severity": "moderate"
+    },
+
+    "Check Tire Tread": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "tire tread",
+        "itemDescription": "Watch out for wear or foreign objects in your tread!",
+        "severity": "mild"
+    }
+}

@@ -19,11 +19,13 @@ import {
   TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import Animation from 'lottie-react-native';
-import {firebaseRef} from '../../../index';
+import {firebaseRef} from '../Database/Database';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
 import { Dropdown } from 'react-native-material-dropdown';
+import { TextField } from 'react-native-material-textfield';
 
 // Files Needed
 import revi from '../../../assets/animations/revi-hi.json';
@@ -53,10 +55,10 @@ export default class Onboarding extends Component {
   static navigationOptions = {
     title: 'Welcome',
     header: null,
-    drawerLockMode: 'locked-closed',
+    lockMode: 'locked-closed',
   };
 
-   /*
+  /*
    * Method: componentDidMount()
    * Author: Elton C. Rego
    *
@@ -64,6 +66,7 @@ export default class Onboarding extends Component {
    *   it runs the action
    */
   componentDidMount() {
+    console.log("Onboarding component mounted");
     setTimeout(() => {
       if(this.scrollView != null){
         this.scrollView.scrollTo({x: -16})
@@ -87,25 +90,45 @@ export default class Onboarding extends Component {
       show_last_card: false,
       scroll_enabled: true,
       text_button: 'Next',
-      user: firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid),
+      button_switch: false,
+      user: firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid),
+      scroll_pos: 0,
+      make: null,
+      model: null,
+      year: null,
+      choices: null,
+      array: null,
     };
   }
 
   /*
    * Method: nameEntered()
-   * Author: Elton C. Rego
+   * Author: Elton C. Rego, Alec Felt
    *
-   * Purpose: On invocation, show the last card
-   *   and scroll to it
+   * Purpose: On invocation, check dropdown input,
+   *          update user's database entry, show the last card,
+   *          and scroll to it
    */
   nameEntered() {
-    this.setState({show_last_card: true}); 
-    this.scrollView.scrollTo({x: 328, y:0, animated: true});
-    this.setState({
-      scroll_enabled: false,
-      text_button: `Continue to ${this.state.text}`
-    });
-    this.animation3.play();
+    // Checks the state variables associated with the make,year,model dropdowns
+    if(!(this.state.make==null) && !(this.state.model==null) && !(this.state.year==null)) {
+      this.setState({show_last_card: true});
+      this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y:0, animated: true});
+      this.setState({
+        scroll_enabled: false,
+        text_button: `Continue to ${this.state.text}`,
+      });
+      this.animation3.play();
+      // populates user's Firebase entry
+      this.state.user.child('vehicles').push({
+          nickname: this.state.text,
+          path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
+          choices: this.state.choices,
+      });
+    // make,year,model dropdowns haven't been properly set
+    } else {
+      alert("Error: please set Make, Year, and Model dropdowns");
+    }
   }
 
   /*
@@ -116,21 +139,86 @@ export default class Onboarding extends Component {
    *   in the onboarding
    */
   goToScrollView() {
-    // if(this.state.scroll_enabled){
-      this.scrollView.scrollTo({x: 328, y: 0, animated: true});
-    // }
+    if(this.state.button_switch){
+      Keyboard.dismiss();
+      this.nameEntered();
+    } else {
+      if(this.state.scroll_enabled && this.state.scroll_pos != 672){
+        this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y: 0, animated: true});
+      }
+    }
+  }
+
+
+  handleScroll(event){
+    if(event.nativeEvent.contentOffset.x == 672){
+      this.setState({
+        scroll_pos: event.nativeEvent.contentOffset.x,
+        button_switch: true,
+        text_button: 'Submit',
+      })
+    } else {
+      this.setState({scroll_pos: event.nativeEvent.contentOffset.x});
+    }
   }
 
   /*
    * Method: goToDashboard()
    * Author: Elton C. Rego
    *
-   * Purpose: On invocation, clears the stack and navigates 
+   * Purpose: On invocation, clears the stack and navigates
    *   to the dashboard.
    */
   goToDashboard() {
-     clearNavStack(this.props.navigation, 'Dashboard');
+     goTo(this.props.navigation, 'Dashboard');
   }
+
+arrayToJSON(input){
+    console.log("input array");
+    console.log(input);
+    console.log("array type is", typeof input);
+    console.log("array length is", input.length);
+    console.log("input['0'] =", input['0']);
+
+
+    console.log("initial JSON object");
+    var retObj = [{value: input[0]}];
+    console.log(retObj);
+    var newObj;
+    for (i = 1; i < input.length; i++){
+      newObj = [{value: input[i]}];
+      retObj = retObj.concat(newObj);
+      console.log("concatenated object");
+      console.log(retObj);
+    }
+    console.log("finished object");
+    console.log(retObj);
+    return retObj;
+  }
+
+  getModelYears(){
+    var ret = [];
+    var that = this;
+    firebaseRef.database().ref('cars').once("value")
+    .then(function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+        console.log("yo");
+        ret[ret.length] = childSnapshot.key;
+      });
+      var retObj = [{value: input[0]}];
+      var newObj;
+      for (i = 1; i < ret.length; i++){
+        newObj = {value: input[i]};
+        retObj = retObj.concat(newObj);
+        console.log("concatenated object");
+        console.log(retObj);
+      }
+      console.log("finished object");
+      console.log(retObj);
+      return retObj;
+    });
+  }
+
 
   /*
    * Method: render
@@ -165,7 +253,7 @@ export default class Onboarding extends Component {
           </View>
         <Text style={styles.card_text}>{"I love it!"}</Text>
       </View>
-      : 
+      :
       <View style={styles.card_inactive}>
         <Text style={styles.card_title}>{this.state.text}</Text>
           <View style={styles.revi_animations}>
@@ -193,7 +281,9 @@ export default class Onboarding extends Component {
           style={styles.buttonContainer}
           activeOpacity={0.8}
           onPress={
-            () => this.goToScrollView()
+            () => {
+              this.goToScrollView();
+            }
         }>
           <Text style={styles.buttonText}>{this.state.text_button}</Text>
       </TouchableOpacity>
@@ -201,7 +291,9 @@ export default class Onboarding extends Component {
           style={styles.buttonContainer}
           activeOpacity={0.8}
           onPress={
-            () => this.goToDashboard()
+            () => {
+              this.goToDashboard();
+            }
         }>
           <Text style={styles.buttonText}>{this.state.text_button}</Text>
       </TouchableOpacity>;
@@ -213,31 +305,73 @@ export default class Onboarding extends Component {
      * Purpose: Data for the dropdown picker
      */
       let year = [{
-      value: '1990',
+      value: '2000',
     }, {
-      value: '1991',
+      value: '2001',
     }, {
-      value: '1992',
+      value: '2002',
+    },{
+      value: '2003',
     }, {
-      value: '1993',
+      value: '2004',
+    }, {
+      value: '2005',
     },{
-      value: '1994',
+      value: '2006',
+    }, {
+      value: '2007',
+    }, {
+      value: '2008',
     },{
-      value: '1995',
+      value: '2009',
+    }, {
+      value: '2010',
+    }, {
+      value: '2011',
     },{
-      value: '1996',
+      value: '2012',
+    }, {
+      value: '2013',
+    }, {
+      value: '2014',
     },{
-      value: '1997',
+      value: '2015',
+    }, {
+      value: '2016',
+    }, {
+      value: '2017',
     },{
-      value: '1998',
+      value: '2018',
     }];
 
+    // let year = this.getModelYears();
+
     let make = [{
-      value: 'Acura',
+      value: 'Ford',
     }, {
-      value: 'BMW',
+      value: 'Honda',
     }, {
-      value: 'Civic',
+      value: 'Mazda',
+    }, {
+      value: 'Toyota',
+    }];
+
+    let model = [{
+      value: 'Fiesta',
+    }, {
+      value: 'Miata',
+    }, {
+      value: 'Accord',
+    }, {
+      value: 'Mustang',
+    }, {
+      value: 'Prius',
+    }];
+
+    let choices = [{
+      value: 'Yes',
+    }, {
+      value: 'No',
     }];
 
     return (
@@ -267,6 +401,7 @@ export default class Onboarding extends Component {
             right: 16,
           }}
           scrollEnabled={this.state.scroll_enabled}
+          onScroll={(event) => {this.handleScroll(event);}}
         >
           {/* Card 1 */}
           <View style={styles.card}>
@@ -284,26 +419,35 @@ export default class Onboarding extends Component {
 
           {/* Card 2 */}
           <View style={styles.card}>
-            <Text style={styles.card_title}>{"Add your car"}</Text>
+            <Text style={styles.card_title}>{"I am a:"}</Text>
             <View style={{
               backgroundColor: 'white',
               alignSelf: 'stretch',
-              margin: 20,
+              marginHorizontal: 20,
+              marginTop: -10,
             }}>
               <Dropdown
                 label='Year'
                 data={year}
+                onChangeText={(value,index,data) => {this.setState({year: value});}}
               />
               <Dropdown
                 label='Make'
                 data={make}
+                onChangeText={(value,index,data) => {this.setState({make: value});}}
+              />
+              <Dropdown
+                label='Model'
+                data={model}
+                onChangeText={(value,index,data) => {this.setState({model: value});}}
               />
             </View>
+            <Text style={styles.card_text}></Text>
           </View>
 
           {/* Card 3 */}
           <View style={styles.card}>
-            <Text style={styles.card_title}>{"My name is.."}</Text>
+            <Text style={styles.card_title}>{"My name is..."}</Text>
              <View style={styles.revi_animations}>
               <Animation
                 ref={animation => {this.animation2 = animation;}}
@@ -319,11 +463,6 @@ export default class Onboarding extends Component {
               underlineColorAndroid={'#ffffff'}
               onSubmitEditing={ () => {
                 this.nameEntered();
-                this.state.user.child('vehicles').set({
-                  1:{
-                    name: this.state.text,
-                  }
-                });
               }}
             />
           </View>

@@ -14,21 +14,21 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Alert
+  Alert,
+  StatusBar,
 } from 'react-native';
 
 // Files Needed
-import {logOut, deleteUser} from "../Database/Database";
+import {logOut, deleteUser, firebaseRef, pushTask} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
-import {firebaseRef} from '../../../index';
 
 /*
- * Class: Settings
+ * Class: Tasks
  * Author: Elton C.  Rego
  *
- * Purpose: Be the main area where users can customize their experience
+ * Purpose: Be the main area where users can customize their tasks
  */
-export default class Settings extends Component {
+export default class Tasks extends Component {
 
   /*
    * Method: constructor(props)
@@ -39,6 +39,9 @@ export default class Settings extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      data: "",
+    }
   }
 
   /*
@@ -49,25 +52,30 @@ export default class Settings extends Component {
    *   it runs the action
    */
   componentDidMount() {
-    // if user is logged out, go to login
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if(!user){
-        clearNavStack(this.props.navigation, 'EmailPasswordLogin');
-      }
-    });
+    console.log("Tasks component mounted");
   }
 
-  deleteAccount() {
-    Alert.alert(
-      'Confirm Deletion',
-      'Are you sure you want to delete your account? This action cannot be undone!',
-      [
-        {text: "Yes", onPress: () => deleteUser()},
-        {text: "No"},
-      ]
-    )
-  }
+  /*
+   * Firebase Function: addTask()
+   * Author: Alec Felt
+   *
+   * Purpose: Creates a new task,
+   *          links task and user
+   *
+   */
+   addTasks() {
+     // Checks state variables assoicated with the task's inputs
+     // if(this.state.name!="" && this.state.year!="" && this.state.month!="" && this.state.day!="" && this.state.time!="") {
+     //   pushTask(this.state.name, this.state.year, this.state.month, this.state.day, this.state.time);
+     // } else {
+     //   alert("Error: please set date/time of task");
 
+     // Test Code
+     for(var i = 10; i < 16; i++){
+        console.log(i);
+        pushTask("Test Ref", "2017-12-" + i);
+     }
+   }
 
   /*
    * Static: navigationOptions
@@ -89,7 +97,7 @@ export default class Settings extends Component {
         backgroundColor: GLOBAL.COLOR.DARKGRAY,
       },
 
-      title: (<Text style={styles.header_middle}>Settings</Text>),
+      title: (<Text style={styles.header_middle}>Tasks</Text>),
 
       headerRight: (
         <TouchableOpacity onPress={() => { logOut(navigation); }}>
@@ -106,31 +114,29 @@ export default class Settings extends Component {
 
   /*
    * Method: render
-   * Author: Elton C. Rego
+   * Author: Alec Felt
    *
-   * Purpose: Renders the Dashboard page.
-   *  As of now this just contains some dummy tasks that
-   *  we can learn to populate later.
+   * Purpose: Renders the tasks page.
+   *  As of now this just contains a header,
+   *  but we can add task creation and notifiction
+   *  functionality later on
    *
    */
   render() {
     return (
-      <View
-        style={styles.container}
-      >
-        <Text
-          style={styles.header}
-        >
-          Settings
+      <View style={styles.container}>
+        <StatusBar
+           barStyle="light-content"
+         />
+        <Text style={styles.header}>
+          Tasks
         </Text>
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          activeOpacity={0.8}
-          onPress={
-              () => this.deleteAccount()
-          }>
-          <Text style={styles.buttonText}>Delete Account</Text>
-      </TouchableOpacity>
+        <Text style={styles.text}>Clicking the button will add some cars to the database.</Text>
+        <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.addTasks() }>
+          <Text style={styles.buttonText}>
+            Create Task
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -166,27 +172,16 @@ const styles = StyleSheet.create({
     },
 
     /*
-    * Style: Settings Header
-    * Author: Elton C. Rego
-    * Purpose: Styles the header of the settings page
-    */
-    header: {
-      fontFamily: 'Nunito',
-      fontWeight: '900',
-      fontSize: 40,
-      color: GLOBAL.COLOR.GRAY,
-    },
-
-    /*
    * Style: Button
    * Author: Elton C. Rego
    * Purpose: This styles the Next button
    */
   buttonContainer: {
-    backgroundColor: GLOBAL.COLOR.RED,
+    backgroundColor: GLOBAL.COLOR.GREEN,
     padding: 12,
     paddingHorizontal: 24,
     borderRadius: 20,
+    margin: 32,
   },
   buttonText: {
     textAlign: 'center',
@@ -196,5 +191,29 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
   },
+
+  /*
+    * Style: Settings Header
+    * Author: Elton C. Rego
+    * Purpose: Styles the header of the settings page
+    */
+    header: {
+      fontFamily: 'Nunito',
+      fontWeight: '900',
+      fontSize: 40,
+      color: GLOBAL.COLOR.BLUE,
+    },
+    sub_title: {
+      fontFamily: 'Nunito',
+      fontSize: 20,
+      fontWeight: '900',
+      color: GLOBAL.COLOR.WHITE,
+    },
+    text: {
+      fontFamily: 'Nunito',
+      fontSize: 15,
+      fontWeight: '200',
+      color: GLOBAL.COLOR.WHITE,
+    },
 
 });

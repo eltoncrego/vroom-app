@@ -17,68 +17,54 @@ import {
   Alert,
   Dimensions,
 } from 'react-native';
-import Onboarding from './Onboarding';
-import Dashboard from '../Dashboard/Dashboard';
-import { goTo, clearNavStack, goToDrawerNav } from '../Navigation/Navigation';
-import {firebaseRef} from '../../../index';
+import Onboarding from '../Screens/Onboarding';
+import Dashboard from '../Screens/Dashboard';
+import {
+  goTo,
+  clearNavStack,
+  goToDrawerNav
+} from '../Navigation/Navigation';
 import {
   databaseLogin,
   databaseSignup,
   authListener,
+  firebaseRef,
 } from '../Database/Database';
 
 export default class EmailPasswordLogin extends Component {
 
-  // Author: Alec Felt
-  // Purpose: sets up state for component
+ /*
+  * Author: Alec Felt
+  * Purpose: Set up state for this specific component
+  */
   constructor(props) {
     super(props);
+    this.state = {
+      email: null,
+      email_signup: null,
+      password: null,
+      password_signup: null,
+      password_signup_verification: null,
+      signup: true,
+    }
   }
-
-  state = {
-    em: null,
-    ems: null,
-    pw: null,
-    pws: null,
-    pws2: null,
-    isFirst: true,
-  }
-
-  // defUser = {
-  //   cars: [],
-  //   ob: false,
-  // }
 
   componentDidMount() {
-    // if user is logged in, go to dashboard TODO separate sign in / sign up
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if(user){
-
-        var that = this;
-        var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
-        ref.once("value").then(function (snapshot) {
-          var data = snapshot.val();
-          if(data != null){
-            clearNavStack(that.props.navigation, 'MainApp');
-          } else {
-            clearNavStack(that.props.navigation, 'Onboarding');
-          }
-        });
-
-      }
-    });
+    console.log("Login component mounted");
   }
-  
+
   // Author: Alec Felt, Connick Shields
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase
   login = () => {
     //check to see if any text fields are empty
-    if((!this.state.em) || (!this.state.pw)){
+    if((!this.state.email) || (!this.state.password)){
         alert('Please make sure to fill in all fields.');
         return;
     }
-    databaseLogin(this.state.em, this.state.pw);
+
+    // login the user
+    databaseLogin(this.state.email, this.state.password);
   }
 
   // Author: Connick Shields
@@ -86,29 +72,29 @@ export default class EmailPasswordLogin extends Component {
 
   signup = () => {
     // check to see if any text fields are empty
-    if((!this.state.ems) || (!this.state.pws)){
+    if((!this.state.email_signup) || (!this.state.password_signup)){
         Alert.alert('Please make sure to fill in all fields.');
         return;
     }
     // make sure passwords match
-    if(this.state.pws != this.state.pws2){
+    if(this.state.password_signup != this.state.password_signup_verification){
         Alert.alert('Please make sure both passwords match.');
         return;
     }
+
     // sign up the user
-    databaseSignup(this.state.ems, this.state.pws);
+    databaseSignup(this.state.email_signup, this.state.password_signup);
   }
 
   // Author: Connick Shields
   // Purpose: swap view cards
-
   swapCards(){
-    if(this.state.isFirst){
+    if(this.state.signup){
       // go to sign up
-      this.setState({isFirst:!this.state.isFirst});
+      this.setState({signup:!this.state.signup});
     } else {
       // go to sign in
-      this.setState({isFirst:!this.state.isFirst});
+      this.setState({signup:!this.state.signup});
     }
   }
 
@@ -116,7 +102,7 @@ export default class EmailPasswordLogin extends Component {
   // Purpose: Renders UI for login
   render() {
 
-    var sign_in_card = this.state.isFirst ?
+    var sign_in_card = this.state.signup ?
       <View style={styles.card}>
         <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -124,9 +110,10 @@ export default class EmailPasswordLogin extends Component {
             placeholder="email"
             autoCapitalize="none"
             onChangeText={(text) => {
-              this.setState({em: text});
-              this.setState({ems: text});
+              this.setState({email: text});
+              this.setState({email_signup: text});
             }}
+            underlineColorAndroid='transparent'
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -135,10 +122,13 @@ export default class EmailPasswordLogin extends Component {
             autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={(text) => {
-              this.setState({pw: text});
-              this.setState({pws: text});
+              this.setState({password: text});
+              this.setState({password_signup: text});
             }}
-            onSubmitEditing={ () => this.login() }
+            onSubmitEditing={ () => {
+              this.login();
+            }}
+            underlineColorAndroid='transparent'
           />
           <TouchableOpacity
             activeOpacity={0.8}
@@ -163,9 +153,10 @@ export default class EmailPasswordLogin extends Component {
             placeholder="email"
             autoCapitalize="none"
             onChangeText={(text) => {
-              this.setState({em: text});
-              this.setState({ems: text});
+              this.setState({email: text});
+              this.setState({email_signup: text});
             }}
+            underlineColorAndroid='transparent'
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -174,9 +165,10 @@ export default class EmailPasswordLogin extends Component {
             autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={(text) => {
-              this.setState({pw: text});
-              this.setState({pws: text});
+              this.setState({password: text});
+              this.setState({password_signup: text});
             }}
+            underlineColorAndroid='transparent'
           />
           <TextInput
             placeholderTextColor={GLOBAL.COLOR.GRAY}
@@ -184,12 +176,17 @@ export default class EmailPasswordLogin extends Component {
             placeholder="retype password"
             autoCapitalize="none"
             secureTextEntry={true}
-            onChangeText={ (text) => this.setState( {pws2: text} ) }
-            onSubmitEditing={ () => this.signup() }
+            onChangeText={ (text) => this.setState( {password_signup_verification: text} ) }
+            onSubmitEditing={ () => {
+              this.signup();
+            }}
+            underlineColorAndroid='transparent'
           />
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={ () => this.signup() }
+            onPress={ () => {
+              this.signup();
+            }}
             style={styles.button_container}
           >
             <View>
@@ -284,7 +281,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito',
     textAlign: 'center',
     fontSize: 15,
-    color: GLOBAL.COLOR.GREEN,
+    color: GLOBAL.COLOR.GRAY,
     marginTop: 10,
   },
   /*

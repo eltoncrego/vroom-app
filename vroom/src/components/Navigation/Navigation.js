@@ -15,6 +15,7 @@ import { NavigationActions } from 'react-navigation'
 * https://reactnavigation.org/docs/navigators/navigation-actions
 */
 export function clearNavStack(nav, page) {
+  console.log("clearNavStack called");
   const resetAction = NavigationActions.reset({
     index: 0,
     actions: [
@@ -35,6 +36,7 @@ export function clearNavStack(nav, page) {
 * @return: void
 */
 export function goTo(nav, page) {
+  console.log("goTo called")
   const { navigate } = nav;
   navigate(page);
 }
