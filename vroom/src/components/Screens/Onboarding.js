@@ -294,17 +294,17 @@ arrayToJSON(input){
      *
      * Purpose: Data for the dropdown picker
      */
-    //   let year = [{
-    //   value: '2000',
-    // }, {
-    //   value: '2006',
-    // }, {
-    //   value: '2010',
-    // },{
-    //   value: '2014'
-    // }];
+      let year = [{
+      value: '2000',
+    }, {
+      value: '2006',
+    }, {
+      value: '2010',
+    },{
+      value: '2014'
+    }];
 
-    let year = this.getModelYears();
+    // let year = this.getModelYears();
 
     let make = [{
       value: 'Ford',
