@@ -121,11 +121,15 @@ export default class Onboarding extends Component {
       this.animation3.play();
       // populates user's Firebase entry
       this.state.user.child('vehicles/1').set({
-          name: this.state.text,
+          nickname: this.state.text,
+          /*
           year: this.state.year,
           make: this.state.make,
           model: this.state.model,
+          */
+          path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
           choices: this.state.choices,
+
       });
     // make,year,model dropdowns haven't been properly set
     } else {
