@@ -234,7 +234,9 @@ export default class Onboarding extends Component {
           style={styles.buttonContainer}
           activeOpacity={0.8}
           onPress={
-            () => this.goToScrollView()
+            () => {
+              this.goToScrollView();
+            }
         }>
           <Text style={styles.buttonText}>{this.state.text_button}</Text>
       </TouchableOpacity>
@@ -242,7 +244,9 @@ export default class Onboarding extends Component {
           style={styles.buttonContainer}
           activeOpacity={0.8}
           onPress={
-            () => this.goToDashboard()
+            () => {
+              this.goToDashboard();
+            }
         }>
           <Text style={styles.buttonText}>{this.state.text_button}</Text>
       </TouchableOpacity>;
@@ -289,7 +293,7 @@ export default class Onboarding extends Component {
       value: 'Yes',
     }, {
       value: 'No',
-        }];
+    }];
 
     return (
       <KeyboardAvoidingView
@@ -383,35 +387,6 @@ export default class Onboarding extends Component {
               }}
             />
           </View>
-
-           {/* Card 3.5 */}
-          <View style={styles.card}>
-            <Text style={styles.card_title}>{"My owner's experience"}</Text>
-            <View style={{
-              backgroundColor: 'white',
-              alignSelf: 'stretch',
-              marginHorizontal: 20,
-              marginTop: -10,
-            }}>
-              <Dropdown
-                label='Did you check around your car before you start it everytime?'
-                data={choices}
-                onChangeText={(value,index,data) => {this.setState({choices: value});}}
-              />
-              <Dropdown
-                label='Did you do your maintenances on time?'
-                data={choices}
-                onChangeText={(value,index,data) => {this.setState({choices: value});}}
-              />
-              <Dropdown
-                label='Did you check your car regularly even you barely drive it?'
-                data={choices}
-                onChangeText={(value,index,data) => {this.setState({choices: value});}}
-              />
-            </View>
-            <Text style={styles.card_text}></Text>
-          </View>
-
 
         {/* Card 4 */}
           <View style={styles.card}>
