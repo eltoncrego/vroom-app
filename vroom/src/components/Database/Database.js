@@ -160,6 +160,7 @@ import * as firebase from 'firebase';
         user.delete().then(function() {
           firebaseRef.database().ref(user.uid).remove();
           logOut();
+          alert("Poof! You're gone.")
         }).catch(function(error) {
           alert("Sorry, your account is unable to be deleted at this time. Please reauthenticate");
           console.log(error.message);

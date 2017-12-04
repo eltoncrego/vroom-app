@@ -387,21 +387,7 @@ export default class Onboarding extends Component {
               }}
             />
           </View>
-
-        {/* Card 4 */}
-          <View style={styles.card}>
-            <Text style={styles.card_title}>{"Hello!"}</Text>
-            <View style={styles.revi_animations}>
-              <Animation
-                ref={animation => {this.animation = animation;}}
-                style={{width: '100%', height: '100%',}}
-                loop={false}
-                source={revi}
-              />
-            </View>
-            <Text style={styles.card_text}>{"I'm your car!"}</Text>
-          </View>
-
+          
           {/* Card 4: Hide if no name*/}
           {last_card}
         </ScrollView>
