@@ -23,7 +23,6 @@ import {
 } from 'react-native';
 import Animation from 'lottie-react-native';
 import {firebaseRef} from '../Database/Database';
-import 'firebase/firestore';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
 import { Dropdown } from 'react-native-material-dropdown';
 import { TextField } from 'react-native-material-textfield';
@@ -67,7 +66,7 @@ export default class Onboarding extends Component {
    *   it runs the action
    */
   componentDidMount() {
-    console.log("Auth component mounted");
+    console.log("Onboarding component mounted");
     setTimeout(() => {
       if(this.scrollView != null){
         this.scrollView.scrollTo({x: -16})
