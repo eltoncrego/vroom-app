@@ -55,7 +55,11 @@ export default class Dashboard extends Component {
     this.state = {
       button: 'View Calendar',
       car_name: "My Car",
-      taskDates: [],
+      selected: "",
+      taskDates: {
+        '2017-12-17': {marked: true},
+        '2017-12-15': {marked: true},
+        [this.selected]: {selected: true}},
       textTaskArr: [],
     };
   }
@@ -75,7 +79,6 @@ export default class Dashboard extends Component {
     console.log("Dashboard: querying car_name");
     firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/vehicles/1/nickname").once("value").then(function(snapshot) {
       console.log("query successful");
-      console.log(snapshot.key);
       if(snapshot.exists()) {
         console.log("exists");
         that.setState({
@@ -112,8 +115,9 @@ export default class Dashboard extends Component {
         .then(arr => {
           this.setState({
             textTaskArr: arr.map(task => {
+              key = ""+task.date+task.ttRef;
               return (
-                <Text style={styles.day_title}>{task.date}</Text>
+                <Text style={styles.day_title} key={key}>{task.date}</Text>
                 //<Text style={styles.day_caption}>{task.date}</Text>
               );
             }),
@@ -129,16 +133,16 @@ export default class Dashboard extends Component {
         button: 'View Calendar',
       });
     } else {
-      getTaskDates(firebaseRef.auth().currentUser.uid)
-          .then(dates => {
-            this.setState({
-              taskDates: dates.map(date => {
-                return (
-                  {date}: {marked: true}
-                );
-              }),
-            });
-          });
+      // getTaskDates(firebaseRef.auth().currentUser.uid)
+      //     .then(dates => {
+      //       this.setState({
+      //         taskDates: dates.map(date => {
+      //           return (
+      //             {date}: {marked: true}
+      //           );
+      //         }),
+      //       });
+      //     });
       this.setState({
         flip: true,
         button: `View ${this.state.car_name}`,
@@ -278,7 +282,7 @@ export default class Dashboard extends Component {
                 // Hide day names. Default = false
                 hideDayNames={true}
 
-                markedDates={...this.state.taskDates}
+                markedDates={this.state.taskDates}
 
                 //{{[this.state.selected]: {selected: true}}}
 
