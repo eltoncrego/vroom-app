@@ -47,32 +47,20 @@ export default class Auth extends Component {
     console.log("setListener()");
     var that = this;
     firebaseRef.auth().onAuthStateChanged(function(user) {
-
+      console.log("onAuthStateChanged()");
        if (user) {
          console.log("user is signed in");
          firebaseRef.database().ref("users").child(user.uid).child("vehicles").once('value').then(function(snapshot) {
-           console.log("inside database call");
-           if(snapshot.name != null) {
+           if(snapshot.val() != null) {
+             console.log("no car object for this user! going to Onboarding");
              that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
            } else {
-             console.log("No such document!");
+             console.log("no car object for this user! going to Onboarding");
              that.setState({onboarding: true, signedIn: true, checkedSignIn: true});
            }
          }).catch(function(error) {
            console.log("Error getting document:", error.message);
          });
-
-       // var ref = firebaseRef.firestore().collection("users").doc(user.uid).collection("vehicles");
-       // ref.doc("1").get().then(function(doc) {
-       //   if (doc.exists) {
-       //     that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
-       //   } else {
-       //     console.log("No such document!");
-       //     that.setState({onboarding: true, signedIn: true, checkedSignIn: true});
-       //   }
-       // }).catch(function(error) {
-       //   console.log("Error getting document:", error.message);
-       // });
      } else {
        // No user is signed in.
        console.log("user is signed out");
