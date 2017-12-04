@@ -120,12 +120,7 @@ export default class Onboarding extends Component {
       });
       this.animation3.play();
       // populates user's Firebase entry
-<<<<<<< HEAD
       this.state.user.child('vehicles/1').set({
-=======
-      this.state.user.collection('vehicles').doc("1").set({
-      // this.state.user.ref('/vehicles/1').set({
->>>>>>> 983ddbdae7866f4afafd6df502e9cdd30c168125
           name: this.state.text,
           year: this.state.year,
           make: this.state.make,
