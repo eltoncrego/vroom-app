@@ -68,6 +68,10 @@ export default class Settings extends Component {
     )
   }
 
+  setNotificationTimeframe() {
+
+  }
+
 
   /*
    * Static: navigationOptions
@@ -147,7 +151,8 @@ export default class Settings extends Component {
           baseColor={GLOBAL.COLOR.WHITE}
           selectedItemColor={GLOBAL.COLOR.GREEN}
           textColor={GLOBAL.COLOR.WHITE}
-          
+          onChangeText={(value,index,data) => {
+          }}
         />
         <TouchableOpacity
           style={styles.buttonContainer}
