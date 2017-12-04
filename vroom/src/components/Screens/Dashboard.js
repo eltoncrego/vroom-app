@@ -7,6 +7,9 @@
 import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
 
+var MiataTaskOb = require('../Database/Maintenance_Schedules/2000_mazda_miata.json');
+
+
 // Components
 import {
   Dimensions,
@@ -23,7 +26,7 @@ import FlipCard from 'react-native-flip-card'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 // Files Needed
-import {logOut, getName} from "../Database/Database";
+import {logOut, getName, pushTask, pushJSONTask} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import revi_sad from '../../../assets/animations/revi-to-worried.json';
 import SignedOut from '../Navigation/Router';
@@ -84,6 +87,11 @@ export default class Dashboard extends Component {
         console.log("user hasn't gone through onboarding");
       }
     });
+    for(var i = 1; i < 5; i++){
+        console.log(i);
+        pushTask("Test Ref", "2017-11-" + i);
+     }
+   // pushJSONTask(MiataTaskOb);
   }
 
   /*

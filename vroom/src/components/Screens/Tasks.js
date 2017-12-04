@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 
 // Files Needed
-import {pushTask, logOut, deleteUser, firebaseRef} from "../Database/Database";
+import {pushToDatabase, logOut, deleteUser, firebaseRef} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 
 /*
@@ -72,11 +72,47 @@ export default class Tasks extends Component {
      //   alert("Error: please set date/time of task");
 
      // Test Code
-     for(var i = 1; i < 30; i++){
+     for(var i = 1; i < 5; i++){
         console.log(i);
         pushTask("Test Ref", "2017-11-" + i);
      }
    }
+
+  /*
+   * Firebase Function: pushToDatabase()
+   * Author: Will Coates
+   * 
+   * Purpose: A generic function for pushing to our Realtime Database,
+   *          can fill in with whatever is needed and call where convenient
+   *          (currently pushes Task Types for demo cars, called when pressing
+   *           Create Task button in Tasks.js)
+   *
+   */
+   /*
+   pushToDatabase(){
+    // 2006 Honda Accord
+    console.log("Pushing 2006 Honda Accord Task Types");
+    var path = "cars/2006/honda/accord";
+    var taskTypesOb = require('../Database/Maintenance_Schedules/2006_honda_accord.json');
+    pushJSONTask(path, taskTypesOb);
+    // 2010 Toyota Prius
+    console.log("Pushing 2010 Toyota Prius Task Types");
+    var path = "cars/2010/toyota/prius";
+    var taskTypesOb = require('../Database/Maintenance_Schedules/2010_toyota_prius.json');
+    pushJSONTask(path, taskTypesOb);
+    // 2014 Ford Fiesta
+    console.log("Pushing 2014 Ford Fiesta Task Types");
+    var path = "cars/2014/ford/fiesta";
+    var taskTypesOb = require('../Database/Maintenance_Schedules/2014_ford_fiesta.json');
+    pushJSONTask(path, taskTypesOb);
+    // 2014 Ford Mustang
+    console.log("Pushing 2014 Ford Mustang Task Types");
+    var path = "cars/2014/ford/mustang";
+    var taskTypesOb = require('../Database/Maintenance_Schedules/2014_ford_mustang.json');
+    pushJSONTask(path, taskTypesOb);
+   }
+
+*/
 
   /*
    * Static: navigationOptions
@@ -132,8 +168,8 @@ export default class Tasks extends Component {
         <Text style={styles.header}>
           Tasks
         </Text>
-        <Text>Clicking the button will add 29 tasks for the user.</Text>
-        <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.addTask() }>
+        <Text>Clicking the button will add some cars to the database.</Text>
+        <TouchableOpacity style={styles.buttonContainer} onPress={ () => pushToDatabase() }>
           <Text style={styles.buttonText}>
             Create Task
           </Text>
