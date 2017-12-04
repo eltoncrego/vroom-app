@@ -30,7 +30,6 @@ import {
   authListener,
   firebaseRef,
 } from '../Database/Database';
-import 'firebase/firestore';
 
 export default class EmailPasswordLogin extends Component {
 
