@@ -78,7 +78,7 @@ export default class Settings extends Component {
     console.log("reAuth()");
     var email = this.state.email;
     var password = this.state.password;
-    
+
   }
 
 
@@ -201,7 +201,8 @@ export default class Settings extends Component {
           baseColor={GLOBAL.COLOR.WHITE}
           selectedItemColor={GLOBAL.COLOR.GREEN}
           textColor={GLOBAL.COLOR.WHITE}
-
+          onChangeText={(value,index,data) => {
+          }}
         />
         <TouchableOpacity
           style={styles.buttonContainer}

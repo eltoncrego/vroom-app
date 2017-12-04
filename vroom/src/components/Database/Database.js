@@ -33,10 +33,10 @@ import * as firebase from 'firebase';
    */
    export function pushToDatabase(){
     // 2006 Honda Accord
-    console.log("Pushing 2030 Honda Accord Task Types");
-    var path = "cars/2030/honda/accord";
-    var taskTypesOb = require('../Database/Maintenance_Schedules/2006_honda_accord.json');
-    pushJSONTask(path, taskTypesOb);
+    //console.log("Pushing 2006 Honda Accord Task Types");
+    //var path = "cars/2006/honda/accord";
+    //var taskTypesOb = require('../Database/Maintenance_Schedules/2006_honda_accord.json');
+    //pushJSONTask(path, taskTypesOb);
    }
 
   /*
@@ -59,8 +59,8 @@ import * as firebase from 'firebase';
           date: d,
           uid: u,
       };
+      firebaseRef.database().ref('tasks').push(taskObject);
     }
-    firebaseRef.database().ref('tasks').push(taskObject);
   }
 
  /*

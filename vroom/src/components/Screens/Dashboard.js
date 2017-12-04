@@ -55,7 +55,8 @@ export default class Dashboard extends Component {
     this.state = {
       button: 'View Calendar',
       car_name: "My Car",
-      taskDates: {},
+      taskDates: [],
+      textTaskArr: [],
     };
   }
 
@@ -72,7 +73,7 @@ export default class Dashboard extends Component {
 
     var that = this;
     console.log("Dashboard: querying car_name");
-    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/vehicles/1/name").once("value").then(function(snapshot) {
+    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/vehicles/1/nickname").once("value").then(function(snapshot) {
       console.log("query successful");
       console.log(snapshot.key);
       if(snapshot.exists()) {
@@ -84,10 +85,6 @@ export default class Dashboard extends Component {
         console.log("user hasn't gone through onboarding");
       }
     });
-    for(var i = 1; i < 5; i++){
-        console.log(i);
-        pushTask("Test Ref", "2017-11-" + i);
-     }
   }
 
   /*
@@ -111,7 +108,18 @@ export default class Dashboard extends Component {
     this.setState({
       selected: day.dateString
     });
-    getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid);
+    getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid)
+        .then(arr => {
+          this.setState({
+            textTaskArr: arr.map(task => {
+              return (
+                <Text style={styles.day_title}>{task.date}</Text>
+                //<Text style={styles.day_caption}>{task.date}</Text>
+              );
+            }),
+          });
+          }
+        );
   }
 
   flipCard(){
@@ -121,16 +129,16 @@ export default class Dashboard extends Component {
         button: 'View Calendar',
       });
     } else {
-      getTaskDates(firebaseRef.auth().currentUser.uid);
-          //.then(dates => {
-              //var i = 0;
-              //for(i; i<dates.length; i++){
-              //  this.taskDates[i]
-              //}
-              //this.setState({
-            //    taskDates: dates,
-            //  });
-      //});
+      getTaskDates(firebaseRef.auth().currentUser.uid)
+          .then(dates => {
+            this.setState({
+              taskDates: dates.map(date => {
+                return (
+                  {date}: {marked: true}
+                );
+              }),
+            });
+          });
       this.setState({
         flip: true,
         button: `View ${this.state.car_name}`,
@@ -270,7 +278,9 @@ export default class Dashboard extends Component {
                 // Hide day names. Default = false
                 hideDayNames={true}
 
-                markedDates={this.state.taskDates}
+                // markedDates={...this.state.taskDates}
+
+                //{{[this.state.selected]: {selected: true}}}
 
               />
             </View>
@@ -285,12 +295,7 @@ export default class Dashboard extends Component {
               <Text style={styles.buttonText}>{this.state.button}</Text>
           </TouchableOpacity>
           <View style={styles.dayly}>
-            <Text style={styles.day_title}>Take 5</Text>
-            <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
-
-            <Text style={styles.task_title}>Tire Pressure</Text>
-            <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
-
+            {this.state.textTaskArr}
           </View>
         </ScrollView>
       </View>

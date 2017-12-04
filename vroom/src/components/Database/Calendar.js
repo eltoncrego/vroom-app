@@ -12,15 +12,13 @@ import {firebaseRef} from "./Database";
 
 export function getTaskDates(u){
     return new Promise((resolve, reject) => {
-      firebaseRef.database().ref('tasks/')
-      .where("uid", "==", u).get()
-      .then(function(querySnapshot) {
-          var dates = {};
-          var i = 0;
-          querySnapshot.forEach(function(doc) {
-              dates[i++] = doc.data().date;
+      firebaseRef.database().ref('tasks/').orderByChild('uid').equalTo(u).once('value')
+      .then(function(snapshot) {
+          var dates = [];
+          snapshot.forEach(function(child) {
+              //console.log(child);
+              dates[dates.length] = child.val().date;
           });
-          console.log(dates);
           resolve(dates);
       })
       .catch(function(error) {
@@ -43,15 +41,14 @@ export function getTaskDates(u){
 
 export function getTaskByDate(d, u){
   return new Promise((resolve, reject) => {
-    firebaseRef.firestore().collection("tasks")
-    .where("uid", "==", u).where("date", "==", d).get()
-    .then(function(querySnapshot) {
-        var data = {};
-        var i = 0;
-        querySnapshot.forEach(function(doc) {
-          data[i++] = doc.data();
+    firebaseRef.database().ref('tasks').orderByChild('uid').equalTo(u).once('value')
+    .then(function(snapshot) {
+        var data = [];
+        snapshot.forEach(function(child) {
+          if(child.val().date == d){
+              data[data.length] = child.val();
+          }
         });
-        console.log(data);
         resolve(data);
     })
     .catch(function(error) {
