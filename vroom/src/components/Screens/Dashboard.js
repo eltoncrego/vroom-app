@@ -23,7 +23,7 @@ import FlipCard from 'react-native-flip-card'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 // Files Needed
-import {logOut, getName, pushTask} from "../Database/Database";
+import {logOut, getName} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import revi_sad from '../../../assets/animations/revi-to-worried.json';
 import SignedOut from '../Navigation/Router';
@@ -56,10 +56,7 @@ export default class Dashboard extends Component {
       button: 'View Calendar',
       car_name: "My Car",
       selected: "",
-      taskDates: {
-        '2017-12-17': {marked: true},
-        '2017-12-15': {marked: true},
-        [this.selected]: {selected: true}},
+      taskDates: {},
       textTaskArr: [],
     };
   }
@@ -113,6 +110,7 @@ export default class Dashboard extends Component {
     this.setState({
       selected: day.dateString
     });
+    this.updateMarkedDays();
     getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid)
         .then(arr => {
           this.setState({
@@ -128,6 +126,21 @@ export default class Dashboard extends Component {
         );
   }
 
+  updateMarkedDays(){
+    getTaskDates(firebaseRef.auth().currentUser.uid)
+         .then(dates => {
+           var dobj = {};
+           for (var i = 0; i < dates.length; i++){
+              dobj[dates[i]] = {marked: true};
+           }
+           dobj[this.state.selected] = {selected: true};
+           console.log(dobj);
+           this.setState({
+             taskDates: dobj
+           });
+        });
+  }
+
   flipCard(){
     if(this.state.flip){
       this.setState({
@@ -135,16 +148,7 @@ export default class Dashboard extends Component {
         button: 'View Calendar',
       });
     } else {
-      // getTaskDates(firebaseRef.auth().currentUser.uid)
-      //     .then(dates => {
-      //       this.setState({
-      //         taskDates: dates.map(date => {
-      //           return (
-      //             {date}: {marked: true}
-      //           );
-      //         }),
-      //       });
-      //     });
+      this.updateMarkedDays();
       this.setState({
         flip: true,
         button: `View ${this.state.car_name}`,
@@ -266,7 +270,9 @@ export default class Dashboard extends Component {
                 current={d}
 
                 // Handler which gets executed on day press. Default = undefined
-                onDayPress={(day) => {this.onDayPress(day)}}
+                onDayPress={(day) => {
+                  this.onDayPress(day)
+                }}
 
                 // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                 monthFormat={'MMMM yyyy'}
@@ -285,6 +291,7 @@ export default class Dashboard extends Component {
                 hideDayNames={true}
 
                 markedDates={this.state.taskDates}
+
 
                 //{{[this.state.selected]: {selected: true}}}
 
