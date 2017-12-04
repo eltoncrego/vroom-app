@@ -97,6 +97,7 @@ export default class Onboarding extends Component {
       model: null,
       year: null,
       choices: null,
+      array: null,
     };
   }
 
@@ -115,7 +116,7 @@ export default class Onboarding extends Component {
       this.scrollView.scrollTo({x: this.state.scroll_pos + 344, y:0, animated: true});
       this.setState({
         scroll_enabled: false,
-        text_button: `Continue to ${this.state.text}`
+        text_button: `Continue to ${this.state.text}`,
       });
       this.animation3.play();
       // populates user's Firebase entry
@@ -123,7 +124,6 @@ export default class Onboarding extends Component {
           nickname: this.state.text,
           path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
           choices: this.state.choices,
-
       });
     // make,year,model dropdowns haven't been properly set
     } else {
@@ -176,7 +176,7 @@ export default class Onboarding extends Component {
 arrayToJSON(input){
     console.log("input array");
     console.log(input);
-    console.log("array type is", typeof input); 
+    console.log("array type is", typeof input);
     console.log("array length is", input.length);
     console.log("input['0'] =", input['0']);
 
@@ -193,23 +193,30 @@ arrayToJSON(input){
     }
     console.log("finished object");
     console.log(retObj);
+    return retObj;
   }
 
   getModelYears(){
     var ret = [];
-
+    var that = this;
     firebaseRef.database().ref('cars').once("value")
     .then(function(snapshot){
       snapshot.forEach(function(childSnapshot){
+        console.log("yo");
         ret[ret.length] = childSnapshot.key;
       });
+      var retObj = [{value: input[0]}];
+      var newObj;
+      for (i = 1; i < ret.length; i++){
+        newObj = {value: input[i]};
+        retObj = retObj.concat(newObj);
+        console.log("concatenated object");
+        console.log(retObj);
+      }
+      console.log("finished object");
+      console.log(retObj);
+      return retObj;
     });
-    console.log("array");
-    console.log(ret);
-    var rett = this.arrayToJSON(ret);
-    console.log("JSON");
-    console.log(rett);
-    return rett;
   }
 
 
@@ -297,17 +304,47 @@ arrayToJSON(input){
      *
      * Purpose: Data for the dropdown picker
      */
-    //   let year = [{
-    //   value: '2000',
-    // }, {
-    //   value: '2006',
-    // }, {
-    //   value: '2010',
-    // },{
-    //   value: '2014'
-    // }];
+      let year = [{
+      value: '2000',
+    }, {
+      value: '2001',
+    }, {
+      value: '2002',
+    },{
+      value: '2003',
+    }, {
+      value: '2004',
+    }, {
+      value: '2005',
+    },{
+      value: '2006',
+    }, {
+      value: '2007',
+    }, {
+      value: '2008',
+    },{
+      value: '2009',
+    }, {
+      value: '2010',
+    }, {
+      value: '2011',
+    },{
+      value: '2012',
+    }, {
+      value: '2013',
+    }, {
+      value: '2014',
+    },{
+      value: '2015',
+    }, {
+      value: '2016',
+    }, {
+      value: '2017',
+    },{
+      value: '2018',
+    }];
 
-    let year = this.getModelYears();
+    // let year = this.getModelYears();
 
     let make = [{
       value: 'Ford',
