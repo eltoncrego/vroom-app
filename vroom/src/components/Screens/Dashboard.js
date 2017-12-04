@@ -113,11 +113,12 @@ export default class Dashboard extends Component {
     this.updateMarkedDays();
     getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid)
         .then(arr => {
+          console.log(arr);
           this.setState({
             textTaskArr: arr.map(task => {
               key = ""+task.date+task.ttRef;
               return (
-                <Text style={styles.day_title} key={key}>{task.date}</Text>
+                <Text style={styles.day_title} key={key}>{task.title}</Text>
                 //<Text style={styles.day_caption}>{task.date}</Text>
               );
             }),
