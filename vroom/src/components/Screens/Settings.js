@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   Alert,
   StatusBar,
+  TextInput,
 } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 
@@ -23,6 +24,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 // Files Needed
 import {logOut, deleteUser, firebaseRef} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
+import * as firebase from 'firebase';
 
 
 /*
@@ -42,6 +44,18 @@ export default class Settings extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      reAuth: false,
+      email: "",
+      password: "",
+      timeframe: [{
+        value: 'One Week',
+      }, {
+        value: 'Two Weeks',
+      }, {
+        value: 'One Month',
+      }],
+    }
   }
 
   /*
@@ -53,21 +67,55 @@ export default class Settings extends Component {
    */
   componentDidMount() {
     console.log("Settings component mounted");
+    this.setNotifications(this.state.timeframe[0].value);
   }
 
   deleteAccount() {
-    Alert.alert(
-      'Confirm Deletion',
-      'Are you sure you want to delete your account? This action cannot be undone!',
-      [
-        {text: "Yes", onPress: () => {
-          deleteUser();
-        }},
-        {text: "No"},
-      ]
-    )
+    if(this.state.reAuth){
+      this.reAuth();
+    } else {
+      Alert.alert(
+        'Oh No!',
+        'We\'re sorry to see you go.\nAre you sure you want to delete your account? This action cannot be undone!',
+        [
+          {text: "Yes", onPress: () => {
+            alert("Please enter your credentials to confirm account deletion");
+            this.setState({ reAuth: true });
+          }},
+          {text: "No"},
+        ]
+      )
+    }
   }
 
+  reAuth() {
+    console.log("reAuth()");
+    var email = this.state.email;
+    var password = this.state.password;
+    var credential = firebase.auth.EmailAuthProvider.credential(email, password);
+    firebaseRef.auth().currentUser.reauthenticateWithCredential(credential).then(() => {
+      firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid).remove()
+        .then(() => {
+          console.log("succesfully deleted user from FirebaseDatabase");
+        }).catch((error) => {
+          console.log("unsuccesfully deleted user from FirebaseDatabase");
+        });
+      deleteUser();
+    }).catch((error) => {
+      alert("Incorrect credentials.");
+    });
+  }
+
+  setNotifications(val) {
+    console.log("Dropdown value: "+val);
+    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/settings/notifications")
+      .set(val).then(() => {
+        console.log("successfully set notification setting for user");
+      }).catch((error) => {
+        alert("Error: couldn't set notification");
+        console.log("UNsuccessfully set notification setting for user");
+      });
+  }
 
   /*
    * Static: navigationOptions
@@ -98,7 +146,9 @@ export default class Settings extends Component {
       ),
       headerLeft: (
           <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={styles.button}>
-            <Text style={styles.menu}>Menu</Text>
+            <View>
+              <Text style={styles.menu}>Menu</Text>
+            </View>
           </TouchableOpacity>
       ),
   });
@@ -114,13 +164,40 @@ export default class Settings extends Component {
    */
   render() {
 
-    let timeframe = [{
-      value: 'One Week',
-    }, {
-      value: 'Two Weeks',
-    }, {
-      value: 'One Month',
-    }];
+    // let timeframe = [{
+    //   value: 'One Week',
+    // }, {
+    //   value: 'Two Weeks',
+    // }, {
+    //   value: 'One Month',
+    // }];
+
+    var reAuth = this.state.reAuth ?
+      <View style={styles.delete_confirm}>
+        <TextInput
+          placeholderTextColor={GLOBAL.COLOR.GRAY}
+          style={styles.input}
+          placeholder="email"
+          autoCapitalize="none"
+          onChangeText={(text) => {
+            this.setState({email: text});
+          }}
+          underlineColorAndroid='transparent'
+        />
+        <TextInput
+          placeholderTextColor={GLOBAL.COLOR.GRAY}
+          style={styles.input}
+          placeholder="password"
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={(text) => {
+            this.setState({password: text});
+          }}
+          underlineColorAndroid='transparent'
+        />
+      </View>
+      :
+      null;
 
     return (
       <View
@@ -142,13 +219,16 @@ export default class Settings extends Component {
         </Text>
         <Dropdown
           label='Timeframe'
-          data={timeframe}
-          value={timeframe[0].value}
+          data={this.state.timeframe}
+          value={this.state.timeframe[0].value}
           baseColor={GLOBAL.COLOR.WHITE}
           selectedItemColor={GLOBAL.COLOR.GREEN}
           textColor={GLOBAL.COLOR.WHITE}
-          
+          onChangeText={(value,index,data) => {
+            this.setNotifications(value);
+          }}
         />
+        {reAuth}
         <TouchableOpacity
           style={styles.buttonContainer}
           activeOpacity={0.8}
@@ -156,7 +236,7 @@ export default class Settings extends Component {
               () => this.deleteAccount()
           }>
           <Text style={styles.buttonText}>Delete Account</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -190,7 +270,49 @@ const styles = StyleSheet.create({
       backgroundColor: GLOBAL.COLOR.DARKGRAY,
       padding: 32,
     },
-
+    /*
+     * Style: input
+     * Author: Alec Felt
+     * Purpose: adds alignment/spacing to the textInputs
+     */
+    input: {
+      fontFamily: 'Nunito',
+      textAlign: 'center',
+      justifyContent: 'center',
+      alignSelf: 'center',
+      fontSize: 20,
+      marginBottom: 32,
+      borderBottomWidth: 2,
+      paddingBottom: 2,
+      width: '80%',
+      borderColor: GLOBAL.COLOR.RED,
+      color: GLOBAL.COLOR.RED
+    },
+    /*
+     * Style: button
+     * Author: Elton C. Rego
+     * Purpose: Adds styling to the touchable opacity elements
+     */
+     button_container: {
+        backgroundColor: GLOBAL.COLOR.GREEN,
+        padding: 12,
+        paddingHorizontal: 24,
+        borderRadius: 20,
+        margin: 8,
+     },
+     /*
+      * Style: button
+      * Author: Alec Felt
+      * Purpose: add style to the login and signup buttons
+      */
+     button: {
+       textAlign: 'center',
+       fontFamily: 'Nunito',
+       color: GLOBAL.COLOR.WHITE,
+       backgroundColor: 'transparent',
+       fontSize: 15,
+       fontWeight: '600',
+    },
     /*
     * Style: Settings Header
     * Author: Elton C. Rego
@@ -235,6 +357,9 @@ const styles = StyleSheet.create({
       fontSize: 15,
       fontWeight: '200',
       color: GLOBAL.COLOR.WHITE,
+    },
+    delete_confirm: {
+      marginTop: 32,
     },
 
 });

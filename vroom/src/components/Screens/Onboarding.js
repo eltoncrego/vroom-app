@@ -58,7 +58,7 @@ export default class Onboarding extends Component {
     lockMode: 'locked-closed',
   };
 
-   /*
+  /*
    * Method: componentDidMount()
    * Author: Elton C. Rego
    *
@@ -119,7 +119,7 @@ export default class Onboarding extends Component {
       });
       this.animation3.play();
       // populates user's Firebase entry
-      this.state.user.child('vehicles/1').set({
+      this.state.user.child('vehicles').push({
           nickname: this.state.text,
           path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
           choices: this.state.choices,
@@ -386,20 +386,6 @@ export default class Onboarding extends Component {
                 this.nameEntered();
               }}
             />
-          </View>
-
-        {/* Card 4 */}
-          <View style={styles.card}>
-            <Text style={styles.card_title}>{"Hello!"}</Text>
-            <View style={styles.revi_animations}>
-              <Animation
-                ref={animation => {this.animation = animation;}}
-                style={{width: '100%', height: '100%',}}
-                loop={false}
-                source={revi}
-              />
-            </View>
-            <Text style={styles.card_text}>{"I'm your car!"}</Text>
           </View>
 
           {/* Card 4: Hide if no name*/}
