@@ -173,19 +173,20 @@ export default class Onboarding extends Component {
      goTo(this.props.navigation, 'Dashboard');
   }
 
-arrayToJSON(array){
+arrayToJSON(input){
     console.log("input array");
-    console.log(array);
-    console.log("array type is", typeof array); 
-    console.log("array length");
-    console.log(array.length);
-    console.log("array[0] =", array[0]);
+    console.log(input);
+    console.log("array type is", typeof input); 
+    console.log("array length is", input.length);
+    console.log("input['0'] =", input['0']);
+
+
     console.log("initial JSON object");
-    var retObj = [{value: array[0]}];
+    var retObj = [{value: input[0]}];
     console.log(retObj);
     var newObj;
-    for (i = 1; i < array.length; i++){
-      newObj = [{value: array[i]}];
+    for (i = 1; i < input.length; i++){
+      newObj = [{value: input[i]}];
       retObj = retObj.concat(newObj);
       console.log("concatenated object");
       console.log(retObj);
