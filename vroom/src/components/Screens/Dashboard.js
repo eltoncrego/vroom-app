@@ -77,12 +77,14 @@ export default class Dashboard extends Component {
 
     var that = this;
     console.log("Dashboard: querying car_name");
-    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/vehicles/1/nickname").once("value").then(function(snapshot) {
+    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/vehicles/").once("value").then(function(snapshot) {
       console.log("query successful");
       if(snapshot.exists()) {
-        console.log("exists");
-        that.setState({
-          car_name: snapshot.val()
+        snapshot.forEach(function(child){
+          console.log("exists");
+          that.setState({
+            car_name: child.val().nickname
+          });
         });
       } else {
         console.log("user hasn't gone through onboarding");
