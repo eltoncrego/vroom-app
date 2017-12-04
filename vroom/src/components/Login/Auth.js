@@ -101,7 +101,8 @@ export default class Auth extends Component {
       return <Loading/>;
     }
 
-   // alert
+
+    // return <Loading/>;
    // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);
    // return <MainApp/>;
    // const MainApp = createMainApplication(this.state.signedIn, this.state.onboarding);

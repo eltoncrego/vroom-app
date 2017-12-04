@@ -15,6 +15,8 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import Animation from 'lottie-react-native';
+import loader_icon from '../../../assets/animations/loading.json';
 
 /*
  * Class: Loading
@@ -34,6 +36,7 @@ export default class Loading extends Component {
 
   componentDidMount() {
     console.log("Loading component mounted");
+    this.animation.play();
   }
 
   /*
@@ -69,8 +72,23 @@ export default class Loading extends Component {
         <StatusBar
            barStyle="light-content"
          />
+        <View style={styles.animations}>
+          <Animation
+            ref={
+              animation => {
+                this.animation = animation;
+              }
+            }
+            style={{
+              width: "100%", 
+              height: "100%",
+            }}
+            loop={true}
+            source={loader_icon}
+          />
+        </View>
         <Text style={styles.loading}>
-          loading...
+          loading
         </Text>
       </View>
     );
@@ -98,6 +116,16 @@ const styles = StyleSheet.create({
       fontWeight: '900',
       color: GLOBAL.COLOR.GREEN,
       alignSelf: 'center',
-    }
+    },
+    /*
+     * Style: Revi Animations
+     * Author: Elton C. Rego
+     * Purpose: This styles the Revis on each card
+     */
+    animations: {
+      alignSelf: 'center',
+      height: 64,
+      width: 64,
+    },
 
 });
