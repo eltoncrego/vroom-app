@@ -151,7 +151,7 @@ import "firebase/firestore";
 
   /*
   * Database function: deleteUser()
-  * Author: Elton C. Rego
+  * Author: Elton C. Rego and Connick Shields
   *
   * Purpose: Deletes the current user account
   */
@@ -159,8 +159,8 @@ import "firebase/firestore";
     var user = firebaseRef.auth().currentUser;
       if (user) {
         user.delete().then(function() {
-          logOut();
           firebaseRef.database().ref(user.uid).remove();
+          logOut();
         }).catch(function(error) {
           alert("Sorry, your account is unable to be deleted at this time.")
           console.log(error.message);
