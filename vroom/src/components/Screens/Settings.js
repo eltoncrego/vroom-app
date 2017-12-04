@@ -48,6 +48,13 @@ export default class Settings extends Component {
       reAuth: false,
       email: "",
       password: "",
+      timeframe: [{
+        value: 'One Week',
+      }, {
+        value: 'Two Weeks',
+      }, {
+        value: 'One Month',
+      }],
     }
   }
 
@@ -60,6 +67,7 @@ export default class Settings extends Component {
    */
   componentDidMount() {
     console.log("Settings component mounted");
+    this.setNotifications(this.state.timeframe[0].value);
   }
 
   deleteAccount() {
@@ -98,6 +106,16 @@ export default class Settings extends Component {
     });
   }
 
+  setNotifications(val) {
+    console.log("Dropdown value: "+val);
+    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/settings/notifications")
+      .set(val).then(() => {
+        console.log("successfully set notification setting for user");
+      }).catch((error) => {
+        alert("Error: couldn't set notification");
+        console.log("UNsuccessfully set notification setting for user");
+      });
+  }
 
   /*
    * Static: navigationOptions
@@ -146,13 +164,13 @@ export default class Settings extends Component {
    */
   render() {
 
-    let timeframe = [{
-      value: 'One Week',
-    }, {
-      value: 'Two Weeks',
-    }, {
-      value: 'One Month',
-    }];
+    // let timeframe = [{
+    //   value: 'One Week',
+    // }, {
+    //   value: 'Two Weeks',
+    // }, {
+    //   value: 'One Month',
+    // }];
 
     var reAuth = this.state.reAuth ?
       <View style={styles.delete_confirm}>
@@ -201,12 +219,13 @@ export default class Settings extends Component {
         </Text>
         <Dropdown
           label='Timeframe'
-          data={timeframe}
-          value={timeframe[0].value}
+          data={this.state.timeframe}
+          value={this.state.timeframe[0].value}
           baseColor={GLOBAL.COLOR.WHITE}
           selectedItemColor={GLOBAL.COLOR.GREEN}
           textColor={GLOBAL.COLOR.WHITE}
           onChangeText={(value,index,data) => {
+            this.setNotifications(value);
           }}
         />
         {reAuth}
