@@ -84,10 +84,6 @@ export default class Dashboard extends Component {
         console.log("user hasn't gone through onboarding");
       }
     });
-    for(var i = 1; i < 5; i++){
-        console.log(i);
-        pushTask("Test Ref", "2017-11-" + i);
-     }
   }
 
   /*
@@ -111,6 +107,7 @@ export default class Dashboard extends Component {
     this.setState({
       selected: day.dateString
     });
+    alert(day.dateString);
     getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid);
   }
 
