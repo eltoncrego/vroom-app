@@ -23,11 +23,14 @@ import FlipCard from 'react-native-flip-card'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 // Files Needed
-import {logOut} from "../Database/Database";
+import {logOut, getName} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import revi_sad from '../../../assets/animations/revi-to-worried.json';
+import SignedOut from '../Navigation/Router';
+import Auth from '../Login/Auth';
 
-import {firebaseRef} from '../../../index';
+import {firebaseRef} from '../Database/Database';
+import {getTaskDates, getTaskByDate} from '../Database/Calendar';
 
 /*
  * Class: Dashboard
@@ -52,6 +55,9 @@ export default class Dashboard extends Component {
     this.state = {
       button: 'View Calendar',
       car_name: "My Car",
+      selected: "",
+      taskDates: {},
+      textTaskArr: [],
     };
   }
 
@@ -63,21 +69,23 @@ export default class Dashboard extends Component {
    *   it runs the action
    */
   componentDidMount() {
+    console.log("Dashboard component mounted");
     this.initAnimation();
-    // if user is logged out, go to login
-    firebaseRef.auth().onAuthStateChanged((user) => {
-      if(!user){
-        clearNavStack(this.props.navigation, 'EmailPasswordLogin');
-      }
-    });
 
     var that = this;
-    var ref = firebaseRef.database().ref("users/").child(firebaseRef.auth().currentUser.uid).child("vehicles").child("1");
-    ref.once("value").then(function (snapshot) {
-      var data = snapshot.val();
-      that.setState({
-        car_name: data.name
-      });
+    console.log("Dashboard: querying car_name");
+    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/vehicles/").once("value").then(function(snapshot) {
+      console.log("query successful");
+      if(snapshot.exists()) {
+        snapshot.forEach(function(child){
+          console.log("exists");
+          that.setState({
+            car_name: child.val().nickname
+          });
+        });
+      } else {
+        console.log("user hasn't gone through onboarding");
+      }
     });
   }
 
@@ -102,6 +110,36 @@ export default class Dashboard extends Component {
     this.setState({
       selected: day.dateString
     });
+    this.updateMarkedDays();
+    getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid)
+        .then(arr => {
+          console.log(arr);
+          this.setState({
+            textTaskArr: arr.map(task => {
+              key = ""+task.date+task.ttRef;
+              return (
+                <Text style={styles.day_title} key={key}>{task.title}</Text>
+                //<Text style={styles.day_caption}>{task.date}</Text>
+              );
+            }),
+          });
+          }
+        );
+  }
+
+  updateMarkedDays(){
+    getTaskDates(firebaseRef.auth().currentUser.uid)
+         .then(dates => {
+           var dobj = {};
+           for (var i = 0; i < dates.length; i++){
+              dobj[dates[i]] = {marked: true};
+           }
+           dobj[this.state.selected] = {selected: true};
+           console.log(dobj);
+           this.setState({
+             taskDates: dobj
+           });
+        });
   }
 
   flipCard(){
@@ -111,6 +149,7 @@ export default class Dashboard extends Component {
         button: 'View Calendar',
       });
     } else {
+      this.updateMarkedDays();
       this.setState({
         flip: true,
         button: `View ${this.state.car_name}`,
@@ -126,8 +165,6 @@ export default class Dashboard extends Component {
    */
   static navigationOptions = ({navigation, screenProps}) => {
 
-      const params = navigation.state.params || {};
-
       return{
         /*
          * navigationOptions: headerStyle, headerRight
@@ -142,9 +179,9 @@ export default class Dashboard extends Component {
         },
 
         title: (<Text ref={"headerTitle"} style={styles.header_middle}>Dashboard</Text>),
-    
+
         headerRight: (
-          <TouchableOpacity onPress={() => { logOut(navigation); }}>
+          <TouchableOpacity onPress={() => { logOut(); }}>
             <Text style={styles.button_header}>Sign Out</Text>
           </TouchableOpacity>
         ),
@@ -169,7 +206,7 @@ export default class Dashboard extends Component {
    *
    */
   render() {
-
+    console.log("Dashboard: rendering beginning");
     var d = new Date();
 
     return (
@@ -234,7 +271,9 @@ export default class Dashboard extends Component {
                 current={d}
 
                 // Handler which gets executed on day press. Default = undefined
-                onDayPress={(day) => {this.onDayPress(day)}}
+                onDayPress={(day) => {
+                  this.onDayPress(day)
+                }}
 
                 // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                 monthFormat={'MMMM yyyy'}
@@ -252,7 +291,11 @@ export default class Dashboard extends Component {
                 // Hide day names. Default = false
                 hideDayNames={true}
 
-                markedDates={{[this.state.selected]: {selected: true}}}
+                markedDates={this.state.taskDates}
+
+
+                //{{[this.state.selected]: {selected: true}}}
+
               />
             </View>
           </FlipCard>
@@ -266,14 +309,7 @@ export default class Dashboard extends Component {
               <Text style={styles.buttonText}>{this.state.button}</Text>
           </TouchableOpacity>
           <View style={styles.dayly}>
-            <Text style={styles.day_title}>Take 5</Text>
-            <Text style={styles.day_caption}>Before you drive today, take five minutes to check</Text>
-
-            <Text style={styles.task_title}>Tire Pressure</Text>
-            <Text style={styles.task_caption}>Grab your tire pressure pen and quickly make sure all of your tires match up with 50psi</Text>
-
-            <Text style={styles.task_title}>Tread Depth</Text>
-            <Text style={styles.task_caption}>Got a penny? Grab it and stick it in a crevice of your tire. If you can see old abe's hat, you should definitely get some new rubbers.</Text>
+            {this.state.textTaskArr}
           </View>
         </ScrollView>
       </View>

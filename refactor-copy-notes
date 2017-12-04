@@ -1,0 +1,27 @@
+{/* Card 3.5 */}
+          <View style={styles.card}>
+            <Text style={styles.card_title}>{"My owner's experience"}</Text>
+            <View style={{
+              backgroundColor: 'white',
+              alignSelf: 'stretch',
+              marginHorizontal: 20,
+              marginTop: -10,
+            }}>
+              <Dropdown
+                label='Did you check around your car before you start it everytime?'
+                data={choices}
+                onChangeText={(value,index,data) => {this.setState({choices: value});}}
+              />
+              <Dropdown
+                label='Did you do your maintenances on time?'
+                data={choices}
+                onChangeText={(value,index,data) => {this.setState({choices: value});}}
+              />
+              <Dropdown
+                label='Did you check your car regularly even you barely drive it?'
+                data={choices}
+                onChangeText={(value,index,data) => {this.setState({choices: value});}}
+              />
+            </View>
+            <Text style={styles.card_text}></Text>
+          </View>
