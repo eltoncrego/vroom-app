@@ -173,6 +173,45 @@ export default class Onboarding extends Component {
      goTo(this.props.navigation, 'Dashboard');
   }
 
+arrayToJSON(array){
+    console.log("input array");
+    console.log(array);
+    console.log("array type is", typeof array); 
+    console.log("array length");
+    console.log(array.length);
+    console.log("array[0] =", array[0]);
+    console.log("initial JSON object");
+    var retObj = [{value: array[0]}];
+    console.log(retObj);
+    var newObj;
+    for (i = 1; i < array.length; i++){
+      newObj = [{value: array[i]}];
+      retObj = retObj.concat(newObj);
+      console.log("concatenated object");
+      console.log(retObj);
+    }
+    console.log("finished object");
+    console.log(retObj);
+  }
+
+  getModelYears(){
+    var ret = [];
+
+    firebaseRef.database().ref('cars').once("value")
+    .then(function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+        ret[ret.length] = childSnapshot.key;
+      });
+    });
+    console.log("array");
+    console.log(ret);
+    var rett = this.arrayToJSON(ret);
+    console.log("JSON");
+    console.log(rett);
+    return rett;
+  }
+
+
   /*
    * Method: render
    * Author: Elton C. Rego
@@ -257,15 +296,17 @@ export default class Onboarding extends Component {
      *
      * Purpose: Data for the dropdown picker
      */
-      let year = [{
-      value: '2000',
-    }, {
-      value: '2006',
-    }, {
-      value: '2010',
-    },{
-      value: '2014'
-    }];
+    //   let year = [{
+    //   value: '2000',
+    // }, {
+    //   value: '2006',
+    // }, {
+    //   value: '2010',
+    // },{
+    //   value: '2014'
+    // }];
+
+    let year = this.getModelYears();
 
     let make = [{
       value: 'Ford',
