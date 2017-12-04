@@ -81,6 +81,12 @@ export default class Settings extends Component {
     var password = this.state.password;
     var credential = firebase.auth.EmailAuthProvider.credential(email, password);
     firebaseRef.auth().currentUser.reauthenticateWithCredential(credential).then(() => {
+      firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid).remove()
+        .then(() => {
+          console.log("succesfully deleted user from FirebaseDatabase");
+        }).catch((error) => {
+          console.log("unsuccesfully deleted user from FirebaseDatabase");
+        });
       deleteUser();
     }).catch((error) => {
       alert("Incorrect credentials.");
