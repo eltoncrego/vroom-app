@@ -106,25 +106,25 @@ export default class Dashboard extends Component {
     }
   }
 
+
   onDayPress(day) {
     this.setState({
       selected: day.dateString
     });
     this.updateMarkedDays();
     getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid)
-        .then(arr => {
-          console.log(arr);
-          this.setState({
-            textTaskArr: arr.map(task => {
-              key = ""+task.date+task.ttRef;
-              return (
-                <Text style={styles.day_title} key={key}>{task.title}</Text>
-                //<Text style={styles.day_caption}>{task.date}</Text>
-              );
-            }),
-          });
-          }
-        );
+        .then(tasks => {
+            var temp = [];
+            if(tasks.length != 0){
+              for(var i = 0; i < tasks.length; i++){
+                temp.push(<Text style={styles.day_title} key={tasks[i].key+tasks[i].title}>{tasks[i].title}</Text>);
+                temp.push(<Text style={styles.day_caption} key={tasks[i].key+tasks[i].desc}>{tasks[i].desc}</Text>);
+              }
+            }
+            this.setState({
+                textTaskArr: temp,
+            });
+        });
   }
 
   updateMarkedDays(){

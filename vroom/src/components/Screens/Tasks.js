@@ -64,16 +64,9 @@ export default class Tasks extends Component {
    *
    */
    addTasks() {
-     // Checks state variables assoicated with the task's inputs
-     // if(this.state.name!="" && this.state.year!="" && this.state.month!="" && this.state.day!="" && this.state.time!="") {
-     //   pushTask(this.state.name, this.state.year, this.state.month, this.state.day, this.state.time);
-     // } else {
-     //   alert("Error: please set date/time of task");
-
      // Test Code
      for(var i = 10; i < 16; i++){
-        console.log(i);
-        pushTask("Test Ref", "2017-12-" + i);
+        pushTask("cars/2000/Mazda/Miata/task_types/Check Brake Fluid", "2017-12-" + i);
      }
    }
 
