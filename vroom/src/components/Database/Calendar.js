@@ -16,7 +16,6 @@ export function getTaskDates(u){
       .then(function(snapshot) {
           var dates = [];
           snapshot.forEach(function(child) {
-              //console.log(child);
               dates[dates.length] = child.val().date;
           });
           resolve(dates);
@@ -49,20 +48,24 @@ export function getTaskByDate(d, u){
             // keep track of the number of tasks we process so we can return the data at the right time
             var numProcessed = 0;
             snapshot.forEach(function(child) {
-                numProcessed++;
+                console.log("numChildren:"+snapshot.numChildren());
                 if(child.val().date == d){
                   //child.val() is the task
                   //set ttref of that to the path to the specific task type
                   //do snapshot of the task type at the end of that path
                   // in Dashboard.js in onDayPress, display that info
                   firebaseRef.database().ref(child.val().ttRef).once('value').then(function(tt){
-                    data[data.length] = {key:child.key,title:""+tt.val().action+" "+tt.val().item, desc:tt.val().itemDescription};
+                    data[data.length] = {key:child.key,title:tt.val().action+" "+tt.val().item, desc:tt.val().itemDescription};
+                    numProcessed++;
                     if(numProcessed == snapshot.numChildren()){
+                      console.log("exiting match: "+child.key+" "+numProcessed);
                       resolve(data);
                     }
                   });
                 } else {
+                  numProcessed++;
                   if(numProcessed == snapshot.numChildren()){
+                    console.log("exiting no match: "+child.key+" "+numProcessed);
                     resolve(data);
                   }
                 }

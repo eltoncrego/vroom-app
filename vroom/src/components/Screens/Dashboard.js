@@ -114,6 +114,7 @@ export default class Dashboard extends Component {
     this.updateMarkedDays();
     getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid)
         .then(tasks => {
+          console.log(tasks);
             var temp = [];
             if(tasks.length != 0){
               for(var i = 0; i < tasks.length; i++){
@@ -135,7 +136,6 @@ export default class Dashboard extends Component {
               dobj[dates[i]] = {marked: true};
            }
            dobj[this.state.selected] = {selected: true};
-           console.log(dobj);
            this.setState({
              taskDates: dobj
            });
