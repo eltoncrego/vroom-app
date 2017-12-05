@@ -1,6 +1,6 @@
 import {firebaseRef} from "./Database";
 
-/*
+/*a
 * Database function: getTaskDates()
 * Author: Connick Shields
 *
@@ -44,21 +44,32 @@ export function getTaskByDate(d, u){
     firebaseRef.database().ref('tasks').orderByChild('uid').equalTo(u).once('value')
     .then(function(snapshot) {
         var data = [];
-        snapshot.forEach(function(child) {
-          if(child.val().date == d){
-            //child.val() is the task
-            //set ttref of that to the path to the specific task type
-            //do snapshot of the task type at the end of that path
-            // in Dashboard.js in onDayPress, display that info
-            firebaseRef.database().ref(child.val().ttRef).once('value').then(function(tt){
-              data[data.length] = {title:""+tt.val().action+" "+tt.val().item, desc:tt.val().itemDescription};
-              console.log(data);
-            });
-              //data[data.length] = child.val();
-          }
-        });
-        console.log(data);
-        resolve(data);
+        // make sure the snapshot has data in it
+        if(snapshot.exists()){
+            // keep track of the number of tasks we process so we can return the data at the right time
+            var numProcessed = 0;
+            snapshot.forEach(function(child) {
+                numProcessed++;
+                if(child.val().date == d){
+                  //child.val() is the task
+                  //set ttref of that to the path to the specific task type
+                  //do snapshot of the task type at the end of that path
+                  // in Dashboard.js in onDayPress, display that info
+                  firebaseRef.database().ref(child.val().ttRef).once('value').then(function(tt){
+                    data[data.length] = {key:child.key,title:""+tt.val().action+" "+tt.val().item, desc:tt.val().itemDescription};
+                    if(numProcessed == snapshot.numChildren()){
+                      resolve(data);
+                    }
+                  });
+                } else {
+                  if(numProcessed == snapshot.numChildren()){
+                    resolve(data);
+                  }
+                }
+              });
+            } else {
+                resolve(data);
+            }
     })
     .catch(function(error) {
         console.log("Error getting tasks: ", error);
