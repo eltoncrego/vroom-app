@@ -1,0 +1,7 @@
+Sprint 1: [Learning] setting up a minimal app that does not crash on both iOS and Android
+
+Sprint 2: [Frontend] setting up limited database, adding some functionality like landing screen and menu
+
+Sprint 3: [Backend] (attempting to) set up API to pull data on user cars, pushing basic user info to the backend
+
+Sprint 4: [Integration and Testing] writing our own database instead, pulling that info from the backend to display in the frontend
