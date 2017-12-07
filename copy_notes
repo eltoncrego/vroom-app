@@ -1,3 +1,5 @@
+// FROM ONBOARDING
+
 {/* Card 3.5 */}
 <View style={styles.card}>
   <Text style={styles.card_title}>{"My owner's experience"}</Text>
@@ -25,3 +27,5 @@
   </View>
   <Text style={styles.card_text}></Text>
 </View>
+
+// ------------------------------------------------------------------------------
