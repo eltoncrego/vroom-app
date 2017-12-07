@@ -53,6 +53,7 @@ export default class EmailPasswordLogin extends Component {
     console.log("Login component mounted");
   }
 
+
   // Author: Alec Felt, Connick Shields
   // Purpose: Checks state.email and state.password and
   //          authenticates the user with Firebase

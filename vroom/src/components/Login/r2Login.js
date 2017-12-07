@@ -1,5 +1,5 @@
 // Global Requirements
-import React from 'react';
+import React, {Component,} from 'react';
 GLOBAL = require('../../Globals');
 STYLE = require('../../global-styles');
 
@@ -7,13 +7,12 @@ STYLE = require('../../global-styles');
 import {
   View,
   StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
 } from 'react-native';
 
-import {
-  SafeAreaView,
-} from 'react-native-safe-area-view';
-
-export default class r2Login extends React.Component {
+export default class r2Login extends Component {
 
  /*
   * Author: Elton Rego
@@ -21,10 +20,19 @@ export default class r2Login extends React.Component {
   */
   constructor(props) {
     super(props);
+    this.state = {
+      inputStyle: STYLE.input_inactive,
+    };
   }
 
   componentDidMount() {
     console.log("r2Login component successfuly mounted.");
+  }
+
+  onFocus() {
+    this.setState({
+        inputStyle: STYLE.input_active,
+    })
   }
 
  /*
@@ -33,10 +41,40 @@ export default class r2Login extends React.Component {
   */
   render() {
     return (
-      <SafeAreaView style={STYLE.container}>
+      <View style={STYLE.container}>
         <StatusBar barStyle="light-content"/>
-      </SafeAreaView>  
+        <View style={styles.logo_container}>
+          <Text style={STYLE.display2_accent_center}>vroom</Text>
+          <Text style={[STYLE.dark_subheader_center, styles.sub_title]}>keep your car happy!</Text>
+        </View>
+        <View style={styles.form_container}>
+          <TextInput 
+            style={this.state.inputStyle} 
+            placeholder="email"
+            placeholderTextColor="rgba(255,255,255,0.6)"
+          />
+          <TextInput 
+            style={this.state.inputStyle}
+            placeholder="password"
+            placeholderTextColor="rgba(255,255,255,0.6)"
+          />
+        </View>
+      </View>  
     );
   }
 
 }
+
+const styles = StyleSheet.create({
+  logo_container:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexGrow: 1,
+  },
+  form_container:{
+    padding: 32,
+  },
+  sub_title: {
+    marginTop: -16,
+  },
+});
