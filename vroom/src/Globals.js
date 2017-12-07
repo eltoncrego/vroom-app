@@ -1,3 +1,5 @@
+// Create Global Colors
+
 module.exports = {
   COLOR: {
     BLUE: '#E0FBFC',
