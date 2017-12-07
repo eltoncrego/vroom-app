@@ -1,5 +1,5 @@
 // Global Requirements
-import React, { Component, } from 'react';
+import React from 'react';
 GLOBAL = require('../../Globals');
 STYLE = require('../../global-styles');
 
@@ -9,10 +9,11 @@ import {
   StatusBar,
 } from 'react-native';
 
-// Necessary files
+import {
+  SafeAreaView,
+} from 'react-native-safe-area-view';
 
-
-export default class r2Login extends Component {
+export default class r2Login extends React.Component {
 
  /*
   * Author: Elton Rego
@@ -32,9 +33,9 @@ export default class r2Login extends Component {
   */
   render() {
     return (
-      <View style={STYLE.container}>
+      <SafeAreaView style={STYLE.container}>
         <StatusBar barStyle="light-content"/>
-      </View>
+      </SafeAreaView>  
     );
   }
 

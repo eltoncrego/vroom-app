@@ -1971,7 +1971,7 @@ hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
-hoist-non-react-statics@^2.2.0:
+hoist-non-react-statics@^2.2.0, hoist-non-react-statics@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
 
@@ -3474,9 +3474,9 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-calendars@^1.14.2:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.14.2.tgz#7d1f870cc7de91a99cef131fee3da7670163d5f3"
+react-native-calendars@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.15.0.tgz#16ddd7350ff7708b9f7ea87d8c8af7257082eb99"
   dependencies:
     prop-types "^15.5.10"
     xdate "^0.8.0"
@@ -3541,6 +3541,12 @@ react-native-material-textfield@^0.10.0:
   resolved "https://registry.yarnpkg.com/react-native-material-textfield/-/react-native-material-textfield-0.10.2.tgz#30ec430b2a261ab694141199fbbaae465417f43a"
   dependencies:
     prop-types "^15.5.9"
+
+react-native-safe-area-view@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.2.0.tgz#bda97f548e2ead4a90a06d95558647bc73434670"
+  dependencies:
+    hoist-non-react-statics "^2.3.1"
 
 react-native-safe-module@^1.1.0:
   version "1.2.0"
