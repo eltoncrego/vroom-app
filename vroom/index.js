@@ -17,4 +17,4 @@ import r2Login from "./src/components/Login/r2Login"
  *   Index.js is called before anything else in the application
  *   this file is the parent of the entire application
  */
-AppRegistry.registerComponent('vroom', () => r2Login);
+AppRegistry.registerComponent('vroom', () => Auth);
