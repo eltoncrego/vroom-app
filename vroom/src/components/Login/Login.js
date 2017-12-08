@@ -24,7 +24,7 @@ import {
 
 const bg = require('./../../../assets/img/login-bg.jpg')
 
-export default class r2Login extends Component {
+export default class Login extends Component {
 
  /*
   * Author: Elton C. Rego
@@ -132,6 +132,10 @@ export default class r2Login extends Component {
     }
   }
 
+ /*
+  * Author: Elton C. Rego
+  * Purpose: When called, shakes the button
+  */
   shakeButton(){
     Animated.sequence([
       Animated.timing(this.state.shake_animation, {
