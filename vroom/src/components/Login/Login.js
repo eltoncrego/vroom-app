@@ -248,7 +248,8 @@ export default class Login extends Component {
     */
     var pw_confirm_field = this.state.sign_up ?
       <Animated.View style={{opacity: this.state.field_animation,}}>
-        <TextInput 
+        <TextInput
+          ref='password_verification_field' 
           style={this.state.input_style3}
           placeholder="re-enter password"
           placeholderTextColor="rgba(255,255,255,0.6)"
@@ -298,6 +299,7 @@ export default class Login extends Component {
           <KeyboardAvoidingView 
             style={styles.form_container}
             behavior="padding">
+            <Animated.View style={{transform: [{translateX: this.state.shake_animation}]}}>
             <TextInput 
               style={this.state.input_style1} 
               placeholder="email"
@@ -307,8 +309,10 @@ export default class Login extends Component {
               onFocus={() => this.onFocus(1)}
               onBlur={() => this.onBlur(1)}
               onChangeText={(text) => {this.setState({email: text})}}
+              onSubmitEditing={() => this.refs.password_field.focus()}
             />
             <TextInput 
+              ref='password_field'
               style={this.state.input_style2}
               placeholder="password"
               placeholderTextColor="rgba(255,255,255,0.6)"
@@ -318,27 +322,32 @@ export default class Login extends Component {
               onFocus={() => this.onFocus(2)}
               onBlur={() => this.onBlur(2)}
               onChangeText={(text) => {this.setState({password: text})}}
-              onSubmitEditing={ () => this.signin()}
+              onSubmitEditing={ () => {
+                if(this.state.sign_up){
+                  this.refs.password_verification_field.focus()
+                } else {
+                  this.signin();
+                }
+              }}
             />
             {pw_confirm_field}
-            <Animated.View style={{transform: [{translateX: this.state.shake_animation}]}}>
-              <TouchableOpacity style={[STYLE.button_container, 
-                {
-                  backgroundColor: this.state.button_color,
-                }]}
-                onPress={()=>{
-                  if(this.state.sign_up){
-                    this.signup();
-                  } else {
-                    this.signin();
-                  }
-                }}>
-                <Text style={STYLE.green_button_text}>{signup_button_text}</Text>
-              </TouchableOpacity>
-            </Animated.View>
+            <TouchableOpacity style={[STYLE.button_container, 
+              {
+                backgroundColor: this.state.button_color,
+              }]}
+              onPress={()=>{
+                if(this.state.sign_up){
+                  this.signup();
+                } else {
+                  this.signin();
+                }
+              }}>
+              <Text style={STYLE.green_button_text}>{signup_button_text}</Text>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => this.toggleSignUp()}>
               <Text style={STYLE.normal_link_text}>{signup_link_text}</Text>
             </TouchableOpacity>
+            </Animated.View>
           </KeyboardAvoidingView>
       </View>
       </ImageBackground>  
