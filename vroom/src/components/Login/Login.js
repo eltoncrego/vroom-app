@@ -15,7 +15,6 @@ import {
   TouchableOpacity,
   Alert,
   Animated,
-  Keyboard,
 } from 'react-native';
 
 import {
@@ -37,7 +36,6 @@ export default class Login extends Component {
       input_style1: STYLE.input_inactive,
       input_style2: STYLE.input_inactive,
       input_style3: STYLE.input_inactive,
-      button_color: GLOBAL.COLOR.GREEN,
 
       sign_up: false,
       email: null,
@@ -139,16 +137,7 @@ export default class Login extends Component {
   * Purpose: When called, shakes the button
   */
   shakeButton(){
-    console.disableYellowBox = true;
     Animated.sequence([
-      Animated.timing(this.state.shake_animation, {
-        toValue: -8,                   
-        duration: 50,              
-      }),
-      Animated.timing(this.state.shake_animation, {
-        toValue: 8,                   
-        duration: 50,              
-      }),
       Animated.timing(this.state.shake_animation, {
         toValue: -8,                   
         duration: 50,              
@@ -323,10 +312,7 @@ export default class Login extends Component {
             />
             {pw_confirm_field}
             <Animated.View style={{transform: [{translateX: this.state.shake_animation}]}}>
-              <TouchableOpacity style={[STYLE.button_container, 
-                {
-                  backgroundColor: this.state.button_color,
-                }]}
+              <TouchableOpacity style={STYLE.button_container}
                 onPress={()=>{
                   if(this.state.sign_up){
                     this.signup();

@@ -48,7 +48,7 @@ module.exports = StyleSheet.create({
   * Purpose: Styles a global green submit button
   */
   button_container:{
-    // backgroundColor: GLOBAL.COLOR.GREEN,
+    backgroundColor: GLOBAL.COLOR.GREEN,
     borderRadius: 4,
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -97,7 +97,7 @@ module.exports = StyleSheet.create({
   display2_accent: {
     fontSize: 70,
     fontFamily: 'nunito',
-    fontWeight: "900",
+    fontWeight: '900',
     color: GLOBAL.COLOR.GREEN,
     backgroundColor: 'transparent',
   },
@@ -105,7 +105,7 @@ module.exports = StyleSheet.create({
     fontSize: 70,
     fontFamily: 'nunito',
     textAlign: 'center',
-    fontWeight: "900",
+    fontWeight: '900',
     color: GLOBAL.COLOR.GREEN,
     backgroundColor: 'transparent',
   },
