@@ -1,345 +1,268 @@
 // Global Requirements
-import React, { Component } from 'react';
+import React, {Component,} from 'react';
 GLOBAL = require('../../Globals');
+STYLE = require('../../global-styles');
 
-// Components
+// React Components
 import {
   View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  StatusBar,
-  ScrollView,
-  Button,
-  TextInput,
   KeyboardAvoidingView,
-  Alert,
-  Dimensions,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
-import Onboarding from '../Screens/Onboarding';
-import Dashboard from '../Screens/Dashboard';
-import {
-  goTo,
-  clearNavStack,
-  goToDrawerNav
-} from '../Navigation/Navigation';
+
 import {
   databaseLogin,
   databaseSignup,
-  authListener,
-  firebaseRef,
 } from '../Database/Database';
 
-export default class EmailPasswordLogin extends Component {
+const bg = require('./../../../assets/img/login-bg.jpg')
+
+export default class r2Login extends Component {
 
  /*
-  * Author: Alec Felt
+  * Author: Elton C. Rego
   * Purpose: Set up state for this specific component
   */
   constructor(props) {
     super(props);
     this.state = {
+      input_style1: STYLE.input_inactive,
+      input_style2: STYLE.input_inactive,
+      input_style3: STYLE.input_inactive,
+      sign_up: false,
       email: null,
-      email_signup: null,
       password: null,
-      password_signup: null,
-      password_signup_verification: null,
-      signup: true,
+      password_verification: null,
+    };
+  }
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Print to the console that the login screen has mounted
+  */
+  componentDidMount() {
+    console.log("Login component successfuly mounted.");
+  }
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: When called, the page will toggle the visibility of the
+  *   verify password field, the text in the submit button, and the
+  *   text of the signup link
+  */
+  toggleSignUp(){
+    this.setState({
+      sign_up: !this.state.sign_up,
+    });
+  }
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: When called, changes the style of a text input to active
+  */
+  onFocus(index) {
+    if(index == 1){
+      this.setState({
+        input_style1: STYLE.input_active,
+      });
+    }
+    if(index == 2){
+      this.setState({
+        input_style2: STYLE.input_active,
+      });
+    }
+    if(index == 3){
+      this.setState({
+        input_style3: STYLE.input_active,
+      });
     }
   }
 
-  componentDidMount() {
-    console.log("Login component mounted");
+ /*
+  * Author: Elton C. Rego
+  * Purpose: When called, changes the style of a text input to inactive
+  */
+  onBlur(index) {
+    if(index == 1){
+      this.setState({
+        input_style1: STYLE.input_inactive,
+      });
+    }
+    if(index == 2){
+      this.setState({
+        input_style2: STYLE.input_inactive,
+      });
+    }
+    if(index == 3){
+      this.setState({
+        input_style3: STYLE.input_inactive,
+      });
+    }
   }
 
-
-  // Author: Alec Felt, Connick Shields
-  // Purpose: Checks state.email and state.password and
-  //          authenticates the user with Firebase
-  login = () => {
-    //check to see if any text fields are empty
+ /*
+  * Author: Alec Felt, Connick Shields
+  * Purpose: Checks state.email and state.password and
+  *          authenticates the user with Firebase
+  */
+  signin = () => {
     if((!this.state.email) || (!this.state.password)){
         alert('Please make sure to fill in all fields.');
         return;
     }
-
-    // login the user
     databaseLogin(this.state.email, this.state.password);
   }
 
-  // Author: Connick Shields
-  // Purpose: navigates to a signup component
-
+ /*
+  * Author: Connick Shields
+  * Purpose: navigates to a signup component
+  */
   signup = () => {
-    // check to see if any text fields are empty
-    if((!this.state.email_signup) || (!this.state.password_signup)){
-        Alert.alert('Please make sure to fill in all fields.');
+    if((!this.state.email) || (!this.state.password)){
+        alert('Please make sure to fill in all fields.');
         return;
     }
-    // make sure passwords match
-    if(this.state.password_signup != this.state.password_signup_verification){
-        Alert.alert('Please make sure both passwords match.');
+    if(this.state.password != this.state.password_verification){
+        alert('Please make sure both passwords match.');
         return;
     }
-
-    // sign up the user
-    databaseSignup(this.state.email_signup, this.state.password_signup);
+    databaseSignup(this.state.email, this.state.password);
   }
 
-  // Author: Connick Shields
-  // Purpose: swap view cards
-  swapCards(){
-    if(this.state.signup){
-      // go to sign up
-      this.setState({signup:!this.state.signup});
-    } else {
-      // go to sign in
-      this.setState({signup:!this.state.signup});
-    }
-  }
-
-  // Author: Alec Felt
-  // Purpose: Renders UI for login
+ /*
+  * Author: Elton C. Rego
+  * Purpose: render the login component
+  */
   render() {
 
-    var sign_in_card = this.state.signup ?
-      <View style={styles.card}>
-        <TextInput
-            placeholderTextColor={GLOBAL.COLOR.GRAY}
-            style={styles.input}
-            placeholder="email"
-            autoCapitalize="none"
-            onChangeText={(text) => {
-              this.setState({email: text});
-              this.setState({email_signup: text});
-            }}
-            underlineColorAndroid='transparent'
-          />
-          <TextInput
-            placeholderTextColor={GLOBAL.COLOR.GRAY}
-            style={styles.input}
-            placeholder="password"
-            autoCapitalize="none"
-            secureTextEntry={true}
-            onChangeText={(text) => {
-              this.setState({password: text});
-              this.setState({password_signup: text});
-            }}
-            onSubmitEditing={ () => {
-              this.login();
-            }}
-            underlineColorAndroid='transparent'
-          />
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={ () => this.login() }
-            style={styles.button_container}
-          >
-            <View>
-              <Text style={styles.button}>Sign In</Text>
-            </View>
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.signin}
-            onPress={ () => this.swapCards() }
-            >No account? Sign up!</Text>
-          </View>
-        </View>
-          :
-        <View style={styles.card}>
-          <TextInput
-            placeholderTextColor={GLOBAL.COLOR.GRAY}
-            style={styles.input}
-            placeholder="email"
-            autoCapitalize="none"
-            onChangeText={(text) => {
-              this.setState({email: text});
-              this.setState({email_signup: text});
-            }}
-            underlineColorAndroid='transparent'
-          />
-          <TextInput
-            placeholderTextColor={GLOBAL.COLOR.GRAY}
-            style={styles.input}
-            placeholder="password"
-            autoCapitalize="none"
-            secureTextEntry={true}
-            onChangeText={(text) => {
-              this.setState({password: text});
-              this.setState({password_signup: text});
-            }}
-            underlineColorAndroid='transparent'
-          />
-          <TextInput
-            placeholderTextColor={GLOBAL.COLOR.GRAY}
-            style={styles.input}
-            placeholder="retype password"
-            autoCapitalize="none"
-            secureTextEntry={true}
-            onChangeText={ (text) => this.setState( {password_signup_verification: text} ) }
-            onSubmitEditing={ () => {
-              this.signup();
-            }}
-            underlineColorAndroid='transparent'
-          />
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={ () => {
-              this.signup();
-            }}
-            style={styles.button_container}
-          >
-            <View>
-              <Text style={styles.button}>Sign Up</Text>
-            </View>
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.signin}
-            onPress={ () => this.swapCards() }
-            >Have an account? Sign in!</Text>
-          </View>
-        </View>;
+   /*
+    * Author: Elton C. Rego
+    * Purpose: Checks if it's a sign_up instance vs sign_in instance
+    *   and toggles the verify password field visibity as such
+    */
+    var pw_confirm_field = this.state.sign_up ?
+      <TextInput 
+        style={this.state.input_style3}
+        placeholder="re-enter password"
+        placeholderTextColor="rgba(255,255,255,0.6)"
+        autoCapitalize="none"
+        secureTextEntry={true}
+        onFocus={() => this.onFocus(3)}
+        onBlur={() => this.onBlur(3)}
+        onChangeText={(text) => {this.setState({password_verification: text})}}
+        onSubmitEditing={ () => this.signup()}
+      /> : null ;
+
+   /*
+    * Author: Elton C. Rego
+    * Purpose: Checks if it's a sign_up instance vs sign_in instance
+    *   and toggles the sign up link text as such
+    */
+    var signup_link_text = this.state.sign_up ?
+      "Have an account with us? Sign in!" : "Don't have an account? Sign up!" ;
+
+   /*
+    * Author: Elton C. Rego
+    * Purpose: Checks if it's a sign_up instance vs sign_in instance
+    *   and toggles the sign up button text as such
+    */
+    var signup_button_text = this.state.sign_up ?
+      "sign up!" : "sign in!" ;
 
     return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior="padding"
-      >
-       <StatusBar
-         barStyle="light-content"
-       />
-        <View style={styles.header}>
-          <Text style={styles.vroom}>vroom</Text>
-          <Text style={styles.tag_line}>The app that keeps your car happy!</Text>
-        </View>
-        {sign_in_card}
-      </KeyboardAvoidingView>
+      <ImageBackground 
+          style={[
+            {
+              width: '100%',
+              height: '100%',
+            }]
+          }
+      source={bg}>
+      <View style={[
+        STYLE.container,
+        STYLE.scrim]}>
+          <StatusBar barStyle="light-content"/>
+          <View style={styles.logo_container}>
+            <Text style={STYLE.display2_accent_center}>vroom</Text>
+            <Text style={[STYLE.dark_subheader_center, styles.sub_title]}>keep your car happy!</Text>
+          </View>
+          <KeyboardAvoidingView 
+            style={styles.form_container}
+            behavior="padding">
+            <TextInput 
+              style={this.state.input_style1} 
+              placeholder="email"
+              placeholderTextColor="rgba(255,255,255,0.6)"
+              autoCapitalize="none"
+              onFocus={() => this.onFocus(1)}
+              onBlur={() => this.onBlur(1)}
+              onChangeText={(text) => {this.setState({email: text})}}
+            />
+            <TextInput 
+              style={this.state.input_style2}
+              placeholder="password"
+              placeholderTextColor="rgba(255,255,255,0.6)"
+              autoCapitalize="none"
+              secureTextEntry={true}
+              onFocus={() => this.onFocus(2)}
+              onBlur={() => this.onBlur(2)}
+              onChangeText={(text) => {this.setState({password: text})}}
+              onSubmitEditing={ () => this.signin()}
+            />
+            {pw_confirm_field}
+            <TouchableOpacity style={STYLE.green_button_container}
+              onPress={()=>{
+                if(this.state.sign_up){
+                  this.signup();
+                } else {
+                  this.signin();
+                }
+              }}>
+              <Text style={STYLE.green_button_text}>{signup_button_text}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toggleSignUp()}>
+              <Text style={STYLE.normal_link_text}>{signup_link_text}</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+      </View>
+      </ImageBackground>  
     );
   }
 
 }
 
-/*
- * Styles for this Page
- * Author: Connick Shields
- *
- */
+
 const styles = StyleSheet.create({
 
-  /*
-   * Style: Container
-   * Author: Connick Shields
-   * Purpose: This styles the card titles on this page
-   */
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles the container for the logo and subheader
+  */
+  logo_container:{
     alignItems: 'center',
-    backgroundColor: GLOBAL.COLOR.DARKGRAY,
-  },
-  /*
-   * Style: Container
-   * Author: Connick Shields
-   * Purpose: This styles the header part of this page
-   */
-  header: {
     justifyContent: 'center',
-    alignItems: 'center',
+    flexGrow: 1,
   },
-  /*
-   * Style: Container
-   * Author: Connick Shields
-   * Purpose: This styles the title page of the app
-   */
-  vroom: {
-    fontFamily: 'Nunito',
-    fontWeight: '900',
-    textAlign: 'center',
-    fontSize: 80,
-    color: GLOBAL.COLOR.GREEN,
-    marginTop: 20,
-  },
-  /*
-   * Style: Container
-   * Author: Connick Shields
-   * Purpose: This styles the tagline of the application
-   */
-  tag_line: {
-    fontFamily: 'Nunito',
-    textAlign: 'center',
-    fontSize: 20,
-    color: '#ffffff',
-    marginBottom: 20
-  },
-  /*
-   * Style: Container
-   * Author: Connick Shields
-   * Purpose: This styles the sign in line
-   */
-  signin: {
-    fontFamily: 'Nunito',
-    textAlign: 'center',
-    fontSize: 15,
-    color: GLOBAL.COLOR.GRAY,
-    marginTop: 10,
-  },
-  /*
-   * Style: button
-   * Author: Elton C. Rego
-   * Purpose: Adds styling to the touchable opacity elements
-   */
-   button_container: {
-      backgroundColor: GLOBAL.COLOR.GREEN,
-      padding: 12,
-      paddingHorizontal: 24,
-      borderRadius: 20,
-      margin: 8,
-   },
-  /*
-   * Style: button
-   * Author: Alec Felt
-   * Purpose: add style to the login and signup buttons
-   */
-  button: {
-    textAlign: 'center',
-    fontFamily: 'Nunito',
-    color: GLOBAL.COLOR.WHITE,
-    backgroundColor: 'transparent',
-    fontSize: 15,
-    fontWeight: '600',
-  },
-  /*
-   * Style: input
-   * Author: Alec Felt
-   * Purpose: adds alignment/spacing to the textInputs
-   */
-  input: {
-    fontFamily: 'Nunito',
-    textAlign: 'center',
-    justifyContent: 'center',
-    fontSize: 20,
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles the container for the login form
+  */
+  form_container:{
+    padding: 32,
     marginBottom: 32,
-    borderBottomWidth: 2,
-    paddingBottom: 2,
-    width: '80%',
-    borderColor: GLOBAL.COLOR.GREEN,
   },
-  /*
-   * Style: input_container
-   * Author: Elton
-   * Purpose: Creates a card for the inputs to sit on
-   */
-  card: {
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#ffffff',
-    width: 312,
-    borderRadius: 20,
-    alignItems: 'center',
-    overflow: 'hidden',
-    paddingTop: 32,
-    paddingBottom: 32,
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles the subtitle for the login logo
+  */
+  sub_title: {
+    marginTop: -16,
   },
 });

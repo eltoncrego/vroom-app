@@ -7,8 +7,6 @@
 import { AppRegistry } from 'react-native';
 import Auth from "./src/components/Login/Auth";
 
-import r2Login from "./src/components/Login/r2Login"
-
 
 /*
  * Method: AppRegistry.registerComponent

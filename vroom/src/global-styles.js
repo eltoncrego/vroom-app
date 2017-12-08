@@ -49,6 +49,15 @@ module.exports = StyleSheet.create({
     fontFamily: 'Nunito',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
+    marginVertical: 8,
+  },
+  
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a global scrim
+  */
+  scrim:{
+    backgroundColor: "rgba(37,50,55,0.8)",
   },
 
 
