@@ -13,6 +13,7 @@ import {
   TextInput,
   ImageBackground,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 import {
@@ -111,8 +112,24 @@ export default class r2Login extends Component {
   *          authenticates the user with Firebase
   */
   signin = () => {
-    if((!this.state.email) || (!this.state.password)){
-        alert('Please make sure to fill in all fields.');
+    if((!this.state.email)){
+        Alert.alert(
+          'Woah there!',
+          'You can\'t log in with an empty email!',
+          [
+            {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+          ],
+        )
+        return;
+    }
+    if((!this.state.password)){
+        Alert.alert(
+          'Woah there!',
+          'You can\'t log in with an empty password!',
+          [
+            {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+          ],
+        )
         return;
     }
     databaseLogin(this.state.email, this.state.password);
@@ -123,12 +140,34 @@ export default class r2Login extends Component {
   * Purpose: navigates to a signup component
   */
   signup = () => {
-    if((!this.state.email) || (!this.state.password)){
-        alert('Please make sure to fill in all fields.');
+    if((!this.state.email)){
+        Alert.alert(
+          'Woah there!',
+          'You can\'t log in with an empty email!',
+          [
+            {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+          ],
+        )
+        return;
+    }
+    if((!this.state.password)){
+        Alert.alert(
+          'Woah there!',
+          'You can\'t log in with an empty password!',
+          [
+            {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+          ],
+        )
         return;
     }
     if(this.state.password != this.state.password_verification){
-        alert('Please make sure both passwords match.');
+        Alert.alert(
+          'Imma let you finish, but',
+          'Your passwords don\'t match',
+          [
+            {text: 'Let me fix it!', onPress: () => console.log('User understands their mistake.')},
+          ],
+        )
         return;
     }
     databaseSignup(this.state.email, this.state.password);
