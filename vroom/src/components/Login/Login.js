@@ -139,6 +139,9 @@ export default class Login extends Component {
   */
   shakeButton(){
     console.disableYellowBox = true;
+    this.setState({
+      button_color: GLOBAL.COLOR.RED,
+    });
     Animated.sequence([
       Animated.timing(this.state.shake_animation, {
         toValue: -8,                   
@@ -175,7 +178,12 @@ export default class Login extends Component {
         'Woah there!',
         'You can\'t log in with an empty email!',
         [
-          {text: 'I understand', onPress: () => console.log('User understands their mistake.')},
+          {text: 'I understand', onPress: () => {
+            console.log('User understands their mistake.');
+            this.setState({
+              button_color: GLOBAL.COLOR.GREEN,
+            });
+          }},
         ],
       )
       return;
@@ -186,7 +194,12 @@ export default class Login extends Component {
         'Hey there, friendo!',
         'You can\'t log in with an empty password!',
         [
-          {text: 'I understand', onPress: () => console.log('User understands their mistake.')},
+          {text: 'I understand', onPress: () => {
+            console.log('User understands their mistake.');
+            this.setState({
+              button_color: GLOBAL.COLOR.GREEN,
+            });
+          }},
         ],
       )
       return;
@@ -205,7 +218,12 @@ export default class Login extends Component {
         'Now wait just a second!',
         'You can\'t log in with an empty email!',
         [
-          {text: 'I understand', onPress: () => console.log('User understands their mistake.')},
+          {text: 'I understand', onPress: () => {
+            console.log('User understands their mistake.');
+            this.setState({
+              button_color: GLOBAL.COLOR.GREEN,
+            });
+          }},
         ],
       )
       return;
@@ -216,7 +234,12 @@ export default class Login extends Component {
         'Hold up!',
         'You can\'t log in with an empty password!',
         [
-          {text: 'I understand', onPress: () => console.log('User understands their mistake.')},
+          {text: 'I understand', onPress: () => {
+            console.log('User understands their mistake.');
+            this.setState({
+              button_color: GLOBAL.COLOR.GREEN,
+            });
+          }},
         ],
       )
       return;
@@ -227,7 +250,12 @@ export default class Login extends Component {
         'Imma let you finish',
         'but your passwords don\'t match',
         [
-          {text: 'Let me fix it!', onPress: () => console.log('User wants to fix it.')},
+          {text: 'Let me fix it!', onPress: () => {
+            console.log('User wants to fix it.');
+            this.setState({
+              button_color: GLOBAL.COLOR.GREEN,
+            });
+          }},
         ],
       )
       return;
