@@ -67,6 +67,16 @@
 		<string>nunito-bold.ttf</string>
 		<string>nunito-extra_bold_italic.ttf</string>
 		<string>nunito-light_italic.ttf</string>
+		<string>nunito_blackitalic.ttf</string>
+		<string>nunito_bold.ttf</string>
+		<string>nunito_bolditalic.ttf</string>
+		<string>nunito_extrabold.ttf</string>
+		<string>nunito_extrabolditalic.ttf</string>
+		<string>nunito_extralight.ttf</string>
+		<string>nunito_extralightitalic.ttf</string>
+		<string>nunito_lightitalic.ttf</string>
+		<string>nunito_semibold.ttf</string>
+		<string>nunito_semibolditalic.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
