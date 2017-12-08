@@ -40,8 +40,10 @@ export default class r2Login extends Component {
       email: null,
       password: null,
       password_verification: null,
+
       fade_animation: new Animated.Value(0),
       field_animation: new Animated.Value(0),
+      shake_animation: new Animated.Value(0),
     };
   }
 
@@ -129,6 +131,23 @@ export default class r2Login extends Component {
     }
   }
 
+  shakeButton(){
+    Animated.sequence([
+      Animated.timing(this.state.shake_animation, {
+        toValue: -8,                   
+        duration: 50,              
+      }),
+      Animated.timing(this.state.shake_animation, {
+        toValue: 8,                   
+        duration: 50,              
+      }),
+      Animated.timing(this.state.shake_animation, {
+        toValue: 0,                   
+        duration: 50,              
+      }),
+    ]).start();
+  }
+
  /*
   * Author: Alec Felt, Connick Shields
   * Purpose: Checks state.email and state.password and
@@ -136,24 +155,26 @@ export default class r2Login extends Component {
   */
   signin = () => {
     if((!this.state.email)){
-        Alert.alert(
-          'Woah there!',
-          'You can\'t log in with an empty email!',
-          [
-            {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
-          ],
-        )
-        return;
+      this.shakeButton();
+      Alert.alert(
+        'Woah there!',
+        'You can\'t log in with an empty email!',
+        [
+          {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+        ],
+      )
+      return;
     }
     if((!this.state.password)){
-        Alert.alert(
-          'Woah there!',
-          'You can\'t log in with an empty password!',
-          [
-            {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
-          ],
-        )
-        return;
+      this.shakeButton();
+      Alert.alert(
+        'Woah there!',
+        'You can\'t log in with an empty password!',
+        [
+          {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+        ],
+      )
+      return;
     }
     databaseLogin(this.state.email, this.state.password);
   }
@@ -164,34 +185,37 @@ export default class r2Login extends Component {
   */
   signup = () => {
     if((!this.state.email)){
-        Alert.alert(
-          'Woah there!',
-          'You can\'t log in with an empty email!',
-          [
-            {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
-          ],
-        )
-        return;
+      this.shakeButton();
+      Alert.alert(
+        'Woah there!',
+        'You can\'t log in with an empty email!',
+        [
+          {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+        ],
+      )
+      return;
     }
     if((!this.state.password)){
-        Alert.alert(
-          'Woah there!',
-          'You can\'t log in with an empty password!',
-          [
-            {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
-          ],
-        )
-        return;
+      this.shakeButton();
+      Alert.alert(
+        'Woah there!',
+        'You can\'t log in with an empty password!',
+        [
+          {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+        ],
+      )
+      return;
     }
     if(this.state.password != this.state.password_verification){
-        Alert.alert(
-          'Imma let you finish, but',
-          'Your passwords don\'t match',
-          [
-            {text: 'Let me fix it!', onPress: () => console.log('User wants to fix it.')},
-          ],
-        )
-        return;
+      this.shakeButton();
+      Alert.alert(
+        'Imma let you finish, but',
+        'Your passwords don\'t match',
+        [
+          {text: 'Let me fix it!', onPress: () => console.log('User wants to fix it.')},
+        ],
+      )
+      return;
     }
     databaseSignup(this.state.email, this.state.password);
   }
@@ -279,16 +303,18 @@ export default class r2Login extends Component {
               onSubmitEditing={ () => this.signin()}
             />
             {pw_confirm_field}
-            <TouchableOpacity style={STYLE.green_button_container}
-              onPress={()=>{
-                if(this.state.sign_up){
-                  this.signup();
-                } else {
-                  this.signin();
-                }
-              }}>
-              <Text style={STYLE.green_button_text}>{signup_button_text}</Text>
-            </TouchableOpacity>
+            <Animated.View style={{transform: [{translateX: this.state.shake_animation}]}}>
+              <TouchableOpacity style={STYLE.button_container}
+                onPress={()=>{
+                  if(this.state.sign_up){
+                    this.signup();
+                  } else {
+                    this.signin();
+                  }
+                }}>
+                <Text style={STYLE.green_button_text}>{signup_button_text}</Text>
+              </TouchableOpacity>
+            </Animated.View>
             <TouchableOpacity onPress={() => this.toggleSignUp()}>
               <Text style={STYLE.normal_link_text}>{signup_link_text}</Text>
             </TouchableOpacity>
