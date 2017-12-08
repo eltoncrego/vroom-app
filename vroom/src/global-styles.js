@@ -30,6 +30,27 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Nunito',
   },
+  green_button_container:{
+    backgroundColor: GLOBAL.COLOR.GREEN,
+    borderRadius: 4,
+    padding: 16,
+    marginVertical: 32,
+  },
+  green_button_text:{
+    textAlign: 'center',
+    fontSize: 20,
+    fontFamily: 'Nunito',
+    color: GLOBAL.COLOR.WHITE,
+    backgroundColor: 'transparent',
+  },
+  normal_link_text:{
+    textAlign: 'center',
+    fontSize: 15,
+    fontFamily: 'Nunito',
+    color: GLOBAL.COLOR.WHITE,
+    backgroundColor: 'transparent',
+  },
+
 
   display2_accent: {
     fontSize: 70,
