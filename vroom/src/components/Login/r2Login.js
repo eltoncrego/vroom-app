@@ -12,6 +12,7 @@ import {
   Text,
   TextInput,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
 
 const bg = require('./../../../assets/img/login-bg.jpg')
@@ -25,7 +26,8 @@ export default class r2Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputStyle: STYLE.input_inactive,
+      input_style: STYLE.input_inactive,
+      sign_up: false,
     };
   }
 
@@ -33,10 +35,10 @@ export default class r2Login extends Component {
     console.log("r2Login component successfuly mounted.");
   }
 
-  onFocus() {
+  toggleSignUp(){
     this.setState({
-        inputStyle: STYLE.input_active,
-    })
+      sign_up: !this.state.sign_up,
+    });
   }
 
  /*
@@ -44,6 +46,19 @@ export default class r2Login extends Component {
   * Purpose: render the login component
   */
   render() {
+
+    var pw_confirm_field = this.state.sign_up ?
+      <TextInput 
+        style={this.state.input_style}
+        placeholder="re-enter password"
+        placeholderTextColor="rgba(255,255,255,0.6)"
+        autoCapitalize="none"
+        secureTextEntry={true}
+      /> : null ;
+
+    var signup_link_text = this.state.sign_up ?
+      "Have an account with us? Sign in!" : "Don't have an account? Sign up!" ;
+
     return (
       <ImageBackground 
           style={[
@@ -65,18 +80,25 @@ export default class r2Login extends Component {
             style={styles.form_container}
             behavior="padding">
             <TextInput 
-              style={this.state.inputStyle} 
+              style={this.state.input_style} 
               placeholder="email"
               placeholderTextColor="rgba(255,255,255,0.6)"
               autoCapitalize="none"
             />
             <TextInput 
-              style={this.state.inputStyle}
+              style={this.state.input_style}
               placeholder="password"
               placeholderTextColor="rgba(255,255,255,0.6)"
               autoCapitalize="none"
               secureTextEntry={true}
             />
+            {pw_confirm_field}
+            <TouchableOpacity style={STYLE.green_button_container}>
+              <Text style={STYLE.green_button_text}>sign in!</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toggleSignUp()}>
+              <Text style={STYLE.normal_link_text}>{signup_link_text}</Text>
+            </TouchableOpacity>
           </KeyboardAvoidingView>
       </View>
       </ImageBackground>  
