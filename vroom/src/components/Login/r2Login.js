@@ -26,7 +26,9 @@ export default class r2Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input_style: STYLE.input_inactive,
+      input_style1: STYLE.input_inactive,
+      input_style2: STYLE.input_inactive,
+      input_style3: STYLE.input_inactive,
       sign_up: false,
     };
   }
@@ -41,6 +43,42 @@ export default class r2Login extends Component {
     });
   }
 
+  onFocus(index) {
+    if(index == 1){
+      this.setState({
+        input_style1: STYLE.input_active,
+      });
+    }
+    if(index == 2){
+      this.setState({
+        input_style2: STYLE.input_active,
+      });
+    }
+    if(index == 3){
+      this.setState({
+        input_style3: STYLE.input_active,
+      });
+    }
+  }
+
+  onBlur(index) {
+    if(index == 1){
+      this.setState({
+        input_style1: STYLE.input_inactive,
+      });
+    }
+    if(index == 2){
+      this.setState({
+        input_style2: STYLE.input_inactive,
+      });
+    }
+    if(index == 3){
+      this.setState({
+        input_style3: STYLE.input_inactive,
+      });
+    }
+  }
+
  /*
   * Author: Elton C. Rego
   * Purpose: render the login component
@@ -49,11 +87,13 @@ export default class r2Login extends Component {
 
     var pw_confirm_field = this.state.sign_up ?
       <TextInput 
-        style={this.state.input_style}
+        style={this.state.input_style3}
         placeholder="re-enter password"
         placeholderTextColor="rgba(255,255,255,0.6)"
         autoCapitalize="none"
         secureTextEntry={true}
+        onFocus={() => this.onFocus(3)}
+        onBlur={() => this.onBlur(3)}
       /> : null ;
 
     var signup_link_text = this.state.sign_up ?
@@ -80,17 +120,21 @@ export default class r2Login extends Component {
             style={styles.form_container}
             behavior="padding">
             <TextInput 
-              style={this.state.input_style} 
+              style={this.state.input_style1} 
               placeholder="email"
               placeholderTextColor="rgba(255,255,255,0.6)"
               autoCapitalize="none"
+              onFocus={() => this.onFocus(1)}
+              onBlur={() => this.onBlur(1)}
             />
             <TextInput 
-              style={this.state.input_style}
+              style={this.state.input_style2}
               placeholder="password"
               placeholderTextColor="rgba(255,255,255,0.6)"
               autoCapitalize="none"
               secureTextEntry={true}
+              onFocus={() => this.onFocus(2)}
+              onBlur={() => this.onBlur(2)}
             />
             {pw_confirm_field}
             <TouchableOpacity style={STYLE.green_button_container}>
