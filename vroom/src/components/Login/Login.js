@@ -14,6 +14,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
+  Animated,
 } from 'react-native';
 
 import {
@@ -39,15 +40,25 @@ export default class r2Login extends Component {
       email: null,
       password: null,
       password_verification: null,
+      fade_animation: new Animated.Value(0),
+      field_animation: new Animated.Value(0),
     };
   }
 
  /*
   * Author: Elton C. Rego
   * Purpose: Print to the console that the login screen has mounted
+  *   animate in the page
   */
   componentDidMount() {
     console.log("Login component successfuly mounted.");
+    Animated.timing(                  
+      this.state.fade_animation,           
+      {
+        toValue: 1,                   
+        duration: 1000,              
+      }
+    ).start();    
   }
 
  /*
@@ -60,6 +71,18 @@ export default class r2Login extends Component {
     this.setState({
       sign_up: !this.state.sign_up,
     });
+    Animated.timing(                  
+      this.state.field_animation,           
+      {
+        toValue: 1,                   
+        duration: 500,              
+      }
+    ).start();   
+    if(this.state.sign_up){
+      this.setState({
+        field_animation: new Animated.Value(0),
+      })
+    }
   }
 
  /*
@@ -165,7 +188,7 @@ export default class r2Login extends Component {
           'Imma let you finish, but',
           'Your passwords don\'t match',
           [
-            {text: 'Let me fix it!', onPress: () => console.log('User understands their mistake.')},
+            {text: 'Let me fix it!', onPress: () => console.log('User wants to fix it.')},
           ],
         )
         return;
@@ -185,17 +208,19 @@ export default class r2Login extends Component {
     *   and toggles the verify password field visibity as such
     */
     var pw_confirm_field = this.state.sign_up ?
-      <TextInput 
-        style={this.state.input_style3}
-        placeholder="re-enter password"
-        placeholderTextColor="rgba(255,255,255,0.6)"
-        autoCapitalize="none"
-        secureTextEntry={true}
-        onFocus={() => this.onFocus(3)}
-        onBlur={() => this.onBlur(3)}
-        onChangeText={(text) => {this.setState({password_verification: text})}}
-        onSubmitEditing={ () => this.signup()}
-      /> : null ;
+      <Animated.View style={{opacity: this.state.field_animation,}}>
+        <TextInput 
+          style={this.state.input_style3}
+          placeholder="re-enter password"
+          placeholderTextColor="rgba(255,255,255,0.6)"
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onFocus={() => this.onFocus(3)}
+          onBlur={() => this.onBlur(3)}
+          onChangeText={(text) => {this.setState({password_verification: text})}}
+          onSubmitEditing={ () => this.signup()}
+        />
+      </Animated.View> : null ;
 
    /*
     * Author: Elton C. Rego
@@ -226,10 +251,10 @@ export default class r2Login extends Component {
         STYLE.container,
         STYLE.scrim]}>
           <StatusBar barStyle="light-content"/>
-          <View style={styles.logo_container}>
+          <Animated.View style={[styles.logo_container, {opacity: this.state.fade_animation,}]}>
             <Text style={STYLE.display2_accent_center}>vroom</Text>
             <Text style={[STYLE.dark_subheader_center, styles.sub_title]}>keep your car happy!</Text>
-          </View>
+          </Animated.View>
           <KeyboardAvoidingView 
             style={styles.form_container}
             behavior="padding">
@@ -281,8 +306,8 @@ const styles = StyleSheet.create({
  /*
   * Author: Elton C. Rego
   * Purpose: Styles the container for the logo and subheader
-  */
-  logo_container:{
+  */ 
+  logo_container: {
     alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
@@ -292,7 +317,7 @@ const styles = StyleSheet.create({
   * Author: Elton C. Rego
   * Purpose: Styles the container for the login form
   */
-  form_container:{
+  form_container: {
     padding: 32,
     marginBottom: 32,
   },
