@@ -138,7 +138,6 @@ export default class Login extends Component {
   * Purpose: When called, shakes the button
   */
   shakeButton(){
-    console.disableYellowBox = true;
     this.setState({
       button_color: GLOBAL.COLOR.RED,
     });
