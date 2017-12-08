@@ -19,12 +19,16 @@ module.exports = StyleSheet.create({
     padding: 16,
     borderRadius: 4,
     marginVertical: 8,
+    fontSize: 20,
+    fontFamily: 'Nunito',
   },
   input_active: {
     backgroundColor: 'rgba(255,255,255, 0.8)',
     padding: 16,
     borderRadius: 4,
     marginVertical: 8,
+    fontSize: 20,
+    fontFamily: 'Nunito',
   },
 
   display2_accent: {
@@ -32,6 +36,7 @@ module.exports = StyleSheet.create({
     fontFamily: 'Nunito',
     fontWeight: '900',
     color: GLOBAL.COLOR.GREEN,
+    backgroundColor: 'transparent',
   },
   display2_accent_center: {
     fontSize: 70,
@@ -39,16 +44,19 @@ module.exports = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '900',
     color: GLOBAL.COLOR.GREEN,
+    backgroundColor: 'transparent',
   },
   dark_subheader: {
     fontSize: 20,
     fontFamily: 'Nunito',
     color: GLOBAL.COLOR.WHITE,
+    backgroundColor: 'transparent',
   },
   dark_subheader_center: {
     fontSize: 20,
     fontFamily: 'Nunito',
     textAlign: 'center',
     color: GLOBAL.COLOR.WHITE,
+    backgroundColor: 'transparent',
   },
 });
