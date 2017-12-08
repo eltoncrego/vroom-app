@@ -8,12 +8,17 @@ module.exports = StyleSheet.create({
  /*
   * Styles
   * Author: Elton
-  * Purpose: This styles the container of the pages
+  * Purpose: This styles the default container of the pages
   */
   container: {
     flex: 1,
     backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a global inactive text input
+  */
   input_inactive: {
     backgroundColor: 'rgba(255,255,255, 0.4)',
     padding: 16,
@@ -22,6 +27,11 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Nunito',
   },
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a global active text input
+  */
   input_active: {
     backgroundColor: 'rgba(255,255,255, 0.8)',
     padding: 16,
@@ -30,12 +40,22 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Nunito',
   },
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a global green submit button
+  */
   green_button_container:{
     backgroundColor: GLOBAL.COLOR.GREEN,
     borderRadius: 4,
     padding: 16,
     marginVertical: 32,
   },
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a global green submit button's text
+  */
   green_button_text:{
     textAlign: 'center',
     fontSize: 20,
@@ -43,6 +63,11 @@ module.exports = StyleSheet.create({
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
+
+ /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a global touchable opacity link's text
+  */
   normal_link_text:{
     textAlign: 'center',
     fontSize: 15,
@@ -51,7 +76,7 @@ module.exports = StyleSheet.create({
     backgroundColor: 'transparent',
     marginVertical: 8,
   },
-  
+
  /*
   * Author: Elton C. Rego
   * Purpose: Styles a global scrim
@@ -60,7 +85,12 @@ module.exports = StyleSheet.create({
     backgroundColor: "rgba(37,50,55,0.8)",
   },
 
-
+ /*
+  * GROUP *
+  *
+  * Author: Elton C. Rego
+  * Purpose: Styles global fonts
+  */
   display2_accent: {
     fontSize: 70,
     fontFamily: 'Nunito',
