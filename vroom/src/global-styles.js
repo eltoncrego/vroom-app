@@ -26,7 +26,7 @@ module.exports = StyleSheet.create({
     borderRadius: 4,
     marginVertical: 8,
     fontSize: 20,
-    fontFamily: 'nunito',
+    fontFamily: 'Nunito',
   },
 
  /*
@@ -40,7 +40,7 @@ module.exports = StyleSheet.create({
     borderRadius: 4,
     marginVertical: 8,
     fontSize: 20,
-    fontFamily: 'nunito',
+    fontFamily: 'Nunito',
   },
 
  /*
@@ -62,7 +62,7 @@ module.exports = StyleSheet.create({
   green_button_text:{
     textAlign: 'center',
     fontSize: 20,
-    fontFamily: 'nunito',
+    fontFamily: 'Nunito',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
@@ -74,7 +74,7 @@ module.exports = StyleSheet.create({
   normal_link_text:{
     textAlign: 'center',
     fontSize: 15,
-    fontFamily: 'nunito',
+    fontFamily: 'Nunito',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
     marginVertical: 8,
@@ -96,14 +96,14 @@ module.exports = StyleSheet.create({
   */
   display2_accent: {
     fontSize: 70,
-    fontFamily: 'nunito',
+    fontFamily: 'Nunito',
     fontWeight: '900',
     color: GLOBAL.COLOR.GREEN,
     backgroundColor: 'transparent',
   },
   display2_accent_center: {
     fontSize: 70,
-    fontFamily: 'nunito',
+    fontFamily: 'Nunito',
     textAlign: 'center',
     fontWeight: '900',
     color: GLOBAL.COLOR.GREEN,
@@ -111,13 +111,13 @@ module.exports = StyleSheet.create({
   },
   dark_subheader: {
     fontSize: 20,
-    fontFamily: 'nunito',
+    fontFamily: 'Nunito',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
   dark_subheader_center: {
     fontSize: 20,
-    fontFamily: 'nunito',
+    fontFamily: 'Nunito',
     textAlign: 'center',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
