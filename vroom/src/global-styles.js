@@ -21,7 +21,8 @@ module.exports = StyleSheet.create({
   */
   input_inactive: {
     backgroundColor: 'rgba(255,255,255, 0.4)',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderRadius: 4,
     marginVertical: 8,
     fontSize: 20,
@@ -34,7 +35,8 @@ module.exports = StyleSheet.create({
   */
   input_active: {
     backgroundColor: 'rgba(255,255,255, 0.8)',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderRadius: 4,
     marginVertical: 8,
     fontSize: 20,
@@ -48,8 +50,9 @@ module.exports = StyleSheet.create({
   green_button_container:{
     backgroundColor: GLOBAL.COLOR.GREEN,
     borderRadius: 4,
-    padding: 16,
-    marginVertical: 32,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginVertical: 16,
   },
 
  /*
