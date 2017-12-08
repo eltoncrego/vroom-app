@@ -165,7 +165,7 @@ export default class Login extends Component {
         'Woah there!',
         'You can\'t log in with an empty email!',
         [
-          {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+          {text: 'I understand', onPress: () => console.log('User understands their mistake.')},
         ],
       )
       return;
@@ -173,10 +173,10 @@ export default class Login extends Component {
     if((!this.state.password)){
       this.shakeButton();
       Alert.alert(
-        'Woah there!',
+        'Hey there, friendo!',
         'You can\'t log in with an empty password!',
         [
-          {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+          {text: 'I understand', onPress: () => console.log('User understands their mistake.')},
         ],
       )
       return;
@@ -192,10 +192,10 @@ export default class Login extends Component {
     if((!this.state.email)){
       this.shakeButton();
       Alert.alert(
-        'Woah there!',
+        'Now wait just a second!',
         'You can\'t log in with an empty email!',
         [
-          {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+          {text: 'I understand', onPress: () => console.log('User understands their mistake.')},
         ],
       )
       return;
@@ -203,10 +203,10 @@ export default class Login extends Component {
     if((!this.state.password)){
       this.shakeButton();
       Alert.alert(
-        'Woah there!',
+        'Hold up!',
         'You can\'t log in with an empty password!',
         [
-          {text: 'I understand my mistake', onPress: () => console.log('User understands their mistake.')},
+          {text: 'I understand', onPress: () => console.log('User understands their mistake.')},
         ],
       )
       return;
@@ -214,8 +214,8 @@ export default class Login extends Component {
     if(this.state.password != this.state.password_verification){
       this.shakeButton();
       Alert.alert(
-        'Imma let you finish, but',
-        'Your passwords don\'t match',
+        'Imma let you finish',
+        'but your passwords don\'t match',
         [
           {text: 'Let me fix it!', onPress: () => console.log('User wants to fix it.')},
         ],
