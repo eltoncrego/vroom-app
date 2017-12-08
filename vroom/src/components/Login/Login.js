@@ -36,6 +36,7 @@ export default class r2Login extends Component {
       input_style1: STYLE.input_inactive,
       input_style2: STYLE.input_inactive,
       input_style3: STYLE.input_inactive,
+
       sign_up: false,
       email: null,
       password: null,
@@ -237,6 +238,7 @@ export default class r2Login extends Component {
           style={this.state.input_style3}
           placeholder="re-enter password"
           placeholderTextColor="rgba(255,255,255,0.6)"
+          underlineColorAndroid={GLOBAL.COLOR.GREEN}
           autoCapitalize="none"
           secureTextEntry={true}
           onFocus={() => this.onFocus(3)}
@@ -286,6 +288,7 @@ export default class r2Login extends Component {
               style={this.state.input_style1} 
               placeholder="email"
               placeholderTextColor="rgba(255,255,255,0.6)"
+              underlineColorAndroid={GLOBAL.COLOR.GREEN}
               autoCapitalize="none"
               onFocus={() => this.onFocus(1)}
               onBlur={() => this.onBlur(1)}
@@ -295,6 +298,7 @@ export default class r2Login extends Component {
               style={this.state.input_style2}
               placeholder="password"
               placeholderTextColor="rgba(255,255,255,0.6)"
+              underlineColorAndroid={GLOBAL.COLOR.GREEN}
               autoCapitalize="none"
               secureTextEntry={true}
               onFocus={() => this.onFocus(2)}
