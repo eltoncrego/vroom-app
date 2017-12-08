@@ -47,7 +47,7 @@ module.exports = StyleSheet.create({
   * Author: Elton C. Rego
   * Purpose: Styles a global green submit button
   */
-  green_button_container:{
+  button_container:{
     backgroundColor: GLOBAL.COLOR.GREEN,
     borderRadius: 4,
     paddingHorizontal: 16,
