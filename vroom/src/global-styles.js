@@ -4,6 +4,10 @@ var {
   StyleSheet,
 } = React;
 
+import {    
+  Platform,     
+} from 'react-native';
+
 module.exports = StyleSheet.create({
  /*
   * Styles
@@ -128,16 +132,16 @@ module.exports = StyleSheet.create({
   */
   display2_accent: {
     fontSize: 70,
-    fontFamily: 'nunito',
+    fontFamily: Platform.os === 'android' ? 'nunito_black' : 'nunito',
     fontWeight: '900',
     color: GLOBAL.COLOR.GREEN,
     backgroundColor: 'transparent',
   },
   display2_accent_center: {
     fontSize: 70,
-    fontFamily: 'nunito',
+    fontFamily: Platform.os === 'android' ? 'nunito_black' : 'nunito',
     textAlign: 'center',
-    fontWeight: '900',
+    fontWeight: Platform.os === 'android' ? null : '900',
     color: GLOBAL.COLOR.GREEN,
     backgroundColor: 'transparent',
   },
@@ -156,7 +160,7 @@ module.exports = StyleSheet.create({
   },
   light_title2_center: {
     fontSize: 30,
-    fontFamily: 'nunito',
+    fontFamily: Platform.os === 'android' ? 'nunito_black' : 'nunito',
     textAlign: 'center',
     fontWeight: '900',
     color: GLOBAL.COLOR.DARKGRAY,
