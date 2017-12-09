@@ -29,15 +29,11 @@ echo "npm i react-native-flip-card";
 npm i react-native-flip-card &&
 echo "success";
 
-echo "npm install --save react-native-calendars"
+echo "npm install --save react-native-calendars";
 npm install --save react-native-calendars &&
 echo "success";
 
-echo "npm install --save react-native-safe-area-view"
-npm install --save react-native-safe-area-view &&
-echo "success";
-
-echo "npm install --save react-native-material-dropdown"
+echo "npm install --save react-native-material-dropdown";
 npm install --save react-native-material-dropdown &&
 echo "success";
 

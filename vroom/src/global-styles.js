@@ -89,6 +89,38 @@ module.exports = StyleSheet.create({
   },
 
  /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a card
+  */
+  card_focused: {
+    backgroundColor: GLOBAL.COLOR.WHITE,
+    width: 256+4,
+    height: 256+4,
+    borderRadius: 4,
+    shadowColor: '#000000',
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      width: 4,
+      height: 8,
+    },
+    shadowRadius: 2,
+    zIndex: 1,
+  },
+  
+  /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a card
+  */
+  card_unfocused: {
+    backgroundColor: GLOBAL.COLOR.WHITE,
+    width: 256,
+    height: 256,
+    marginTop: 8,
+    borderRadius: 4,
+    zIndex: 0,
+  },
+
+ /*
   * GROUP *
   *
   * Author: Elton C. Rego
