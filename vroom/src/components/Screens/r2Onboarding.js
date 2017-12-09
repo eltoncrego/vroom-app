@@ -18,6 +18,8 @@ import revi from '../../../assets/animations/revi-hi.json';
 import revi_on from '../../../assets/animations/revi-on.json';
 import revi_super_happy from '../../../assets/animations/revi-super-happy.json';
 
+import Swiper from '../Navigation/Swiper';
+
 class Screens extends Component {
 
   /*
@@ -29,35 +31,28 @@ class Screens extends Component {
    */
   componentDidMount() {
     console.log("Onboarding screens component mounted");
-    this.animation.play();
+    //this.animation.play();
   }
 
   render() {
     return (
-      <View style={[STYLE.container, styles.onboarding_container]}>
-        <StatusBar barStyle="light-content"/>
-        <View style={[STYLE.card_focused, styles.onboarding_card]}>
-          <Text style={STYLE.light_title2_center}>Hello!</Text>
-          <View style={styles.onboarding_animations}>
-            <Animation
-              ref={animation => {this.animation = animation;}}
-              style={{width: '100%', height: '100%',}}
-              loop={false}
-              source={revi}
-            />
-          </View>
-          <Text style={STYLE.light_subheader_center}>I'm your car</Text>
+      <Swiper>
+        {/* First screen */}
+        <View style={[styles.slide, { backgroundColor: '#C04DEE' }]}>
+          <Text style={STYLE.light_title2_center}>EAT</Text>
+          <Text style={STYLE.light_subheader_center}>Good nutrition is an important part of leading a healthy lifestyle</Text>
         </View>
-        <TouchableOpacity style={[STYLE.button_container, 
-          {
-            backgroundColor: GLOBAL.COLOR.GREEN,
-            width: 224,
-            marginTop: 32,
-          }
-        ]}>
-          <Text style={STYLE.green_button_text}>next</Text>
-        </TouchableOpacity>
-      </View>
+        {/* Second screen */}
+        <View style={[styles.slide, { backgroundColor: '#4AAFEE' }]}>
+          <Text style={STYLE.light_title2_center}>PRAY</Text>
+          <Text style={STYLE.light_subheader_center}>Prayer is one of the most important things a Christian can do</Text>
+        </View>
+        {/* Third screen */}
+        <View style={[styles.slide, { backgroundColor: '#FC515B' }]}>
+          <Text style={STYLE.light_title2_center}>LOVE</Text>
+          <Text style={STYLE.light_subheader_center}>Where there is love there is life</Text>
+        </View>
+      </Swiper>
     );
   }
 }
