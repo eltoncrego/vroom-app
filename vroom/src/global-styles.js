@@ -154,4 +154,19 @@ module.exports = StyleSheet.create({
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
+  light_title2_center: {
+    fontSize: 30,
+    fontFamily: 'nunito',
+    textAlign: 'center',
+    fontWeight: '900',
+    color: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
+  },
+  light_subheader_center: {
+    fontSize: 20,
+    fontFamily: 'nunito',
+    textAlign: 'center',
+    color: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
+  },
 });
