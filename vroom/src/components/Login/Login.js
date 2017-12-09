@@ -60,7 +60,7 @@ export default class Login extends Component {
       this.state.fade_animation,           
       {
         toValue: 1,                   
-        duration: 1000,              
+        duration: 600,              
       }
     ).start();    
   }
@@ -307,19 +307,20 @@ export default class Login extends Component {
       "sign up!" : "sign in!" ;
 
     return (
-      <ImageBackground 
-          style={[
-            {
-              width: '100%',
-              height: '100%',
-            }]
-          }
-      source={bg}>
-      <View style={[
-        STYLE.container,
-        STYLE.scrim]}>
+      <Animated.View style={{opacity: this.state.fade_animation,}}>
+        <ImageBackground 
+            style={[
+              {
+                width: '100%',
+                height: '100%',
+              }]
+            }
+        source={bg}>
+        <View style={[
+          STYLE.container,
+          STYLE.scrim,]}>
           <StatusBar barStyle="light-content"/>
-          <Animated.View style={[styles.logo_container, {opacity: this.state.fade_animation,}]}>
+          <Animated.View style={styles.logo_container}>
             <Text style={STYLE.display2_accent_center}>vroom</Text>
             <Text style={[STYLE.dark_subheader_center, styles.sub_title]}>keep your car happy!</Text>
           </Animated.View>
@@ -376,8 +377,9 @@ export default class Login extends Component {
             </TouchableOpacity>
             </Animated.View>
           </KeyboardAvoidingView>
-      </View>
-      </ImageBackground>  
+        </View>
+        </ImageBackground>  
+      </Animated.View>
     );
   }
 
