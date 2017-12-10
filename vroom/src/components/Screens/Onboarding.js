@@ -22,7 +22,7 @@ import {
   Keyboard,
 } from 'react-native';
 import Animation from 'lottie-react-native';
-import {firebaseRef} from '../Database/Database';
+import {firebaseRef, queryCars} from '../Database/Database';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
 import { Dropdown } from 'react-native-material-dropdown';
 import { TextField } from 'react-native-material-textfield';
@@ -67,6 +67,7 @@ export default class Onboarding extends Component {
    */
   componentDidMount() {
     console.log("Onboarding component mounted");
+    this.getDropdowns(null);
     setTimeout(() => {
       if(this.scrollView != null){
         this.scrollView.scrollTo({x: -16})
@@ -93,9 +94,16 @@ export default class Onboarding extends Component {
       button_switch: false,
       user: firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid),
       scroll_pos: 0,
-      make: null,
-      model: null,
-      year: null,
+      make: "Choose year first!",
+      model: "Choose make/year first!",
+      year: "Getting years...",
+      empty_make: "Choose year first!",
+      empty_model: "Choose make/year first!",
+      empty_year: "Getting years...",
+      models: [],
+      makes: [],
+      years: [],
+      dropdownsComplete: false,
       choices: null,
       array: null,
     };
@@ -173,7 +181,10 @@ export default class Onboarding extends Component {
      goTo(this.props.navigation, 'Dashboard');
   }
 
-arrayToJSON(input){
+  // who is the author of this function?
+  // what does it do?
+  // TODO: properly comment this function
+  arrayToJSON(input){
     console.log("input array");
     console.log(input);
     console.log("array type is", typeof input);
@@ -196,29 +207,34 @@ arrayToJSON(input){
     return retObj;
   }
 
-  getModelYears(){
-    var ret = [];
-    var that = this;
-    firebaseRef.database().ref('cars').once("value")
-    .then(function(snapshot){
-      snapshot.forEach(function(childSnapshot){
-        console.log("yo");
-        ret[ret.length] = childSnapshot.key;
-      });
-      var retObj = [{value: input[0]}];
-      var newObj;
-      for (i = 1; i < ret.length; i++){
-        newObj = {value: input[i]};
-        retObj = retObj.concat(newObj);
-        console.log("concatenated object");
-        console.log(retObj);
+  /*
+   * Method: goToDashboard()
+   * Author: Alec Felt
+   *
+   * Purpose: fills 1 dropdown at a time,
+   *          has the ability to fill years, makes, or models
+   *
+   * @param: (dropdown) = specifies which dropdown was just selected
+   */
+  getDropdowns(dropdown){
+      var path="cars", state="years";
+      if(dropdown == "year" && this.state.year != this.state.empty_year){
+          state = "makes";
+          path = "cars/"+this.state.year;
+      }else if(dropdown == "make" && this.state.make != this.state.empty_make){
+          state = "models";
+          path = "cars/"+this.state.year+"/"+this.state.make;
       }
-      console.log("finished object");
-      console.log(retObj);
-      return retObj;
-    });
+      console.log("queryCars(): path: "+path);
+      queryCars(path).then((drops) => {
+          console.log(drops);
+          var arr = [];
+          for(var i = 0; i < drops.length; i++){
+              arr[i] = {value: drops[i]};
+          }
+          this.setState({[state]: arr});
+      });
   }
-
 
   /*
    * Method: render
@@ -230,7 +246,7 @@ arrayToJSON(input){
    *
    */
   render() {
-
+    console.log("Onboarding: rendering");
     /*
      * Variable: last_card
      * Author: Elton C. Rego
@@ -428,18 +444,18 @@ arrayToJSON(input){
             }}>
               <Dropdown
                 label='Year'
-                data={year}
-                onChangeText={(value,index,data) => {this.setState({year: value});}}
+                data={this.state.years}
+                onChangeText={(value,index,data) => {this.setState({year: value}); this.getDropdowns("year"); }}
               />
               <Dropdown
                 label='Make'
-                data={make}
-                onChangeText={(value,index,data) => {this.setState({make: value});}}
+                data={this.state.makes}
+                onChangeText={(value,index,data) => { this.setState({make: value}); this.getDropdowns("make"); }}
               />
               <Dropdown
                 label='Model'
-                data={model}
-                onChangeText={(value,index,data) => {this.setState({model: value});}}
+                data={this.state.models}
+                onChangeText={(value,index,data) => { this.setState({model: value, dropdownsComplete: true}); }}
               />
             </View>
             <Text style={styles.card_text}></Text>
