@@ -63,6 +63,33 @@ import * as firebase from 'firebase';
     }
   }
 
+  /*
+   * Database function: queryCars()
+   * Author: Alec Felt
+   *
+   * Purpose: gets the years, makes, or models object
+   *
+   * @param: (path) = string: path to query in database
+   *
+   * @return: a promise which resolves to an array
+   * TODO: none
+   */
+  export function queryCars(path){
+      return new Promise((resolve, reject) => {
+          firebaseRef.database().ref(path).once("value")
+          .then(function(snapshot){
+              var arr = [];
+              snapshot.forEach(function(snap){
+                  arr[arr.length] = snap.key;
+              });
+              resolve(arr);
+          }).catch( (error) => {
+              console.log("queryCars(): Firebase query error: "+error.message);
+              reject(error);
+          });
+      });
+  }
+
  /*
   * Database function: pushTaskTypes()
   * Author: Payam Katoozian and Will Coates
