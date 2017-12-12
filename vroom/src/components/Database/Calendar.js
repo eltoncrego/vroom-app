@@ -1,4 +1,5 @@
 import {firebaseRef} from "./Database";
+import {Auth} from '../Login';
 
 /*a
 * Database function: getTaskDates()
@@ -10,9 +11,9 @@ import {firebaseRef} from "./Database";
 * @return: a list of task dates to be used when creating the calendar
 */
 
-export function getTaskDates(u){
+export function getTaskDates(){
     return new Promise((resolve, reject) => {
-      firebaseRef.database().ref('tasks/').orderByChild('uid').equalTo(u).once('value')
+      firebaseRef.database().ref('tasks/').orderByChild('uid').equalTo(Auth.getAuth().uid).once('value')
       .then(function(snapshot) {
           var dates = [];
           snapshot.forEach(function(child) {
@@ -80,9 +81,9 @@ function loopThruTasks(d, snap){
 * @param: (u) = user
 * @return: an array of task(s) that will occur on the specified date
 */
-export function getTaskByDate(d, u){
+export function getTaskByDate(d){
     return new Promise((resolve, reject) => {
-        firebaseRef.database().ref('tasks').orderByChild('uid').equalTo(u).once('value')
+        firebaseRef.database().ref('tasks').orderByChild('uid').equalTo(Auth.getAuth().uid).once('value')
         .then(function(snapshot) {
             console.log("getTaskByDate(): task query success");
             var data = [];
