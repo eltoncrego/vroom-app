@@ -19,8 +19,9 @@ import {
 } from 'react-native';
 
 // Files Needed
-import {logOut, deleteUser, firebaseRef, pushTask} from "../Database/Database";
+import {pushTask} from "../Database/Database";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
+import {Auth} from "../Login";
 
 /*
  * Class: Tasks
@@ -93,7 +94,7 @@ export default class Tasks extends Component {
       title: (<Text style={styles.header_middle}>Tasks</Text>),
 
       headerRight: (
-        <TouchableOpacity onPress={() => { logOut(navigation); }}>
+        <TouchableOpacity onPress={() => { Auth.logOut(); }}>
           <Text style={styles.button_header}>Sign Out</Text>
         </TouchableOpacity>
       ),

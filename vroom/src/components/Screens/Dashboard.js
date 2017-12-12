@@ -23,11 +23,10 @@ import FlipCard from 'react-native-flip-card'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 // Files Needed
-import {logOut, getName} from "../Database/Database";
+import {Auth} from "../Login";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import revi_sad from '../../../assets/animations/revi-to-worried.json';
 import SignedOut from '../Navigation/Router';
-import Auth from '../Login/Auth';
 
 import {firebaseRef} from '../Database/Database';
 import {getTaskDates, getTaskByDate} from '../Database/Calendar';
@@ -74,7 +73,7 @@ export default class Dashboard extends Component {
 
     var that = this;
     console.log("Dashboard: querying car_name");
-    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/vehicles/").once("value").then(function(snapshot) {
+    firebaseRef.database().ref("users/"+Auth.getAuth().uid+"/vehicles/").once("value").then(function(snapshot) {
       console.log("query successful");
       if(snapshot.exists()) {
         snapshot.forEach(function(child){
@@ -86,6 +85,8 @@ export default class Dashboard extends Component {
       } else {
         console.log("user hasn't gone through onboarding");
       }
+    }).catch(function(error){
+      console.log(error.message);
     });
   }
 
@@ -112,7 +113,7 @@ export default class Dashboard extends Component {
       selected: day.dateString
     });
     this.updateMarkedDays();
-    getTaskByDate(day.dateString, firebaseRef.auth().currentUser.uid)
+    getTaskByDate(day.dateString)
         .then(tasks => {
           console.log(tasks);
             var temp = [];
@@ -129,7 +130,7 @@ export default class Dashboard extends Component {
   }
 
   updateMarkedDays(){
-    getTaskDates(firebaseRef.auth().currentUser.uid)
+    getTaskDates()
          .then(dates => {
            var dobj = {};
            for (var i = 0; i < dates.length; i++){
@@ -181,7 +182,7 @@ export default class Dashboard extends Component {
         title: (<Text ref={"headerTitle"} style={styles.header_middle}>Dashboard</Text>),
 
         headerRight: (
-          <TouchableOpacity onPress={() => { logOut(); }}>
+          <TouchableOpacity onPress={() => { Auth.logOut(); }}>
             <Text style={styles.button_header}>Sign Out</Text>
           </TouchableOpacity>
         ),
