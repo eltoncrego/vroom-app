@@ -1,6 +1,7 @@
 import React from 'react';
 import {goTo, clearNavStack} from '../Navigation/Navigation';
 import * as firebase from 'firebase';
+import {Auth} from '../Login';
 
   /*
    * Congfiguration: firebase.initializeApp
@@ -52,12 +53,11 @@ import * as firebase from 'firebase';
   * TODO create error message, update task object fields, add notifications?
   */
   export function pushTask(ttr, d) {
-    var u = firebaseRef.auth().currentUser.uid;
-    if(u != null) {
+    if(Auth.getAuth()) {
       var taskObject = {
           ttRef: ttr,
           date: d,
-          uid: u,
+          uid: Auth.getAuth().uid,
       };
       firebaseRef.database().ref('tasks').push(taskObject);
     }
@@ -104,95 +104,4 @@ import * as firebase from 'firebase';
   */
   export function pushJSONTask(path, ob) {
     firebaseRef.database().ref(path).set(ob);
-  }
-
-  /*
-  * Database function: databaseLogin()
-  * Author: Alec Felt and Connick Shields
-  *
-  * Purpose: login the user
-  *
-  * @param: (e) = email
-  *         (p) = password
-  * @return: boolean
-  */
-  export function databaseLogin(e, p) {
-    firebaseRef.auth().signInWithEmailAndPassword(e, p).then((user) => {
-      if(user){
-        console.log("signed user in");
-      }
-    }, error => {
-      console.log(error.message);
-      alert(error.message);
-    });
-  }
-
-  /*
-  * Database function: databaseSignup
-  * Author: Alec Felt and Connick Shields
-  *
-  * Purpose: signup a user with email/password
-  *
-  * @param: (e) = email
-  *         (p) = password
-  * @return: boolean
-  */
-  export function databaseSignup(e, p) {
-    firebaseRef.auth().createUserWithEmailAndPassword(e, p)
-      .then((user) => {
-        if(user){
-          console.log("signed user up");
-        }
-      }, error => {
-        console.log(error.message);
-        if(error.code == "auth/email-already-in-use"){
-          alert("Your email is already registered. Attemping to sign you in automatically.")
-          databaseLogin(e, p);
-          return;
-        }
-        alert(error.message);
-      });
-  }
-
-  /*
-  * Database function: logOut()
-  * Author: Alec Felt and Connick Shields
-  *
-  * Purpose: log the current user out
-  *
-  * @param: void
-  * @return: boolean
-  */
-  export function logOut() {
-    // if signOut() returns void, then go back to login
-    firebaseRef.auth().signOut().then((vo) => {
-      if(!vo){
-        console.log("signed user out");
-      }
-    }, error => {
-      console.log(error.message);
-      alert(error.message);
-    });
-  }
-
-  /*
-  * Database function: deleteUser()
-  * Author: Elton C. Rego and Connick Shields
-  *
-  * Purpose: Deletes the current user account
-  */
-  export function deleteUser(){
-    var user = firebaseRef.auth().currentUser;
-      if (user) {
-        user.delete().then(function() {
-          firebaseRef.database().ref(user.uid).remove();
-          logOut();
-          alert("Poof! You're gone.")
-        }).catch(function(error) {
-          alert("Sorry, your account is unable to be deleted at this time. Please reauthenticate");
-          console.log(error.message);
-        });
-      } else {
-        alert("user is null");
-      }
   }
