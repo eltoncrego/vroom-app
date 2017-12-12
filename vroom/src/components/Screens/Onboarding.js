@@ -23,6 +23,7 @@ import {
 } from 'react-native';
 import Animation from 'lottie-react-native';
 import {firebaseRef, queryCars} from '../Database/Database';
+import {Auth} from '../Login';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
 import { Dropdown } from 'react-native-material-dropdown';
 import { TextField } from 'react-native-material-textfield';
@@ -92,7 +93,7 @@ export default class Onboarding extends Component {
       scroll_enabled: true,
       text_button: 'Next',
       button_switch: false,
-      user: firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid),
+      // user: firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid),
       scroll_pos: 0,
       make: "Choose year first!",
       model: "Choose make/year first!",
@@ -128,7 +129,7 @@ export default class Onboarding extends Component {
       });
       this.animation3.play();
       // populates user's Firebase entry
-      this.state.user.child('vehicles').push({
+      firebaseRef.database().ref("users").child(Auth.getAuth().uid).child('vehicles').push({
           nickname: this.state.text,
           path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
           choices: this.state.choices,
@@ -314,76 +315,12 @@ export default class Onboarding extends Component {
           <Text style={styles.buttonText}>{this.state.text_button}</Text>
       </TouchableOpacity>;
 
-      /*
+    /*
      * Variable: year-make-model
      * Author: Tianyi Zhang
      *
      * Purpose: Data for the dropdown picker
      */
-      let year = [{
-      value: '2000',
-    }, {
-      value: '2001',
-    }, {
-      value: '2002',
-    },{
-      value: '2003',
-    }, {
-      value: '2004',
-    }, {
-      value: '2005',
-    },{
-      value: '2006',
-    }, {
-      value: '2007',
-    }, {
-      value: '2008',
-    },{
-      value: '2009',
-    }, {
-      value: '2010',
-    }, {
-      value: '2011',
-    },{
-      value: '2012',
-    }, {
-      value: '2013',
-    }, {
-      value: '2014',
-    },{
-      value: '2015',
-    }, {
-      value: '2016',
-    }, {
-      value: '2017',
-    },{
-      value: '2018',
-    }];
-
-    // let year = this.getModelYears();
-
-    let make = [{
-      value: 'Ford',
-    }, {
-      value: 'Honda',
-    }, {
-      value: 'Mazda',
-    }, {
-      value: 'Toyota',
-    }];
-
-    let model = [{
-      value: 'Fiesta',
-    }, {
-      value: 'Miata',
-    }, {
-      value: 'Accord',
-    }, {
-      value: 'Mustang',
-    }, {
-      value: 'Prius',
-    }];
-
     let choices = [{
       value: 'Yes',
     }, {
@@ -445,12 +382,12 @@ export default class Onboarding extends Component {
               <Dropdown
                 label='Year'
                 data={this.state.years}
-                onChangeText={(value,index,data) => {this.setState({year: value}); this.getDropdowns("year"); }}
+                onChangeText={(value,index,data) => {this.setState({year: value, dropdownsComplete: false}); this.getDropdowns("year"); }}
               />
               <Dropdown
                 label='Make'
                 data={this.state.makes}
-                onChangeText={(value,index,data) => { this.setState({make: value}); this.getDropdowns("make"); }}
+                onChangeText={(value,index,data) => { this.setState({make: value, dropdownsComplete: false}); this.getDropdowns("make"); }}
               />
               <Dropdown
                 label='Model'

@@ -22,7 +22,8 @@ import { Dropdown } from 'react-native-material-dropdown';
 
 
 // Files Needed
-import {logOut, deleteUser, firebaseRef} from "../Database/Database";
+import {firebaseRef} from "../Database/Database";
+import {Auth} from "../Login";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import * as firebase from 'firebase';
 
@@ -92,28 +93,17 @@ export default class Settings extends Component {
     console.log("reAuth()");
     var email = this.state.email;
     var password = this.state.password;
-    var credential = firebase.auth.EmailAuthProvider.credential(email, password);
-    firebaseRef.auth().currentUser.reauthenticateWithCredential(credential).then(() => {
-      firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid).remove()
-        .then(() => {
-          console.log("succesfully deleted user from FirebaseDatabase");
-        }).catch((error) => {
-          console.log("unsuccesfully deleted user from FirebaseDatabase");
-        });
-      deleteUser();
-    }).catch((error) => {
-      alert("Incorrect credentials.");
-    });
+    Auth.reAuth(email, password);
   }
 
   setNotifications(val) {
     console.log("Dropdown value: "+val);
-    firebaseRef.database().ref("users/"+firebaseRef.auth().currentUser.uid+"/settings/notifications")
+    firebaseRef.database().ref("users/"+Auth.getAuth().uid+"/settings/notifications")
       .set(val).then(() => {
         console.log("successfully set notification setting for user");
       }).catch((error) => {
         alert("Error: couldn't set notification");
-        console.log("UNsuccessfully set notification setting for user");
+        console.log("Unsuccessfully set notification setting for user");
       });
   }
 
@@ -140,7 +130,7 @@ export default class Settings extends Component {
       title: (<Text style={styles.header_middle}>Settings</Text>),
 
       headerRight: (
-        <TouchableOpacity onPress={() => { logOut(navigation); }}>
+        <TouchableOpacity onPress={() => { Auth.logOut(); }}>
           <Text style={styles.button_header}>Sign Out</Text>
         </TouchableOpacity>
       ),

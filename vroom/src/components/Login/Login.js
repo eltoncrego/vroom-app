@@ -17,10 +17,7 @@ import {
   Animated,
 } from 'react-native';
 
-import {
-  databaseLogin,
-  databaseSignup,
-} from '../Database/Database';
+import {Auth} from '.';
 
 const bg = require('./../../../assets/img/login-bg.jpg')
 
@@ -56,13 +53,13 @@ export default class Login extends Component {
   */
   componentDidMount() {
     console.log("Login component successfuly mounted.");
-    Animated.timing(                  
-      this.state.fade_animation,           
+    Animated.timing(
+      this.state.fade_animation,
       {
-        toValue: 1,                   
-        duration: 600,              
+        toValue: 1,
+        duration: 600,
       }
-    ).start();    
+    ).start();
   }
 
  /*
@@ -75,13 +72,13 @@ export default class Login extends Component {
     this.setState({
       sign_up: !this.state.sign_up,
     });
-    Animated.timing(                  
-      this.state.field_animation,           
+    Animated.timing(
+      this.state.field_animation,
       {
-        toValue: 1,                   
-        duration: 500,              
+        toValue: 1,
+        duration: 500,
       }
-    ).start();   
+    ).start();
     if(this.state.sign_up){
       this.setState({
         field_animation: new Animated.Value(0),
@@ -143,24 +140,24 @@ export default class Login extends Component {
     });
     Animated.sequence([
       Animated.timing(this.state.shake_animation, {
-        toValue: -8,                   
-        duration: 50,              
+        toValue: -8,
+        duration: 50,
       }),
       Animated.timing(this.state.shake_animation, {
-        toValue: 8,                   
-        duration: 50,              
+        toValue: 8,
+        duration: 50,
       }),
       Animated.timing(this.state.shake_animation, {
-        toValue: -8,                   
-        duration: 50,              
+        toValue: -8,
+        duration: 50,
       }),
       Animated.timing(this.state.shake_animation, {
-        toValue: 8,                   
-        duration: 50,              
+        toValue: 8,
+        duration: 50,
       }),
       Animated.timing(this.state.shake_animation, {
-        toValue: 0,                   
-        duration: 50,              
+        toValue: 0,
+        duration: 50,
       }),
     ]).start();
   }
@@ -203,7 +200,7 @@ export default class Login extends Component {
       )
       return;
     }
-    databaseLogin(this.state.email, this.state.password);
+    Auth.firebaseLogin(this.state.email, this.state.password);
   }
 
  /*
@@ -259,7 +256,7 @@ export default class Login extends Component {
       )
       return;
     }
-    databaseSignup(this.state.email, this.state.password);
+    Auth.firebaseSignup(this.state.email, this.state.password);
   }
 
  /*
@@ -276,7 +273,7 @@ export default class Login extends Component {
     var pw_confirm_field = this.state.sign_up ?
       <Animated.View style={{opacity: this.state.field_animation,}}>
         <TextInput
-          ref='password_verification_field' 
+          ref='password_verification_field'
           style={this.state.input_style3}
           placeholder="re-enter password"
           placeholderTextColor="rgba(255,255,255,0.6)"
@@ -308,7 +305,7 @@ export default class Login extends Component {
 
     return (
       <Animated.View style={{opacity: this.state.fade_animation,}}>
-        <ImageBackground 
+        <ImageBackground
             style={[
               {
                 width: '100%',
@@ -324,12 +321,12 @@ export default class Login extends Component {
             <Text style={STYLE.display2_accent_center}>vroom</Text>
             <Text style={[STYLE.dark_subheader_center, styles.sub_title]}>keep your car happy!</Text>
           </Animated.View>
-          <KeyboardAvoidingView 
+          <KeyboardAvoidingView
             style={styles.form_container}
             behavior="padding">
             <Animated.View style={{transform: [{translateX: this.state.shake_animation}]}}>
-            <TextInput 
-              style={this.state.input_style1} 
+            <TextInput
+              style={this.state.input_style1}
               placeholder="email"
               placeholderTextColor="rgba(255,255,255,0.6)"
               underlineColorAndroid={GLOBAL.COLOR.GREEN}
@@ -339,7 +336,7 @@ export default class Login extends Component {
               onChangeText={(text) => {this.setState({email: text})}}
               onSubmitEditing={() => this.refs.password_field.focus()}
             />
-            <TextInput 
+            <TextInput
               ref='password_field'
               style={this.state.input_style2}
               placeholder="password"
@@ -359,7 +356,7 @@ export default class Login extends Component {
               }}
             />
             {pw_confirm_field}
-            <TouchableOpacity style={[STYLE.button_container, 
+            <TouchableOpacity style={[STYLE.button_container,
               {
                 backgroundColor: this.state.button_color,
               }]}
@@ -378,7 +375,7 @@ export default class Login extends Component {
             </Animated.View>
           </KeyboardAvoidingView>
         </View>
-        </ImageBackground>  
+        </ImageBackground>
       </Animated.View>
     );
   }
@@ -391,7 +388,7 @@ const styles = StyleSheet.create({
  /*
   * Author: Elton C. Rego
   * Purpose: Styles the container for the logo and subheader
-  */ 
+  */
   logo_container: {
     alignItems: 'center',
     justifyContent: 'center',
