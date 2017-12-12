@@ -53,7 +53,7 @@ import {Auth} from '../Login';
   * TODO create error message, update task object fields, add notifications?
   */
   export function pushTask(ttr, d) {
-    if(Auth.getAuth()) {
+    if(Auth.checkAuth()) {
       var taskObject = {
           ttRef: ttr,
           date: d,
