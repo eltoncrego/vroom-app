@@ -12,6 +12,17 @@ Describes the type of task and object associated with the task.
 <p align="center"><img src="https://github.com/eltoncrego/vroom-app/blob/master/documentation/assets/task_naming_convention_image.png?raw=true" width="500"></p>
 
 ## Task Fields
+9 standard fields per task:
+* action: change || replace || check || install
+* intervalMileage: (number of miles that accumulates in between subsequent tasks) || none
+* intervalMonth: (number of months that accumulates in between subsequent tasks) || none
+* item: (item/object that this tasks is related to)
+* itemDescription: (a brief description of what the item is/what role it plays)
+* itemDisplayDescription: (same as itemDescription but will be displayed in-app (user-facing))
+* itemSteps: (list of steps in chronological order needed to complete the task)
+* severity: low || mild || moderate || high
+
+<p align="center"><img src="https://github.com/eltoncrego/vroom-app/blob/master/documentation/assets/task_fields_convention_image.png?raw=true" width="500"></p>
 
 
 
