@@ -9,7 +9,7 @@ You can input more than this per day if you would like (preferrable).
 Uniformity between the different task names with no fluff.
 Describes the type of task and object associated with the task.
 
-<p align="center"><img src="https://github.com/eltoncrego/vroom-    app/blob/master/documentation/assets/task_naming_convention_image.png?raw=true" width="500"></p>
+<p align="center"><img src="https://github.com/eltoncrego/vroom-app/blob/master/documentation/assets/task_naming_convention_image.png?raw=true" width="500"></p>
 
 ## Task Fields
 
