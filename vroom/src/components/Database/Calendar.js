@@ -7,7 +7,6 @@ import {Auth} from '../Login';
 *
 * Purpose: get a string list of task dates to use with the calendar
 *
-* @param: (u) = user
 * @return: a list of task dates to be used when creating the calendar
 */
 
@@ -78,7 +77,6 @@ function loopThruTasks(d, snap){
 * Purpose: get a list of Calendar tasks by date
 *
 * @param: (d) = date
-* @param: (u) = user
 * @return: an array of task(s) that will occur on the specified date
 */
 export function getTaskByDate(d){
