@@ -66,7 +66,7 @@ export default class Auth extends Component {
    * Author: Elton C. Rego
    *
    * Purpose: Sets the state text for the card naming
-   * props: the properties passed in from the super class (index.js)
+   * @param props: the properties passed in from the super class (index.js)
    */
   constructor(props) {
     super(props);
