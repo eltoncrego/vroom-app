@@ -1,0 +1,9 @@
+echo "STARTING ADMIN ENVIRONMENT INITIALIZATION"
+echo "======================================="
+
+echo "npm install --save firebase-admin"
+npm install --save firebase-admin &&
+echo "success"
+
+echo "======================================="
+echo "ADMIN ENVIROMENT INITIALIZATION SUCCESS"
