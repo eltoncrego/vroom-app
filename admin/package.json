@@ -4,7 +4,8 @@
   "description": "Firebase Admin SDK Server for Vroom",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "init": "./init",
+    "enter-task": "node taskCreation.js"
   },
   "author": "Alec Felt, Will Coates",
   "license": "ISC",

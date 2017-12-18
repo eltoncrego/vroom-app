@@ -1,0 +1,49 @@
+    /*
+     * String Utility Function: stringCase(value)
+     * Author: Alec Felt
+     *
+     * Purpose: Makes sure the case of each character in the string is appropriate
+     * Example: ('yOloDUde') => 'Yolodude'
+     *
+     * @param: (value) = string to be manipulated
+     * @return: string
+     */
+    function stringCase(value){
+        var str = value.charAt(0).toUpperCase();
+        for(var i = 1; i < value.length; i++){
+            str += value.charAt(i).toLowerCase();
+        }
+        return str;
+    }
+
+    /*
+     * JSON Utility Function: makeTask(res)
+     * Author: Alec Felt
+     *
+     * Purpose: Creates a JSON task object from the user's prompt object
+     *
+     * @params: (res) = object containing the user's input fields
+     * @return: JSON object
+     */
+    function makeTask(res){
+        return {
+            action: res.action,
+            intervalMileage: res.intervalMileage,
+            intervalMonth: res.intervalMonth,
+            item: res.item,
+            itemDescription: res.itemDescription,
+            itemDisplayDescription: res.itemDisplayDescription,
+            itemDisplayTitle: res.itemDisplayTitle,
+            itemSteps: {
+                1: 'blah',
+                2: 'blah',
+                3: 'blah'
+            },
+            severity: res.severity
+        };
+    }
+
+module.exports = {
+    stringCase: stringCase,
+    makeTask: makeTask
+};
