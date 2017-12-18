@@ -13,7 +13,7 @@ Describes the type of task and object associated with the task.
 
 ## Task Fields
 9 standard fields per task:
-* action: change || replace || check || install
+* action: adjust || replace || check || install
 * intervalMileage: (number of miles that accumulates in between subsequent tasks) || none
 * intervalMonth: (number of months that accumulates in between subsequent tasks) || none
 * item: (item/object that this tasks is related to)
