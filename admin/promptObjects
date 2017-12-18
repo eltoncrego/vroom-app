@@ -1,0 +1,55 @@
+const { stringCase } = require('./promptUtilities');
+
+/*
+ * Prompt JSON Exports: carProps, taskProps, contProps
+ * Author: Alec Felt
+ *
+ * Purpose: Defines what each prompt involves
+ */
+module.exports = {
+    contProps: {
+        properties: {
+            cont: {
+                description: "Would you like to continue to task creation? (yes/no)",
+                required: true
+            }
+        }
+    },
+    carProps: {
+        properties: {
+            year: {
+                description: 'Year',
+                pattern: /^\d{4}$/,
+                required: true
+            },
+            make: {
+                description: 'Make',
+                pattern: /^[A-Z][a-z]*/,
+                required: true,
+                before: function(value) {
+                    return stringCase(value);
+                }
+            },
+            model: {
+                description: 'Model',
+                required: true,
+                before: function(value) {
+                    return stringCase(value);
+                }
+            }
+        }
+    },
+    taskProps: {
+        properties: {
+            taskName: { required: true },
+            action: { required: true },
+            intervalMileage: { required: true },
+            intervalMonth: { required: true },
+            item: { required: true },
+            itemDescription: { required: true },
+            itemDisplayDescription: { required: true },
+            itemDisplayTitle: { required: true },
+            severity: { required: true }
+        }
+    }
+}
