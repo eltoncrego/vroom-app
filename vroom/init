@@ -37,6 +37,14 @@ echo "npm install --save react-native-material-dropdown";
 npm install --save react-native-material-dropdown &&
 echo "success";
 
+echo "npm install react-native-fcm --save";
+npm install react-native-fcm --save &&
+echo "success";
+
+echo "react-native link react-native-fcm";
+react-native link react-native-fcm &&
+echo "success"
+
 echo "npm i react-native-onboarding-swiper";
 npm i react-native-onboarding-swiper &&
 echo "success";
