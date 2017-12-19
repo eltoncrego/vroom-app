@@ -1971,7 +1971,7 @@ hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
-hoist-non-react-statics@^2.2.0, hoist-non-react-statics@^2.3.1:
+hoist-non-react-statics@^2.2.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
 
@@ -3501,6 +3501,10 @@ react-native-fade-image@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-native-fade-image/-/react-native-fade-image-1.0.1.tgz#0d23a38276a4b2d2c5457c1e66d5d811a457a8d5"
 
+react-native-fcm@^10.0.3:
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-10.0.3.tgz#1dc538ed889f90b7a5bc1d0530cc516e69b09e8c"
+
 react-native-firebase@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-3.0.5.tgz#18371ba46b064212af14e308c01462d64a276af1"
@@ -3542,11 +3546,11 @@ react-native-material-textfield@^0.10.0:
   dependencies:
     prop-types "^15.5.9"
 
-react-native-safe-area-view@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.2.0.tgz#bda97f548e2ead4a90a06d95558647bc73434670"
+react-native-onboarding-swiper@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-onboarding-swiper/-/react-native-onboarding-swiper-0.3.1.tgz#1c5f3f32e377472770dcc9038c51c79a76b28df9"
   dependencies:
-    hoist-non-react-statics "^2.3.1"
+    tinycolor2 "^1.4.1"
 
 react-native-safe-module@^1.1.0:
   version "1.2.0"
@@ -3626,9 +3630,9 @@ react-native@0.49.3:
     xmldoc "^0.4.0"
     yargs "^6.4.0"
 
-react-navigation@^1.0.0-beta.21:
-  version "1.0.0-beta.21"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.21.tgz#086c504ba84c966ef8db898baef6fa14ff45a06f"
+react-navigation@^1.0.0-beta.22:
+  version "1.0.0-beta.22"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.22.tgz#be7a7a066f94a37d4eeeff01bacffabdc66c57e7"
   dependencies:
     babel-plugin-transform-define "^1.3.0"
     clamp "^1.0.1"
@@ -4264,6 +4268,10 @@ through@^2.3.6:
 time-stamp@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/time-stamp/-/time-stamp-1.1.0.tgz#764a5a11af50561921b133f3b44e618687e0f5c3"
+
+tinycolor2@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
 
 tmp@^0.0.33:
   version "0.0.33"
