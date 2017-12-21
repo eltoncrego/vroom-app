@@ -257,12 +257,14 @@ export default class Auth extends Component {
       return <Loading/>;
     }
 
-    if(this.state.signedIn){
-       if(this.state.onboarding){
-         return <SignedUp/>;
-       } else return <SignedIn/>;
-    } else {
-       return <SignedOut/>;
-    }
+    return <SignedUp/>;
+
+    // if(this.state.signedIn){
+    //    if(this.state.onboarding){
+    //      return <SignedUp/>;
+    //    } else return <SignedIn/>;
+    // } else {
+    //    return <SignedOut/>;
+    // }
   }
 }

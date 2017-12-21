@@ -123,14 +123,14 @@ export const TasksScreen = StackNavigator({
  */
 export const SignedUp = DrawerNavigator({
   Onboarding: {
-    screen: OnboardingScreen,
+    screen: Onboarding,
     navigationOptions: {
       drawerLabel: <Hidden/>
     },
   },
-  Dashboard: {screen: DashboardScreen},
-  Tasks: {screen: TasksScreen},
-  Settings: {screen: SettingsScreen},
+  Dashboard: {screen: Dashboard},
+  Tasks: {screen: Tasks},
+  Settings: {screen: Settings},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
@@ -158,16 +158,16 @@ export const SignedUp = DrawerNavigator({
  *   should not have a drawer menu here.
  */
 export const SignedIn = DrawerNavigator({
-  Dashboard: {screen: DashboardScreen},
+  Dashboard: {screen: Dashboard},
   Onboarding: {
-    screen: OnboardingScreen,
+    screen: Onboarding,
     navigationOptions: {
       drawerLabel: <Hidden/>
     },
   },
   
-  Tasks: {screen: TasksScreen},
-  Settings: {screen: SettingsScreen},
+  Tasks: {screen: Tasks},
+  Settings: {screen: Settings},
 },{
   contentComponent: DrawerContent,
     contentOptions: {
