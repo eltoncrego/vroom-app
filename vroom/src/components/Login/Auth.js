@@ -260,7 +260,9 @@ export default class Auth extends Component {
     if(this.state.signedIn){
        if(this.state.onboarding){
          return <SignedUp/>;
-       } else return <SignedIn/>;
+       } else {
+         return <SignedIn/>;
+       }
     } else {
        return <SignedOut/>;
     }
