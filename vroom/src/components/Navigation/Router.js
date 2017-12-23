@@ -132,6 +132,9 @@ export const SignedUp = DrawerNavigator({
   Tasks: {screen: Tasks},
   Settings: {screen: Settings},
 },{
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle',
   contentComponent: DrawerContent,
     contentOptions: {
       activeTintColor: GLOBAL.COLOR.GREEN,
@@ -169,6 +172,9 @@ export const SignedIn = DrawerNavigator({
   Tasks: {screen: Tasks},
   Settings: {screen: Settings},
 },{
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle',
   contentComponent: DrawerContent,
     contentOptions: {
       activeTintColor: GLOBAL.COLOR.GREEN,
