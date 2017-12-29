@@ -37,10 +37,6 @@ echo "npm install --save react-native-material-dropdown";
 npm install --save react-native-material-dropdown &&
 echo "success";
 
-echo "npm i react-native-onboarding-swiper";
-npm i react-native-onboarding-swiper &&
-echo "success";
-
 echo "react-native link";
 react-native link &&
 echo "success";
