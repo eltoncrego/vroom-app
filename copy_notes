@@ -1,3 +1,21 @@
+// From Login.js
+
+ <TouchableOpacity style={[STYLE.button_container,
+              {
+                backgroundColor: this.state.button_color,
+              }]}
+              onPress={()=>{
+                if(this.state.sign_up){
+                  this.signup();
+                } else {
+                  this.signin();
+                }
+              }}>
+              <Text style={STYLE.green_button_text}>{signup_button_text}</Text>
+            </TouchableOpacity>
+
+// ------------------------------------------------------------------------------
+
 // FROM ONBOARDING
 
 {/* Card 3.5 */}
