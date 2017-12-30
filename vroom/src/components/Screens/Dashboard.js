@@ -17,6 +17,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
+  SafeAreaView,
 } from 'react-native';
 import Animation from 'lottie-react-native';
 import FlipCard from 'react-native-flip-card'
@@ -211,7 +212,7 @@ export default class Dashboard extends Component {
     var d = new Date();
 
     return (
-      <View
+      <SafeAreaView
         style={styles.container}
       >
         <ScrollView
@@ -313,7 +314,7 @@ export default class Dashboard extends Component {
             {this.state.textTaskArr}
           </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

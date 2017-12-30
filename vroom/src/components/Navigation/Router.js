@@ -128,9 +128,9 @@ export const SignedUp = DrawerNavigator({
       drawerLabel: <Hidden/>
     },
   },
-  Dashboard: {screen: Dashboard},
-  Tasks: {screen: Tasks},
-  Settings: {screen: Settings},
+  Dashboard: {screen: DashboardScreen},
+  Tasks: {screen: TasksScreen},
+  Settings: {screen: SettingsScreen},
 },{
   drawerOpenRoute: 'DrawerOpen',
   drawerCloseRoute: 'DrawerClose',
