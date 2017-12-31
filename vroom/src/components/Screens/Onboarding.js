@@ -339,9 +339,6 @@ export default class Onboarding extends Component {
          barStyle="light-content"
        />
         <View style={styles.cards_container}>
-        <StatusBar
-          barStyle="light-content"
-        />
         <ScrollView
           ref={(scrollView) => { this.scrollView = scrollView; }}
           style={styles.scroll}
@@ -464,6 +461,7 @@ export default class Onboarding extends Component {
  */
 const styles = StyleSheet.create({
 
+  
   /*
    * Style: Button
    * Author: Elton C. Rego
