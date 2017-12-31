@@ -161,16 +161,9 @@ export const SignedUp = DrawerNavigator({
  *   should not have a drawer menu here.
  */
 export const SignedIn = DrawerNavigator({
-  Dashboard: {screen: Dashboard},
-  Onboarding: {
-    screen: Onboarding,
-    navigationOptions: {
-      drawerLabel: <Hidden/>
-    },
-  },
-  
-  Tasks: {screen: Tasks},
-  Settings: {screen: Settings},
+  Dashboard: {screen: DashboardScreen},
+  Tasks: {screen: TasksScreen},
+  Settings: {screen: SettingsScreen},
 },{
   drawerOpenRoute: 'DrawerOpen',
   drawerCloseRoute: 'DrawerClose',
