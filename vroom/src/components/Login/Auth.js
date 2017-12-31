@@ -118,7 +118,7 @@ export default class Auth extends Component {
         console.log(error.message);
         if(error.code == "auth/email-already-in-use"){
           alert("Your email is already registered. Attemping to sign you in automatically.")
-          databaseLogin(e, p);
+          firebaseLogin(e, p);
           return;
         }
         alert(error.message);
