@@ -107,6 +107,9 @@ export default class Onboarding extends Component {
       dropdownsComplete: false,
       choices: null,
       array: null,
+      active1: GLOBAL.COLOR.DARKGRAY,
+      active2: GLOBAL.COLOR.LIGHTGRAY,
+      active3: GLOBAL.COLOR.LIGHTGRAY,
     };
   }
 
@@ -382,17 +385,42 @@ export default class Onboarding extends Component {
               <Dropdown
                 label='Year'
                 data={this.state.years}
-                onChangeText={(value,index,data) => {this.setState({year: value, dropdownsComplete: false}); this.getDropdowns("year"); }}
+                baseColor={this.state.active1}
+                onChangeText={(value,index,data) => {
+                  this.setState({
+                    year: value, 
+                    dropdownsComplete: false,
+                    active1: GLOBAL.COLOR.GREEN,
+                    active2: GLOBAL.COLOR.DARKGRAY,
+                  }); 
+                  this.getDropdowns("year");
+                }}
               />
               <Dropdown
                 label='Make'
                 data={this.state.makes}
-                onChangeText={(value,index,data) => { this.setState({make: value, dropdownsComplete: false}); this.getDropdowns("make"); }}
+                baseColor={this.state.active2}
+                onChangeText={(value,index,data) => {
+                  this.setState({
+                    make: value, 
+                    dropdownsComplete: false,
+                    active2: GLOBAL.COLOR.GREEN,
+                    active3: GLOBAL.COLOR.DARKGRAY,
+                  }); 
+                  this.getDropdowns("make");
+                }}
               />
               <Dropdown
                 label='Model'
                 data={this.state.models}
-                onChangeText={(value,index,data) => { this.setState({model: value, dropdownsComplete: true}); }}
+                baseColor={this.state.active3}
+                onChangeText={(value,index,data) => {
+                  this.setState({
+                    model: value,
+                    dropdownsComplete: true,
+                    active3: GLOBAL.COLOR.GREEN,
+                  });
+                }}
               />
             </View>
             <Text style={styles.card_text}></Text>
