@@ -52,7 +52,6 @@ module.exports = StyleSheet.create({
   * Purpose: Styles a global green submit button
   */
   button_container:{
-    // backgroundColor: GLOBAL.COLOR.GREEN,
     borderRadius: 4,
     paddingHorizontal: 16,
     paddingVertical: 12,
