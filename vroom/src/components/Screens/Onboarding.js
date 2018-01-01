@@ -133,22 +133,11 @@ export default class Onboarding extends Component {
       });
       this.animation3.play();
       // populates user's Firebase entry
-      if (this.state.text == ''){
-        this.setState({
-          text: 'My Car',
-        });
-        firebaseRef.database().ref("users").child(Auth.getAuth().uid).child('vehicles').push({
-          nickname: 'My Car',
-          path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
-          choices: this.state.choices,
-        });
-      } else {
-        firebaseRef.database().ref("users").child(Auth.getAuth().uid).child('vehicles').push({
-          nickname: this.state.text,
-          path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
-          choices: this.state.choices,
-        });
-      }
+      firebaseRef.database().ref("users").child(Auth.getAuth().uid).child('vehicles').push({
+        nickname: this.state.text,
+        path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
+        choices: this.state.choices,
+      });
     // make,year,model dropdowns haven't been properly set
     } else {
       alert("Error: please set Make, Year, and Model dropdowns");
