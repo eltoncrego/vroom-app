@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     zIndex: 1,
     padding: 32,
-    paddingTop: 64,
+    paddingTop: 32+16,
   },
 
   /*
