@@ -6,6 +6,7 @@
 // Global Requirements
 import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
+STYLE = require('../../global-styles');
 
 // Components
 import {
