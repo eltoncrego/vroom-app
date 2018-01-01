@@ -12,7 +12,6 @@ STYLE = require('../../global-styles');
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   StatusBar,
   ScrollView,
@@ -33,6 +32,7 @@ import { TextField } from 'react-native-material-textfield';
 import revi from '../../../assets/animations/revi-hi.json';
 import revi_on from '../../../assets/animations/revi-on.json';
 import revi_super_happy from '../../../assets/animations/revi-super-happy.json';
+import Button from './../Custom/Button';
 
 /*
  * Class: Onboarding
@@ -133,11 +133,22 @@ export default class Onboarding extends Component {
       });
       this.animation3.play();
       // populates user's Firebase entry
-      firebaseRef.database().ref("users").child(Auth.getAuth().uid).child('vehicles').push({
+      if (this.state.text == ''){
+        this.setState({
+          text: 'My Car',
+        });
+        firebaseRef.database().ref("users").child(Auth.getAuth().uid).child('vehicles').push({
+          nickname: 'My Car',
+          path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
+          choices: this.state.choices,
+        });
+      } else {
+        firebaseRef.database().ref("users").child(Auth.getAuth().uid).child('vehicles').push({
           nickname: this.state.text,
           path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
           choices: this.state.choices,
-      });
+        });
+      }
     // make,year,model dropdowns haven't been properly set
     } else {
       alert("Error: please set Make, Year, and Model dropdowns");
@@ -275,7 +286,7 @@ export default class Onboarding extends Component {
         <Text style={STYLE.subheader_center}>{"I love it!"}</Text>
       </View>
       :
-      <View style={styles.card_inactive}>
+      <View style={{display: 'none'}}>
         <Text style={STYLE.title2_center}>{this.state.text}</Text>
           <View style={styles.revi_animations}>
               <Animation
@@ -298,38 +309,24 @@ export default class Onboarding extends Component {
      *   button.
      */
     var next_button = this.state.scroll_enabled ?
-      <TouchableOpacity
-          style={[
-            STYLE.button_container,
-            {
-              backgroundColor: GLOBAL.COLOR.GREEN,
-              width: '65%',
-            }
-          ]}
-          activeOpacity={0.8}
-          onPress={
+      <Button
+        backgroundColor={GLOBAL.COLOR.GREEN}
+        label={this.state.text_button}
+        width='65%'
+        onPress={
             () => {
               this.goToScrollView();
             }
-        }>
-          <Text style={STYLE.green_button_text}>{this.state.text_button}</Text>
-      </TouchableOpacity>
-      : <TouchableOpacity
-          style={[
-            STYLE.button_container,
-            {
-              backgroundColor: GLOBAL.COLOR.GREEN,
-              width: '65%',
-            }
-          ]}
-          activeOpacity={0.8}
-          onPress={
+        }/>
+      : <Button
+        backgroundColor={GLOBAL.COLOR.GREEN}
+        label={this.state.text_button}
+        width='65%'
+        onPress={
             () => {
               this.goToDashboard();
             }
-        }>
-          <Text style={STYLE.green_button_text}>{this.state.text_button}</Text>
-      </TouchableOpacity>;
+        }/>;
 
     /*
      * Variable: year-make-model
@@ -345,7 +342,13 @@ export default class Onboarding extends Component {
 
     return (
       <KeyboardAvoidingView
-        style={styles.container}
+        style={[
+          STYLE.container,
+          {
+            justifyContent: 'center',
+            alignItems: 'center',
+          }
+        ]}
         behavior="padding"
       >
         <StatusBar
@@ -453,7 +456,7 @@ export default class Onboarding extends Component {
               />
             </View>
             <TextInput
-              style={styles.card_text_input}
+              style={STYLE.light_input_active}
               placeholder="Type in my name!"
               onChangeText={(text) => {this.setState({text});}}
               underlineColorAndroid={'#ffffff'}
@@ -480,26 +483,15 @@ export default class Onboarding extends Component {
 const styles = StyleSheet.create({
 
   /*
-   * Style: Container
-   * Author: Elton C. Rego
-   * Purpose: This styles the entire background of this page
-   */
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: GLOBAL.COLOR.DARKGRAY,
-  },
-
-  /*
    * Style: scroll
    * Author: Elton C. Rego
-   * Purpose: This styles the scroll
+   * Purpose: This styles the sizing of the cards
+   *   within the scrollview
    */
   cards_container: {
+    alignItems: 'center',
     height: '70%',
     width: '100%',
-    alignSelf: 'center',
   },
 
    /*
@@ -508,10 +500,9 @@ const styles = StyleSheet.create({
    * Purpose: This styles the card view within this page
    */
   card: {
-    alignSelf: 'center',
     justifyContent: 'space-between',
-    width: 312,
     height: '90%',
+    width: 312,
     alignItems: 'center',
     margin: 16,
     backgroundColor: GLOBAL.COLOR.WHITE,
@@ -526,40 +517,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     padding: 32,
     paddingTop: 32+16,
-  },
-
-  /*
-   * Style: Card
-   * Author: Elton C. Rego
-   * Purpose: This styles the card view within this page
-   */
-  card_inactive: {
-    display: 'none',
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#ffffff',
-    width: 312,
-    height: 344,
-    borderRadius: 20,
-    alignItems: 'center',
-    overflow: 'hidden',
-    margin: 16,
-  },
-
-  /*
-   * Style: Card Text Input
-   * Author: Elton C. Rego
-   * Purpose: This styles the card descriptions
-   */
-  card_text_input: {
-    fontFamily: 'Nunito',
-    textAlign: 'center',
-    justifyContent: 'center',
-    fontSize: 20,
-    borderBottomWidth: 2,
-    paddingBottom: 2,
-    width: '80%',
-    borderColor: GLOBAL.COLOR.GREEN,
   },
 
    /*
@@ -585,16 +542,4 @@ const styles = StyleSheet.create({
     zIndex:2,
     marginTop: -32,
   },
-
-  /*
-   * Style: Revi Super
-   * Author: Elton C. Rego
-   * Purpose: This styles the Revis on each card
-   */
-  revi_super: {
-    resizeMode: 'contain',
-    height: 120,
-    width: 120,
-  },
-
 });

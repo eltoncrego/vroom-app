@@ -47,6 +47,21 @@ module.exports = StyleSheet.create({
     fontFamily: 'nunito',
   },
 
+  /*
+  * Author: Elton C. Rego
+  * Purpose: Styles a global active text input
+  */
+  light_input_active: {
+    color: GLOBAL.COLOR.DARKGRAY,
+    textAlign: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 4,
+    marginVertical: 8,
+    fontSize: 20,
+    fontFamily: 'nunito',
+  },
+
  /*
   * Author: Elton C. Rego
   * Purpose: Styles a global green submit button
