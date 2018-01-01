@@ -109,7 +109,6 @@ module.exports = StyleSheet.create({
     },
     shadowRadius: 2,
     zIndex: 1,
-    padding: 32,
   },
   
   /*
@@ -191,6 +190,19 @@ module.exports = StyleSheet.create({
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
+  title: {
+    fontSize: 30,
+    fontFamily: 'nunito',
+    color: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
+  },
+  title_center: {
+    fontSize: 30,
+    fontFamily: 'nunito',
+    textAlign: 'center',
+    color: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
+  },
   subheader: {
     fontSize: 20,
     fontFamily: 'nunito',
@@ -255,8 +267,8 @@ module.exports = StyleSheet.create({
    */
   revi_animations: {
     alignSelf: 'center',
-    height: 240,
-    width: 240,
+    height: 256,
+    width: 256,
     zIndex:2,
     marginTop: -32,
   },
