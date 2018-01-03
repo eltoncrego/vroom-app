@@ -52,7 +52,7 @@ export default class Dashboard extends Component {
       selected: "",
       taskDates: {},
       textTaskArr: [],
-      fill: 50,
+      fill: 74,
       ring_color: GLOBAL.COLOR.GREEN
     };
   }
@@ -140,30 +140,56 @@ export default class Dashboard extends Component {
 
   render(){
     return(
-      <View style={[STYLE.container]}>
+      <View style={[
+          STYLE.container,
+          {
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            paddingTop: 8,
+          }
+        ]
+      }>
         <StatusBar barStyle="light-content" />
-        <AnimatedCircularProgress
-          size={240}
-          width={16}
-          fill={this.state.fill}
-          rotation={0}
-          tintColor={this.state.ring_color}
-          backgroundWidth={0}
-          linecap="round">
-        {
-          (fill) => (
-            <View style={[STYLE.revi_animations, {width: 192, height: 192,}]}>
-              <Animation
-                ref={animation => {this.animation = animation;}}
-                style={{width: '100%', height: '100%',}}
-                loop={false}
-                speed={0.75}
-                source={revi_sad}
-              />
-            </View>
-          )
-        }
-        </AnimatedCircularProgress>
+        <View style={[
+          STYLE.card_unfocused,
+          {
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '90%',
+            padding: 32,
+          }
+        ]}>
+          <AnimatedCircularProgress
+            size={240}
+            width={16}
+            fill={this.state.fill}
+            rotation={0}
+            tintColor={this.state.ring_color}
+            backgroundWidth={0}
+            linecap="round">
+            {
+              (fill) => (
+                <View style={[STYLE.revi_animations, {width: 240, height: 240,}]}>
+                  <Animation
+                    ref={animation => {this.animation = animation;}}
+                    style={{width: '100%', height: '100%',}}
+                    loop={false}
+                    speed={0.75}
+                    source={revi_sad}
+                  />
+                </View>
+              )
+            }
+          </AnimatedCircularProgress>
+          <Text style={[
+            STYLE.title2_center,
+            {
+              marginTop: 32,
+            }
+          ]}>
+            5 Tasks Remaining
+          </Text>
+        </View>
       </View>
     );
   }
