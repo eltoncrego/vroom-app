@@ -33,8 +33,8 @@ echo "yarn add lottie-react-native@2.2.7";
 yarn add lottie-react-native@2.2.7 &&
 echo "success";
 
-echo "npm i react-native-flip-card";
-npm i react-native-flip-card &&
+echo "npm install react-native-flip-card";
+npm install react-native-flip-card &&
 echo "success";
 
 echo "npm install --save react-native-calendars";
@@ -43,6 +43,10 @@ echo "success";
 
 echo "npm install --save react-native-material-dropdown";
 npm install --save react-native-material-dropdown &&
+echo "success";
+
+echo "npm install --save react-native-circular-progress";
+npm install --save react-native-circular-progress &&
 echo "success";
 
 echo "react-native link";
@@ -69,3 +73,6 @@ echo "success";
 
 echo "=======================================";
 echo "DEV ENVIROMENT INITIALIZATION SUCCESS";
+
+echo "PLEASE VISIT https://facebook.github.io/react-native/docs/linking-libraries-ios.html#content";
+echo "You have to link node_modules/react-native/Libraries/ART/ART.xcodeproj manually";
