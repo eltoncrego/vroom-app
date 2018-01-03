@@ -112,8 +112,8 @@ module.exports = StyleSheet.create({
   */
   card_focused: {
     backgroundColor: GLOBAL.COLOR.WHITE,
-    width: 260,
-    height: 260,
+    // width: 260,
+    // height: 260,
     borderRadius: 4,
     shadowColor: '#000000',
     shadowOpacity: 0.5,
@@ -131,8 +131,8 @@ module.exports = StyleSheet.create({
   */
   card_unfocused: {
     backgroundColor: GLOBAL.COLOR.WHITE,
-    width: 256,
-    height: 256,
+    // width: 256,
+    // height: 256,
     marginTop: 8,
     borderRadius: 4,
     zIndex: 0,
