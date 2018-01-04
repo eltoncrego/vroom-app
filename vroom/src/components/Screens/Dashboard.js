@@ -213,125 +213,125 @@ export default class Dashboard extends Component {
         ]
       }>
         <StatusBar barStyle="light-content" />
-        <ScrollView contentContainerStyle={[
-          styles.scroll,
-          {
-            paddingTop: 16,
-          }
-        ]}>
+        <ScrollView>
           <View style={[
-            STYLE.card_focused,
+            styles.scroll,
             {
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 340,
               paddingVertical: 32,
             }
           ]}>
-            <AnimatedCircularProgress
-              size={240}
-              width={16}
-              fill={this.state.fill}
-              rotation={0}
-              tintColor={this.state.ring_color}
-              backgroundColor={this.state.ring_back_color}
-              //backgroundWidth={32}
-              linecap="round">
+            <View style={[
+              STYLE.card_focused,
               {
-                (fill) => (
-                  <View style={[STYLE.revi_animations, {width: 208, height: 208,}]}>
-                    <Animation
-                      ref={animation => {this.animation = animation;}}
-                      style={{width: '100%', height: '100%',}}
-                      loop={false}
-                      speed={1}
-                      source={this.state.revi_animation}
-                    />
-                  </View>
-                )
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 32,
               }
-            </AnimatedCircularProgress>
-          </View>
-
-          <View
-            style={{
-              width: width,
-              borderTopColor: this.state.ring_color,
-              borderTopWidth: 2,
-              marginTop: 32,
-              paddingHorizontal: 16,
-            }}
-          >
-            <Animated.View
-              style={{
-                opacity: this.state.fade_animation,
-              }}>
-              <Text style={[
-                STYLE.subheader2,
+            ]}>
+              <AnimatedCircularProgress
+                size={240}
+                width={16}
+                fill={this.state.fill}
+                rotation={0}
+                tintColor={this.state.ring_color}
+                backgroundColor={this.state.ring_back_color}
+                //backgroundWidth={32}
+                linecap="round">
                 {
-                  color: this.state.ring_color,
-                  marginTop: 16,
+                  (fill) => (
+                    <View style={[STYLE.revi_animations, {width: 208, height: 208,}]}>
+                      <Animation
+                        ref={animation => {this.animation = animation;}}
+                        style={{width: '100%', height: '100%',}}
+                        loop={false}
+                        speed={1}
+                        source={this.state.revi_animation}
+                      />
+                    </View>
+                  )
                 }
-              ]}>
-                {this.state.car_name} {this.state.main_prompt}
+              </AnimatedCircularProgress>
+            </View>
+
+            <View
+              style={{
+                width: width,
+                borderTopColor: this.state.ring_color,
+                borderTopWidth: 2,
+                marginTop: 32,
+                paddingHorizontal: 16,
+              }}
+            >
+              <Animated.View
+                style={{
+                  opacity: this.state.fade_animation,
+                }}>
+                <Text style={[
+                  STYLE.subheader2,
+                  {
+                    color: this.state.ring_color,
+                    marginTop: 16,
+                  }
+                ]}>
+                  {this.state.car_name} {this.state.main_prompt}
+                </Text>
+              </Animated.View>
+            </View>
+
+
+            <Text style={[
+              STYLE.subheader2,
+              {
+                width: width - 32,
+                color: GLOBAL.COLOR.WHITE,
+              }
+            ]}>
+              {this.state.tot_tasks - this.state.num_tasks} Tasks Remaining
+            </Text>
+
+            {/* Additional Cards can be placed here */}
+
+            <View style={[
+              STYLE.card_unfocused,
+              {
+                justifyContent: 'center',
+                width: width-32,
+                marginTop: 16,
+                padding: 16,
+              }
+            ]}>
+              <Text style={[STYLE.subheader2,]}>
+                Sample Task
               </Text>
-            </Animated.View>
+            </View>
+
+            <View style={[
+              STYLE.card_unfocused,
+              {
+                width: width-32,
+                marginTop: 16,
+                padding: 16,
+              }
+            ]}>
+              <Text style={[STYLE.subheader2,]}>
+                Sample Task
+              </Text>
+            </View>
+
+            <View style={[
+              STYLE.card_unfocused,
+              {
+                justifyContent: 'center',
+                width: width-32,
+                marginTop: 16,
+                padding: 16,
+              }
+            ]}>
+              <Text style={[STYLE.subheader2,]}>
+                Sample Task
+              </Text>
+            </View>
           </View>
-
-
-          <Text style={[
-            STYLE.subheader2,
-            {
-              width: width - 32,
-              color: GLOBAL.COLOR.WHITE,
-            }
-          ]}>
-            {this.state.tot_tasks - this.state.num_tasks} Tasks Remaining
-          </Text>
-
-          {/* Additional Cards can be placed here */}
-
-          <View style={[
-            STYLE.card_unfocused,
-            {
-              justifyContent: 'center',
-              width: width-32,
-              marginTop: 16,
-              padding: 16,
-            }
-          ]}>
-            <Text style={[STYLE.subheader2,]}>
-              Sample Task
-            </Text>
-          </View>
-
-          <View style={[
-            STYLE.card_unfocused,
-            {
-              width: width-32,
-              marginTop: 16,
-              padding: 16,
-            }
-          ]}>
-            <Text style={[STYLE.subheader2,]}>
-              Sample Task
-            </Text>
-          </View>
-
-          <View style={[
-            STYLE.card_unfocused,
-            {
-              justifyContent: 'center',
-              width: width-32,
-              marginTop: 16,
-              padding: 16,
-            }
-          ]}>
-            <Text style={[STYLE.subheader2,]}>
-              Sample Task
-            </Text>
-          </View>
-
         </ScrollView>
       </View>
     );
