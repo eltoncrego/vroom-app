@@ -17,6 +17,7 @@ import {
   StatusBar,
   ScrollView,
   Animated,
+  Dimensions,
 } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Animation from 'lottie-react-native';
@@ -32,6 +33,10 @@ import {getTaskDates, getTaskByDate} from '../Database/Calendar';
 import revi_worried from '../../../assets/animations/revi-to-worried.json';
 import revi_sad from '../../../assets/animations/revi-to-sad-immediately.json';
 import revi_happy from '../../../assets/animations/revi-hi.json';
+
+
+// Detect screen width and height
+const { width, height } = Dimensions.get('window');
 
 /*
  * Class: Dashboard
@@ -56,7 +61,7 @@ export default class Dashboard extends Component {
       selected: "",
       taskDates: {},
       textTaskArr: [],
-      num_tasks: 5,
+      num_tasks: 7,
       tot_tasks: 12,
 
       fill: 80,
@@ -134,7 +139,7 @@ export default class Dashboard extends Component {
         that.state.fade_animation,
         {
           toValue: 1,
-          duration: 1000,
+          duration: 500,
         }
       ).start();
     }, 100);
@@ -204,18 +209,22 @@ export default class Dashboard extends Component {
           {
             justifyContent: 'flex-start',
             alignItems: 'center',
-            paddingTop: 8,
           }
         ]
       }>
         <StatusBar barStyle="light-content" />
-        <ScrollView contentContainerStyle={[styles.scroll]}>
+        <ScrollView contentContainerStyle={[
+          styles.scroll,
+          {
+            paddingTop: 16,
+          }
+        ]}>
           <View style={[
             STYLE.card_focused,
             {
               alignItems: 'center',
               justifyContent: 'center',
-              width: 356,
+              width: 340,
               paddingVertical: 32,
             }
           ]}>
@@ -226,7 +235,7 @@ export default class Dashboard extends Component {
               rotation={0}
               tintColor={this.state.ring_color}
               backgroundColor={this.state.ring_back_color}
-              backgroundWidth={16}
+              //backgroundWidth={32}
               linecap="round">
               {
                 (fill) => (
@@ -242,11 +251,26 @@ export default class Dashboard extends Component {
                 )
               }
             </AnimatedCircularProgress>
-            <Animated.View style={{opacity: this.state.fade_animation,}}>
+          </View>
+
+          <View
+            style={{
+              width: width,
+              borderTopColor: this.state.ring_color,
+              borderTopWidth: 2,
+              marginTop: 32,
+              paddingHorizontal: 16,
+            }}
+          >
+            <Animated.View
+              style={{
+                opacity: this.state.fade_animation,
+              }}>
               <Text style={[
-                STYLE.title2_center,
+                STYLE.subheader2,
                 {
-                  marginTop: 32,
+                  color: this.state.ring_color,
+                  marginTop: 16,
                 }
               ]}>
                 {this.state.car_name} {this.state.main_prompt}
@@ -254,7 +278,59 @@ export default class Dashboard extends Component {
             </Animated.View>
           </View>
 
+
+          <Text style={[
+            STYLE.subheader2,
+            {
+              width: width - 32,
+              color: GLOBAL.COLOR.WHITE,
+            }
+          ]}>
+            {this.state.tot_tasks - this.state.num_tasks} Tasks Remaining
+          </Text>
+
           {/* Additional Cards can be placed here */}
+
+          <View style={[
+            STYLE.card_unfocused,
+            {
+              justifyContent: 'center',
+              width: width-32,
+              marginTop: 16,
+              padding: 16,
+            }
+          ]}>
+            <Text style={[STYLE.subheader2,]}>
+              Sample Task
+            </Text>
+          </View>
+
+          <View style={[
+            STYLE.card_unfocused,
+            {
+              width: width-32,
+              marginTop: 16,
+              padding: 16,
+            }
+          ]}>
+            <Text style={[STYLE.subheader2,]}>
+              Sample Task
+            </Text>
+          </View>
+
+          <View style={[
+            STYLE.card_unfocused,
+            {
+              justifyContent: 'center',
+              width: width-32,
+              marginTop: 16,
+              padding: 16,
+            }
+          ]}>
+            <Text style={[STYLE.subheader2,]}>
+              Sample Task
+            </Text>
+          </View>
 
         </ScrollView>
       </View>
