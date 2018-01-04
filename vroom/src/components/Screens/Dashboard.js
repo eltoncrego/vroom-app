@@ -6,31 +6,32 @@
 // Global Requirements
 import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
+STYLE = require('../../global-styles');
 
 // Components
 import {
-  Dimensions,
   View,
-  StyleSheet,
-  Image,
   Text,
+  StyleSheet,
   TouchableOpacity,
-  ScrollView,
   StatusBar,
-  SafeAreaView,
+  ScrollView,
+  Animated,
 } from 'react-native';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Animation from 'lottie-react-native';
-import FlipCard from 'react-native-flip-card'
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 // Files Needed
 import {Auth} from "../Login";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
-import revi_sad from '../../../assets/animations/revi-to-worried.json';
 import SignedOut from '../Navigation/Router';
-
 import {firebaseRef} from '../Database/Database';
 import {getTaskDates, getTaskByDate} from '../Database/Calendar';
+
+// Animations
+import revi_worried from '../../../assets/animations/revi-to-worried.json';
+import revi_sad from '../../../assets/animations/revi-to-sad-immediately.json';
+import revi_happy from '../../../assets/animations/revi-hi.json';
 
 /*
  * Class: Dashboard
@@ -40,7 +41,7 @@ import {getTaskDates, getTaskByDate} from '../Database/Calendar';
  */
 export default class Dashboard extends Component {
 
-  /*
+   /*
    * Method: constructor(props)
    * Author: Elton C. Rego
    *
@@ -49,15 +50,21 @@ export default class Dashboard extends Component {
    */
   constructor(props) {
     super(props);
-    this.initAnimation = this.initAnimation.bind(this);
-    this.onDayPress = this.onDayPress.bind(this);
-    this.flipCard = this.flipCard.bind(this);
     this.state = {
       button: 'View Calendar',
       car_name: "My Car",
       selected: "",
       taskDates: {},
       textTaskArr: [],
+      num_tasks: 5,
+      tot_tasks: 12,
+
+      fill: 80,
+      ring_color: GLOBAL.COLOR.GREEN,
+      ring_back_color: GLOBAL.COLOR.GREENSCRIM,
+      revi_animation: revi_happy,
+      main_prompt: "is good to go!",
+      fade_animation: new Animated.Value(0),
     };
   }
 
@@ -68,10 +75,7 @@ export default class Dashboard extends Component {
    * Purpose: When a component specified sucessfully is rendered,
    *   it runs the action
    */
-  componentDidMount() {
-    console.log("Dashboard component mounted");
-    this.initAnimation();
-
+  componentWillMount(){
     var that = this;
     console.log("Dashboard: querying car_name");
     firebaseRef.database().ref("users/"+Auth.getAuth().uid+"/vehicles/").once("value").then(function(snapshot) {
@@ -91,6 +95,52 @@ export default class Dashboard extends Component {
     });
   }
 
+  componentDidMount() {
+
+    console.log("Dashboard has successfuly mounted");
+
+    var task_ratio = (this.state.num_tasks) / (this.state.tot_tasks);
+
+    if (task_ratio > .74){
+      this.setState({
+        fill: task_ratio * 100,
+        ring_color: GLOBAL.COLOR.GREEN,
+        ring_back_color: GLOBAL.COLOR.GREENSCRIM,
+        revi_animation: revi_happy,
+        main_prompt: "is good to go!",
+      });
+    } else if (task_ratio > .45) {
+      this.setState({
+        fill: task_ratio * 100,
+        ring_color: GLOBAL.COLOR.YELLOW,
+        ring_back_color: GLOBAL.COLOR.YELLOWSCRIM,
+        revi_animation: revi_worried,
+        main_prompt: "needs a bit of work...",
+      });
+    } else {
+      this.setState({
+        fill: task_ratio * 100,
+        ring_color: GLOBAL.COLOR.RED,
+        ring_back_color: GLOBAL.COLOR.REDSCRIM,
+        revi_animation: revi_sad,
+        main_prompt: "needs a doctor!",
+      });
+    }
+
+    var that = this;
+    setTimeout(function(){ 
+      that.animation.play();
+      Animated.timing(
+        that.state.fade_animation,
+        {
+          toValue: 1,
+          duration: 1000,
+        }
+      ).start();
+    }, 100);
+  }
+
+
   /*
    * Method: initAnimation()
    * Author: Elton C. Rego
@@ -105,57 +155,6 @@ export default class Dashboard extends Component {
       }, 100);
     } else {
         this.animation.play();
-    }
-  }
-
-
-  onDayPress(day) {
-    this.setState({
-      selected: day.dateString
-    });
-    this.updateMarkedDays();
-    getTaskByDate(day.dateString)
-        .then(tasks => {
-          console.log(tasks);
-            var temp = [];
-            if(tasks.length != 0){
-              for(var i = 0; i < tasks.length; i++){
-                temp.push(<Text style={styles.day_title} key={tasks[i].key+tasks[i].title}>{tasks[i].title}</Text>);
-                temp.push(<Text style={styles.day_caption} key={tasks[i].key+tasks[i].desc}>{tasks[i].desc}</Text>);
-              }
-            }
-            this.setState({
-                textTaskArr: temp,
-            });
-        });
-  }
-
-  updateMarkedDays(){
-    getTaskDates()
-         .then(dates => {
-           var dobj = {};
-           for (var i = 0; i < dates.length; i++){
-              dobj[dates[i]] = {marked: true};
-           }
-           dobj[this.state.selected] = {selected: true};
-           this.setState({
-             taskDates: dobj
-           });
-        });
-  }
-
-  flipCard(){
-    if(this.state.flip){
-      this.setState({
-        flip: false,
-        button: 'View Calendar',
-      });
-    } else {
-      this.updateMarkedDays();
-      this.setState({
-        flip: true,
-        button: `View ${this.state.car_name}`,
-      });
     }
   }
 
@@ -198,177 +197,74 @@ export default class Dashboard extends Component {
   }
 
 
-  /*
-   * Method: render
-   * Author: Elton C. Rego
-   *
-   * Purpose: Renders the Dashboard page.
-   *  As of now this just contains some dummy tasks that
-   *  we can learn to populate later.
-   *
-   */
-  render() {
-    console.log("Dashboard: rendering beginning");
-    var d = new Date();
-
-    return (
-      <SafeAreaView
-        style={styles.container}
-      >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-        >
-         <StatusBar
-           barStyle="light-content"
-         />
-          <FlipCard
-            style={styles.card}
-            friction={10}
-            perspective={1000}
-            flipHorizontal={true}
-            flipVertical={false}
-            flip={this.state.flip}
-            clickable={false}
-            onFlipEnd={(isFlipEnd) => {this.initAnimation()}}
-          >
-            {/* Face Side */}
-            <View style={styles.face}>
-              <Text style={styles.card_title}>{"I'm okay"}</Text>
-            <View style={styles.revi_animations}>
-              <Animation
-                ref={animation => {this.animation = animation;}}
-                style={{width: '100%', height: '100%',}}
-                loop={false}
-                speed={0.75}
-                source={revi_sad}
-              />
-            </View>
-            <Text style={styles.card_text}>{"but I could be better"}</Text>
-            </View>
-            {/* Back Side */}
-            <View style={styles.back}>
-              <Calendar
-                // Pulls from style sheet
-                style={styles.calendar}
-
-                theme={{
-                  selectedDayBackgroundColor: GLOBAL.COLOR.DARKBLUE,
-                  selectedDayTextColor: GLOBAL.COLOR.GRAY,
-                  todayTextColor: GLOBAL.COLOR.YELLOW,
-                  dayTextColor: GLOBAL.COLOR.DARKGRAY,
-                  textDisabledColor: GLOBAL.COLOR.DARKBLUE,
-                  dotColor: GLOBAL.COLOR.GREEN,
-                  selectedDotColor: GLOBAL.COLOR.GREEN,
-                  arrowColor: GLOBAL.COLOR.DARKBLUE,
-                  monthTextColor: GLOBAL.COLOR.DARKGRAY,
-                  textDayFontFamily: 'Nunito',
-                  textMonthFontFamily: 'Nunito',
-                  textDayHeaderFontFamily: 'Nunito',
-                  textDayFontSize: 16,
-                  textMonthFontSize: 16,
-                  textDayHeaderFontSize: 16,
-                }}
-
-                // Initially visible month. Default = Date()
-                current={d}
-
-                // Handler which gets executed on day press. Default = undefined
-                onDayPress={(day) => {
-                  this.onDayPress(day)
-                }}
-
-                // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-                monthFormat={'MMMM yyyy'}
-
-                // Do not show days of other months in month page. Default = false
-                hideExtraDays={true}
-
-                // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
-                // day from another month that is visible in calendar page. Default = false
-                disableMonthChange={true}
-
-                // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
-                firstDay={1}
-
-                // Hide day names. Default = false
-                hideDayNames={true}
-
-                markedDates={this.state.taskDates}
-
-
-                //{{[this.state.selected]: {selected: true}}}
-
-              />
-            </View>
-          </FlipCard>
-
-          <TouchableOpacity
-              style={styles.buttonContainer}
-              activeOpacity={0.8}
-              onPress={
-                () => this.flipCard()
-            }>
-              <Text style={styles.buttonText}>{this.state.button}</Text>
-          </TouchableOpacity>
-          <View style={styles.dayly}>
-            {this.state.textTaskArr}
+  render(){
+    return(
+      <View style={[
+          STYLE.container,
+          {
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            paddingTop: 8,
+          }
+        ]
+      }>
+        <StatusBar barStyle="light-content" />
+        <ScrollView contentContainerStyle={[styles.scroll]}>
+          <View style={[
+            STYLE.card_focused,
+            {
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 356,
+              paddingVertical: 32,
+            }
+          ]}>
+            <AnimatedCircularProgress
+              size={240}
+              width={16}
+              fill={this.state.fill}
+              rotation={0}
+              tintColor={this.state.ring_color}
+              backgroundColor={this.state.ring_back_color}
+              backgroundWidth={16}
+              linecap="round">
+              {
+                (fill) => (
+                  <View style={[STYLE.revi_animations, {width: 208, height: 208,}]}>
+                    <Animation
+                      ref={animation => {this.animation = animation;}}
+                      style={{width: '100%', height: '100%',}}
+                      loop={false}
+                      speed={1}
+                      source={this.state.revi_animation}
+                    />
+                  </View>
+                )
+              }
+            </AnimatedCircularProgress>
+            <Animated.View style={{opacity: this.state.fade_animation,}}>
+              <Text style={[
+                STYLE.title2_center,
+                {
+                  marginTop: 32,
+                }
+              ]}>
+                {this.state.car_name} {this.state.main_prompt}
+              </Text>
+            </Animated.View>
           </View>
+
+          {/* Additional Cards can be placed here */}
+
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
-
   /*
-   * Style: Button
-   * Author: Tianyi Zhang
-   * Purpose: This styles the Next button
-   */
-
-  buttonContainer: {
-    backgroundColor: GLOBAL.COLOR.YELLOW,
-    padding: 8,
-    paddingHorizontal: 16,
-    marginTop: 8,
-    marginBottom: 16,
-    borderRadius: 20,
-    alignSelf: 'center',
-  },
-
-  buttonText: {
-    textAlign: 'center',
-    fontFamily: 'Nunito',
-    color: GLOBAL.COLOR.DARKGRAY,
-    backgroundColor: 'transparent',
-    fontSize: 15,
-    fontWeight: '600',
-  },
-
-  /*
-   * Style: Icon Header
-   * Author: Alec Felt
-   * Purpose: Add style to the navbar icon
-   *          to stay consistent with project theme
-   */
-   icon_header: {
-     height: 35,
-     width: 35,
-     marginTop: 7
-   },
-
-   /*
-   * Style: Calendar
-   * Author: Elton C. Rego
-   * Purpose: Styles the calendar element on the back of the card
-   *
-   */
-   calendar: {
-      margin: 32,
-   },
-
-   /*
     * Style: Button Header
     * Author: Alec Felt
     * Purpose: Add style to the navbar button
@@ -389,104 +285,15 @@ const styles = StyleSheet.create({
       color: GLOBAL.COLOR.BLUE,
       margin: 20,
     },
-    container: {
-      flex: 1,
-      justifyContent: 'center',
+
+  /* Style: Scroll
+   * Author: Elton C. Rego
+   * Purpose: Styles the scrollview that houses all the tasks
+   */
+   scroll: {
+      width: '100%',
+      height: '100%',
       alignItems: 'center',
-      backgroundColor: GLOBAL.COLOR.DARKGRAY,
-    },
-
-    /*
-     * Day to day stylings
-     * Author: Elton C. Rego
-     * Purpose: To style the tasks that might come up on a day to day
-     */
-    dayly: {
-      padding: 32,
-    },
-
-    day_title: {
-      fontFamily: 'Nunito',
-      fontSize: 40,
-      fontWeight: '900',
-      color: GLOBAL.COLOR.YELLOW,
-    },
-    day_caption: {
-      fontFamily: 'Nunito',
-      fontSize: 20,
-      fontWeight: '400',
-      color: GLOBAL.COLOR.WHITE,
-      marginBottom: 32,
-    },
-    task_title: {
-      fontFamily: 'Nunito',
-      fontSize: 20,
-      fontWeight: '900',
-      color: GLOBAL.COLOR.WHITE,
-    },
-    task_caption: {
-      fontFamily: 'Nunito',
-      fontSize: 15,
-      fontWeight: '200',
-      color: GLOBAL.COLOR.WHITE,
-      marginBottom: 32,
-    },
-
-    /*
-   * Style: Card
-   * Author: Elton C. Rego
-   * Purpose: This styles the card view within this page
-   */
-  card: {
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#ffffff',
-    width: 312,
-    // height: 344,
-    borderRadius: 20,
-    alignItems: 'center',
-    overflow: 'hidden',
-    marginVertical: 32,
-  },
-
-   /*
-   * Style: Card Title
-   * Author: Elton C. Rego
-   * Purpose: This styles the card titles on this page
-   */
-  card_title: {
-    fontFamily: 'Nunito',
-    fontWeight: '900',
-    color: GLOBAL.COLOR.DARKGRAY,
-    textAlign: 'center',
-    fontSize: 40,
-    marginTop: 32,
-  },
-
-   /*
-   * Style: Card Text
-   * Author: Elton C. Rego
-   * Purpose: This styles the card descriptions
-   */
-  card_text: {
-    fontFamily: 'Nunito',
-    textAlign: 'center',
-    color: GLOBAL.COLOR.DARKGRAY,
-    fontSize: 20,
-    marginBottom: 32,
-  },
-
-  /*
-   * Style: Revi Animations
-   * Author: Elton C. Rego
-   * Purpose: This styles the Revis on each card
-   */
-  revi_animations: {
-    alignSelf: 'center',
-    height: 240,
-    width: 240,
-    zIndex:2,
-    marginTop: -32,
-  },
+   }
 
 });

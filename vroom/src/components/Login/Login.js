@@ -82,7 +82,7 @@ export default class Login extends Component {
     if(this.state.sign_up){
       this.setState({
         field_animation: new Animated.Value(0),
-      })
+      });
     }
   }
 
