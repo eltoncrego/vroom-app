@@ -230,6 +230,21 @@ module.exports = StyleSheet.create({
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
+  subheader2: {
+    fontSize: 20,
+    fontFamily: Platform.os === 'android' ? 'nunito_black' : 'nunito',
+    fontWeight: '900',
+    color: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
+  },
+  subheader2_center: {
+    fontSize: 20,
+    fontFamily: Platform.os === 'android' ? 'nunito_black' : 'nunito',
+    textAlign: 'center',
+    fontWeight: Platform.os === 'android' ? null : '900',
+    color: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
+  },
   dark_subheader: {
     fontSize: 20,
     fontFamily: 'nunito',
