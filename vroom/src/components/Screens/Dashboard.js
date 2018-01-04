@@ -28,11 +28,13 @@ import {goTo, clearNavStack} from "../Navigation/Navigation";
 import SignedOut from '../Navigation/Router';
 import {firebaseRef} from '../Database/Database';
 import {getTaskDates, getTaskByDate} from '../Database/Calendar';
+import SwipeableList from "./../Custom/SwipeableList";
 
 // Animations
 import revi_worried from '../../../assets/animations/revi-to-worried.json';
 import revi_sad from '../../../assets/animations/revi-to-sad-immediately.json';
 import revi_happy from '../../../assets/animations/revi-hi.json';
+import revi_super_happy from '../../../assets/animations/revi-super-happy.json';
 
 
 // Detect screen width and height
@@ -56,22 +58,39 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Backend interfact state variables
       button: 'View Calendar',
       car_name: "My Car",
-      selected: "",
-      taskDates: {},
-      textTaskArr: [],
-      num_tasks: 7,
-      tot_tasks: 12,
+      textTaskArr: [
+        {key: '1. Sample Task'},
+        {key: '2. Sample Task'},
+        {key: '3. Sample Task'},
+        {key: '4. Sample Task'},
+        {key: '5. Sample Task'},
+        {key: '6. Sample Task'},
+        {key: '7. Sample Task'},
+        {key: '8. Sample Task'},
+        {key: '9. Sample Task'},
+        {key: '10. Sample Task'},
+        {key: '11. Sample Task'},
+        {key: '12. Sample Task'},
+        {key: '13. Sample Task'},
+      ],
+      num_tasks: 0,
+      tot_tasks: 13,
 
+      // Stylistic State Stuff
       fill: 80,
       ring_color: GLOBAL.COLOR.GREEN,
       ring_back_color: GLOBAL.COLOR.GREENSCRIM,
       revi_animation: revi_happy,
       main_prompt: "is good to go!",
+      additional_prompt: "",
       fade_animation: new Animated.Value(0),
     };
   }
+
+  
 
   /*
    * Method: componentDidMount()
@@ -106,13 +125,23 @@ export default class Dashboard extends Component {
 
     var task_ratio = (this.state.num_tasks) / (this.state.tot_tasks);
 
-    if (task_ratio > .74){
+    if (task_ratio == 1){
+      this.setState({
+        fill: task_ratio * 100,
+        ring_color: GLOBAL.COLOR.GREEN,
+        ring_back_color: GLOBAL.COLOR.GREENSCRIM,
+        revi_animation: revi_super_happy,
+        main_prompt: "is in tip top shape!",
+        additional_prompt: "Congrats!\n",
+      });
+    } else if (task_ratio > .74){
       this.setState({
         fill: task_ratio * 100,
         ring_color: GLOBAL.COLOR.GREEN,
         ring_back_color: GLOBAL.COLOR.GREENSCRIM,
         revi_animation: revi_happy,
         main_prompt: "is good to go!",
+        additional_prompt: "Only ",
       });
     } else if (task_ratio > .45) {
       this.setState({
@@ -218,6 +247,7 @@ export default class Dashboard extends Component {
             styles.scroll,
             {
               paddingVertical: 32,
+              paddingTop: 16,
             }
           ]}>
             <View style={[
@@ -226,10 +256,12 @@ export default class Dashboard extends Component {
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: 32,
+                width: width-32,
+                height: width-32,
               }
             ]}>
               <AnimatedCircularProgress
-                size={240}
+                size={width-96}
                 width={16}
                 fill={this.state.fill}
                 rotation={0}
@@ -239,7 +271,7 @@ export default class Dashboard extends Component {
                 linecap="round">
                 {
                   (fill) => (
-                    <View style={[STYLE.revi_animations, {width: 208, height: 208,}]}>
+                    <View style={[STYLE.revi_animations, {width: width-128, height: width-128,}]}>
                       <Animation
                         ref={animation => {this.animation = animation;}}
                         style={{width: '100%', height: '100%',}}
@@ -257,8 +289,11 @@ export default class Dashboard extends Component {
               style={{
                 width: width,
                 borderTopColor: this.state.ring_color,
-                borderTopWidth: 2,
+                borderTopWidth: 4,
+                borderBottomColor: this.state.ring_color,
+                borderBottomWidth: 4,
                 marginTop: 32,
+                paddingVertical: 24,
                 paddingHorizontal: 16,
               }}
             >
@@ -267,31 +302,33 @@ export default class Dashboard extends Component {
                   opacity: this.state.fade_animation,
                 }}>
                 <Text style={[
-                  STYLE.subheader2,
+                  STYLE.title2,
                   {
                     color: this.state.ring_color,
-                    marginTop: 16,
                   }
                 ]}>
                   {this.state.car_name} {this.state.main_prompt}
                 </Text>
               </Animated.View>
+              <Text style={[
+                STYLE.subheader2,
+                {
+                  width: width - 32,
+                  color: GLOBAL.COLOR.WHITE,
+                }
+              ]}>
+                {this.state.additional_prompt}{this.state.tot_tasks - this.state.num_tasks} Tasks Remaining
+              </Text>
             </View>
-
-
-            <Text style={[
-              STYLE.subheader2,
-              {
-                width: width - 32,
-                color: GLOBAL.COLOR.WHITE,
-              }
-            ]}>
-              {this.state.tot_tasks - this.state.num_tasks} Tasks Remaining
-            </Text>
 
             {/* Additional Cards can be placed here */}
 
-            <View style={[
+            <SwipeableList
+              borderColor={this.state.ring_color}
+              data={this.state.textTaskArr}
+            />
+
+            {/*<View style={[
               STYLE.card_unfocused,
               {
                 justifyContent: 'center',
@@ -330,7 +367,7 @@ export default class Dashboard extends Component {
               <Text style={[STYLE.subheader2,]}>
                 Sample Task
               </Text>
-            </View>
+            </View>*/}
           </View>
         </ScrollView>
       </View>
