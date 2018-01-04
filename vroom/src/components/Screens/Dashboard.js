@@ -284,7 +284,7 @@ export default class Dashboard extends Component {
               </AnimatedCircularProgress>
             </View>
 
-            <View
+            <Animated.View
               style={{
                 width: width,
                 borderTopColor: this.state.ring_color,
@@ -294,21 +294,18 @@ export default class Dashboard extends Component {
                 marginVertical: 32,
                 paddingVertical: 24,
                 paddingHorizontal: 16,
+
+                opacity: this.state.fade_animation,
               }}
             >
-              <Animated.View
-                style={{
-                  opacity: this.state.fade_animation,
-                }}>
-                <Text style={[
-                  STYLE.title2,
-                  {
-                    color: this.state.ring_color,
-                  }
-                ]}>
-                  {this.state.car_name} {this.state.main_prompt}
-                </Text>
-              </Animated.View>
+              <Text style={[
+                STYLE.title2,
+                {
+                  color: this.state.ring_color,
+                }
+              ]}>
+                {this.state.car_name} {this.state.main_prompt}
+              </Text>
               <Text style={[
                 STYLE.subheader2,
                 {
@@ -318,7 +315,7 @@ export default class Dashboard extends Component {
               ]}>
                 {this.state.additional_prompt}{this.state.tot_tasks - this.state.completed_tasks} Tasks Remaining
               </Text>
-            </View>
+            </Animated.View>
 
             {/* Additional Cards can be placed here */}
 
