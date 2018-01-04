@@ -76,7 +76,7 @@ export default class Dashboard extends Component {
         {key: '12. Sample Task'},
         {key: '13. Sample Task'},
       ],
-      num_tasks: 0,
+      completed_tasks: 1,
       tot_tasks: 13,
 
       // Stylistic State Stuff
@@ -123,7 +123,7 @@ export default class Dashboard extends Component {
 
     console.log("Dashboard has successfuly mounted");
 
-    var task_ratio = (this.state.num_tasks) / (this.state.tot_tasks);
+    var task_ratio = (this.state.completed_tasks) / (this.state.tot_tasks);
 
     if (task_ratio == 1){
       this.setState({
@@ -157,7 +157,7 @@ export default class Dashboard extends Component {
         ring_color: GLOBAL.COLOR.RED,
         ring_back_color: GLOBAL.COLOR.REDSCRIM,
         revi_animation: revi_sad,
-        main_prompt: "needs a doctor!",
+        main_prompt: "needs attention!",
       });
     }
 
@@ -168,7 +168,7 @@ export default class Dashboard extends Component {
         that.state.fade_animation,
         {
           toValue: 1,
-          duration: 500,
+          duration: 1000,
         }
       ).start();
     }, 100);
@@ -246,8 +246,7 @@ export default class Dashboard extends Component {
           <View style={[
             styles.scroll,
             {
-              paddingVertical: 32,
-              paddingTop: 16,
+              paddingVertical: 16,
             }
           ]}>
             <View style={[
@@ -317,7 +316,7 @@ export default class Dashboard extends Component {
                   color: GLOBAL.COLOR.WHITE,
                 }
               ]}>
-                {this.state.additional_prompt}{this.state.tot_tasks - this.state.num_tasks} Tasks Remaining
+                {this.state.additional_prompt}{this.state.tot_tasks - this.state.completed_tasks} Tasks Remaining
               </Text>
             </View>
 
@@ -326,48 +325,13 @@ export default class Dashboard extends Component {
             <SwipeableList
               borderColor={this.state.ring_color}
               data={this.state.textTaskArr}
+              style={
+                {
+                  borderBottomColor: this.state.ring_color,
+                  borderBottomWidth: 4,
+                }
+              }
             />
-
-            {/*<View style={[
-              STYLE.card_unfocused,
-              {
-                justifyContent: 'center',
-                width: width-32,
-                marginTop: 16,
-                padding: 16,
-              }
-            ]}>
-              <Text style={[STYLE.subheader2,]}>
-                Sample Task
-              </Text>
-            </View>
-
-            <View style={[
-              STYLE.card_unfocused,
-              {
-                width: width-32,
-                marginTop: 16,
-                padding: 16,
-              }
-            ]}>
-              <Text style={[STYLE.subheader2,]}>
-                Sample Task
-              </Text>
-            </View>
-
-            <View style={[
-              STYLE.card_unfocused,
-              {
-                justifyContent: 'center',
-                width: width-32,
-                marginTop: 16,
-                padding: 16,
-              }
-            ]}>
-              <Text style={[STYLE.subheader2,]}>
-                Sample Task
-              </Text>
-            </View>*/}
           </View>
         </ScrollView>
       </View>
