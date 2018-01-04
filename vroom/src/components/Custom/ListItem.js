@@ -91,7 +91,7 @@ export default class ListItem extends PureComponent {
 const styles = StyleSheet.create({
   listItem: {
     height: 80,
-    marginLeft: -100,
+    marginLeft: -120,
     justifyContent: 'center',
     backgroundColor: GLOBAL.COLOR.GREEN,
   },
@@ -108,14 +108,13 @@ const styles = StyleSheet.create({
   },
 
   absoluteCellText: {
-    margin: 16,
     color: '#FFF',
   },
 
   innerCell: {
     width: width,
     height: 80,
-    marginLeft: 100,
+    marginLeft: 120,
     backgroundColor: GLOBAL.COLOR.WHITE,
     justifyContent: 'center',
     paddingHorizontal: 16,

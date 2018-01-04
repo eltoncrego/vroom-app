@@ -83,11 +83,11 @@ export default class SwipeableList extends Component {
 
 const styles = StyleSheet.create({
   separatorViewStyle: {
-    flex: 1,
+    flex: 2,
     backgroundColor: '#FFF',
   },
   separatorStyle: {
-    height: 1,
+    height: 4,
     backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
 });
