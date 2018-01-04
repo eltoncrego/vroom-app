@@ -33,14 +33,6 @@ echo "yarn add lottie-react-native@2.2.7";
 yarn add lottie-react-native@2.2.7 &&
 echo "success";
 
-echo "npm install react-native-flip-card";
-npm install react-native-flip-card &&
-echo "success";
-
-echo "npm install --save react-native-calendars";
-npm install --save react-native-calendars &&
-echo "success";
-
 echo "npm install --save react-native-material-dropdown";
 npm install --save react-native-material-dropdown &&
 echo "success";
