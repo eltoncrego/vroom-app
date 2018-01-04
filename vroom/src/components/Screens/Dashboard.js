@@ -76,7 +76,7 @@ export default class Dashboard extends Component {
         {key: '12. Sample Task'},
         {key: '13. Sample Task'},
       ],
-      completed_tasks: 1,
+      completed_tasks: 0,
       tot_tasks: 13,
 
       // Stylistic State Stuff
@@ -291,7 +291,7 @@ export default class Dashboard extends Component {
                 borderTopWidth: 4,
                 borderBottomColor: this.state.ring_color,
                 borderBottomWidth: 4,
-                marginTop: 32,
+                marginVertical: 32,
                 paddingVertical: 24,
                 paddingHorizontal: 16,
               }}
