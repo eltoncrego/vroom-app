@@ -62,21 +62,21 @@ export default class Dashboard extends Component {
       button: 'View Calendar',
       car_name: "My Car",
       textTaskArr: [
-        {key: '1. Sample Task'},
-        {key: '2. Sample Task'},
-        {key: '3. Sample Task'},
-        {key: '4. Sample Task'},
-        {key: '5. Sample Task'},
-        {key: '6. Sample Task'},
-        {key: '7. Sample Task'},
-        {key: '8. Sample Task'},
-        {key: '9. Sample Task'},
-        {key: '10. Sample Task'},
-        {key: '11. Sample Task'},
-        {key: '12. Sample Task'},
-        {key: '13. Sample Task'},
+        // {key: '1. Sample Task'},
+        // {key: '2. Sample Task'},
+        // {key: '3. Sample Task'},
+        // {key: '4. Sample Task'},
+        // {key: '5. Sample Task'},
+        // {key: '6. Sample Task'},
+        // {key: '7. Sample Task'},
+        // {key: '8. Sample Task'},
+        // {key: '9. Sample Task'},
+        // {key: '10. Sample Task'},
+        // {key: '11. Sample Task'},
+        // {key: '12. Sample Task'},
+        // {key: '13. Sample Task'},
       ],
-      completed_tasks: 0,
+      completed_tasks: 13,
       tot_tasks: 13,
 
       // Stylistic State Stuff
@@ -261,7 +261,7 @@ export default class Dashboard extends Component {
             ]}>
               <AnimatedCircularProgress
                 size={width-96}
-                width={16}
+                width={24}
                 fill={this.state.fill}
                 rotation={0}
                 tintColor={this.state.ring_color}
@@ -313,22 +313,27 @@ export default class Dashboard extends Component {
                   color: GLOBAL.COLOR.WHITE,
                 }
               ]}>
-                {this.state.additional_prompt}{this.state.tot_tasks - this.state.completed_tasks} Tasks Remaining
+                {this.state.additional_prompt}{this.state.tot_tasks - this.state.completed_tasks} Remaining
               </Text>
             </Animated.View>
 
             {/* Additional Cards can be placed here */}
-
-            <SwipeableList
-              borderColor={this.state.ring_color}
-              data={this.state.textTaskArr}
-              style={
-                {
-                  borderBottomColor: this.state.ring_color,
-                  borderBottomWidth: 4,
+            <Animated.View
+              style={{
+                opacity: this.state.fade_animation,
+              }}
+            >
+              <SwipeableList
+                borderColor={this.state.ring_color}
+                data={this.state.textTaskArr}
+                style={
+                  {
+                    borderBottomColor: this.state.ring_color,
+                    borderBottomWidth: 4,
+                  }
                 }
-              }
-            />
+              />
+            </Animated.View>
           </View>
         </ScrollView>
       </View>
