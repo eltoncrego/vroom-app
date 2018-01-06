@@ -4,11 +4,11 @@
     "MDX": "",
     "NSX": "",
     "RDX": "",
-    "TLX": "",
+    "TLX": ""
   },
   "Alfa Romeo" : {
     "4C": "",
-    "Guilia": "",
+    "Guilia": ""
   },
   "Audi" : {
     "A3": "",
@@ -31,7 +31,7 @@
     "S7": "",
     "S8": "",
     "SQ5": "",
-    "TT": "",
+    "TT": ""
   },
   "BMW" : {
     "2 Series": "",
@@ -53,7 +53,7 @@
     "X5": "",
     "X5 M": "",
     "X6": "",
-    "X6 M": "",
+    "X6 M": ""
   },
   "Buick" : {
     "Cascada": "",
@@ -62,7 +62,7 @@
     "Envision": "",
     "LaCrosse": "",
     "Regal": "",
-    "Verano": "",
+    "Verano": ""
   },
   "Cadillac" : {
     "ATS": "",
@@ -72,7 +72,7 @@
     "Escalade": "",
     "Escalade ESV": "",
     "XT5": "",
-    "XTS": "",
+    "XTS": ""
   },
   "Chevrolet" : {
     "Bolt EV": "",
@@ -101,20 +101,20 @@
     "Tahoe": "",
     "Traverse": "",
     "Trax": "",
-    "Volt": "",
+    "Volt": ""
   },
   "Chrysler" : {
     "200": "",
     "300": "",
     "Pacifica": "",
-    "Pacifica Hybrid": "",
+    "Pacifica Hybrid": ""
   },
   "Dodge" : {
     "Challenger":"",
     "Charger": "",
     "Durango": "",
     "Grand Caravan Passenger": "",
-    "Journey": "",
+    "Journey": ""
   },
    "FIAT" : {
     "124 Spider": "",
@@ -123,7 +123,7 @@
     "500c": "",
     "500c Abarth": "",
     "500e": "",
-    "500X": "",
+    "500X": ""
   },
   "Ford" : {
     "C-MAX Energi": "",
@@ -153,14 +153,14 @@
     "Transit 250 Van": "",
     "Transit 350 Wagon": "",
     "Transit Connect Cargo": "",
-    "Transit Connect Passenger": "",
+    "Transit Connect Passenger": ""
   },
   "Freightliner" : {
-    "Sprinter 2500 Passenger": "",
+    "Sprinter 2500 Passenger": ""
   },
   "Genesis" : {
     "G80": "",
-    "G90": "",
+    "G90": ""
   },
   "GMC" : {
     "Acadia": "",
@@ -177,7 +177,7 @@
     "Sierra 3500 HD Crew Cab": "",
     "Terrain": "",
     "Yukon": "",
-    "Yukon XL": "",
+    "Yukon XL": ""
   },
   "Honda" : {
     "Accord": "",
@@ -188,7 +188,7 @@
     "HR-V": "",
     "Odyssey": "",
     "Pilot": "",
-    "Rigdeline": "",
+    "Rigdeline": ""
   },
   "Hyundai" : {
     "Accent": "",
@@ -202,7 +202,7 @@
     "Sonata Plug-in Hybrid": "",
     "Tucson": "",
     "Tucson Fuel Cell": "",
-    "Veloster": "",
+    "Veloster": ""
   },
   "INFINITI" : {
     "Q50": "",
@@ -211,14 +211,14 @@
     "QX50": "",
     "QX60": "",
     "QX70": "",
-    "QX80": "",
+    "QX80": ""
   },
   "Jaguar" : {
     "F-PACE": "",
     "F-TYPE": "",
     "XE": "",
     "XF": "",
-    "XJ": "",
+    "XJ": ""
   },
   "Jeep" : {
     "Cherokee": "",
@@ -227,7 +227,7 @@
     "Patriot": "",
     "Renegade": "",
     "Wrangler": "",
-    "Wrangler Unlimited": "",
+    "Wrangler Unlimited": ""
   },
   "Kia" : {
     "Forte": "",
@@ -240,18 +240,18 @@
     "Sedona": "",
     "Sorento": "",
     "Soul": "",
-    "Sportage": "",
+    "Sportage": ""
   },
   "Lamborghini" : {
     "Aventador": "",
-    "Huracan": "",
+    "Huracan": ""
   },
   "Land Rover" : {
     "Discovery": "",
     "Discovery Sport": "",
     "Range Rover": "",
     "Range Rover Evoque": "",
-    "Range Rover Sport": "",
+    "Range Rover Sport": ""
   },
   "Lexus" : {
     "CT": "",
@@ -263,7 +263,7 @@
     "LX": "",
     "NX": "",
     "RC": "",
-    "RX": "",
+    "RX": ""
   },
   "Lincoln" : {
     "Continental": "",
@@ -273,18 +273,18 @@
     "MKX": "",
     "MKZ": "",
     "Navigator": "",
-    "Navigator L": "",
+    "Navigator L": ""
   },
   "Maserati": {
     "Ghibli": "",
-    "Levante": "",
+    "Levante": ""
   },
   "Mazda": {
     "CX-3": "",
     "CX-5": "",
     "CX-9": "",
     "MAZDA3": "",
-    "MAZDA6": "",
+    "MAZDA6": ""
   },
   "Mercedes-Benz": {
     "C-Class": "",
@@ -315,21 +315,21 @@
     "S-Class": "",
     "SL": "",
     "SLC": "",
-    "Sprinter 2500 Cargo": "",
+    "Sprinter 2500 Cargo": ""
   },
   "MINI" : {
     "Clubman": "",
     "Convertible": "",
     "CountryMan": "",
     "Hardtop 2 Door": "",
-    "Hardtop 4 Door": "",
+    "Hardtop 4 Door": ""
   },
   "Mitsubishi" : {
     "Lancer": "",
     "Mirage": "",
     "Mirage G4": "",
     "Outlander": "",
-    "Outlander Sport": "",
+    "Outlander Sport": ""
   },
   "Nissan" : {
     "370Z": "",
@@ -358,7 +358,7 @@
     "TITAN XD King Cab": "",
     "TITAN XD Single Cab": "",
     "Versa": "",
-    "Versa Note": "",
+    "Versa Note": ""
   },
   "Porsche" : {
     "718 Boxster": "",
@@ -366,7 +366,7 @@
     "911": "",
     "Cayenne": "",
     "Macan": "",
-    "Panamera": "",
+    "Panamera": ""
   },
    "Ram" : {
     "1500 Crew Cab": "",
@@ -378,13 +378,13 @@
     "3500 Crew Cab": "",
     "3500 Mega Cab": "",
     "3500 Regular Cab": "",
-    "ProMaster Cargo Van": "",
+    "ProMaster Cargo Van": ""
   },
   "smart": {
     "fortwo": "",
     "fortwo cabrio": "",
     "fortwo electric drive": "",
-    "fortwo electric drive cabrio": "",
+    "fortwo electric drive cabrio": ""
   },
   "Subaru" : {
     "Crosstrek": "",
@@ -392,11 +392,11 @@
     "Impreza": "",
     "Legacy": "",
     "Outback": "",
-    "WRX": "",
+    "WRX": ""
   },
   "Tesla" : {    
     "Model S": "",
-    "Model X": "",
+    "Model X": ""
   },
   "Toyota" : {
     "4Runner": "",
@@ -419,7 +419,7 @@
     "Tundra CrewMax": "",
     "Tundra Double Cab": "",
     "Yaris": "",
-    "Yaris iA": "",
+    "Yaris iA": ""
   },
   "Volkswagen" : {
     "Beetle": "",
@@ -431,7 +431,7 @@
     "Jetta": "",
     "Passat": "",
     "Tiguan": "",
-    "Touareg": "",
+    "Touareg": ""
   },
   "Volvo" : {
     "S60": "",
@@ -439,6 +439,6 @@
     "V60": "",
     "V90": "",
     "XC60": "",
-    "XC90": "",
-  },
+    "XC90": ""
+  }
 }

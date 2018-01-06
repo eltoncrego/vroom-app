@@ -11,7 +11,7 @@
     "A6": "",
     "A8": "",
     "S4": "",
-    "TT": "",
+    "TT": ""
   },
 
   "BMW": {
@@ -22,7 +22,7 @@
     "M5": "",
     "X5": "",
     "Z3": "",
-    "Z8": "",
+    "Z8": ""
   },
 
   "Buick": {
@@ -90,7 +90,7 @@
     "LHS": "",
     "Sebring": "",
     "Town & Country": "",
-    "Voyager": "",
+    "Voyager": ""
   },
 
   "Daewoo": {
@@ -184,7 +184,7 @@
     "Yukon": "",
     "Yukon Denali": "",
     "Yukon XL 1500": "",
-    "Yukon XL 2500": "",
+    "Yukon XL 2500": ""
   },
 
   "Honda": {
@@ -318,7 +318,7 @@
     "Alero": "",
     "Bravada": "",
     "Intrigue": "",
-    "Silhouette": "",
+    "Silhouette": ""
   },
 
   "Plymouth": {
@@ -401,6 +401,6 @@
     "S70": "",
     "S80": "",
     "V40": "",
-    "V70": "",
+    "V70": ""
   }
 }
