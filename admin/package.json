@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "init": "./init",
-    "enter-task": "node taskCreation.js"
+    "enter-task": "node taskCreation.js",
+    "num-cars": "node numCars.js"
   },
   "author": "Alec Felt, Will Coates",
   "license": "ISC",
