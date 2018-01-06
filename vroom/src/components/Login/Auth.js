@@ -98,7 +98,7 @@ export default class Auth extends Component {
     });
   }
 
-  /*
+ /*
   * Database function: databaseSignup
   * Author: Alec Felt and Connick Shields
   *
