@@ -6,12 +6,12 @@
 // Global Requirements
 import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
+STYLE = require('../../global-styles');
 
 // Components
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   StatusBar,
   ScrollView,
@@ -32,6 +32,7 @@ import { TextField } from 'react-native-material-textfield';
 import revi from '../../../assets/animations/revi-hi.json';
 import revi_on from '../../../assets/animations/revi-on.json';
 import revi_super_happy from '../../../assets/animations/revi-super-happy.json';
+import Button from './../Custom/Button';
 
 /*
  * Class: Onboarding
@@ -107,6 +108,9 @@ export default class Onboarding extends Component {
       dropdownsComplete: false,
       choices: null,
       array: null,
+      active1: GLOBAL.COLOR.DARKGRAY,
+      active2: GLOBAL.COLOR.LIGHTGRAY,
+      active3: GLOBAL.COLOR.LIGHTGRAY,
     };
   }
 
@@ -130,9 +134,9 @@ export default class Onboarding extends Component {
       this.animation3.play();
       // populates user's Firebase entry
       firebaseRef.database().ref("users").child(Auth.getAuth().uid).child('vehicles').push({
-          nickname: this.state.text,
-          path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
-          choices: this.state.choices,
+        nickname: this.state.text,
+        path: "cars/" + this.state.year + "/" + this.state.make + "/" + this.state.model,
+        choices: this.state.choices,
       });
     // make,year,model dropdowns haven't been properly set
     } else {
@@ -259,7 +263,7 @@ export default class Onboarding extends Component {
      */
     var last_card = this.state.show_last_card ?
       <View style={styles.card}>
-        <Text style={styles.card_title}>{this.state.text}</Text>
+        <Text style={STYLE.title2_center}>{this.state.text}</Text>
           <View style={styles.revi_animations}>
               <Animation
                 ref={animation => {this.animation3 = animation;}}
@@ -268,11 +272,11 @@ export default class Onboarding extends Component {
                 source={revi_super_happy}
               />
           </View>
-        <Text style={styles.card_text}>{"I love it!"}</Text>
+        <Text style={STYLE.subheader_center}>{"I love it!"}</Text>
       </View>
       :
-      <View style={styles.card_inactive}>
-        <Text style={styles.card_title}>{this.state.text}</Text>
+      <View style={{display: 'none'}}>
+        <Text style={STYLE.title2_center}>{this.state.text}</Text>
           <View style={styles.revi_animations}>
               <Animation
                 ref={animation => {this.animation3 = animation;}}
@@ -281,7 +285,7 @@ export default class Onboarding extends Component {
                 source={revi_super_happy}
               />
           </View>
-        <Text style={styles.card_text}>{"I love it!"}</Text>
+        <Text style={STYLE.subheader_center}>{"I love it!"}</Text>
       </View>;
 
     /*
@@ -294,26 +298,24 @@ export default class Onboarding extends Component {
      *   button.
      */
     var next_button = this.state.scroll_enabled ?
-      <TouchableOpacity
-          style={styles.buttonContainer}
-          activeOpacity={0.8}
-          onPress={
+      <Button
+        backgroundColor={GLOBAL.COLOR.GREEN}
+        label={this.state.text_button}
+        width='65%'
+        onPress={
             () => {
               this.goToScrollView();
             }
-        }>
-          <Text style={styles.buttonText}>{this.state.text_button}</Text>
-      </TouchableOpacity>
-      : <TouchableOpacity
-          style={styles.buttonContainer}
-          activeOpacity={0.8}
-          onPress={
+        }/>
+      : <Button
+        backgroundColor={GLOBAL.COLOR.GREEN}
+        label={this.state.text_button}
+        width='65%'
+        onPress={
             () => {
               this.goToDashboard();
             }
-        }>
-          <Text style={styles.buttonText}>{this.state.text_button}</Text>
-      </TouchableOpacity>;
+        }/>;
 
     /*
      * Variable: year-make-model
@@ -329,16 +331,19 @@ export default class Onboarding extends Component {
 
     return (
       <KeyboardAvoidingView
-        style={styles.container}
+        style={[
+          STYLE.container,
+          {
+            justifyContent: 'center',
+            alignItems: 'center',
+          }
+        ]}
         behavior="padding"
       >
         <StatusBar
          barStyle="light-content"
        />
         <View style={styles.cards_container}>
-        <StatusBar
-          barStyle="light-content"
-        />
         <ScrollView
           ref={(scrollView) => { this.scrollView = scrollView; }}
           style={styles.scroll}
@@ -358,7 +363,7 @@ export default class Onboarding extends Component {
         >
           {/* Card 1 */}
           <View style={styles.card}>
-            <Text style={styles.card_title}>{"Hello!"}</Text>
+            <Text style={STYLE.title2_center}>{"Hello!"}</Text>
             <View style={styles.revi_animations}>
               <Animation
                 ref={animation => {this.animation = animation;}}
@@ -367,40 +372,70 @@ export default class Onboarding extends Component {
                 source={revi}
               />
             </View>
-            <Text style={styles.card_text}>{"I'm your car!"}</Text>
+            <Text style={STYLE.subheader_center}>{"I'm your car!"}</Text>
           </View>
 
           {/* Card 2 */}
           <View style={styles.card}>
-            <Text style={styles.card_title}>{"I am a:"}</Text>
+            <Text style={STYLE.title2_center}>{"I am a:"}</Text>
             <View style={{
               backgroundColor: 'white',
               alignSelf: 'stretch',
-              marginHorizontal: 20,
-              marginTop: -10,
             }}>
               <Dropdown
                 label='Year'
                 data={this.state.years}
-                onChangeText={(value,index,data) => {this.setState({year: value, dropdownsComplete: false}); this.getDropdowns("year"); }}
+                baseColor={this.state.active1}
+                onChangeText={(value,index,data) => {
+                  this.setState({
+                    year: value, 
+                    dropdownsComplete: false,
+                    active1: GLOBAL.COLOR.GREEN,
+                    active2: GLOBAL.COLOR.DARKGRAY,
+                  }); 
+                  this.getDropdowns("year");
+                }}
+                itemTextStyle={{
+                  fontFamily: 'Nunito',
+                  fontSize: 20,
+                }}
+                labelStyle={{
+                  fontFamily: 'Nunito',
+                }}
               />
               <Dropdown
                 label='Make'
                 data={this.state.makes}
-                onChangeText={(value,index,data) => { this.setState({make: value, dropdownsComplete: false}); this.getDropdowns("make"); }}
+                baseColor={this.state.active2}
+                onChangeText={(value,index,data) => {
+                  this.setState({
+                    make: value, 
+                    dropdownsComplete: false,
+                    active2: GLOBAL.COLOR.GREEN,
+                    active3: GLOBAL.COLOR.DARKGRAY,
+                  }); 
+                  this.getDropdowns("make");
+                }}
               />
               <Dropdown
                 label='Model'
                 data={this.state.models}
-                onChangeText={(value,index,data) => { this.setState({model: value, dropdownsComplete: true}); }}
+                baseColor={this.state.active3}
+                onChangeText={(value,index,data) => {
+                  this.setState({
+                    model: value,
+                    dropdownsComplete: true,
+                    active3: GLOBAL.COLOR.GREEN,
+                  });
+                }}
               />
             </View>
-            <Text style={styles.card_text}></Text>
+            <Text style={STYLE.subheader_center}></Text>
           </View>
 
           {/* Card 3 */}
           <View style={styles.card}>
-            <Text style={styles.card_title}>{"My name is..."}</Text>
+            <Text style={STYLE.title2_center}>{"My name is..."}</Text>
              <View style={styles.revi_animations}>
               <Animation
                 ref={animation => {this.animation2 = animation;}}
@@ -410,7 +445,7 @@ export default class Onboarding extends Component {
               />
             </View>
             <TextInput
-              style={styles.card_text_input}
+              style={STYLE.light_input_active}
               placeholder="Type in my name!"
               onChangeText={(text) => {this.setState({text});}}
               underlineColorAndroid={'#ffffff'}
@@ -437,47 +472,15 @@ export default class Onboarding extends Component {
 const styles = StyleSheet.create({
 
   /*
-   * Style: Button
-   * Author: Elton C. Rego
-   * Purpose: This styles the Next button
-   */
-  buttonContainer: {
-    backgroundColor: GLOBAL.COLOR.GREEN,
-    padding: 12,
-    paddingHorizontal: 24,
-    borderRadius: 20,
-  },
-  buttonText: {
-    textAlign: 'center',
-    fontFamily: 'Nunito',
-    color: GLOBAL.COLOR.DARKGRAY,
-    backgroundColor: 'transparent',
-    fontSize: 20,
-    fontWeight: '600',
-  },
-
-  /*
-   * Style: Container
-   * Author: Elton C. Rego
-   * Purpose: This styles the entire background of this page
-   */
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: GLOBAL.COLOR.DARKGRAY,
-  },
-
-  /*
    * Style: scroll
    * Author: Elton C. Rego
-   * Purpose: This styles the scroll
+   * Purpose: This styles the sizing of the cards
+   *   within the scrollview
    */
   cards_container: {
-    height: 350,
+    alignItems: 'center',
+    height: '70%',
     width: '100%',
-    alignSelf: 'center',
-    marginBottom: 32,
   },
 
    /*
@@ -486,77 +489,23 @@ const styles = StyleSheet.create({
    * Purpose: This styles the card view within this page
    */
   card: {
-    alignSelf: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#ffffff',
+    height: '90%',
     width: 312,
-    height: 344,
-    borderRadius: 20,
     alignItems: 'center',
-    overflow: 'hidden',
     margin: 16,
-  },
-
-  /*
-   * Style: Card
-   * Author: Elton C. Rego
-   * Purpose: This styles the card view within this page
-   */
-  card_inactive: {
-    display: 'none',
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#ffffff',
-    width: 312,
-    height: 344,
-    borderRadius: 20,
-    alignItems: 'center',
-    overflow: 'hidden',
-    margin: 16,
-  },
-
-   /*
-   * Style: Card Title
-   * Author: Elton C. Rego
-   * Purpose: This styles the card titles on this page
-   */
-  card_title: {
-    fontFamily: 'Nunito',
-    fontWeight: '900',
-    color: GLOBAL.COLOR.DARKGRAY,
-    textAlign: 'center',
-    fontSize: 40,
-    marginTop: 32,
-  },
-
-   /*
-   * Style: Card Text
-   * Author: Elton C. Rego
-   * Purpose: This styles the card descriptions
-   */
-  card_text: {
-    fontFamily: 'Nunito',
-    textAlign: 'center',
-    color: GLOBAL.COLOR.DARKGRAY,
-    fontSize: 20,
-    marginBottom: 32,
-  },
-
-  /*
-   * Style: Card Text Input
-   * Author: Elton C. Rego
-   * Purpose: This styles the card descriptions
-   */
-  card_text_input: {
-    fontFamily: 'Nunito',
-    textAlign: 'center',
-    justifyContent: 'center',
-    fontSize: 20,
-    marginBottom: 32,
-    borderBottomWidth: 2,
-    paddingBottom: 2,
-    width: '80%',
-    borderColor: GLOBAL.COLOR.GREEN,
+    backgroundColor: GLOBAL.COLOR.WHITE,
+    borderRadius: 4,
+    shadowColor: '#000000',
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      width: 4,
+      height: 8,
+    },
+    shadowRadius: 2,
+    zIndex: 1,
+    padding: 32,
+    paddingTop: 32+16,
   },
 
    /*
@@ -577,21 +526,9 @@ const styles = StyleSheet.create({
    */
   revi_animations: {
     alignSelf: 'center',
-    height: 240,
-    width: 240,
+    height: 256,
+    width: 256,
     zIndex:2,
     marginTop: -32,
   },
-
-  /*
-   * Style: Revi Super
-   * Author: Elton C. Rego
-   * Purpose: This styles the Revis on each card
-   */
-  revi_super: {
-    resizeMode: 'contain',
-    height: 120,
-    width: 120,
-  },
-
 });
