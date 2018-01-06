@@ -1,7 +1,7 @@
 import {firebaseRef} from "./Database";
 import {Auth} from '../Login';
 
-/*a
+/*
 * Database function: getTaskDates()
 * Author: Connick Shields
 *
