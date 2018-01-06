@@ -16,9 +16,9 @@ import {
   Alert,
   Animated,
 } from 'react-native';
-
 import {Auth} from '.';
 
+// Necessary Files
 const bg = require('./../../../assets/img/login-bg.jpg')
 
 export default class Login extends Component {
@@ -82,7 +82,7 @@ export default class Login extends Component {
     if(this.state.sign_up){
       this.setState({
         field_animation: new Animated.Value(0),
-      })
+      });
     }
   }
 
@@ -356,7 +356,7 @@ export default class Login extends Component {
               }}
             />
             {pw_confirm_field}
-            <TouchableOpacity style={[STYLE.button_container,
+             <TouchableOpacity style={[STYLE.button_container,
               {
                 backgroundColor: this.state.button_color,
               }]}

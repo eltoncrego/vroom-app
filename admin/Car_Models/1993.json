@@ -13,7 +13,7 @@
 
   "Audi": {
     "100": "",
-    "80": "",
+    "90": "",
     "Quattro": "",
     "S4": ""
   },
@@ -38,11 +38,11 @@
 
   "Cadillac": {
     "Allante": "",
-    "Brougham": "",
     "DeVille": "",
     "Eldorado": "",
     "Fleetwood": "",
-    "Seville": ""
+    "Seville": "",
+    "Sixty Special": ""
   },
 
   "Chevrolet": {
@@ -59,7 +59,7 @@
     "Beretta": "",
     "Blazer": "",
     "Camaro": "",
-    "Caprice": "",
+    "Caprice Classic": "",
     "Cavalier": "",
     "Corsica": "",
     "Corvette": "",
@@ -79,16 +79,12 @@
   },
 
   "Chrysler": {
+    "Concorde": "",
     "Fifth Ave": "",
     "Imperial": "",
     "LeBaron": "",
     "New Yorker": "",
     "Town & Country": ""
-  },
-
-  "Daihatsu": {
-    "Charade": "",
-    "Rocky": ""
   },
 
   "Dodge": {
@@ -106,7 +102,7 @@
     "Daytona": "",
     "Dynasty": "",
     "Grand Caravan Passenger": "",
-    "Monaco": "",
+    "Intrepid": "",
     "Ram 50 Regular Cab": "",
     "Ram Van B150": "",
     "Ram Van B250": "",
@@ -122,9 +118,9 @@
   },
 
   "Eagle": {
-    "Premier": "",
     "Summit": "",
-    "Talon": ""
+    "Talon": "",
+    "Vision": ""
   },
 
   "Ford": {
@@ -142,7 +138,6 @@
     "F150 Super Cab": "",
     "F250 Regular Cab": "",
     "F250 Super Cab": "",
-    "F350 Crew Cab": "",
     "F350 Regular Cab": "",
     "F350 Super Cab": "",
     "Festiva": "",
@@ -176,20 +171,24 @@
     "Rally Wagon 3500": "",
     "Safari Cargo": "",
     "Safari Passenger": "",
-    "Sonoma Club Cab": "",
+    "Sonoma Club Coupe Cab": "",
     "Sonoma Regular Cab": "",
     "Suburban 1500": "",
     "Suburban 2500": "",
     "Vandura 1500": "",
     "Vandura 2500": "",
-    "Vandura 3500": "",
     "Yukon": ""
   },
 
   "Honda": {
     "Accord": "",
     "Civic": "",
+    "del Sol": "",
     "Prelude": ""
+  },
+
+  "HUMMER": {
+    "H1": ""
   },
 
   "Hyundai": {
@@ -201,13 +200,12 @@
 
   "INFINITI": {
     "G": "",
-    "M": "",
+    "J": "",
     "Q": ""
   },
 
   "Isuzu": {
     "Amigo": "",
-    "Impulse": "",
     "Regular Cab": "",
     "Rodeo": "",
     "Spacecab": "",
@@ -221,23 +219,25 @@
 
   "Jeep": {
     "Cherokee": "",
-    "Comanche Regular Cab": "",
+    "Grand Cherokee": "",
     "Wrangler": ""
   },
 
   "Land Rover": {
+    "Defender 110": "",
     "Range Rover": ""
   },
 
   "Lexus": {
     "ES": "",
+    "GS": "",
     "LS": "",
     "SC": ""
   },
 
   "Lincoln": {
     "Continental": "",
-    "Mark VII": "",
+    "Mark VIII": "",
     "Town Car": ""
   },
 
@@ -252,7 +252,8 @@
     "MX-5 Miata": "",
     "MX-6": "",
     "Navajo": "",
-    "Protege": ""
+    "Protege": "",
+    "RX-7": ""
   },
 
   "Mercedes-Benz": {
@@ -265,11 +266,14 @@
     "300 SL": "",
     "300 TE": "",
     "400 E": "",
-    "400 SE": "",
+    "400 SEL": "",
     "500 E": "",
+    "500 SEC": "",
     "500 SEL": "",
     "500 SL": "",
-    "600 SEL": ""
+    "600 SEC": "",
+    "600 SEL": "",
+    "600 SL": ""
   },
 
   "Mercury": {
@@ -303,9 +307,9 @@
     "Maxima": "",
     "NX": "",
     "Pathfinder": "",
+    "Quest": "",
     "Regular Cab": "",
     "Sentra": "",
-    "Stanza": ""
   },
 
   "Oldsmobile": {
@@ -313,11 +317,10 @@
     "98": "",
     "Achieva": "",
     "Bravada": "",
-    "Custom Cruiser": "",
     "Cutlass Ciera": "",
+    "Cutlass Cruiser": "",
     "Cutlass Supreme": "",
-    "Silhouette": "",
-    "Toronado": ""
+    "Silhouette": ""
   },
 
   "Plymouth": {
@@ -342,6 +345,7 @@
 
   "Porsche": {
     "911": "",
+    "928": "",
     "968": ""
   },
 
@@ -355,6 +359,7 @@
   },
 
   "Subaru": {
+    "Impreza": "",
     "Justy": "",
     "Legacy": "",
     "Loyale": "",
@@ -379,6 +384,7 @@
     "Previa": "",
     "Regular Cab": "",
     "Supra": "",
+    "T100 Regular Cab": "",
     "Tercel": "",
     "Xtra Cab": ""
   },
@@ -386,16 +392,16 @@
   "Volkswagen": {
     "Cabriolet": "",
     "Corrado": "",
+    "Eurovan": "",
     "Fox": "",
-    "Golf": "",
-    "GTI": "",
-    "Jetta": "",
+    "Golf III": "",
+    "Jetta III": "",
     "Passat": ""
   },
 
   "Volvo": {
     "240": "",
-    "740": "",
+    "850": "",
     "940": "",
     "960": ""
   }
