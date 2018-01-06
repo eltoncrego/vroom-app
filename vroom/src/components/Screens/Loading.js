@@ -6,6 +6,7 @@
 // Global Requirements
 import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
+STYLE = require('../../global-styles');
 
 // Components
 import {
@@ -87,7 +88,7 @@ export default class Loading extends Component {
             source={loader_icon}
           />
         </View>
-        <Text style={styles.loading}>
+        <Text style={[STYLE.subheader2, {color: GLOBAL.COLOR.GREEN, paddingTop: 8,}]}>
           loading
         </Text>
       </View>
