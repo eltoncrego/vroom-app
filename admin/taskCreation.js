@@ -22,7 +22,7 @@ taskEntry = () => {
     prompt.get(taskProps, function(err, result){
         var jsonObj = makeTask(result);
         admin.database().ref('cars')
-        .child(year).child(make).child(model)
+        .child(year).child(make).child(model).child('task_types')
         .child(result.taskName).set(jsonObj)
         .catch((err) => {
             console.log(err.message);
@@ -43,7 +43,7 @@ contPrompt = (contProps) => {
             taskEntry();
         }else if(result.cont === 'no'){
             console.log("love you long time <3.");
-            throw new Error('This is not an error. This is just to abort javascript');
+            process.exit();
         }else{
             contPrompt();
         }
@@ -68,14 +68,18 @@ prompt.get(carProps, function (err, result) {
     model = result.model;
     admin.database().ref('cars')
     .child(result.year).child(result.make).child(result.model)
-    .on('value', function(snap) {
+    .once('value', function(snap) {
         var msg;
         if(snap.exists()){
-            msg = "Car exists.";
+            msg = year+', '+make+' '+model+' exists in FirebaseDatabase';
         }else{
-            msg = "Car doesn't exist."
+            msg = year+', '+make+' '+model+' doesn\'t exest in FirebaseDatabase yet';
         }
         console.log(msg);
-        contPrompt(contProps);
+        admin.database().ref('cars')
+        .child(result.year).child(result.make).child(result.model).child('task_types')
+        .on('value', function(snap) {
+            contPrompt(contProps);
+        });
     });
 });
