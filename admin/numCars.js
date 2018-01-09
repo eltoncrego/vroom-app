@@ -8,7 +8,7 @@ const admin = require('./index');
 
 // Utility function
 function exitPrompt() {
-  console.log("Please abort script. JS has no built-in termination capability.");
+  process.exit();
 }
 
 // datasnaphot loop wrapper
