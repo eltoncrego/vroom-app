@@ -36,7 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
         new LottiePackage(),
         new RNFirebasePackage(),
 		    new RNFirebaseDatabasePackage(),
-		    new RNFirebaseAuthPackage(),
+		    new RNFirebaseAuthPackage()
       );
     }
 
