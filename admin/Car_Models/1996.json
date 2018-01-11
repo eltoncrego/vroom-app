@@ -1,0 +1,379 @@
+{
+  "Acura" : {
+    "Integra": "",
+    "NSX": "",
+    "RL": "",
+    "SLX": "",
+    "TL": ""
+  },
+
+  "Audi": {
+    "A4": "",
+    "A6": "",
+    "Cabriolet": ""
+  },
+
+  "BMW": {
+    "3 Series": "",
+    "7 Series": "",
+    "8 Series": "",
+    "M3": "",
+    "Z3": ""
+  },
+
+  "Buick": {
+    "Century": "",
+    "LeSabre": "",
+    "Park Avenue": "",
+    "Regal": "",
+    "Riviera": "",
+    "Roadmaster": "",
+    "Skylark": ""
+  },
+
+  "Cadillac": {
+    "DeVille": "",
+    "Eldorado": "",
+    "Fleetwood": "",
+    "Seville": ""
+  },
+
+  "Chevrolet": {
+    "1500 Extended Cab": "",
+    "1500 Regular Cab": "",
+    "2500 Extended Cab": "",
+    "2500 HD Extended Cab": "",
+    "2500 Regular Cab": "",
+    "3500 Crew Cab": "",
+    "3500 Extended Cab": "",
+    "3500 Regular Cab": "",
+    "Astro Cargo": "",
+    "Astro Passenger": "",
+    "Beretta": "",
+    "Blazer": "",
+    "Camaro": "",
+    "Caprice Classic": "",
+    "Cavalier": "",
+    "Corsica": "",
+    "Corvette": "",
+    "Express 1500 Passenger": "",
+    "Express 2500 Passenger": "",
+    "Express 3500 Passenger": "",
+    "G-Series 1500": "",
+    "G-Series 2500": "",
+    "G-Series G30": "",
+    "Impala": "",
+    "Lumina": "",
+    "Lumina Cargo": "",
+    "Lumina Passenger": "",
+    "Monte Carlo": "",
+    "S10 Extended Cab": "",
+    "S10 Regular Cab": "",
+    "Sportvan G30": "",
+    "Suburban 1500": "",
+    "Suburban 2500": "",
+    "Tahoe": ""
+  },
+
+  "Chrysler": {
+    "Cirrus": "",
+    "Concorde": "",
+    "LHS": "",
+    "New Yorker": "",
+    "Sebring": "",
+    "Town & Country": ""
+  },
+
+  "Dodge": {
+    "Avenger": "",
+    "Caravan Passenger": "",
+    "Dakota Club Cab": "",
+    "Dakota Regular Cab": "",
+    "Grand Caravan Passenger": "",
+    "Intrepid": "",
+    "Neon": "",
+    "Ram 1500 Club Cab": "",
+    "Ram 1500 Regular Cab": "",
+    "Ram 2500 Club Cab": "",
+    "Ram 2500 Regular Cab": "",
+    "Ram 3500 Club Cab": "",
+    "Ram 3500 Regular Cab": "",
+    "Ram Van 1500": "",
+    "Ram Van 2500": "",
+    "Ram Van 3500": "",
+    "Ram Wagon 1500": "",
+    "Ram Wagon 2500": "",
+    "Ram Wagon 3500": "",
+    "Stealth": "",
+    "Stratus": "",
+    "Viper": ""
+  },
+
+  "Eagle": {
+    "Summit": "",
+    "Talon": "",
+    "Vision": ""
+  },
+
+  "Ford": {
+    "Aerostar Cargo": "",
+    "Aerostar Passenger": "",
+    "Aspire": "",
+    "Bronco": "",
+    "Club Wagon": "",
+    "Contour": "",
+    "Crown Victoria": "",
+    "Econoline E150 Cargo": "",
+    "Econoline E250 Cargo": "",
+    "Econoline E350 Cargo": "",
+    "Escort": "",
+    "Explorer": "",
+    "F150 Regular Cab": "",
+    "F150 Super Cab": "",
+    "F250 Crew Cab": "",
+    "F250 Regular Cab": "",
+    "F250 Super Cab": "",
+    "F350 Crew Cab": "",
+    "F350 Regular Cab": "",
+    "F350 Super Cab": "",
+    "Mustang": "",
+    "Probe": "",
+    "Ranger Regular Cab": "",
+    "Ranger Super Cab": "",
+    "Taurus": "",
+    "Thunderbird": "",
+    "Windstar Cargo": "",
+    "Windstar Passenger": ""
+  },
+
+  "Geo": {
+    "Metro": "",
+    "Prizm": "",
+    "Tracker": ""
+  },
+
+  "GMC": {
+    "1500 Club Coupe": "",
+    "1500 Regular Cab": "",
+    "2500 Club Coupe": "",
+    "2500 Regular Cab": "",
+    "3500 Club Coupe": "",
+    "3500 Crew Cab": "",
+    "3500 Regular Cab": "",
+    "Jimmy": "",
+    "Rally Wagon G3500": "",
+    "Safari Cargo": "",
+    "Safari Passenger": "",
+    "Savana 1500 Cargo": "",
+    "Savana 1500 Passenger": "",
+    "Savana 2500 Cargo": "",
+    "Savana 2500 Passenger": "",
+    "Savana 3500 Cargo": "",
+    "Savana 3500 Passenger": "",
+    "Sonoma Club Coupe Cab": "",
+    "Sonoma Regular Cab": "",
+    "Suburban 1500": "",
+    "Suburban 2500": "",
+    "Vandura G3500": "",
+    "Yukon": ""
+  },
+
+  "Honda": {
+    "Accord": "",
+    "Civic": "",
+    "del Sol": "",
+    "Odyssey": "",
+    "Passport": "",
+    "Prelude": ""
+  },
+
+  "HUMMER": {
+    "H1": ""
+  },
+
+  "Hyundai": {
+    "Accent": "",
+    "Elantra": "",
+    "Sonata": ""
+  },
+
+  "INFINITI": {
+    "G": "",
+    "I": "",
+    "J": "",
+    "Q": ""
+  },
+
+  "Isuzu": {
+    "Hombre Regular Cab": "",
+    "Oasis": "",
+    "Rodeo": "",
+    "Trooper": ""
+  },
+
+  "Jaguar": {
+    "XJ": ""
+  },
+
+  "Jeep": {
+    "Cherokee": "",
+    "Grand Cherokee": ""
+  },
+
+  "Kia": {
+    "Sephia": "",
+    "Sportage": ""
+  },
+
+  "Land Rover": {
+    "Discovery": "",
+    "Range Rover": ""
+  },
+
+  "Lexus": {
+    "ES": "",
+    "GS": "",
+    "LS": "",
+    "LX": "",
+    "SC": ""
+  },
+
+  "Lincoln": {
+    "Continental": "",
+    "Mark VIII": "",
+    "Town Car": ""
+  },
+
+  "Mazda": {
+    "626": "",
+    "B-Series Cab Plus": "",
+    "B-Series Regular Cab": "",
+    "Millenia": "",
+    "MPV": "",
+    "MX-5 Miata": "",
+    "MX-6": "",
+    "Protege": ""
+  },
+
+  "Mercedes-Benz": {
+    "C-Class": "",
+    "E-Class": "",
+    "S-Class": "",
+    "SL-Class": ""
+  },
+
+  "Mercury": {
+    "Cougar": "",
+    "Grand Marquis": "",
+    "Mystique": "",
+    "Sable": "",
+    "Tracer": "",
+    "Villager": ""
+  },
+
+  "Mitsubishi": {
+    "3000GT": "",
+    "Diamante": "",
+    "Eclipse": "",
+    "Galant": "",
+    "Mighty Max Regular Cab": "",
+    "Mirage": "",
+    "Montero": ""
+  },
+
+  "Nissan": {
+    "200SX": "",
+    "240SX": "",
+    "300ZX": "",
+    "Altima": "",
+    "King Cab": "",
+    "Maxima": "",
+    "Pathfinder": "",
+    "Quest": "",
+    "Regular Cab": "",
+    "Sentra": ""
+  },
+
+  "Oldsmobile": {
+    "88": "",
+    "98": "",
+    "Achieva": "",
+    "Aurora": "",
+    "Bravada": "",
+    "Ciera": "",
+    "Cutlass Supreme": "",
+    "Silhouette": ""
+  },
+
+  "Plymouth": {
+    "Breeze": "",
+    "Grand Voyager": "",
+    "Neon": "",
+    "Voyager": ""
+  },
+
+  "Pontiac": {
+    "Bonneville": "",
+    "Firebird": "",
+    "Grand Am": "",
+    "Grand Prix": "",
+    "Sunfire": "",
+    "Trans Sport": ""
+  },
+
+  "Porsche": {
+    "911": ""
+  },
+
+  "Saab": {
+    "900": "",
+    "9000": ""
+  },
+
+  "Saturn": {
+    "S-Series": ""
+  },
+
+  "Subaru": {
+    "Impreza": "",
+    "Legacy": "",
+    "SVX": ""
+  },
+
+  "Suzuki": {
+    "Esteem": "",
+    "Sidekick": "",
+    "Swift": "",
+    "X-90": ""
+  },
+
+  "Toyota": {
+    "4Runner": "",
+    "Avalon": "",
+    "Camry": "",
+    "Celica": "",
+    "Corolla": "",
+    "Land Cruiser": "",
+    "Paseo": "",
+    "Previa": "",
+    "RAV4": "",
+    "Supra": "",
+    "T100 Regular Cab": "",
+    "T100 Xtracab": "",
+    "Tacoma Regular Cab": "",
+    "Tacoma Xtracab": "",
+    "Tercel": ""
+  },
+
+  "Volkswagen": {
+    "Cabrio": "",
+    "Golf": "",
+    "Jetta": "",
+    "Passat": ""
+  },
+
+  "Volvo": {
+    "850": "",
+    "960": ""
+  }
+}

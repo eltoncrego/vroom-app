@@ -31,14 +31,12 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new FIRMessagingPackage(),
-            new FIRMessagingPackage(),
-            new LottiePackage(),
-          new RNFirebasePackage(),
-		  new RNFirebaseDatabasePackage(),
-		  new RNFirebaseAuthPackage(),
-            new LottiePackage()
+        new MainReactPackage(),
+        new FIRMessagingPackage(),
+        new LottiePackage(),
+        new RNFirebasePackage(),
+		    new RNFirebaseDatabasePackage(),
+		    new RNFirebaseAuthPackage(),
       );
     }
 

@@ -9,6 +9,9 @@ module.exports = {
     RED: '#FF3C38',
     GREEN: '#9FD356',
     YELLOW: '#FDC939',
+    REDSCRIM: 'rgba(255, 60, 56, 0.1)',
+    GREENSCRIM: 'rgba(159, 211, 86, 0.1)',
+    YELLOWSCRIM: 'rgba(253, 201, 57, 0.1)',
     WHITE: '#FFFFFF',
   }
 };

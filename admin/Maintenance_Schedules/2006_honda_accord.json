@@ -1,0 +1,61 @@
+{
+    "Check Engine Oil" : {
+        "intervalMileage": "0",
+        "intervalMonth": "0.5",
+        "frequency": "4",
+        "action": "Check",
+        "item": "engine oil level",
+        "itemDescription": "Incorrect oil levels can cause severe engine damage!",
+        "severity": "mild"
+    },
+   
+    "Check Lighting": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check operation",
+        "item": "lighting",
+        "itemDescription": "Check lights from front to back to make sure you're not left in the dark!",
+        "severity": "mild"
+    },
+
+    "Check Transmission Fluid": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "transmission fluid level",
+        "itemDescription": "Transmission fluid keeps shifting smooth!",
+        "severity": "mild"
+    },
+
+    "Check Brake Fluid": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "brake fluid level",
+        "itemDescription": "Brakes, obviously, need to be in tip-top shape!",
+        "severity": "moderate"
+    },
+
+    "Check Tire Pressure": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "tire pressure",
+        "itemDescription": "Make sure you keep a spring in your car's step!",
+        "severity": "moderate"
+    },
+
+    "Check Tire Tread": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "tire tread",
+        "itemDescription": "Watch out for wear or foreign objects in your tread!",
+        "severity": "mild"
+    }
+}

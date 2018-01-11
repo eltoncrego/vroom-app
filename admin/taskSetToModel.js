@@ -1,6 +1,13 @@
+/*
+ * taskSetToModel.js
+ * Author: Will Coates (very lightly adapted from Alec Felt's taskCreation.js)
+ * Purpose: 
+ *    Updates a year/make/model specified by user with a set of tasks unique to that year/make/model
+ *    (specified by a .json file)
+ */
 const prompt = require('prompt');
 const admin = require('./index');
-const { contProps, carProps, taskProps, jsonPrompt } = require('./promptObjects');
+const { contProps, carProps, taskProps, jsonProps} = require('./promptObjects');
 const { makeTask } = require('./promptUtilities');
 
 /*
@@ -12,27 +19,39 @@ const { makeTask } = require('./promptUtilities');
 var year, make, model;
 
 /*
- * User Prompt Function: taskEntry()
- * Author: Alec Felt
+ * User Prompt Function: writeTaskSet()
+ * Author: Will Coates 
  *
- * Purpose: prompts the user for input according to taskProps,
- *          makes JSON task object and pushes it to FirebaseDatabase
+ * Purpose: Given a filename prompted by the user, pushes that JSON to database
+ *          at a specific year
+ *          
  */
-taskEntry = () => {
-    prompt.get(taskProps, function(err, result){
-        var jsonObj = makeTask(result);
+
+writeTaskSet = () => {
+    prompt.get(jsonProps, function(err, result){
+        filename = result.filename;
+
+        console.log('filename: ' + filename);
+
+        try{
+            var tasksOb = require('../admin/taskJSONObjects/' + filename);
+        }
+        catch(ex){
+            console.error('Error: ', ex.message);
+            console.log('Please try again');
+            return;
+        }
+        console.log("Writing " + filename + " to " + year + " " + make + " " + model);
+        // now actually .update() it
         admin.database().ref('cars')
         .child(year).child(make).child(model).child('task_types')
-        .child(result.taskName).set(jsonObj)
-        .catch((err) => {
-            console.log(err.message);
-        });
+        .update(tasksOb);
     });
 }
 
 /*
  * User Prompt Function: contPrompt()
- * Author: Alec Felt
+ * Author: Alec Felt (modified by Will Coates)
  *
  * Purpose: prompts the user for input according to contProps,
  *          asks the user whether they would like to continue entering tasks
@@ -40,9 +59,9 @@ taskEntry = () => {
 contPrompt = (contProps) => {
     prompt.get(contProps, function(err, result){
         if(result.cont === 'yes'){
-            taskEntry();
+            writeTaskSet();
         }else if(result.cont === 'no'){
-            console.log("love you long time <3.");
+            console.log("Bye bye, then!");
             process.exit();
         }else{
             contPrompt();
@@ -73,7 +92,7 @@ prompt.get(carProps, function (err, result) {
         if(snap.exists()){
             msg = year+', '+make+' '+model+' exists in FirebaseDatabase';
         }else{
-            msg = year+', '+make+' '+model+' doesn\'t exest in FirebaseDatabase yet';
+            msg = year+', '+make+' '+model+' doesn\'t exist in FirebaseDatabase yet';
         }
         console.log(msg);
         admin.database().ref('cars')
