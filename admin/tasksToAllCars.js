@@ -29,15 +29,17 @@ const config = {
 
 const prompt = require('prompt');
 const admin = require('./index');
+const { contProps, carProps, taskProps, jsonProps}= require('./promptObjects')
 
 /*
- * Globals: jsonPrompt
+ * Globals: jsonProps
  * Author: Will Coates
  *
  * Purpose: sets up prompting user for JSON object to be written
  * 			(path should be something like: '../')
  */
-var jsonPrompt = {
+ /*
+var jsonProps = {
 	properties: {
 		filename: {
 			description: "Please enter the filename of the JSON object",
@@ -48,6 +50,7 @@ var jsonPrompt = {
 		}
 	}
 };
+*/
 
 // Introduction to the admin, to verify they actually want to run the script
 console.log("=====================================================================================================");
@@ -103,7 +106,7 @@ writeToAllCars = (tasks) => {
  * Purpose: collects the JSON object that the admin wants to write, and
  *			actually writes it to each car in the database
  */
-prompt.get(jsonPrompt, function(err, result){
+prompt.get(jsonProps, function(err, result){
    filename = result.filename;
 
    console.log('filename:' + filename);
