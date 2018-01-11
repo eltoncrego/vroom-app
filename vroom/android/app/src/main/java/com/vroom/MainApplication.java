@@ -5,6 +5,7 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.react.ReactApplication;
 import com.evollu.react.fcm.FIRMessagingPackage;
+import com.evollu.react.fcm.FIRMessagingPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import io.fabric.sdk.android.Fabric;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FIRMessagingPackage(),
             new FIRMessagingPackage(),
             new LottiePackage(),
           new RNFirebasePackage(),
