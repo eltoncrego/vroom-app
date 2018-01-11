@@ -102,6 +102,7 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.vroom"
         minSdkVersion 16
         targetSdkVersion 23
