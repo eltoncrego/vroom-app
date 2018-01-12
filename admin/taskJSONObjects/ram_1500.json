@@ -1,0 +1,171 @@
+{
+	"Check Engine Oil" : {
+        "intervalMileage": "0",
+        "intervalMonth": "0.5",
+        "frequency": "4",
+        "action": "Check",
+        "item": "engine oil level",
+        "itemDescription": "Incorrect oil levels can cause severe engine damage!",
+        "severity": "mild"
+    },
+
+    "Change Engine Oil" : {
+        "intervalMileage": "8000",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Change",
+        "item": "engine oil",
+        "itemDescription": "Make sure to get that oil changed!",
+        "severity": "medium"
+    },
+
+    "Change Engine Oil Filter" : {
+        "intervalMileage": "8000",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Change",
+        "item": "engine oil filter",
+        "itemDescription": "Along with changing your oil, you should replace the filter!",
+        "severity": "medium"
+    },
+
+    "Inspect Brake Hoses" : {
+        "intervalMileage": "8000",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Inspect",
+        "item": "brake hoses and lines",
+        "itemDescription": "Brakes, obviously, are a top priority",
+        "severity": "medium"
+    },
+
+    "Check Lighting": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check operation",
+        "item": "lighting",
+        "itemDescription": "Check lights from front to back to make sure you're not left in the dark!",
+        "severity": "mild"
+    },
+
+    "Check Transmission Fluid": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "transmission fluid level",
+        "itemDescription": "Transmission fluid keeps shifting smooth!",
+        "severity": "mild"
+    },
+
+    "Check Brake Fluid": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "brake fluid level",
+        "itemDescription": "Brakes, obviously, need to be in tip-top shape!",
+        "severity": "moderate"
+    },
+
+    "Check Tire Pressure": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "tire pressure",
+        "itemDescription": "Make sure you keep a spring in your car's step!",
+        "severity": "moderate"
+    },
+
+    "Check Tire Tread": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "tire tread",
+        "itemDescription": "Watch out for wear or foreign objects in your tread!",
+        "severity": "mild"
+    },
+
+    "Check Wiper Fluid": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "windshield washer fluid level",
+        "itemDescription": "Gotta keep your windshield squeaky clean!",
+        "severity": "mild"
+    },
+
+    "Inspect Battery": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Inspect and clean",
+        "item": "battery terminals",
+        "itemDescription": "You've got to keep the juices flowing!",
+        "severity": "mild"
+    },
+
+    "Check Coolant": {
+        "intervalMileage": "0",
+        "intervalMonth": "1",
+        "frequency": "4",
+        "action": "Check",
+        "item": "cooling system fluid level and strength",
+        "itemDescription": "Stay cool, dude.",
+        "severity": "moderate"
+    },
+
+    "Check Parking Brake": {
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Check operation of",
+        "item": "parking brake",
+        "itemDescription": "Make sure the parking brake won't let you down!",
+        "severity": "moderate"
+    },
+
+    "Check Seat Belts": {
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Check",
+        "item": "safety belts and seat latches for wear and function",
+        "itemDescription": "Buckle up!",
+        "severity": "moderate"
+    },
+
+    "Check Washer Spray and Wipers": {
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Check operation of",
+        "item": "washer spray and wipers",
+        "itemDescription": "Gotta keep your windshield squeaky clean!",
+        "severity": "mild"
+    },
+
+    "Check Dashboard Lights": {
+        "intervalMileage": "0",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Check operation of",
+        "item": "dashboard warning lamps (brake, ABS, airbag, and safety belt)",
+        "itemDescription": "What do the lights mean???",
+        "severity": "moderate"
+    },
+
+    "Recommended Maintenance": {
+        "intervalMileage": "8000",
+        "intervalMonth": "6",
+        "frequency": "4",
+        "action": "Bring car in",
+        "item": "for manufacturer recommended maintenance",
+        "itemDescription": "Give your car a spa day",
+        "severity": "moderate"
+    }
+}

@@ -25,16 +25,10 @@ module.exports = {
             make: {
                 description: 'Make',
                 required: true,
-                before: function(value) {
-                    return stringCase(value);
-                }
             },
             model: {
                 description: 'Model',
-                required: true,
-                before: function(value) {
-                    return stringCase(value);
-                }
+                required: true
             }
         }
     },
