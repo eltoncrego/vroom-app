@@ -19,16 +19,6 @@
         "severity": "mild"
     },
 
-    "Check Transmission Fluid": {
-        "intervalMileage": "0",
-        "intervalMonth": "1",
-        "frequency": "4",
-        "action": "Check",
-        "item": "transmission fluid level",
-        "itemDescription": "Transmission fluid keeps shifting smooth!",
-        "severity": "mild"
-    },
-
     "Check Brake Fluid": {
         "intervalMileage": "0",
         "intervalMonth": "1",
@@ -56,16 +46,6 @@
         "action": "Check",
         "item": "tire tread",
         "itemDescription": "Watch out for wear or foreign objects in your tread!",
-        "severity": "mild"
-    },
-
-    "Check Wiper Fluid": {
-        "intervalMileage": "0",
-        "intervalMonth": "1",
-        "frequency": "4",
-        "action": "Check",
-        "item": "windshield washer fluid level",
-        "itemDescription": "Gotta keep your windshield squeaky clean!",
         "severity": "mild"
     },
 
@@ -99,12 +79,12 @@
         "severity": "moderate"
     },
 
-    "Check Washer Spray and Wipers": {
+    "Check Washer Spray": {
         "intervalMileage": "0",
         "intervalMonth": "6",
         "frequency": "4",
         "action": "Check operation of",
-        "item": "washer spray and wipers",
+        "item": "washer spray",
         "itemDescription": "Gotta keep your windshield squeaky clean!",
         "severity": "mild"
     },
@@ -127,18 +107,9 @@
         "itemDescription": "Are lining/drums/pads/discs OK?",
         "severity": "moderate"
     },
-    "Check Criver's Floor Mat": {
-        "intervalMileage": "10000",
-        "intervalMonth": "12",
-        "frequency": "",
-        "action": "",
-        "item": "",
-        "itemDescription": "",
-        "severity": ""
-    },
     "Replace Oil and Oil Filter": {
-        "intervalMileage": "10000",
-        "intervalMonth": "12",
+        "intervalMileage": "5000",
+        "intervalMonth": "6",
         "frequency": "",
         "action": "",
         "item": "",
@@ -155,8 +126,8 @@
         "severity": ""
     },
     "Replace Cabin Air Filter": {
-        "intervalMileage": "30000",
-        "intervalMonth": "36",
+        "intervalMileage": "40000",
+        "intervalMonth": "48",
         "frequency": "",
         "action": "",
         "item": "",
@@ -181,13 +152,13 @@
         "itemDescription": "",
         "severity": ""
     },
-    "Replace Vacuum Pump": {
-        "intervalMileage": "120000",
-        "intervalMonth": "144",
+    "Tighten Drive Shaft Bolt": {
+        "intervalMileage": "15000",
+        "intervalMonth": "18",
         "frequency": "",
         "action": "",
         "item": "",
         "itemDescription": "",
         "severity": ""
-    }
+    },
 }
