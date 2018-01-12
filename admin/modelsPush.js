@@ -86,6 +86,11 @@ console.log("This pushes all JSON files in admin/Car_Models to their respective 
 console.log("Please inspect this folder to make sure the files in it should actually be pushed!");
 console.log("=====================================================================================================");
 
+console.log("=====================================================================================================");
+console.log("WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING!");
+console.log("This will OVERWRITE models! Edit the year range to make sure it doesn't CLOBBER existing models!");
+console.log("=====================================================================================================");
+
 /*
  * INSERT A Y/N PROMPT HERE SO THAT WE HAVE SOME PROTECTION AGAINST CLOBBERING OUR DATABASE
  */ 
