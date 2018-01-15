@@ -4,11 +4,13 @@
     "RDX": "",
     "RL": "",
     "TL": "",
-    "TSX": ""
+    "TSX": "",
+    "ZDX": ""
   },
   "Aston Martin" : {
     "DB9": "",
     "DBS": "",
+    "Rapide": "",
     "Vantage": ""
   },
   "Audi" : {
@@ -23,14 +25,11 @@
     "S4": "",
     "S5": "",
     "S6": "",
-    "S8": "",
     "TT": ""
   },
   "Bentley" : {
-    "Arnage": "",
-    "Azure": "",
-    "Brooklands": "",
-    "Continental": ""
+    "Continental": "",
+    "Mulsanne": ""
   },
   "BMW" : {
     "1 Series": "",
@@ -39,17 +38,18 @@
     "6 Series": "",
     "7 Series": "",
     "M3": "",
-    "M5": "",
-    "M6": "",
     "X3": "",
     "X5": "",
+    "X5 M": "",
     "X6": "",
+    "X6 M": "",
     "Z4": ""
   },
   "Buick" : {
     "Enclave": "",
     "LaCrosse": "",
-    "Lucerne": ""
+    "Lucerne": "",
+    "Regal": ""
   },
   "Cadillac" : {
     "CTS": "",
@@ -58,17 +58,17 @@
     "Escalade ESV": "",
     "Escalade EXT": "",
     "SRX": "",
-    "STS": "",
-    "XLR": ""
+    "STS": ""
   },
   "Chevrolet" : {
     "Avalanche": "",
     "Aveo": "",
-    "Cobalt": "",
+    "Camaro": "",
     "Colorado Crew Cab": "",
     "Colorado Extended Cab": "",
     "Colorado Regular Cab": "",
     "Corvette": "",
+    "Cruze": "",
     "Equinox": "",
     "Express 1500 Cargo": "",
     "Express 1500 Passenger": "",
@@ -91,15 +91,12 @@
     "Suburban 1500": "",
     "Suburban 2500": "",
     "Tahoe": "",
-    "TrailBlazer": "",
-    "Traverse": ""
+    "Traverse": "",
+    "Volt": ""
   },
   "Chrysler" : {
+    "200": "",
     "300": "",
-    "Aspen": "",
-    "Crossfire": "",
-    "PT Cruiser": "",
-    "Sebring": "",
     "Town & Country": ""
   },
   "Dodge" : {
@@ -107,45 +104,31 @@
     "Caliber": "",
     "Challenger":"",
     "Charger": "",
-    "Dakota Club Cab": "",
-    "Dakota Extended Cab": "",
     "Durango": "",
     "Grand Caravan Cargo": "",
     "Grand Caravan Passenger": "",
     "Journey": "",
-    "Nitro": "",
-    "Ram 1500 Mega Cab": "",
-    "Ram 1500 Quad Cab": "",
-    "Ram 1500 Regular Cab": "",
-    "Ram 2500 Mega Cab": "",
-    "Ram 2500 Quad Cab": "",
-    "Ram 2500 Regular Cab": "",
-    "Ram 3500 Mega Cab": "",
-    "Ram 3500 Quad Cab": "",
-    "Ram 3500 Regular Cab": "",
-    "Sprinter 2500 Cargo": "",
-    "Viper": ""
+    "Nitro": ""
   },
   "Ferrari" : {
-    "430 Scuderia": "",
+    "458 Italia": "",
     "599 GTB Fiorano": "",
+    "599 GTO": "",
     "612 Scaglietti": "",
-    "California": "",
-    "F430": ""
+    "California": ""
   },
   "Ford" : {
     "Crown Victoria": "",
     "E150 Cargo": "",
-    "E150 Super Duty Passenger": "",
+    "E150 Passenger": "",
     "E250 Cargo": "",
     "E350 Super Duty Cargo": "",
     "E350 Super Duty Passenger": "",
     "Edge": "",
     "Escape": "",
     "Expedition": "",
-    "Expidition EL": "",
+    "Expedition EL": "",
     "Explorer": "",
-    "Explorer Sport Trac": "",
     "F150 Regular Cab": "",
     "F150 Super Cab": "",
     "F150 SuperCrew Cab": "",
@@ -156,20 +139,22 @@
     "F350 Super Duty Regular Cab": "",
     "F350 Super Duty Super Cab": "",
     "F450 Super Duty Crew Cab": "",
+    "Fiesta": "",
+    "Flex": "",
     "Focus": "",
     "Fusion": "",
     "Mustang": "",
     "Ranger Regular Cab": "",
     "Ranger Super Cab": "",
     "Taurus": "",
-    "Taurus X": ""
+    "Transit Connect Cargo": "",
+    "Transit Connect Passenger": ""
   },
   "GMC" : {
     "Acadia": "",
     "Canyon Crew Cab": "",
     "Canyon Extended Cab": "",
     "Canyon Regular Cab": "",
-    "Envoy": "",
     "Savana 1500 Cargo": "",
     "Savana 1500 Passenger": "",
     "Savana 2500 Cargo": "",
@@ -185,34 +170,33 @@
     "Sierra 3500 HD Crew Cab": "",
     "Sierra 3500 HD Extended Cab": "",
     "Sierra 3500 HD Regular Cab": "",
+    "Terrain": "",
     "Yukon": "",
     "Yukon XL 1500": "",
     "Yukon XL 2500": ""
   },
   "Honda" : {
     "Accord": "",
+    "Accord Crosstour": "",
     "Civic": "",
     "CR-V": "",
+    "CR-Z": "",
     "Element": "",
     "Fit": "",
+    "Insight": "",
     "Odyssey": "",
     "Pilot": "",
-    "Ridgeline": "",
-    "S2000": ""
-  },
-  "Hummer" : {
-    "H2": "",
-    "H3": "",
-    "H3T": ""
+    "Ridgeline": ""
   },
   "Hyundai" : {
     "Accent": "",
     "Azera": "",
     "Elantra": "",
+    "Equus": "",
     "Genesis": "",
+    "Genesis Coupe": "",
     "Santa Fe": "",
     "Sonata": "",
-    "Tiburon": "",
     "Tucson": "",
     "Veracruz": ""
   },
@@ -223,19 +207,12 @@
     "M": "",
     "QX": ""
   },
-  "Isuzu" : {
-    "Ascender": "",
-    "i-280 Extended Cab": "",
-    "i-370 Crew Cab": "",
-    "i-370 Extended Cab": ""
-  },
   "Jaguar" : {
     "XF": "",
     "XJ": "",
     "XK": ""
   },
   "Jeep" : {
-    "Commander": "",
     "Compass": "",
     "Grand Cherokee": "",
     "Liberty": "",
@@ -243,38 +220,38 @@
     "Wrangler": ""
   },
   "Kia" : {
-    "Amanti": "",
+    "Forte": "",
     "Optima": "",
     "Rio": "",
-    "Rondo": "",
     "Sedona": "",
     "Sorento": "",
-    "Spectra": "",
+    "Soul": "",
     "Sportage": ""
   },
   "Lamborghini" : {
-    "Gallardo": "",
-    "Murcielago": ""
+    "Gallardo": ""
   },
   "Land Rover" : {
     "LR2": "",
-    "LR3": "",
+    "LR4": "",
     "Range Rover": "",
     "Range Rover Sport": ""
   },
   "Lexus" : {
+    "CT": "",
     "ES": "",
     "GS": "",
     "GX": "",
+    "HS": "",
     "IS": "",
     "IS F": "",
     "LS": "",
     "LX": "",
-    "RX": "",
-    "SC": ""
+    "RX": ""
   },
   "Lincoln" : {
     "MKS": "",
+    "MKT": "",
     "MKX": "",
     "MKZ": "",
     "Navigator": "",
@@ -283,6 +260,7 @@
   },
   "Lotus" : {
     "Elise": "",
+    "Evora": "",
     "Exige": ""
   },
   "Maserati": {
@@ -294,12 +272,10 @@
     "62": ""
   },
   "Mazda": {
-    "B-Series Extended Cab": "",
-    "B-Series Regular Cab": "",
     "CX-7": "",
     "CX-9": "",
+    "MAZDA2": "",
     "MAZDA3": "",
-    "MAZDA5": "",
     "MAZDA6": "",
     "MX-5 Miata": "",
     "RX-8": "",
@@ -308,41 +284,41 @@
   "Mercedes-Benz": {
     "C-Class": "",
     "CL-Class": "",
-    "CLK-Class": "",
     "CLS-Class": "",
     "E-Class": "",
     "G-Class": "",
     "GL-Class": "",
+    "GLK-Class": "",
     "M-Class": "",
     "R-Class": "",
     "S-Class": "",
     "SL-Class": "",
     "SLK-Class": "",
-    "SLR McLaren": ""
+    "SLS-Class": "",
+    "Sprinter 2500 Cargo": "",
+    "Sprinter 2500 Crew": "",
+    "Sprinter 3500 Cargo": ""
   },
   "Mercury" : {
     "Grand Marquis": "",
     "Mariner": "",
-    "Milan": "",
-    "Montego": "",
-    "Mountaneer": "",
-    "Sable": ""
+    "Milan": ""
   },
   "MINI" : {
     "Clubman": "",
     "Convertible": "",
-    "Cooper": ""
+    "Countryman": "",
+    "Hardtop": ""
   },
   "Mitsubishi" : {
     "Eclipse": "",
+    "Endeavor": "",
     "Galant": "",
     "Lancer": "",
     "Outlander": "",
-    "Raider Double Cab": "",
-    "Raider Extended Cab": ""
+    "Outlander Sport": ""
   },
   "Nissan" : {
-    "350Z": "",
     "370Z": "",
     "Altima": "",
     "Armada": "",
@@ -350,7 +326,10 @@
     "Frontier Crew Cab": "",
     "Frontier King Cab": "",
     "GT-R": "",
+    "JUKE": "",
+    "LEAF": "",
     "Maxima": "",
+    "Murano": "",
     "Pathfinder": "",
     "Quest": "",
     "Rogue": "",
@@ -360,35 +339,33 @@
     "Versa": "",
     "Xterra": ""
   },
-  "Pontiac" : {
-    "G3": "",
-    "G5": "",
-    "G6": "",
-    "G6 (2009_5)": "",
-    "G8": "",
-    "Solstice": "",
-    "Torrent": "",
-    "Vibe": ""
-  },
   "Porsche" : {
     "911": "",
     "Boxter": "",
     "Cayenne": "",
-    "Cayman": ""
+    "Cayman": "",
+    "Panamera": ""
+  },
+  "Ram" : {
+    "1500 Crew Cab": "",
+    "1500 Quad Cab": "",
+    "1500 Regular Cab": "",
+    "2500 Crew Cab": "",
+    "2500 Mega Cab": "",
+    "2500 Regular Cab": "",
+    "3500 Crew Cab": "",
+    "3500 Mega Cab": "",
+    "3500 Regular Cab": "",
+    "Dakota Crew Cab": "",
+    "Dakota Extended Cab": ""
   },
   "Rolls-Royce" : {
     "Phantom": ""
   },
   "Saab" : {
     "9-3": "",
-    "9-5": "",
-    "9-7X": ""
-  },
-  "Saturn" : {
-    "Aura": "",
-    "Outlook": "",
-    "SKY": "",
-    "VUE": ""
+    "9-4X": "",
+    "9-5": ""
   },
   "Scion" : {
     "tC": "",
@@ -409,8 +386,8 @@
     "Equator Crew Cab": "",
     "Equator Extended Cab": "",
     "Grand Vitara": "",
-    "SX4": "",
-    "XL7": ""
+    "Kizashi": "",
+    "SX4": ""
   },
   "Toyota" : {
     "4Runner": "",
@@ -437,12 +414,9 @@
   "Volkswagen" : {
     "CC": "",
     "Eos": "",
-    "GLI": "",
+    "Golf": "",
     "GTI": "",
     "Jetta": "",
-    "New Beetle": "",
-    "Passat": "",
-    "Rabbit": "",
     "Routan": "",
     "Tiguan": "",
     "Touareg 2": ""
@@ -454,7 +428,7 @@
     "S60": "",
     "S80": "",
     "V50": "",
-    "V70": "",
+    "XC60": "",
     "XC70": "",
     "XC90": ""
   }
