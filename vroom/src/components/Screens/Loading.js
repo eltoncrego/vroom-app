@@ -88,9 +88,7 @@ export default class Loading extends Component {
             source={loader_icon}
           />
         </View>
-        <Text style={[STYLE.subheader2, {color: GLOBAL.COLOR.GREEN, paddingTop: 8,}]}>
-          loading
-        </Text>
+        
       </View>
     );
   }
@@ -125,8 +123,8 @@ const styles = StyleSheet.create({
      */
     animations: {
       alignSelf: 'center',
-      height: 64,
-      width: 64,
+      height: 128,
+      width: 128,
     },
 
 });
