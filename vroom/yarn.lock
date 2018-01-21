@@ -215,7 +215,7 @@ arrify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
-art@^0.10.0, art@^0.10.1:
+art@^0.10.0:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/art/-/art-0.10.1.tgz#38541883e399225c5e193ff246e8f157cf7b2146"
 
@@ -3426,12 +3426,12 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-circular-progress@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-circular-progress/-/react-native-circular-progress-0.1.2.tgz#49bf297fe58c1431e08c09bf653d283680abda9f"
+react-native-calendars@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.15.0.tgz#16ddd7350ff7708b9f7ea87d8c8af7257082eb99"
   dependencies:
-    art "^0.10.1"
-    prop-types "^15.6.0"
+    prop-types "^15.5.10"
+    xdate "^0.8.0"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -3453,16 +3453,18 @@ react-native-fade-image@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-native-fade-image/-/react-native-fade-image-1.0.1.tgz#0d23a38276a4b2d2c5457c1e66d5d811a457a8d5"
 
-react-native-fcm@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-10.0.3.tgz#1dc538ed889f90b7a5bc1d0530cc516e69b09e8c"
-
 react-native-firebase@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-3.0.5.tgz#18371ba46b064212af14e308c01462d64a276af1"
   dependencies:
     bows "^1.6.0"
     prop-types "^15.6.0"
+
+react-native-flip-card@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-flip-card/-/react-native-flip-card-3.5.2.tgz#6563f4a6d95b999c21e82deec9b2f502175847d6"
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-material-buttons@^0.5.0:
   version "0.5.0"
@@ -4523,6 +4525,10 @@ xcode@^0.9.1:
     pegjs "^0.10.0"
     simple-plist "^0.2.1"
     uuid "3.0.1"
+
+xdate@^0.8.0:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/xdate/-/xdate-0.8.2.tgz#d7b033c00485d02695baf0044f4eacda3fc961a3"
 
 xml-name-validator@^2.0.1:
   version "2.0.1"

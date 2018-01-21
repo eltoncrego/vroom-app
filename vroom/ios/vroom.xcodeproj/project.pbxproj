@@ -41,7 +41,6 @@
 		2DCD954D1E0B4F2C00145EB5 /* vroomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* vroomTests.m */; };
 		4BABA060ECC7424FB13598AD /* nunito_black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FE59EC551DC4AAA93118E75 /* nunito_black.ttf */; };
 		55DA455AA5499D1C5BF4F9B1 /* libPods-vroomTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B7AA3B6C16482900D7FB34 /* libPods-vroomTests.a */; };
-		570296083ECB435BBC1F1E02 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 979FFA3AADE24C6A95C7A00C /* libRNFIRMessaging.a */; };
 		59065F611FFCA11600EA95E6 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59065F311FFCA0E400EA95E6 /* libART.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		6A70E0D95CCC4A7C95A00B57 /* nunito_blackitalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC06017591A1458EBE398DAE /* nunito_blackitalic.ttf */; };
@@ -347,13 +346,6 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
-		7235A87C2007D49700597213 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 910B2AF4819D41928EEEDC6E /* RNFIRMessaging.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNFIRMessaging;
-		};
 		72A9B71B1FA053EC00903DDA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 889DDCBE86404140946649E2 /* RNFirebase.xcodeproj */;
@@ -448,8 +440,6 @@
 		863A1F37F239D9A32080EFC6 /* Pods-vroom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vroom.release.xcconfig"; path = "Pods/Target Support Files/Pods-vroom/Pods-vroom.release.xcconfig"; sourceTree = "<group>"; };
 		889DDCBE86404140946649E2 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		8C78834E682A4A6A8A05132E /* nunito_light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nunito_light.ttf; path = ../assets/fonts/nunito_light.ttf; sourceTree = "<group>"; };
-		910B2AF4819D41928EEEDC6E /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
-		979FFA3AADE24C6A95C7A00C /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
 		9D9BD0D1C1344E4784AB9982 /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../assets/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		A8F86FC32D214D948DE0E9E1 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../assets/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
 		AA00A2AC1FB84A56858DC852 /* nunito_extrabold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nunito_extrabold.ttf; path = ../assets/fonts/nunito_extrabold.ttf; sourceTree = "<group>"; };
@@ -513,7 +503,6 @@
 				7A66E757B1A84E109B2BD113 /* libLottie.a in Frameworks */,
 				7A19CB071E3344E8BFF4B847 /* libLottieReactNative.a in Frameworks */,
 				AD8613061A0640CEADEACFDC /* libRNSound.a in Frameworks */,
-				570296083ECB435BBC1F1E02 /* libRNFIRMessaging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,20 +717,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7235A8792007D49700597213 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7235A87D2007D49700597213 /* libRNFIRMessaging.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		72A9B6F61FA053E800903DDA /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 				B212F0B5244247C6A3F27FBF /* libRNFirebase.a */,
 				37C977FA9BB04007B0FE59DC /* libRNSound.a */,
-				979FFA3AADE24C6A95C7A00C /* libRNFIRMessaging.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -791,7 +771,6 @@
 				D2F6A3BA4846436793E1D347 /* Lottie.xcodeproj */,
 				01F7F26CAD6F4E2885C54C41 /* LottieReactNative.xcodeproj */,
 				0718574FDDA7438F9E5D2E79 /* RNSound.xcodeproj */,
-				910B2AF4819D41928EEEDC6E /* RNFIRMessaging.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1081,10 +1060,6 @@
 					ProjectRef = 889DDCBE86404140946649E2 /* RNFirebase.xcodeproj */;
 				},
 				{
-					ProductGroup = 7235A8792007D49700597213 /* Products */;
-					ProjectRef = 910B2AF4819D41928EEEDC6E /* RNFIRMessaging.xcodeproj */;
-				},
-				{
 					ProductGroup = 77DA08B11FBB9E86007B1563 /* Products */;
 					ProjectRef = 0718574FDDA7438F9E5D2E79 /* RNSound.xcodeproj */;
 				},
@@ -1364,13 +1339,6 @@
 			fileType = archive.ar;
 			path = libRCTAnimation.a;
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7235A87D2007D49700597213 /* libRNFIRMessaging.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFIRMessaging.a;
-			remoteRef = 7235A87C2007D49700597213 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		72A9B71C1FA053EC00903DDA /* libRNFirebase.a */ = {
@@ -1750,14 +1718,12 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = vroomTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1782,14 +1748,12 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = vroomTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1819,7 +1783,6 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = vroom/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1851,7 +1814,6 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = vroom/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1885,13 +1847,11 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = "vroom-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1926,13 +1886,11 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
-					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 				);
 				INFOPLIST_FILE = "vroom-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1965,7 +1923,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.vroom-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1991,7 +1948,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.vroom-tvOSTests";
