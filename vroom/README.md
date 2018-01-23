@@ -40,4 +40,4 @@ Thats it! Whenever you want to run the application run 'react-native run-android
 		- Ex: a popup told me that I forgot to install the build-tools
 		- KEY: a popup prompted me to set the path for the sdk folder
 
-* Install yarn, as per Connick's directions (if you want to see those, search "directions" in the GitHub repository)	
+* Install yarn, as per Connick's directions (if you want to see those, search "Building the Application for the First Time" in the GitHub repository)	
