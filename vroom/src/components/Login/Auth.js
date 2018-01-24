@@ -15,7 +15,7 @@ import {
 } from "../Navigation/Router";
 
 // Necessary Files
-import Loading from '../Screens/Loading';
+import Loading from '../Screens/Loading.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
 
@@ -275,5 +275,6 @@ export default class Auth extends Component {
           <SignedOut/>
         );
     }
+
   }
 }

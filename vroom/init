@@ -41,6 +41,10 @@ echo "npm install --save react-native-circular-progress";
 npm install --save react-native-circular-progress &&
 echo "success";
 
+echo "npm i --save react-native-fontawesome";
+npm npm i --save react-native-fontawesome &&
+echo "success";
+
 echo "react-native link";
 react-native link &&
 echo "success";

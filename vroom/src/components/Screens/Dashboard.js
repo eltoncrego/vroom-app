@@ -6,7 +6,7 @@
 // Global Requirements
 import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
-STYLE = require('../../global-styles');
+styleguide = require('../../global-styles');
 
 // Components
 import {
@@ -238,6 +238,7 @@ export default class Dashboard extends Component {
           {
             justifyContent: 'flex-start',
             alignItems: 'center',
+            backgroundColor: GLOBAL.COLOR.DARKGRAY,
           }
         ]
       }>
@@ -250,7 +251,7 @@ export default class Dashboard extends Component {
             }
           ]}>
             <View style={[
-              STYLE.card_focused,
+              styleguide.card_focused,
               {
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -299,7 +300,7 @@ export default class Dashboard extends Component {
               }}
             >
               <Text style={[
-                STYLE.title2,
+                styleguide.light_title2,
                 {
                   color: this.state.ring_color,
                 }
@@ -307,7 +308,7 @@ export default class Dashboard extends Component {
                 {this.state.car_name} {this.state.main_prompt}
               </Text>
               <Text style={[
-                STYLE.subheader2,
+                styleguide.dark_subheader2,
                 {
                   width: width - 32,
                   color: GLOBAL.COLOR.WHITE,

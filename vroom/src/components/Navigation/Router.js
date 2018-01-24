@@ -122,12 +122,6 @@ export const TasksScreen = StackNavigator({
  *   should not have a drawer menu here.
  */
 export const SignedUp = DrawerNavigator({
-  Onboarding: {
-    screen: Onboarding,
-    navigationOptions: {
-      drawerLabel: <Hidden/>
-    },
-  },
   Dashboard: {screen: DashboardScreen},
   Tasks: {screen: TasksScreen},
   Settings: {screen: SettingsScreen},
