@@ -236,7 +236,9 @@ export default class Login extends Component {
           topMargin={24}
           autoCapitalize={"none"}
           secureTextEntry={true}
-          onChangeText={(text) => {this.setState({password_verification: text})}}
+          onChangeText={
+            (text) => {this.setState({password_verification: text})}
+          }
           onSubmitEditing={ () => {() => this.signup()}}
         />
       </Animated.View> : null ;
@@ -247,7 +249,8 @@ export default class Login extends Component {
     *   and toggles the sign up link text as such
     */
     var signup_link_text = this.state.sign_up ?
-      "Have an account with us? Sign in!" : "Don't have an account? Sign up!" ;
+      "Have an account with us? Sign in!"
+      : "Don't have an account? Sign up!" ;
 
    /*
     * Author: Elton C. Rego
@@ -263,8 +266,14 @@ export default class Login extends Component {
         styles.container,
       ]}>
         <Animated.View style={{opacity: this.state.fade_animation,}}>
-          <KeyboardAvoidingView style={styles.sign_in_form} behavior="padding">
-            <Text style={styleguide.light_display2}>Sign In<Text style={styleguide.light_display2_accent}>.</Text></Text>
+          <KeyboardAvoidingView
+            style={styles.sign_in_form}
+            behavior="padding"
+          >
+            <Text style={styleguide.light_display2}>
+              Sign In
+              <Text style={styleguide.light_display2_accent}>.</Text>
+            </Text>
             <InputField
               icon={Icons.inbox}
               label={"email"}
@@ -291,20 +300,43 @@ export default class Login extends Component {
               }}
             />
             {pw_confirm_field}
-            <TouchableOpacity><Text style={[styleguide.light_body_secondary, styles.forgot_password_text]}>forgot password?</Text></TouchableOpacity>
-            <Animated.View style={{transform: [{translateX: this.state.shake_animation}]}}>
-               <Button backgroundColor={this.state.button_color} label={"sign in!"} height={64} marginTop={40} shadowColor={this.state.button_color}
-                  onPress={()=>{
-                    if(this.state.sign_up){
-                      this.signup();
-                    } else {
-                      this.signin();
-                    }
-                  }}
-                />
+            <TouchableOpacity>
+              <Text
+                style={[
+                  styleguide.light_body_secondary,
+                  styles.forgot_password_text
+                ]}
+              >forgot password?</Text>
+          </TouchableOpacity>
+            <Animated.View
+              style={
+                {
+                  transform: [{translateX: this.state.shake_animation}]
+                }
+              }>
+               <Button
+                backgroundColor={this.state.button_color}
+                label={"sign in!"}
+                height={64}
+                marginTop={40}
+                shadowColor={this.state.button_color}
+                onPress={()=>{
+                  if(this.state.sign_up){
+                    this.signup();
+                  } else {
+                    this.signin();
+                  }
+                }}
+              />
             </Animated.View>
             <TouchableOpacity onPress={() => this.toggleSignUp()}>
-              <Text style={[styleguide.light_body_secondary,{alignSelf: 'center', paddingTop: 40}]}>
+              <Text style={[
+                styleguide.light_body_secondary,
+                {
+                  alignSelf: 'center',
+                  paddingTop: 40
+                }
+              ]}>
                 {signup_link_text}
               </Text>
             </TouchableOpacity>
