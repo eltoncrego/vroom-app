@@ -12,11 +12,11 @@ STYLE = require('../../global-styles');
 import {
   View,
   StyleSheet,
+  Text,
   StatusBar,
   TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
-import Animation from 'lottie-react-native';
-import loader_icon from '../../../assets/animations/loading.json';
 
 /*
  * Class: Loading
@@ -36,7 +36,6 @@ export default class Loading extends Component {
 
   componentDidMount() {
     console.log("Loading component mounted");
-    this.animation.play();
   }
 
   /*
@@ -68,27 +67,14 @@ export default class Loading extends Component {
    */
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.screen_container}>
         <StatusBar
            barStyle="light-content"
-         />
-        <View style={styles.animations}>
-          <Animation
-            ref={
-              animation => {
-                this.animation = animation;
-              }
-            }
-            style={{
-              width: "100%", 
-              height: "100%",
-            }}
-            loop={true}
-            source={loader_icon}
-          />
+        />
+        <View style={styles.container}>
+          <Text style={STYLE.dark_display2}>Insurance</Text><Text style={STYLE.display2_accent}>.</Text>
         </View>
-        
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -101,29 +87,14 @@ const styles = StyleSheet.create({
     * Purpose: Add style to the navbar button
     *          to stay consistent with project theme
     */
-    container: {
+    screen_container: {
       flex: 1,
-      backgroundColor: GLOBAL.COLOR.DARKGRAY,
+      backgroundColor: GLOBAL.COLOR.RED,
+      justifyContent: 'flex-start',
+    },
+    container:{
+      flex: 1,
       padding: 32,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    loading: {
-      fontFamily: 'Nunito',
-      fontSize: 20,
-      fontWeight: '900',
-      color: GLOBAL.COLOR.GREEN,
-      alignSelf: 'center',
-    },
-    /*
-     * Style: Revi Animations
-     * Author: Elton C. Rego
-     * Purpose: This styles the Revis on each card
-     */
-    animations: {
-      alignSelf: 'center',
-      height: 128,
-      width: 128,
-    },
-
+      alignItems: 'flex-start',
+    }
 });
