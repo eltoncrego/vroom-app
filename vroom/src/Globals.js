@@ -1,12 +1,12 @@
-// Necessary Import 
+// Necessary Import
 'use strict';
 var React = require('react-native');
 var {
   StyleSheet,
 } = React;
 
-import {    
-  Platform,     
+import {
+  Platform,
 } from 'react-native';
 
 // Create Global Colors
