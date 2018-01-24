@@ -229,12 +229,12 @@ export default class Login extends Component {
     */
     var pw_confirm_field = this.state.sign_up ?
       <Animated.View style={{opacity: this.state.field_animation,}}>
-        <InputField 
-          icon={Icons.check} 
-          label={"re-enter password"} 
-          activeColor={GLOBAL.COLOR.GREEN} 
-          topMargin={24} 
-          autoCapitalize={"none"} 
+        <InputField
+          icon={Icons.check}
+          label={"re-enter password"}
+          activeColor={GLOBAL.COLOR.GREEN}
+          topMargin={24}
+          autoCapitalize={"none"}
           secureTextEntry={true}
           onChangeText={(text) => {this.setState({password_verification: text})}}
           onSubmitEditing={ () => {() => this.signup()}}
@@ -265,21 +265,21 @@ export default class Login extends Component {
         <Animated.View style={{opacity: this.state.fade_animation,}}>
           <KeyboardAvoidingView style={styles.sign_in_form} behavior="padding">
             <Text style={styleguide.light_display2}>Sign In<Text style={styleguide.light_display2_accent}>.</Text></Text>
-            <InputField 
-              icon={Icons.inbox} 
-              label={"email"} 
-              activeColor={GLOBAL.COLOR.GREEN} 
-              topMargin={32} 
+            <InputField
+              icon={Icons.inbox}
+              label={"email"}
+              activeColor={GLOBAL.COLOR.GREEN}
+              topMargin={32}
               autoCapitalize={"none"}
               onChangeText={(text) => {this.setState({email: text})}}
               onSubmitEditing={() => this.refs.password_field.focus()}
             />
-            <InputField 
-              icon={Icons.lock} 
-              label={"password"} 
-              activeColor={GLOBAL.COLOR.GREEN} 
-              topMargin={24} 
-              autoCapitalize={"none"} 
+            <InputField
+              icon={Icons.lock}
+              label={"password"}
+              activeColor={GLOBAL.COLOR.GREEN}
+              topMargin={24}
+              autoCapitalize={"none"}
               secureTextEntry={true}
               onChangeText={(text) => {this.setState({password: text})}}
               onSubmitEditing={ () => {
@@ -293,7 +293,7 @@ export default class Login extends Component {
             {pw_confirm_field}
             <TouchableOpacity><Text style={[styleguide.light_body_secondary, styles.forgot_password_text]}>forgot password?</Text></TouchableOpacity>
             <Animated.View style={{transform: [{translateX: this.state.shake_animation}]}}>
-               <Button backgroundColor={this.state.button_color} label={"sign in!"} height={64} marginTop={40} shadowColor={this.state.button_color} 
+               <Button backgroundColor={this.state.button_color} label={"sign in!"} height={64} marginTop={40} shadowColor={this.state.button_color}
                   onPress={()=>{
                     if(this.state.sign_up){
                       this.signup();
