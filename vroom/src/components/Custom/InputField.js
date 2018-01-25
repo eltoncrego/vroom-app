@@ -57,11 +57,11 @@ export class InputField extends Component {
   }
 
   render({
-    icon, 
-    label, 
-    activeColor, 
+    icon,
+    label,
+    activeColor,
     topMargin,
-    autoCapitalize, 
+    autoCapitalize,
     secureTextEntry,
     onChangeText,
     onSubmitEditing,
@@ -73,7 +73,7 @@ export class InputField extends Component {
     return (
       <Animated.View style={[
           styles.container,
-          {   
+          {
             borderColor: a_color,
             marginTop: topMargin,
           }
@@ -81,12 +81,12 @@ export class InputField extends Component {
         <View style={styles.ico_c}>
          <Animated.Text style={[styles.ico, {color: a_color}]}><FontAwesome>{icon}</FontAwesome></Animated.Text>
         </View>
-        <TextInput 
+        <TextInput
           style={[
-            stylesheet.light_body, 
+            stylesheet.light_body,
             styles.input,
-          ]} 
-          placeholder={label} 
+          ]}
+          placeholder={label}
           onFocus={
             () => this.setActive()
           }
