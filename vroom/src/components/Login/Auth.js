@@ -253,7 +253,7 @@ export default class Auth extends Component {
    *   if the state has been checked then load the proper
    */
   render() {
-    
+
     // return <Loading/>;
 
     if (!this.state.checkedSignIn) {

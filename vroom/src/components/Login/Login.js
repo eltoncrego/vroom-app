@@ -37,6 +37,8 @@ export default class Login extends Component {
       button_color: GLOBAL.COLOR.GREEN,
 
       sign_up: false,
+      page_text: "Sign in",
+      button_text: "sign in!",
       email: null,
       password: null,
       password_verification: null,
@@ -58,7 +60,7 @@ export default class Login extends Component {
       this.state.fade_animation,
       {
         toValue: 1,
-        duration: 500,
+        duration: 1000,
       }
     ).start();
   }
@@ -83,6 +85,13 @@ export default class Login extends Component {
     if(this.state.sign_up){
       this.setState({
         field_animation: new Animated.Value(0),
+        page_text: "Sign in",
+        button_text: "sign in!",
+      });
+    } else {
+      this.setState({
+        page_text: "Sign up",
+        button_text: "sign up!",
       });
     }
   }
@@ -271,7 +280,7 @@ export default class Login extends Component {
             behavior="padding"
           >
             <Text style={styleguide.light_display2}>
-              Sign In
+              {this.state.page_text}
               <Text style={styleguide.light_display2_accent}>.</Text>
             </Text>
             <InputField
@@ -316,7 +325,7 @@ export default class Login extends Component {
               }>
                <Button
                 backgroundColor={this.state.button_color}
-                label={"sign in!"}
+                label={this.state.button_text}
                 height={64}
                 marginTop={40}
                 shadowColor={this.state.button_color}
