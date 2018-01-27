@@ -1,0 +1,36 @@
+Sorting Algorithm for Insurance Plans
+
+Acknowledgments: StackOverflow ("sorting an array of JavaScript objects")
+
+If the insurance plans are in an array of JavaScript objects 
+(example: 
+
+var insurancePlans = [
+	{
+		"company": "Esurance",
+		"price": "32",
+		"comprehensive": "true",
+		"collision": "false"
+	}, {
+		"company": "Geico",
+		"price": "20",
+		"comprehensive": "true",
+		"collision:" "true"
+	}, {
+		"company": "USAA",
+		"price": "25",
+		"comprehensive": "false",
+		"collision:" "true"
+	}
+];
+
+)
+
+Then we can call the built-in JavaScript function for sorting arrays, which takes a comparator function (we can write our own lambdas)
+(ex:
+insurancePlans.sort(function(a,b) {
+	return parseFloat(a.price) - parseFloat(b.price);
+});
+)
+
+So if we can take the information from the insurance websites and put it in this format, then it should be quite easy to sort it. Maybe we'll decide that it's less work to write a different sorting algorithm than format the insurance info in this way, but if it is in this format, I think this is how we should sort it.
