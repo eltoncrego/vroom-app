@@ -286,6 +286,8 @@ export default class Login extends Component {
             <InputField
               icon={Icons.inbox}
               label={"email"}
+              labelColor={GLOBAL.COLOR.DARKGRAY}
+              inactiveColor={GLOBAL.COLOR.DARKGRAY}
               activeColor={GLOBAL.COLOR.GREEN}
               topMargin={32}
               autoCapitalize={"none"}
@@ -295,6 +297,8 @@ export default class Login extends Component {
             <InputField
               icon={Icons.lock}
               label={"password"}
+              labelColor={GLOBAL.COLOR.DARKGRAY}
+              inactiveColor={GLOBAL.COLOR.DARKGRAY}
               activeColor={GLOBAL.COLOR.GREEN}
               topMargin={24}
               autoCapitalize={"none"}
