@@ -59,7 +59,9 @@ export class InputField extends Component {
   render({
     icon,
     label,
+    labelColor,
     activeColor,
+    inactiveColor,
     topMargin,
     autoCapitalize,
     secureTextEntry,
@@ -68,7 +70,7 @@ export class InputField extends Component {
   } = this.props) {
     var a_color = this.borderColor.interpolate({
       inputRange: [0, 1],
-      outputRange: ['#253237', activeColor]
+      outputRange: [inactiveColor, activeColor]
     });
     return (
       <Animated.View style={[
@@ -87,6 +89,7 @@ export class InputField extends Component {
             styles.input,
           ]}
           placeholder={label}
+          placeholderTextColor={labelColor}
           onFocus={
             () => this.setActive()
           }
