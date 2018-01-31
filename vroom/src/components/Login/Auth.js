@@ -254,27 +254,27 @@ export default class Auth extends Component {
    */
   render() {
 
-    return <Loading/>;
+    // return <Loading/>;
 
-    // if (!this.state.checkedSignIn) {
-    //   return <Loading/>;
-    // }
-    //
-    // if(this.state.signedIn){
-    //    if(this.state.onboarding){
-    //      return(
-    //       <SignedUp/>
-    //     );
-    //    } else {
-    //      return(
-    //       <SignedIn/>
-    //     );
-    //    }
-    // } else {
-    //    return(
-    //       <SignedOut/>
-    //     );
-    // }
+    if (!this.state.checkedSignIn) {
+      return <Loading/>;
+    }
+
+    if(this.state.signedIn){
+       if(this.state.onboarding){
+         return(
+          <SignedUp/>
+        );
+       } else {
+         return(
+          <SignedIn/>
+        );
+       }
+    } else {
+       return(
+          <SignedOut/>
+        );
+    }
 
   }
 }
