@@ -90,7 +90,7 @@ export default class Dashboard extends Component {
     };
   }
 
-  
+
 
   /*
    * Method: componentDidMount()
@@ -162,7 +162,7 @@ export default class Dashboard extends Component {
     }
 
     var that = this;
-    setTimeout(function(){ 
+    setTimeout(function(){
       that.animation.play();
       Animated.timing(
         that.state.fade_animation,
