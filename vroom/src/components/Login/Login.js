@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   Alert,
   Animated,
+  Modal,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import {Auth} from '.';

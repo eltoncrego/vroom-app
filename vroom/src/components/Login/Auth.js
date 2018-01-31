@@ -15,7 +15,7 @@ import {
 } from "../Navigation/Router";
 
 // Necessary Files
-import Loading from '../Screens/Insurance-2.js';
+import Loading from '../Screens/Loading.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
 
