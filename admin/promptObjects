@@ -55,5 +55,13 @@ module.exports = {
                 required: true
             }
         }
+    },
+    pathProps: {
+        properties: {
+            path: {
+                description: "Please enter the path as a string",
+                required: true
+            }
+        }
     }
 }

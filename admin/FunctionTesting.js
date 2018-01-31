@@ -23,33 +23,30 @@ const config = {
 
 prompt.get(pathProps, function (err, data) {
   var path = data.path;
-
+  console.log("After prompting, path = " + path);
 
   var helloObject = {
-    "hello" : "world"
+    "hello" : "world",
+    "thisIs": "a test"
   }
+
   console.log("==============================");
   console.log("WRITING TO PATH");
-  console.log("here's the data we're writing:");
-  console.log(helloObject);
-  console.log("To path: " + path); 
   writeToPath(path, helloObject);
   console.log("==============================");
 
 
   console.log("==============================");
   console.log("READING FROM PATH");
-  console.log("Reading from path = " + path);
 
   var data = readFromPath(path);
-
+  
   data.then(function(result) {
-    console.log("after promise: " + result);
+    console.log("after promise: " + JSON.stringify(result));
+    console.log(result.hello);
+    console.log(result.thisIs);
   });
 
-
-  console.log("here's the data we've read:");
-  console.log(data);
   // must release the database so Node.js knows there are no more events that can happen
   console.log("Database is going offline");
   admin.database().goOffline();
@@ -68,14 +65,15 @@ prompt.get(pathProps, function (err, data) {
    */
 readFromPath = (path) => {
     console.log("path = " + path);
-    var ref = admin.database().ref(path);
+    var query = admin.database().ref(path);
 
-  ref.once('value').then(function(snapshot){
+  query.once('value')
+    .then(function(snapshot){
     var help = snapshot.exists();
     console.log("Does the snapshot exist? " + help);
   });
 
-  return ref.once('value').then(function(snapshot){
+  return query.once('value').then(function(snapshot){
     console.log("snapshotting");
     return snapshot.val();
   });
