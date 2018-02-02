@@ -20,7 +20,7 @@ import {
   Animated,
   Easing
 } from 'react-native';
-import {Icons} from 'react-native-fontawesome';
+import FontAwesome, {Icons} from 'react-native-fontawesome';
 import {InputField} from './../Custom/InputField'
 import SwipeableList from "./../Custom/SwipeableList";
 
@@ -84,14 +84,27 @@ export default class Loading extends Component {
  * @param: planNum: the number in the list that has been selected
  */
  selectThis(planNum){
-  //change styling to accent
-  this.setActive(planNum);
-  //setInactive(the other two);
+  //change styling to accent, and the other two to non-accent
+  if(planNum == 1){
+    this.setActive(1);
+    this.setInactive(2);
+    this.setInactive(3);
+  }
+  else if(planNum == 2){
+    this.setActive(2);
+    this.setInactive(1);
+    this.setInactive(3);
+  }
+  else if(planNum == 3){
+    this.setActive(3);
+    this.setInactive(1);
+    this.setInactive(2);
+  }
 
   //update selection variable (set planSelected to planNum)
   this.state.planSelected = planNum;
   console.log("planSelected: " + this.state.planSelected);
- } 
+ }
 
 /*
  * Method: accented
@@ -104,7 +117,7 @@ export default class Loading extends Component {
 accented(confirm){
   if(confirm){
     console.log("set plan to accented");
-    return styleguide.light_display2_accent;
+    return styleguide.light_title2_accent;
   }
   else{
     return styleguide.light_title2;
@@ -220,7 +233,7 @@ setActive(i){
            barStyle="light-content"
         />
       <View style={styles.container}>
-
+          <Animated.Text style={[styles.ico, {color: GLOBAL.COLOR.GREEN}]}><FontAwesome>{Icons.checkSquare}</FontAwesome></Animated.Text>
           <Text style={styleguide.light_display2}>
             Insurance
             <Text style={styleguide.light_display2_accent}>.</Text>
@@ -232,19 +245,28 @@ setActive(i){
 
           <TouchableOpacity onPress={() => { this.selectThis(1); }}>
             <View>
-              <Animated.Text style={[styleguide.light_display2, {color: styling1}]}>This will become list #1</Animated.Text>
+              <Animated.Text style={[styleguide.light_title2, {color: styling1}]}>1. [Company Name]</Animated.Text>
+              <Text style={styleguide.light_subheader2_secondary}>At [Company Name], you will pay [price] for your coverage.</Text>
+
+              <Text style={styleguide.light_subheader2}>[Reason for recommending in this slot].</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { this.selectThis(2); }}>
             <View>
-              <Text style={[styleguide.light_display2, {color: styling2}]}>This will become list #2</Text>
+              <Animated.Text style={[styleguide.light_title2, {color: styling2}]}>2. [Company Name]</Animated.Text>
+              <Text style={styleguide.light_subheader2_secondary}>At [Company Name], you will pay [price] for your coverage.</Text>
+              
+              <Text style={styleguide.light_subheader2}>[Reason for recommending in this slot].</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { this.selectThis(3); }}>
             <View>
-              <Text style={[styleguide.light_display2, {color: styling3}]}>This will become list #3</Text>
+              <Animated.Text style={[styleguide.light_title2, {color: styling3}]}>3. [Company Name]</Animated.Text>
+              <Text style={styleguide.light_subheader2_secondary}>At [Company Name], you will pay [price] for your coverage.</Text>
+              
+              <Text style={styleguide.light_subheader2}>[Reason for recommending in this slot].</Text>
             </View>
           </TouchableOpacity>
 
@@ -272,6 +294,9 @@ const styles = StyleSheet.create({
       flex: 1,
       padding: 32,
       alignItems: 'flex-start',
+    },
+    ico: {
+      fontSize: 24,
     },
     list_header: {
       alignItems: 'flex-start',
