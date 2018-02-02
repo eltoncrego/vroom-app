@@ -91,17 +91,48 @@ import {Auth} from '../Login';
   }
 
  /*
-  * Database function: pushTaskTypes()
-  * Author: Payam Katoozian and Will Coates
+  * Database function: writeToPath()
+  * Author: Will Coates and Payam Katoozian
   *
-  * Purpose: push a JSON file with the maintenance task types
-             to the database
+  * Purpose: write a JSON to a specified path in the database
   *
-  * @param: (path) = string: path to place in database
+  * @param: (path) = string: path to location in database
   *         (ob)   = JSON object to be pushed
   * @return: void
   * TODO create error message, update task object fields, add notifications?
   */
   export function pushJSONTask(path, ob) {
+    console.log("writing to path = " + path);
+    console.log("JSON: ");
+    console.log(ob);
     firebaseRef.database().ref(path).set(ob);
+
+  }
+
+  /*
+  * Database function: readFromPath()
+  * Author: Will Coates
+  * 
+  * Purpose: When supplied with a path (string), 
+  *          read the database at that location
+  *          and return a JSON with the stored information
+  * @param: (path) = string: path to database location
+  * @return: JSON containing requested information
+  * TODO: catch invalid path exception
+  *
+  */
+  export function readFromPath(path){
+  console.log("path = " + path);
+  var query = firebaseRef.database().ref(path);
+
+  query.once('value')
+    .then(function(snapshot){
+    var help = snapshot.exists();
+    console.log("Does the snapshot exist? " + help);
+  });
+
+  return query.once('value').then(function(snapshot){
+    console.log("snapshotting");
+    return snapshot.val();
+  });  
   }
