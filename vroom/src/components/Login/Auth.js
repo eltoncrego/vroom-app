@@ -254,7 +254,7 @@ export default class Auth extends Component {
    */
   render() {
 
-    // return <Loading/>;
+    // return <SignedIn/>;
 
     if (!this.state.checkedSignIn) {
       return <Loading/>;

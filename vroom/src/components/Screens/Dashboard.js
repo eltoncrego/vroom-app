@@ -19,7 +19,6 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Animation from 'lottie-react-native';
 
 // Files Needed
@@ -260,29 +259,15 @@ export default class Dashboard extends Component {
                 height: width-32,
               }
             ]}>
-              <AnimatedCircularProgress
-                size={width-96}
-                width={24}
-                fill={this.state.fill}
-                rotation={0}
-                tintColor={this.state.ring_color}
-                backgroundColor={this.state.ring_back_color}
-                //backgroundWidth={32}
-                linecap="round">
-                {
-                  (fill) => (
-                    <View style={[STYLE.revi_animations, {width: width-128, height: width-128,}]}>
-                      <Animation
-                        ref={animation => {this.animation = animation;}}
-                        style={{width: '100%', height: '100%',}}
-                        loop={false}
-                        speed={1}
-                        source={this.state.revi_animation}
-                      />
-                    </View>
-                  )
-                }
-              </AnimatedCircularProgress>
+              <View style={[STYLE.revi_animations, {width: width-128, height: width-128,}]}>
+                  <Animation
+                    ref={animation => {this.animation = animation;}}
+                    style={{width: '100%', height: '100%',}}
+                    loop={false}
+                    speed={1}
+                    source={this.state.revi_animation}
+                  />
+                </View>
             </View>
 
             <Animated.View
