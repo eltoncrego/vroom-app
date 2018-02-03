@@ -242,7 +242,6 @@ export default class Auth extends Component {
 
     // this.render();
   }
-
   /*
    * Method: render()
    * Author: Elton C. Rego
@@ -254,7 +253,8 @@ export default class Auth extends Component {
    */
   render() {
 
-    // return <Loading/>;
+    // return (<Loading/>);
+
 
     if (!this.state.checkedSignIn) {
       return <Loading/>;

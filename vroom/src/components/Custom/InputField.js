@@ -89,7 +89,6 @@ export class InputField extends Component {
             styles.input,
           ]}
           placeholder={label}
-          placeholderTextColor={labelColor}
           onFocus={
             () => this.setActive()
           }
