@@ -54,14 +54,14 @@ export default class Loading extends Component {
       plan3Price: "",
       plan3Blurb: "",
 
-    }; 
+    };
     this.color1 = new Animated.Value(0);
     this.color2 = new Animated.Value(0);
     this.color3 = new Animated.Value(0);
   }
 
-  componentDidMount() {
-    console.log("Insurance Recommendations component mounted");
+  // Moved the data to here so that the user will never see blank items
+  componentWillMount(){
     // fetch data from the database
     // for now, we have dummy variables
     // TODO: actually calculate and fetch data for plans
@@ -78,6 +78,11 @@ export default class Loading extends Component {
     this.state.plan3Company = "Progressive";
     this.state.plan3Price = "$28/mo";
     this.state.plan3Blurb = "Progressive has a plan that fits your needs, but is a bit more expensive than the other options.";
+
+  }
+
+  componentDidMount() {
+    console.log("Insurance Recommendations component mounted");
 
   }
 
@@ -103,7 +108,7 @@ export default class Loading extends Component {
 /*
  * Method: selectThis()
  * Author: Will Coates (with guidance from Elton Rego)
- * 
+ *
  * Purpose: When a plan is selected, change its styling and
  *          record that it has been (temporarily) selected
  * @param: planNum: the number in the list that has been selected
@@ -162,7 +167,7 @@ accented(confirm){
 
   /*
   * Author: Elton C. Rego (modified by Will Coates)
-  * Purpose: When called, changes the styling of Plan i to accented 
+  * Purpose: When called, changes the styling of Plan i to accented
   */
 setActive(i){
       if(i == 1){
@@ -170,7 +175,7 @@ setActive(i){
           this.color1,
           {
           toValue: 1,
-          duration: 300,
+          duration: 200,
           easing: Easing.inout
           }
         ).start();
@@ -180,7 +185,7 @@ setActive(i){
           this.color2,
           {
           toValue: 1,
-          duration: 300,
+          duration: 200,
           easing: Easing.inout
           }
         ).start();
@@ -190,7 +195,7 @@ setActive(i){
           this.color3,
           {
             toValue: 1,
-            duration: 300,
+            duration: 200,
             easing: Easing.inout
           }
         ).start();
@@ -203,7 +208,7 @@ setActive(i){
         this.color1,
         {
           toValue: 0,
-          duration: 300,
+          duration: 200,
           easing: Easing.inout
         }
       ).start();
@@ -213,7 +218,7 @@ setActive(i){
         this.color2,
         {
           toValue: 0,
-          duration: 300,
+          duration: 200,
           easing: Easing.inout
         }
       ).start();
@@ -223,7 +228,7 @@ setActive(i){
         this.color3,
         {
           toValue: 0,
-          duration: 300,
+          duration: 200,
           easing: Easing.inout
         }
       ).start();
@@ -251,14 +256,17 @@ setActive(i){
       inputRange: [0, 1],
       outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.GREEN]
     });
-    
+
     return (
       <SafeAreaView style={styles.screen_container}>
         <StatusBar
            barStyle="light-content"
         />
       <View style={styles.container}>
-          <Animated.Text style={[styles.ico, {color: GLOBAL.COLOR.GREEN}]}><FontAwesome>{Icons.checkSquare}</FontAwesome></Animated.Text>
+
+        <ScrollView>
+
+          <Animated.Text style={[styles.ico, {color: GLOBAL.COLOR.RED}]}><FontAwesome>{Icons.checkSquareO}</FontAwesome></Animated.Text>
           <Text style={styleguide.light_display2}>
             Insurance
             <Text style={styleguide.light_display2_accent}>.</Text>
@@ -266,33 +274,31 @@ setActive(i){
 
           <Text style={styleguide.light_headline_secondary}>Select one of the options below to log it to this car.</Text>
 
-        <ScrollView>
-
           <TouchableOpacity onPress={() => { this.selectThis(1); }}>
-            <View>
+            <Animated.View style={[styles.company_item, {borderBottomColor: styling1}]}>
               <Animated.Text style={[styleguide.light_title2, {color: styling1}]}>1. { this.state.plan1Company }</Animated.Text>
-              <Text style={styleguide.light_subheader2_secondary}>At { this.state.plan1Company }, you will pay { this.state.plan1Price } for your coverage.</Text>
+              <Text style={styleguide.light_subheader_secondary}>At { this.state.plan1Company }, you will pay { this.state.plan1Price } for your coverage.</Text>
 
-              <Text style={styleguide.light_subheader2}>{ this.state.plan1Blurb }</Text>
-            </View>
+              <Text style={[styleguide.light_body, {marginTop: 24}]}>{ this.state.plan1Blurb }</Text>
+            </Animated.View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { this.selectThis(2); }}>
-            <View>
+            <Animated.View style={[styles.company_item, {borderBottomColor: styling2}]}>
               <Animated.Text style={[styleguide.light_title2, {color: styling2}]}>2. { this.state.plan2Company }</Animated.Text>
-              <Text style={styleguide.light_subheader2_secondary}>At { this.state.plan2Company }, you will pay { this.state.plan2Price } for your coverage.</Text>
+              <Text style={styleguide.light_subheader_secondary}>At { this.state.plan2Company }, you will pay { this.state.plan2Price } for your coverage.</Text>
 
-              <Text style={styleguide.light_subheader2}>{ this.state.plan2Blurb }</Text>
-            </View>
+              <Text style={[styleguide.light_body, {marginTop: 24}]}>{ this.state.plan2Blurb }</Text>
+            </Animated.View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { this.selectThis(3); }}>
-            <View>
+            <Animated.View style={[styles.company_item, {borderBottomColor: styling3}]}>
               <Animated.Text style={[styleguide.light_title2, {color: styling3}]}>3. { this.state.plan3Company }</Animated.Text>
-              <Text style={styleguide.light_subheader2_secondary}>At { this.state.plan3Company }, you will pay { this.state.plan3Price } for your coverage.</Text>
+              <Text style={styleguide.light_subheader_secondary}>At { this.state.plan3Company }, you will pay { this.state.plan3Price } for your coverage.</Text>
 
-              <Text style={styleguide.light_subheader2}>{ this.state.plan3Blurb }</Text>
-            </View>
+              <Text style={[styleguide.light_body, {marginTop: 24}]}>{ this.state.plan3Blurb }</Text>
+            </Animated.View>
           </TouchableOpacity>
 
         </ScrollView>
@@ -323,29 +329,10 @@ const styles = StyleSheet.create({
     ico: {
       fontSize: 24,
     },
-    list_header: {
-      alignItems: 'flex-start',
-      marginVertical: 32,
-    },
-    question_item: {
-      marginVertical: 32,
-    },
-    toggles:{
-      width: 297,
-      flex: 1,
-      flexDirection: 'row',
-    },
-    toggle_flex: {
-      flex: 1,
-    },
-    yes_no_button: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderWidth: 2,
-      borderColor: GLOBAL.COLOR.WHITE,
-      borderRadius: 4,
-      padding: 16,
-      margin: 8,
+    company_item: {
+      marginTop: 32,
+      borderBottomWidth: 2,
+      paddingBottom: 4,
     }
 
 });
