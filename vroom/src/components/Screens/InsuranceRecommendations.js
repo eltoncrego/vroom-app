@@ -41,6 +41,19 @@ export default class Loading extends Component {
     super(props);
    this.state = {
       planSelected: 0,
+
+      plan1Company: "",
+      plan1Price: "",
+      plan1Blurb: "",
+
+      plan2Company: "",
+      plan2Price: "",
+      plan2Blurb: "",
+
+      plan3Company: "",
+      plan3Price: "",
+      plan3Blurb: "",
+
     }; 
     this.color1 = new Animated.Value(0);
     this.color2 = new Animated.Value(0);
@@ -50,9 +63,21 @@ export default class Loading extends Component {
   componentDidMount() {
     console.log("Insurance Recommendations component mounted");
     // fetch data from the database
+    // for now, we have dummy variables
+    // TODO: actually calculate and fetch data for plans
 
     // set state variables (which plans are recommended, which plan is selected, etc.)
+    this.state.plan1Company = "Geico";
+    this.state.plan1Price = "$20/mo";
+    this.state.plan1Blurb = "In your case, Geico offers the best liability and comprehensive coverage for the money.";
 
+    this.state.plan2Company = "AAA";
+    this.state.plan2Price = "$25/mo";
+    this.state.plan2Blurb = "Assuming the same coverage, AAA comes in at a close second.";
+
+    this.state.plan3Company = "Progressive";
+    this.state.plan3Price = "$28/mo";
+    this.state.plan3Blurb = "Progressive has a plan that fits your needs, but is a bit more expensive than the other options.";
 
   }
 
@@ -136,8 +161,8 @@ accented(confirm){
  }
 
   /*
-  * Author: Elton C. Rego
-  * Purpose: When called, shakes the button
+  * Author: Elton C. Rego (modified by Will Coates)
+  * Purpose: When called, changes the styling of Plan i to accented 
   */
 setActive(i){
       if(i == 1){
@@ -145,7 +170,7 @@ setActive(i){
           this.color1,
           {
           toValue: 1,
-          duration: 1300,
+          duration: 300,
           easing: Easing.inout
           }
         ).start();
@@ -155,7 +180,7 @@ setActive(i){
           this.color2,
           {
           toValue: 1,
-          duration: 1300,
+          duration: 300,
           easing: Easing.inout
           }
         ).start();
@@ -165,7 +190,7 @@ setActive(i){
           this.color3,
           {
             toValue: 1,
-            duration: 1300,
+            duration: 300,
             easing: Easing.inout
           }
         ).start();
@@ -178,7 +203,7 @@ setActive(i){
         this.color1,
         {
           toValue: 0,
-          duration: 1300,
+          duration: 300,
           easing: Easing.inout
         }
       ).start();
@@ -188,7 +213,7 @@ setActive(i){
         this.color2,
         {
           toValue: 0,
-          duration: 1300,
+          duration: 300,
           easing: Easing.inout
         }
       ).start();
@@ -198,7 +223,7 @@ setActive(i){
         this.color3,
         {
           toValue: 0,
-          duration: 1300,
+          duration: 300,
           easing: Easing.inout
         }
       ).start();
@@ -245,28 +270,28 @@ setActive(i){
 
           <TouchableOpacity onPress={() => { this.selectThis(1); }}>
             <View>
-              <Animated.Text style={[styleguide.light_title2, {color: styling1}]}>1. [Company Name]</Animated.Text>
-              <Text style={styleguide.light_subheader2_secondary}>At [Company Name], you will pay [price] for your coverage.</Text>
+              <Animated.Text style={[styleguide.light_title2, {color: styling1}]}>1. { this.state.plan1Company }</Animated.Text>
+              <Text style={styleguide.light_subheader2_secondary}>At { this.state.plan1Company }, you will pay { this.state.plan1Price } for your coverage.</Text>
 
-              <Text style={styleguide.light_subheader2}>[Reason for recommending in this slot].</Text>
+              <Text style={styleguide.light_subheader2}>{ this.state.plan1Blurb }</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { this.selectThis(2); }}>
             <View>
-              <Animated.Text style={[styleguide.light_title2, {color: styling2}]}>2. [Company Name]</Animated.Text>
-              <Text style={styleguide.light_subheader2_secondary}>At [Company Name], you will pay [price] for your coverage.</Text>
-              
-              <Text style={styleguide.light_subheader2}>[Reason for recommending in this slot].</Text>
+              <Animated.Text style={[styleguide.light_title2, {color: styling2}]}>2. { this.state.plan2Company }</Animated.Text>
+              <Text style={styleguide.light_subheader2_secondary}>At { this.state.plan2Company }, you will pay { this.state.plan2Price } for your coverage.</Text>
+
+              <Text style={styleguide.light_subheader2}>{ this.state.plan2Blurb }</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { this.selectThis(3); }}>
             <View>
-              <Animated.Text style={[styleguide.light_title2, {color: styling3}]}>3. [Company Name]</Animated.Text>
-              <Text style={styleguide.light_subheader2_secondary}>At [Company Name], you will pay [price] for your coverage.</Text>
-              
-              <Text style={styleguide.light_subheader2}>[Reason for recommending in this slot].</Text>
+              <Animated.Text style={[styleguide.light_title2, {color: styling3}]}>3. { this.state.plan3Company }</Animated.Text>
+              <Text style={styleguide.light_subheader2_secondary}>At { this.state.plan3Company }, you will pay { this.state.plan3Price } for your coverage.</Text>
+
+              <Text style={styleguide.light_subheader2}>{ this.state.plan3Blurb }</Text>
             </View>
           </TouchableOpacity>
 
