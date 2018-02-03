@@ -22,6 +22,7 @@ import {Icons} from 'react-native-fontawesome';
 import {Auth} from '.';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
+import {VAlert} from './../Custom/VAlert';
 
 // Necessary Files
 const bg = require('./../../../assets/img/login-bg.jpg')
@@ -356,6 +357,7 @@ export default class Login extends Component {
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </Animated.View>
+        <VAlert/>
       </SafeAreaView>
     );
   }

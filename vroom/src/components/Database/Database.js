@@ -112,8 +112,8 @@ import {Auth} from '../Login';
   /*
   * Database function: readFromPath()
   * Author: Will Coates
-  * 
-  * Purpose: When supplied with a path (string), 
+  *
+  * Purpose: When supplied with a path (string),
   *          read the database at that location
   *          and return a JSON with the stored information
   * @param: (path) = string: path to database location
@@ -134,5 +134,5 @@ import {Auth} from '../Login';
   return query.once('value').then(function(snapshot){
     console.log("snapshotting");
     return snapshot.val();
-  });  
+  });
   }

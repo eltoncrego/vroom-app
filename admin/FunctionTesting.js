@@ -2,19 +2,22 @@ const prompt = require('prompt');
 const admin = require('./index');
 const { contProps, carProps, taskProps, jsonProps, pathProps} = require('./promptObjects');
 
- /*
-  * Firebase Configuration
-  * Author: Alec Felt
-  *
-  */
+/*
+ * Congfiguration: firebase.initializeApp
+ * Author: Alec Felt
+ *   Purpose: Attach our app to our database
+ */
+ // Initialize Firebase
 const config = {
-     apiKey: "AIzaSyAmJxDUilgKOlQDyji9qmMNh2Bb73WcP7U",
-     authDomain: "vroom-d5c0e.firebaseapp.com",
-     databaseURL: "https://vroom-d5c0e.firebaseio.com",
-     projectId: "vroom-d5c0e",
-     storageBucket: "vroom-d5c0e.appspot.com",
-     messagingSenderId: "52629805323"
+   apiKey: "AIzaSyAmJxDUilgKOlQDyji9qmMNh2Bb73WcP7U",
+   authDomain: "vroom-d5c0e.firebaseapp.com",
+   databaseURL: "https://vroom-d5c0e.firebaseio.com",
+   projectId: "vroom-d5c0e",
+   storageBucket: "vroom-d5c0e.appspot.com",
+   messagingSenderId: "52629805323"
 };
+
+
 /*
 *
 * Testing interface to read/write from/to Firebase
@@ -40,7 +43,7 @@ prompt.get(pathProps, function (err, data) {
   console.log("READING FROM PATH");
 
   var data = readFromPath(path);
-  
+
   data.then(function(result) {
     console.log("after promise: " + JSON.stringify(result));
     console.log(result.hello);
@@ -52,7 +55,7 @@ prompt.get(pathProps, function (err, data) {
   admin.database().goOffline();
   console.log("=============================");
 });
- 
+
 
 
   /*
@@ -61,7 +64,7 @@ prompt.get(pathProps, function (err, data) {
    *
    * Purpose: A generic function for reading from our Realtime Database
    * Arguments:
-   *    -path: a string containing the path to read from 
+   *    -path: a string containing the path to read from
    */
 readFromPath = (path) => {
     console.log("path = " + path);
@@ -77,7 +80,7 @@ readFromPath = (path) => {
     console.log("snapshotting");
     return snapshot.val();
   });
-   
+
 }
 
 
@@ -89,13 +92,11 @@ readFromPath = (path) => {
    * Arguments:
    *    -path: a string containing the path to write to
    */
-  
+
   writeToPath = (path, object) => {
     console.log("writing to path = " + path);
     console.log("object: ");
     console.log(object);
 
-    admin.database().ref(path).set(object);
-
+    admin.database().ref(path).push(object);
   }
-  
