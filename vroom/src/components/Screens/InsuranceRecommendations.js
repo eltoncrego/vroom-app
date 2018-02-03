@@ -35,7 +35,15 @@ export default class Loading extends Component {
 
   /*
    * Method: constructor(props)
-   * Author: Elton C. Rego
+   * Author: Will Coates 
+   * State variables:
+   * -planSelected: Which of the recommended plans the user has currently selected.
+   *                Begins at 0, is updated to 1, 2, or 3 depending on which they click.
+   * -plan(n)Company: the company that offers the #(n) recommended insurance plan.
+   *                  Format: "Geico", or "Progressive"
+   * -plan(n)Price:   the price (per month) of the #(n) recommended insurance plan
+   *                  Format: "$X/mo"
+   *  -plan(n)Blurb:  A brief description of the #(n) recommended insurance plan, and why we're recommending it in that slot.
    */
   constructor(props) {
     super(props);
@@ -60,7 +68,7 @@ export default class Loading extends Component {
     this.color3 = new Animated.Value(0);
   }
 
-  // Moved the data to here so that the user will never see blank items
+  // Moved the data from componentDidMount() to componentWillMount() so that the user will never see blank items
   componentWillMount(){
     // fetch data from the database
     // for now, we have dummy variables
@@ -147,9 +155,11 @@ export default class Loading extends Component {
 accented(confirm){
   if(confirm){
     console.log("set plan to accented");
+    // the style(green) for accented
     return styleguide.light_title2_accent;
   }
   else{
+    // the style(dark gray) for unaccented
     return styleguide.light_title2;
   }
 }
@@ -158,7 +168,8 @@ accented(confirm){
  * Author: Will Coates (with guidance from Elton Rego)
  *
  * Purpose: When the user wants to confirm their selected plan,
- *          push that to Firebase
+ *          push that to Firebase (now just console logs)
+ * TODO: push the data for the selected plan to the user in Firebase
  */
  confirmedSelection(planNum){
   console.log("Plan " + planNum + " selection confirmed");
@@ -167,7 +178,7 @@ accented(confirm){
 
   /*
   * Author: Elton C. Rego (modified by Will Coates)
-  * Purpose: When called, changes the styling of Plan i to accented
+  * Purpose: When called, fades the styling of Plan i to accented
   */
 setActive(i){
       if(i == 1){
@@ -201,6 +212,10 @@ setActive(i){
         ).start();
   }
 }
+  /*
+  * Author: Elton C. Rego (modified by Will Coates)
+  * Purpose: When called, fades the styling of Plan i to unaccented 
+  */
 
   setInactive(i){
     if(i == 1){
@@ -243,22 +258,29 @@ setActive(i){
    *
    */
   render() {
+    // the styling for option 1
+    // set up this way to allow fade-in/out
     var styling1 = this.color1.interpolate({
       inputRange: [0, 1],
       outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.GREEN]
     });
-
+    // the styling for option 2 
+    // set up this way to allow fade-in/out
     var styling2 = this.color2.interpolate({
       inputRange: [0, 1],
       outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.GREEN]
     });
+    // the styling for option 2
+    // set up this way to allow fade-in/out
     var styling3 = this.color3.interpolate({
       inputRange: [0, 1],
       outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.GREEN]
     });
 
     return (
+      
       <SafeAreaView style={styles.screen_container}>
+
         <StatusBar
            barStyle="light-content"
         />
