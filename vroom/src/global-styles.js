@@ -381,7 +381,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
-  light_subheader2_sceondary: {
+  light_subheader2_secondary: {
     fontSize: 20,
     fontFamily: Platform.os === 'android' ? 'nunito_black' : 'nunito',
     fontWeight: '900',
