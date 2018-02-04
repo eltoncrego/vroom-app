@@ -15,7 +15,8 @@ import {
 } from "../Navigation/Router";
 
 // Necessary Files
-import Loading from '../Screens/InsuranceRecommendations.js';
+import Loading from '../Screens/Loading.js';
+import Insurance from '../Screens/Insurance-2.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
 
@@ -253,7 +254,7 @@ export default class Auth extends Component {
    */
   render() {
 
-    // return (<Loading/>);
+    // return (<Insurance/>);
 
 
     if (!this.state.checkedSignIn) {

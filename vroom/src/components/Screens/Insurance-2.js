@@ -16,7 +16,8 @@ import {
   StatusBar,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import {InputField} from './../Custom/InputField'
@@ -75,7 +76,7 @@ export default class Loading extends Component {
         <StatusBar
            barStyle="light-content"
         />
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <ScrollView>
           <Text style={styleguide.dark_display2}>
             Insurance
@@ -101,7 +102,8 @@ export default class Loading extends Component {
               <InputField
                 icon={Icons.barChart}
                 label={"Net Worth in Dollars"}
-                labelColor={GLOBAL.COLOR.WHITE}
+                labelColor={"rgba(255,255,255,0.50)"}
+                type={"numeric"}
                 inactiveColor={GLOBAL.COLOR.WHITE}
                 activeColor={GLOBAL.COLOR.GREEN}
                 topMargin={32}
@@ -109,7 +111,7 @@ export default class Loading extends Component {
             </View>
           </View>
         </ScrollView>
-        </View>
+      </KeyboardAvoidingView>
       </SafeAreaView>
     );
   }
@@ -136,10 +138,10 @@ const styles = StyleSheet.create({
     question_item: {
       marginVertical: 32,
     },
-    toggles:{
-      width: 297,
-      flex: 1,
+    toggle:{
       flexDirection: 'row',
+      alignItems: 'flex-start',
+      justifyContent: 'center'
     },
     toggle_flex: {
       flex: 1,
