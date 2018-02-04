@@ -12,7 +12,6 @@ STYLE = require('../../global-styles');
 import {
   View,
   StyleSheet,
-  Text,
   StatusBar,
   TouchableOpacity,
 } from 'react-native';

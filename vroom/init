@@ -37,8 +37,8 @@ echo "npm install --save react-native-material-dropdown";
 npm install --save react-native-material-dropdown &&
 echo "success";
 
-echo "npm install --save react-native-circular-progress";
-npm install --save react-native-circular-progress &&
+echo "npm i --save react-native-fontawesome";
+npm npm i --save react-native-fontawesome &&
 echo "success";
 
 echo "react-native link";
