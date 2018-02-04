@@ -67,6 +67,7 @@ export class InputField extends Component {
     secureTextEntry,
     onChangeText,
     onSubmitEditing,
+    type,
   } = this.props) {
     var a_color = this.borderColor.interpolate({
       inputRange: [0, 1],
@@ -87,8 +88,12 @@ export class InputField extends Component {
           style={[
             stylesheet.light_body,
             styles.input,
+            {color: inactiveColor,}
           ]}
           placeholder={label}
+          placeholderTextColor={labelColor}
+          keyboardType={type}
+          selectionColor={activeColor}
           onFocus={
             () => this.setActive()
           }
