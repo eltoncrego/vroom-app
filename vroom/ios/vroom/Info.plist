@@ -77,6 +77,7 @@
 		<string>nunito_lightitalic.ttf</string>
 		<string>nunito_semibold.ttf</string>
 		<string>nunito_semibolditalic.ttf</string>
+		<string>fontawesome-webfont.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

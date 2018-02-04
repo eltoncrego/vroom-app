@@ -6,7 +6,7 @@
 // Global Requirements
 import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
-STYLE = require('../../global-styles');
+styleguide = require('../../global-styles');
 
 // Components
 import {
@@ -19,7 +19,6 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Animation from 'lottie-react-native';
 
 // Files Needed
@@ -90,7 +89,7 @@ export default class Dashboard extends Component {
     };
   }
 
-  
+
 
   /*
    * Method: componentDidMount()
@@ -162,7 +161,7 @@ export default class Dashboard extends Component {
     }
 
     var that = this;
-    setTimeout(function(){ 
+    setTimeout(function(){
       that.animation.play();
       Animated.timing(
         that.state.fade_animation,
@@ -238,6 +237,7 @@ export default class Dashboard extends Component {
           {
             justifyContent: 'flex-start',
             alignItems: 'center',
+            backgroundColor: GLOBAL.COLOR.DARKGRAY,
           }
         ]
       }>
@@ -250,7 +250,7 @@ export default class Dashboard extends Component {
             }
           ]}>
             <View style={[
-              STYLE.card_focused,
+              styleguide.card_focused,
               {
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -259,29 +259,6 @@ export default class Dashboard extends Component {
                 height: width-32,
               }
             ]}>
-              <AnimatedCircularProgress
-                size={width-96}
-                width={24}
-                fill={this.state.fill}
-                rotation={0}
-                tintColor={this.state.ring_color}
-                backgroundColor={this.state.ring_back_color}
-                //backgroundWidth={32}
-                linecap="round">
-                {
-                  (fill) => (
-                    <View style={[STYLE.revi_animations, {width: width-128, height: width-128,}]}>
-                      <Animation
-                        ref={animation => {this.animation = animation;}}
-                        style={{width: '100%', height: '100%',}}
-                        loop={false}
-                        speed={1}
-                        source={this.state.revi_animation}
-                      />
-                    </View>
-                  )
-                }
-              </AnimatedCircularProgress>
             </View>
 
             <Animated.View
@@ -299,7 +276,7 @@ export default class Dashboard extends Component {
               }}
             >
               <Text style={[
-                STYLE.title2,
+                styleguide.light_title2,
                 {
                   color: this.state.ring_color,
                 }
@@ -307,7 +284,7 @@ export default class Dashboard extends Component {
                 {this.state.car_name} {this.state.main_prompt}
               </Text>
               <Text style={[
-                STYLE.subheader2,
+                styleguide.dark_subheader2,
                 {
                   width: width - 32,
                   color: GLOBAL.COLOR.WHITE,

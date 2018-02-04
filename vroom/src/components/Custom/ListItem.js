@@ -6,7 +6,7 @@
 // Global Requirements
 import React, { PureComponent } from 'react';
 GLOBAL = require('../../Globals');
-STYLE = require('../../global-styles');
+styleguide = require('../../global-styles');
 
 // Components
 import {
@@ -75,10 +75,10 @@ export default class ListItem extends PureComponent {
       <View style={[styles.listItem]}>
         <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
           <View style={styles.absoluteCell}>
-            <Text style={[STYLE.body2, styles.absoluteCellText, {color: GLOBAL.COLOR.WHITE,}]}>done!</Text>
+            <Text style={[styleguide.light_body2, styles.absoluteCellText, {color: GLOBAL.COLOR.WHITE,}]}>done!</Text>
           </View>
           <View style={styles.innerCell}>
-            <Text style={STYLE.subheader2}>
+            <Text style={styleguide.light_subheader2}>
               {this.props.text}
             </Text>
           </View>
