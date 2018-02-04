@@ -16,7 +16,7 @@ import {
 
 // Necessary Files
 import Loading from '../Screens/Loading.js';
-import Insurance from '../Screens/Insurance-2.js';
+import Insurance from '../Screens/Insurance-3.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
 

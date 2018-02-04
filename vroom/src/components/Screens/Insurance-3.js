@@ -18,7 +18,7 @@ import {
 	TouchableOpacity,
 	SafeAreaView
 } from 'react-native';
-import {Icons} from 'react-native-fontawesome';
+import FontAwesome, {Icons} from 'react-native-fontawesome';
 import {InputField} from './../Custom/InputField'
 
 
@@ -39,15 +39,15 @@ export default class InsuranceThree extends Component {
 			infoText: "Sit tight while we get you some quotes."
 		}
 	}
-	
+
 	updateText = () => {
 		this.setState({infoText: "We'll shoot you a notification when we're done."})
 	}
-	
+
 	componentDidMount() {
 		console.log("Insurance-3: InsuranceThree component mounted");
 	}
-	
+
 	/*
 	 * Static: navigationOptions
 	 * Author: Elton C. Rego, Alec Felt
@@ -65,7 +65,7 @@ export default class InsuranceThree extends Component {
 		 */
 		header: null,
 	});
-	
+
 	/*
 	 * Method: render
 	 * Author: Alec Felt (modified by Ryan Cho)
@@ -79,42 +79,82 @@ export default class InsuranceThree extends Component {
 			     <StatusBar
 			        barStyle="light-content"
 			    />
-				<View style={styles.container}>
-			        <ScrollView>
-					    <Text style={styleguide.dark_display2}>
-						    Insurance
-							<Text style={styleguide.dark_display2_accent}>.</Text>
-						</Text>
-						<Text style={styleguide.dark_headline_secondary} onPress ={this.updateText}>{this.state.infoText}</Text>
-						<View style={styles.company_item}>
-						    <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>{Icons.checkSquareO}
-						    <Text style={styleguide.dark_title2}>Geico</Text></Text>
-						</View>
-						<View style={styles.company_item}>
-						    <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>{Icons.checkSquareO}
-						    <Text style={styleguide.dark_title2}>AAA</Text></Text>
-						</View>
-						<View style={styles.company_item}>
-						    <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>{Icons.checkSquareO}
-							<Text style={styleguide.dark_title2}>Progressive</Text></Text>
-						</View>
-						<View style={styles.company_item}>
-						    <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>{Icons.checkSquareO}
-							<Text style={styleguide.dark_title2}>Esurance</Text></Text>
-						</View>
-						<View style={styles.company_item}>
-						    <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>{Icons.checkSquareO}
-							<Text style={styleguide.dark_title2}>USAA</Text></Text>
-						</View>
-						<View style={styles.company_item}>
-						    <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>{Icons.checkSquareO}
-							<Text style={styleguide.dark_title2}>Statefarm</Text></Text>
-						</View>
-                    </ScrollView>
+  				<View style={styles.container}>
+  			    <ScrollView showsVerticalScrollIndicator={"false"}>
+              <View style={{paddingBottom: 32}}>
+                <Text style={styleguide.dark_display2}>
+      					  Insurance
+      						<Text style={styleguide.dark_display2_accent}>.</Text>
+    						</Text>
+    						<Text style={styleguide.dark_headline_secondary} onPress ={this.updateText}>
+                  {this.state.infoText}
+                </Text>
+              </View>
+  						<View style={styles.company_item}>
+                <View style={{marginRight: 8, opacity: 0.5,}}>
+                  <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>
+                    <FontAwesome>{Icons.checkSquareO}</FontAwesome>
+                  </Text>
                 </View>
-            </SafeAreaView>
-        );
-    }
+						    <Text style={[styleguide.dark_title2_secondary]}>
+                  Geico
+                </Text>
+  						</View>
+              <View style={styles.company_item}>
+                <View style={{marginRight: 8, opacity: 0.5,}}>
+                  <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>
+                    <FontAwesome>{Icons.checkSquareO}</FontAwesome>
+                  </Text>
+                </View>
+						    <Text style={[styleguide.dark_title2_secondary]}>
+                  AAA
+                </Text>
+  						</View>
+              <View style={styles.company_item}>
+                <View style={{marginRight: 8, opacity: 0.5,}}>
+                  <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>
+                    <FontAwesome>{Icons.checkSquareO}</FontAwesome>
+                  </Text>
+                </View>
+						    <Text style={[styleguide.dark_title2_secondary]}>
+                  Progressive
+                </Text>
+  						</View>
+              <View style={styles.company_item}>
+                <View style={{marginRight: 8, opacity: 0.5,}}>
+                  <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>
+                    <FontAwesome>{Icons.checkSquareO}</FontAwesome>
+                  </Text>
+                </View>
+						    <Text style={[styleguide.dark_title2_secondary]}>
+                  Esurance
+                </Text>
+  						</View>
+              <View style={styles.company_item}>
+                <View style={{marginRight: 8, opacity: 0.5,}}>
+                  <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>
+                    <FontAwesome>{Icons.checkSquareO}</FontAwesome>
+                  </Text>
+                </View>
+						    <Text style={[styleguide.dark_title2_secondary]}>
+                  USAA
+                </Text>
+  						</View>
+              <View style={styles.company_item}>
+                <View style={{marginRight: 8, opacity: 0.5,}}>
+                  <Text style={[styles.icon, {color: GLOBAL.COLOR.WHITE}]}>
+                    <FontAwesome>{Icons.checkSquareO}</FontAwesome>
+                  </Text>
+                </View>
+						    <Text style={[styleguide.dark_title2_secondary]}>
+                  Statefarm
+                </Text>
+  						</View>
+            </ScrollView>
+          </View>
+        </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -136,9 +176,11 @@ const styles = StyleSheet.create({
 	},
 	company_item: {
 		marginVertical: 12,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
 	},
 	icon: {
-      fontSize: 24,
-	  paddingRight: 4
-    },
+    fontSize: 24,
+  },
 });
