@@ -4,8 +4,8 @@ var {
   StyleSheet,
 } = React;
 
-import {    
-  Platform,     
+import {
+  Platform,
 } from 'react-native';
 
 module.exports = StyleSheet.create({
@@ -327,7 +327,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
-  dark_title2_sceondary: {
+  dark_title2_secondary: {
     fontSize: 25,
     fontFamily: Platform.os === 'android' ? 'nunito_black' : 'nunito',
     fontWeight: '900',
