@@ -243,8 +243,10 @@ export default class Login extends Component {
         <InputField
           icon={Icons.check}
           label={"re-enter password"}
+          labelColor={"rgba(37,50,55,0.5)"}
+          inactiveColor={GLOBAL.COLOR.DARKGRAY}
           activeColor={GLOBAL.COLOR.GREEN}
-          topMargin={24}
+          topMargin={32}
           autoCapitalize={"none"}
           secureTextEntry={true}
           onChangeText={
@@ -288,7 +290,7 @@ export default class Login extends Component {
             <InputField
               icon={Icons.inbox}
               label={"email"}
-              labelColor={GLOBAL.COLOR.DARKGRAY}
+              labelColor={"rgba(37,50,55,0.5)"}
               inactiveColor={GLOBAL.COLOR.DARKGRAY}
               activeColor={GLOBAL.COLOR.GREEN}
               topMargin={32}
@@ -299,7 +301,7 @@ export default class Login extends Component {
             <InputField
               icon={Icons.lock}
               label={"password"}
-              labelColor={GLOBAL.COLOR.DARKGRAY}
+              labelColor={"rgba(37,50,55,0.5)"}
               inactiveColor={GLOBAL.COLOR.DARKGRAY}
               activeColor={GLOBAL.COLOR.GREEN}
               topMargin={24}
