@@ -1,6 +1,19 @@
+/*
+ * Import all the necessary components for this page.
+ * Please delete components that aren't used.
+ */
+
+// Components
 import { AppRegistry } from 'react-native';
-import App from './App';
+import Auth from "./src/components/Login/Auth";
+import App from "./App"
 
-import * as firebase from 'firebase';
 
-AppRegistry.registerComponent('vroom', () => App);
+/*
+ * Method: AppRegistry.registerComponent
+ * Author: Revi Team
+ * Purpose: Pushes the authentication calss onto the view
+ *   Index.js is called before anything else in the application
+ *   this file is the parent of the entire application
+ */
+AppRegistry.registerComponent('vroom', () => Auth);
