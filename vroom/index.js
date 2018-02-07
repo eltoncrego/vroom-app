@@ -6,7 +6,6 @@
 // Components
 import { AppRegistry } from 'react-native';
 import Auth from "./src/components/Login/Auth";
-import App from "./App"
 
 
 /*
