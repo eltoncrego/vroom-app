@@ -201,12 +201,6 @@ export default class Settings extends Component {
         >
           Settings
         </Text>
-        <Text style={styles.settings_title}>
-          Notification Timeframe
-        </Text>
-        <Text style={styles.settings_text}>
-          How far in advance would you like to recieve notifications?
-        </Text>
         {reAuth}
         <TouchableOpacity
           style={styles.buttonContainer}
