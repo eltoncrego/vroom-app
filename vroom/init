@@ -15,7 +15,7 @@ echo "DEV ENVIROMENT INITIALIZATION SUCCESS";
 
 
 echo "=======================================";
-YOU ARE NOT DONE. YOU STILL HAVE A COUPLE
+echo "YOU ARE NOT DONE. YOU STILL HAVE A COUPLE
 THINGS TO DO MANUALLY
 
 On Mac
@@ -28,4 +28,4 @@ On Mac
   vroom > Libraries > Lottie.xcodeproj > Products
 7. Select Add
 
-Now you can  build!!
+Now you can  build!!";
