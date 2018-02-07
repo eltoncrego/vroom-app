@@ -1,5 +1,5 @@
 import {firebaseRef} from "./Database";
-import {Auth} from '../Login';
+import Auth from '../Login/Auth';
 
 /*
 * Database function: getTaskDates()

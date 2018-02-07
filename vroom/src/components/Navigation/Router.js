@@ -22,10 +22,8 @@ import {
 
 // Necessary Files
 import Login from '../Login/Login';
-import Onboarding from '../Screens/Onboarding';
 import Dashboard from '../Screens/Dashboard';
 import Settings from '../Screens/Settings';
-import Tasks from '../Screens/Tasks';
 
 /*
  * Constant: DrawerContent
@@ -83,16 +81,6 @@ export const DashboardScreen = StackNavigator({
 });
 
 /*
- * Constant: OnboardingScreen
- * Author: Elton C. Rego
- * Purpose: Handles the stack navigator component for the onboarding
- *   allows us to have a nav bar with the drawer navigator
- */
-export const OnboardingScreen = StackNavigator({
-  Onboarding: {screen: Onboarding},
-});
-
-/*
  * Constant: SettingsScreen
  * Author: Elton C. Rego
  * Purpose: Handles the stack navigator component for the settings
@@ -100,16 +88,6 @@ export const OnboardingScreen = StackNavigator({
  */
 export const SettingsScreen = StackNavigator({
   Settings: {screen: Settings},
-});
-
-/*
- * Constant: TasksScreen
- * Author: Elton C. Rego
- * Purpose: Handles the stack navigator component for the tasks 
- *   allows us to have a nav bar with the drawer navigator
- */
-export const TasksScreen = StackNavigator({
-  Tasks: {screen: Tasks},
 });
 
 /*
@@ -123,7 +101,6 @@ export const TasksScreen = StackNavigator({
  */
 export const SignedUp = DrawerNavigator({
   Dashboard: {screen: DashboardScreen},
-  Tasks: {screen: TasksScreen},
   Settings: {screen: SettingsScreen},
 },{
   drawerOpenRoute: 'DrawerOpen',
@@ -156,7 +133,6 @@ export const SignedUp = DrawerNavigator({
  */
 export const SignedIn = DrawerNavigator({
   Dashboard: {screen: DashboardScreen},
-  Tasks: {screen: TasksScreen},
   Settings: {screen: SettingsScreen},
 },{
   drawerOpenRoute: 'DrawerOpen',

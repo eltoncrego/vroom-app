@@ -26,7 +26,6 @@ import {Auth} from "../Login";
 import {goTo, clearNavStack} from "../Navigation/Navigation";
 import SignedOut from '../Navigation/Router';
 import {firebaseRef} from '../Database/Database';
-import {getTaskDates, getTaskByDate} from '../Database/Calendar';
 import SwipeableList from "./../Custom/SwipeableList";
 
 // Animations

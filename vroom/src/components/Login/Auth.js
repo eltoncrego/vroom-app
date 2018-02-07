@@ -16,7 +16,6 @@ import {
 
 // Necessary Files
 import Loading from '../Screens/Loading.js';
-import Insurance from '../Screens/Insurance-3.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
 
@@ -253,8 +252,6 @@ export default class Auth extends Component {
    *   if the state has been checked then load the proper
    */
   render() {
-
-    // return (<Insurance/>);
 
 
     if (!this.state.checkedSignIn) {
