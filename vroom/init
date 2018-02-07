@@ -1,0 +1,13 @@
+echo "STARTING DEV ENVIRONMENT INITIALIZATION";
+echo "=======================================";
+
+echo "npm install";
+npm install &&
+echo "success";
+
+echo "react-native link";
+react-native link &&
+echo "success";
+
+echo "=======================================";
+echo "DEV ENVIROMENT INITIALIZATION SUCCESS";
