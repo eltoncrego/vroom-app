@@ -11,3 +11,21 @@ echo "success";
 
 echo "=======================================";
 echo "DEV ENVIROMENT INITIALIZATION SUCCESS";
+
+
+
+echo "=======================================";
+YOU ARE NOT DONE. YOU STILL HAVE A COUPLE
+THINGS TO DO MANUALLY
+
+On Mac
+1. Open Project in XCode
+2. Click on vroom at the top level of the file manager
+3. Click on the general tab
+4. Scroll down to Embedded Binaries Section
+5. Click + button
+6. Select Lottie.framework iOS from
+  vroom > Libraries > Lottie.xcodeproj > Products
+7. Select Add
+
+Now you can  build!!
