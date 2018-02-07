@@ -24,7 +24,24 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 	<key>NSAppTransportSecurity</key>
+	<!--See http://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/ -->
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
@@ -35,59 +52,5 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Nunito-Bold.ttf</string>
-		<string>Nunito-BoldItalic.ttf</string>
-		<string>Nunito-Italic.ttf</string>
-		<string>Nunito-Light.ttf</string>
-		<string>Nunito-LightItalic.ttf</string>
-		<string>Nunito-Regular.ttf</string>
-		<string>Nunito-Black.ttf</string>
-		<string>Nunito-BlackItalic.ttf</string>
-		<string>Nunito-ExtraBold.ttf</string>
-		<string>Nunito-ExtraBoldItalic.ttf</string>
-		<string>Nunito-ExtraLight.ttf</string>
-		<string>Nunito-ExtraLightItalic.ttf</string>
-		<string>Nunito-SemiBold.ttf</string>
-		<string>Nunito-SemiBoldItalic.ttf</string>
-		<string>nunito_black_italic.ttf</string>
-		<string>nunito_black.ttf</string>
-		<string>nunito_bold_italic.ttf</string>
-		<string>nunito_extra_bold.ttf</string>
-		<string>nunito_extra_light_italic.ttf</string>
-		<string>nunito_extra_light.ttf</string>
-		<string>nunito_italic.ttf</string>
-		<string>nunito_light.ttf</string>
-		<string>nunito_regular.ttf</string>
-		<string>nunito_semi_bold_italic.ttf</string>
-		<string>nunito_semi_bold.ttf</string>
-		<string>nunito-bold.ttf</string>
-		<string>nunito-extra_bold_italic.ttf</string>
-		<string>nunito-light_italic.ttf</string>
-		<string>nunito_blackitalic.ttf</string>
-		<string>nunito_bold.ttf</string>
-		<string>nunito_bolditalic.ttf</string>
-		<string>nunito_extrabold.ttf</string>
-		<string>nunito_extrabolditalic.ttf</string>
-		<string>nunito_extralight.ttf</string>
-		<string>nunito_extralightitalic.ttf</string>
-		<string>nunito_lightitalic.ttf</string>
-		<string>nunito_semibold.ttf</string>
-		<string>nunito_semibolditalic.ttf</string>
-		<string>fontawesome-webfont.ttf</string>
-	</array>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 </dict>
 </plist>
