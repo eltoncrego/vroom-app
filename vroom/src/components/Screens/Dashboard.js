@@ -16,6 +16,7 @@ import {
   Dimensions,
   SafeAreaView,
   Text,
+  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -41,7 +42,7 @@ export default class Dashboard extends Component {
 
   render(){
     return(
-      <SafeAreaView style={
+      <View style={
         [styleguide.container,
         {
           justifyContent: 'flex-start',
@@ -55,8 +56,15 @@ export default class Dashboard extends Component {
           <TouchableOpacity><Text style={styleguide.dark_subheader2}><FontAwesome>{Icons.plus}</FontAwesome></Text></TouchableOpacity>
         </View>
         <View style={styles.content}>
+            <View style={[styles.card,
+                {
+                  transform: [{
+                    translateY: 250,
+                  }]
+                }]}>
+            </View>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -68,12 +76,25 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingHorizontal: 32,
+    paddingTop: 32,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   content: {
     flex: 10,
+    flexDirection:'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  scroll: {
+    flex: 1,
+
+  },
+  card: {
+    height: 812,
+    width: 375,
+    backgroundColor: GLOBAL.COLOR.WHITE,
   },
   ico: {
     fontSize: 24,
