@@ -23,7 +23,7 @@ export default class SwipeableList extends Component {
     this.setScrollEnabled = this.setScrollEnabled.bind(this);
 
     this.state = {
-      enable: true,
+      enable: this.props.enable,
       data: this.props.data,
     };
   }
