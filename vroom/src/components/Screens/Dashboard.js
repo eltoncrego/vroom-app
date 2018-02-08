@@ -16,7 +16,6 @@ import {
   Dimensions,
   SafeAreaView,
   Text,
-  ScrollView,
   TouchableOpacity,
   PanResponder,
   Animated
@@ -54,13 +53,13 @@ export default class Dashboard extends Component {
       onPanResponderMove: (e, {dy}) => {
         // put animation code here
         this.setState({scrollEnable: false});
-        if((dy < -32) && this.state.cardState == 1){
+        if((dy < -16) && this.state.cardState == 1){
           Animated.spring(
             this.state.translation,
             { toValue: 0, friction: 6}
           ).start();
           this.setState({cardState: 0, scrollEnable: true,});
-        } else if ((dy >= 32) && this.state.cardState == 0) {
+        } else if ((dy >= 16) && this.state.cardState == 0) {
           Animated.spring(
             this.state.translation,
             { toValue: 1, friction: 6}
@@ -75,7 +74,7 @@ export default class Dashboard extends Component {
 
     var cardTranslation = this.state.translation.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 250]
+      outputRange: [-250, 0]
     });
 
    // Calculate the x and y transform from the pan value
@@ -88,8 +87,6 @@ export default class Dashboard extends Component {
       <View style={
         [styleguide.container,
         {
-          justifyContent: 'flex-start',
-          alignItems: 'center',
           backgroundColor: GLOBAL.COLOR.DARKGRAY,
         }]
       }>
@@ -99,10 +96,14 @@ export default class Dashboard extends Component {
           <TouchableOpacity><Text style={styleguide.dark_subheader2}><FontAwesome>{Icons.plus}</FontAwesome></Text></TouchableOpacity>
         </View>
         <View style={styles.content}>
-            <Animated.View {...this._panResponder.panHandlers} style={[
-                styles.card,
-                transformList,]}>
-            </Animated.View>
+          <View style={styles.graph}>
+          </View>
+          <Animated.View {...this._panResponder.panHandlers}
+            style={[
+              styles.card,
+              transformList,]
+            }>
+          </Animated.View>
         </View>
       </View>
     );
@@ -123,18 +124,19 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 10,
-    flexDirection:'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
-  scroll: {
-    flex: 1,
-
+  graph:{
+    zIndex: 0,
+    width: '100%',
+    height: 250,
   },
   card: {
     height: 812,
-    width: 375,
+    width: '100%',
     backgroundColor: GLOBAL.COLOR.WHITE,
+    zIndex: 1,
   },
   ico: {
     fontSize: 24,
