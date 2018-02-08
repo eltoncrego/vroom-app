@@ -1,7 +1,7 @@
 import React from 'react';
 import {goTo, clearNavStack} from '../Navigation/Navigation';
 import * as firebase from 'firebase';
-import {Auth} from '../Login';
+import Auth from '../Authentication/Auth';
 
   /*
    * Congfiguration: firebase.initializeApp

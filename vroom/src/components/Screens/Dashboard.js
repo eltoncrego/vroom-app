@@ -12,8 +12,6 @@ styleguide = require('../../global-styles');
 import {
   View,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   StatusBar,
   Dimensions,
   SafeAreaView,
@@ -38,45 +36,6 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
-
-  /*
-   * Static: navigationOptions
-   * Author: Elton C. Rego, Alec Felt
-   *
-   * Purpose: To set the navigation bar options for this page
-   */
-  static navigationOptions = ({navigation, screenProps}) => {
-
-      return{
-        /*
-         * navigationOptions: headerStyle, headerRight
-         * Author: Elton C. Rego, Alec Felt
-         *
-         * Purpose: Add color/font to navbar
-         *          Add button on headerRight for navigation
-         *          options in the future
-         */
-        headerStyle: {
-          backgroundColor: GLOBAL.COLOR.DARKGRAY,
-        },
-
-        title: (<Text ref={"headerTitle"} style={styles.header_middle}>Dashboard</Text>),
-
-        headerRight: (
-          <TouchableOpacity onPress={() => { Auth.logOut(); }}>
-            <Text style={styles.button_header}>Sign Out</Text>
-          </TouchableOpacity>
-        ),
-
-        headerLeft: (
-            <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} style={styles.button}>
-              <Text style={styles.menu}>Menu</Text>
-            </TouchableOpacity>
-        ),
-      }
-
-  }
-
 
   render(){
     return(

@@ -19,7 +19,7 @@ import {
   Modal,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
-import {Auth} from '.';
+import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import {VAlert} from './../Custom/VAlert';
