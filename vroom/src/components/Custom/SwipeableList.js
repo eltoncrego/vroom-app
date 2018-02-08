@@ -8,22 +8,14 @@ import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
 STYLE = require('../../global-styles');
 
-// Components
 import {
   FlatList,
   StyleSheet,
-  View} 
-from 'react-native';
+  View
+} from 'react-native';
 import ListItem from './ListItem';
 
-/*
- * Class: SwipeableList
- * Author: Elton C.  Rego
- *
- * Purpose: Takes in an array of items and displays a swipe-to-delete list
- */
 export default class SwipeableList extends Component {
-
   constructor(props) {
     super(props);
     this.renderSeparator = this.renderSeparator.bind(this);
@@ -33,7 +25,6 @@ export default class SwipeableList extends Component {
     this.state = {
       enable: true,
       data: this.props.data,
-      border_color: this.props.borderColor,
     };
   }
 
@@ -83,11 +74,11 @@ export default class SwipeableList extends Component {
 
 const styles = StyleSheet.create({
   separatorViewStyle: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#FFF',
   },
   separatorStyle: {
-    height: 4,
-    backgroundColor: GLOBAL.COLOR.DARKGRAY,
+    height: 1,
+    backgroundColor: '#000',
   },
 });
