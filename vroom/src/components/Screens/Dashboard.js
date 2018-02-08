@@ -54,13 +54,13 @@ export default class Dashboard extends Component {
 
       onPanResponderMove: (e, {dy}) => {
         // put animation code here
-        if((dy < 30) && this.state.cardState == 1){
+        if((dy < -16) && this.state.cardState == 1){
           Animated.spring(
             this.state.translation,
             { toValue: 0, friction: 6}
           ).start();
           this.setState({cardState: 0});
-        } else if ((dy >= 30) && this.state.cardState == 0) {
+        } else if ((dy >= 16) && this.state.cardState == 0) {
           Animated.spring(
             this.state.translation,
             { toValue: 1, friction: 6}
