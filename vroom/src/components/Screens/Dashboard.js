@@ -18,11 +18,13 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  ListView,
   PanResponder,
   Animated
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+
+// Custom components
+import SwipeableList from './../Custom/SwipeableList';
 
 /*
  * Class: Dashboard
@@ -44,6 +46,21 @@ export default class Dashboard extends Component {
     this.state = {
       translation: new Animated.Value(1),
       cardState: 1,
+      textTaskArr: [
+        {key: '1. Sample Task'},
+        {key: '2. Sample Task'},
+        {key: '3. Sample Task'},
+        {key: '4. Sample Task'},
+        {key: '5. Sample Task'},
+        {key: '6. Sample Task'},
+        {key: '7. Sample Task'},
+        {key: '8. Sample Task'},
+        {key: '9. Sample Task'},
+        {key: '10. Sample Task'},
+        {key: '11. Sample Task'},
+        {key: '12. Sample Task'},
+        {key: '13. Sample Task'},
+      ],
     };
   }
 
@@ -102,6 +119,9 @@ export default class Dashboard extends Component {
             <Animated.View {...this._panResponder.panHandlers} style={[
                 styles.card,
                 transformList,]}>
+                <SwipeableList
+                  data={this.state.textTaskArr}
+                />
             </Animated.View>
         </View>
       </View>
@@ -117,7 +137,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 32,
     paddingTop: 32,
-    paddingBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

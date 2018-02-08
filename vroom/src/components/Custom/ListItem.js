@@ -10,17 +10,18 @@ styleguide = require('../../global-styles');
 
 // Components
 import {
-  View, 
-  Text, 
-  StyleSheet, 
-  Animated, 
-  Dimensions, 
+  View,
+  Text,
+  StyleSheet,
+  Animated,
+  Dimensions,
   PanResponder
 } from 'react-native';
 
 const {width} = Dimensions.get('window');
 
 export default class ListItem extends PureComponent {
+
   constructor(props) {
     super(props);
 
@@ -72,18 +73,21 @@ export default class ListItem extends PureComponent {
 
   render() {
     return (
-      <View style={[styles.listItem]}>
-        <Animated.View style={[this.state.position.getLayout()]} {...this.panResponder.panHandlers}>
-          <View style={styles.absoluteCell}>
-            <Text style={[styleguide.light_body2, styles.absoluteCellText, {color: GLOBAL.COLOR.WHITE,}]}>done!</Text>
-          </View>
-          <View style={styles.innerCell}>
-            <Text style={styleguide.light_subheader2}>
-              {this.props.text}
-            </Text>
-          </View>
-        </Animated.View>
-      </View>
+      <View style={styles.listItem}>
+      <Animated.View
+        style={[this.state.position.getLayout()]}
+        {...this.panResponder.panHandlers}
+      >
+        <View style={styles.absoluteCell}>
+          <Text style={styles.absoluteCellText}>DELETE</Text>
+        </View>
+        <View style={styles.innerCell}>
+          <Text>
+            {this.props.text}
+          </Text>
+        </View>
+      </Animated.View>
+    </View>
     );
   }
 }
@@ -91,9 +95,9 @@ export default class ListItem extends PureComponent {
 const styles = StyleSheet.create({
   listItem: {
     height: 80,
-    marginLeft: -120,
+    marginLeft: -100,
     justifyContent: 'center',
-    backgroundColor: GLOBAL.COLOR.GREEN,
+    backgroundColor: 'red',
   },
 
   absoluteCell: {
@@ -114,10 +118,10 @@ const styles = StyleSheet.create({
   innerCell: {
     width: width,
     height: 80,
-    marginLeft: 120,
+    marginLeft: 100,
     backgroundColor: GLOBAL.COLOR.WHITE,
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    alignItems: 'center',
   },
 
 });
