@@ -11,7 +11,6 @@ GLOBAL = require('../../Globals');
 import {
   SignedOut,
   SignedIn,
-  SignedUp,
 } from "../Navigation/Router";
 
 // Necessary Files
@@ -259,19 +258,9 @@ export default class Auth extends Component {
     }
 
     if(this.state.signedIn){
-       if(this.state.onboarding){
-         return(
-          <SignedUp/>
-        );
-       } else {
-         return(
-          <SignedIn/>
-        );
-       }
+       return(<SignedIn/>);
     } else {
-       return(
-          <SignedOut/>
-        );
+       return(<SignedOut/>);
     }
 
   }
