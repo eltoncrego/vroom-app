@@ -18,6 +18,9 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  ListView,
+  PanResponder,
+  Animated
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -38,9 +41,49 @@ export default class Dashboard extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      translation: new Animated.Value(1),
+      cardState: 1,
+    };
+  }
+
+  componentWillMount() {
+    this._panResponder = PanResponder.create({
+      onMoveShouldSetResponderCapture: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
+
+      onPanResponderMove: (e, {dy}) => {
+        // put animation code here
+        if((dy < 30) && this.state.cardState == 1){
+          Animated.spring(
+            this.state.translation,
+            { toValue: 0, friction: 6}
+          ).start();
+          this.setState({cardState: 0});
+        } else if ((dy >= 30) && this.state.cardState == 0) {
+          Animated.spring(
+            this.state.translation,
+            { toValue: 1, friction: 6}
+          ).start();
+          this.setState({cardState: 1});
+        }
+      }
+    });
   }
 
   render(){
+
+    var cardTranslation = this.state.translation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 250]
+    });
+
+   // Calculate the x and y transform from the pan value
+   let [translateY] = [cardTranslation];
+
+   // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
+   let transformList = {transform: [{translateY}]};
+
     return(
       <View style={
         [styleguide.container,
@@ -56,13 +99,10 @@ export default class Dashboard extends Component {
           <TouchableOpacity><Text style={styleguide.dark_subheader2}><FontAwesome>{Icons.plus}</FontAwesome></Text></TouchableOpacity>
         </View>
         <View style={styles.content}>
-            <View style={[styles.card,
-                {
-                  transform: [{
-                    translateY: 250,
-                  }]
-                }]}>
-            </View>
+            <Animated.View {...this._panResponder.panHandlers} style={[
+                styles.card,
+                transformList,]}>
+            </Animated.View>
         </View>
       </View>
     );
@@ -77,6 +117,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 32,
     paddingTop: 32,
+    paddingBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
