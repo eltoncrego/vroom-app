@@ -94,13 +94,13 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 26 //changed according to medium guide
+    buildToolsVersion "26.0.2" // changed according to medium guide
 
     defaultConfig {
         applicationId "com.vroom"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         ndk {
@@ -139,7 +139,8 @@ android {
 dependencies {
     compile project(':lottie-react-native')
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.android.support:appcompat-v7:26.1.0"
+    //compile "com.airbnb.android.lottie:1.5.3"   // added according to medium guide 
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
 
@@ -149,3 +150,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
