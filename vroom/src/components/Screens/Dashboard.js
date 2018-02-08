@@ -18,7 +18,8 @@ import {
   Text,
   TouchableOpacity,
   PanResponder,
-  Animated
+  Animated,
+  ScrollView,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -103,6 +104,10 @@ export default class Dashboard extends Component {
               styles.card,
               transformList,]
             }>
+            <ScrollView style={styles.card_scroller}>
+              <View style={styles.card_scroll_view}>
+              </View>
+            </ScrollView>
           </Animated.View>
         </View>
       </View>
@@ -137,6 +142,11 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 1,
+  },
+  card_scroller: {
+    width: '100%',
+  },
+  card_scroll_view:{
   },
   ico: {
     fontSize: 24,
