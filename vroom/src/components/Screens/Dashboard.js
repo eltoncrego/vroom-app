@@ -15,8 +15,10 @@ import {
   StatusBar,
   Dimensions,
   SafeAreaView,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
-import Animation from 'lottie-react-native';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 /*
  * Class: Dashboard
@@ -40,16 +42,20 @@ export default class Dashboard extends Component {
   render(){
     return(
       <SafeAreaView style={
-        [
-          STYLE.container,
-          {
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            backgroundColor: GLOBAL.COLOR.DARKGRAY,
-          }
-        ]
+        [styleguide.container,
+        {
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          backgroundColor: GLOBAL.COLOR.DARKGRAY,
+        }]
       }>
       <StatusBar barStyle="light-content"/>
+        <View style={styles.navbar}>
+          <Text style={styleguide.dark_title2}>vroom<Text style={styleguide.dark_title2_accent}>.</Text></Text>
+          <TouchableOpacity><Text style={styleguide.dark_subheader2}><FontAwesome>{Icons.plus}</FontAwesome></Text></TouchableOpacity>
+        </View>
+        <View style={styles.content}>
+        </View>
       </SafeAreaView>
     );
   }
@@ -57,36 +63,21 @@ export default class Dashboard extends Component {
 }
 
 const styles = StyleSheet.create({
-  /*
-    * Style: Button Header
-    * Author: Alec Felt
-    * Purpose: Add style to the navbar button
-    *          to stay consistent with project theme
-    */
-    button_header: {
-      fontFamily: 'Nunito',
-      color: GLOBAL.COLOR.BLUE,
-      margin: 20,
-    },
-    header_middle: {
-      color: GLOBAL.COLOR.BLUE,
-      fontFamily: 'Nunito',
-      margin: 20,
-    },
-    menu: {
-      fontFamily: 'Nunito',
-      color: GLOBAL.COLOR.BLUE,
-      margin: 20,
-    },
 
-  /* Style: Scroll
-   * Author: Elton C. Rego
-   * Purpose: Styles the scrollview that houses all the tasks
-   */
-   scroll: {
-      width: '100%',
-      height: '100%',
-      alignItems: 'center',
-   }
+  navbar: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 32,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  content: {
+    flex: 10,
+  },
+  ico: {
+    fontSize: 24,
+    color: GLOBAL.COLOR.WHITE,
+  },
 
 });
