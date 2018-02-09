@@ -23,6 +23,9 @@ import {
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
+// Custom components
+import GasList from '../Custom/GasList';
+
 /*
  * Class: Dashboard
  * Author: Elton C.  Rego
@@ -41,8 +44,18 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      translation: new Animated.Value(1),
+      translation: new Animated.Value(0),
       cardState: 1,
+      scrollEnable: true,
+      textDataArr: [
+        {
+          totalPrice: '$32.50',
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },
+      ],
     };
   }
 
@@ -59,15 +72,21 @@ export default class Dashboard extends Component {
             this.state.translation,
             { toValue: 0, friction: 6}
           ).start();
-          this.setState({cardState: 0, scrollEnable: true,});
         } else if ((dy >= 16) && this.state.cardState == 0) {
           Animated.spring(
             this.state.translation,
             { toValue: 1, friction: 6}
           ).start();
-          this.setState({cardState: 1, scrollEnable: true,});
+
         }
-      }
+      },
+
+      onPanResponderRelease: (evt, gestureState) => {
+        this.setState({
+          cardState: !this.state.cardState,
+          scrollEnable: !this.state.scrollEnable,
+        });
+      },
     });
   }
 
@@ -99,15 +118,15 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <View style={styles.graph}>
           </View>
-          <Animated.View {...this._panResponder.panHandlers}
+          {/*...this._panResponder.panHandlers*/}
+          <Animated.View
             style={[
               styles.card,
               transformList,]
             }>
-            <ScrollView style={styles.card_scroller}>
-              <View style={styles.card_scroll_view}>
-              </View>
-            </ScrollView>
+            <GasList
+              enable={this.state.scrollEnable}
+              data={this.state.textDataArr}/>
           </Animated.View>
         </View>
       </View>
@@ -138,15 +157,9 @@ const styles = StyleSheet.create({
     height: 250,
   },
   card: {
-    height: 812,
     width: '100%',
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 1,
-  },
-  card_scroller: {
-    width: '100%',
-  },
-  card_scroll_view:{
   },
   ico: {
     fontSize: 24,

@@ -20,7 +20,7 @@ import {
 
 const {width} = Dimensions.get('window');
 
-export default class ListItem extends PureComponent {
+export default class Gas extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -79,12 +79,33 @@ export default class ListItem extends PureComponent {
         {...this.panResponder.panHandlers}
       >
         <View style={styles.absoluteCell}>
-          <Text style={styles.absoluteCellText}>DELETE</Text>
+          <Text style={styleguide.dark_body}>DELETE</Text>
         </View>
         <View style={styles.innerCell}>
-          <Text>
-            {this.props.text}
-          </Text>
+          <View style={[styles.gasItem, {flex: 1}]}>
+            <Text style={styleguide.light_body2}>
+              {this.props.totalPrice}
+            </Text>
+            <Text style={styleguide.light_caption_secondary}>
+              {this.props.date}
+            </Text>
+          </View>
+          <View style={styles.gasItem}>
+            <Text style={styleguide.light_body2}>
+              {this.props.gallonsFilled}gal
+            </Text>
+            <Text style={styleguide.light_caption_secondary}>
+              Amount Filled
+            </Text>
+          </View>
+          <View style={styles.gasItem}>
+            <Text style={styleguide.light_body2}>
+              {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
+            </Text>
+            <Text style={styleguide.light_caption_secondary}>
+              Efficiency
+            </Text>
+          </View>
         </View>
       </Animated.View>
     </View>
@@ -93,11 +114,28 @@ export default class ListItem extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+
+  innerCell: {
+    width: width,
+    marginLeft: 116,
+    backgroundColor: GLOBAL.COLOR.WHITE,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+
   listItem: {
-    height: 80,
-    marginLeft: -100,
+    marginLeft: -132,
+    paddingHorizontal: 16,
     justifyContent: 'center',
-    backgroundColor: 'red',
+    backgroundColor: GLOBAL.COLOR.RED,
+  },
+
+  gasItem: {
+    flexDirection: 'column',
+    marginHorizontal: 8,
   },
 
   absoluteCell: {
@@ -108,19 +146,6 @@ const styles = StyleSheet.create({
     width: 100,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-
-  absoluteCellText: {
-    color: '#FFF',
-  },
-
-  innerCell: {
-    width: width,
-    height: 80,
-    marginLeft: 100,
-    backgroundColor: GLOBAL.COLOR.WHITE,
-    justifyContent: 'center',
     alignItems: 'center',
   },
 
