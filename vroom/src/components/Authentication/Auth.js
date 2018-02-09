@@ -21,9 +21,12 @@ import * as firebase from 'firebase';
 /*
  * Class: Auth
  * Author: Elton C. Rego
+ *
  * Purpose: Checks whether the user is already logged in or not
  *   and routes them to the correct state of the applciation
  *   SignedIn if they are; SignedOut if they arent
+ *
+ * @return: View
  */
 export default class Auth extends Component {
 
@@ -248,6 +251,8 @@ export default class Auth extends Component {
    *   application view based on the status of the login
    *   if the state hasn't been checked, we return the loading screen
    *   if the state has been checked then load the proper
+   *
+   * @return: View
    */
   render() {
 

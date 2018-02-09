@@ -20,6 +20,8 @@ import {
   PanResponder,
   Animated,
   ScrollView,
+  Modal,
+  Button,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -31,6 +33,8 @@ import GasList from '../Custom/GasList';
  * Author: Elton C.  Rego
  *
  * Purpose: Be the main screen on the application
+ * TODO: Add items to list
+ * TODO: Remove items from list properly
  */
 export default class Dashboard extends Component {
 
@@ -43,25 +47,98 @@ export default class Dashboard extends Component {
    */
   constructor(props) {
     super(props);
+
     this.state = {
       translation: new Animated.Value(0),
       cardState: 1,
       scrollEnable: true,
 
-      // Items we will pull from firebase
-      averageMPG: 31.34,
-      textDataArr: [
+      // Ignore these, they're for trying out modals
+      // modalVisible: false,
+
+      // Below are some dummy objects of stuff
+      // we will pull from firebase
+      // TODO: Pull from firebase
+      averageMPG: 31.34, // update this calculation as user enters
+      list_i: 0, // index should update with initial pull and increment
+      textDataArr: [  // the data structure we will be using for gas
         {
+          list_i: 0,
           totalPrice: '$32.50',
           date: 'February 8th, 2018',
           gallonsFilled: 8.01,
           odometer: 108562,
           distanceSinceLast: 251
-        },
+        }
       ],
     };
   }
 
+ /*
+  * Function: openModal()
+  * Author: Elton C. Rego
+  * Purpose: Opens the modal to add a gas item
+  */
+  // openModel() {
+  //   this.setState({modalVisible:true});
+  // }
+
+ /*
+  * Function: closeModal()
+  * Author: Elton C. Rego
+  * Purpose: Closes the modal to add a gas item
+  */
+  // closeModal() {
+  //   this.setState({modalVisible:false});
+  // }
+
+ /*
+  * Function: addItem()
+  * Author: Elton C. Rego
+  * Purpose: Adds an object to the GasList item used for gas
+  *
+  * //TODO actually calculate the math
+  */
+  addItem() {
+
+    // REPLACE fixed amount with odo reading given by user
+    const distance =
+    108562 - this.state.textDataArr[this.state.list_i].odometer;
+
+    // REPLACE fixed amount with gallons filled given by user
+    const mpg = distance/8.01;
+
+    // VERIFIED THIS MATH WORKS SO KEEP IT
+    const average =
+      ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)
+      /(this.state.textDataArr.length+1);
+
+    //this.closeModal();
+    this.setState({
+      averageMPG: average,
+      textDataArr:
+      [...this.state.textDataArr,
+        {
+          list_i: this.state.list_i +1,
+          totalPrice: '$32.50',
+          date: "February 8th, 2017",
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: distance
+        }
+      ],
+      list_i: this.state.list_i + 1,
+    });
+    // TODO: Push to Firebase
+  }
+
+
+  /*
+   * Function: componentWillMount()
+   * Author: Elton C. Rego
+   * Purpose: Called when the component is called from the stack
+   *    - sets up the pan responder for the GasList transition
+   */
   componentWillMount() {
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
@@ -93,6 +170,14 @@ export default class Dashboard extends Component {
     });
   }
 
+
+  /*
+   * Function: render()
+   * Author: Elton C. Rego
+   * Purpose: renders the component
+   *
+   * @return: Component Views
+   */
   render(){
 
     var cardTranslation = this.state.translation.interpolate({
@@ -115,9 +200,42 @@ export default class Dashboard extends Component {
       }>
       <StatusBar barStyle="light-content"/>
         <View style={styles.navbar}>
-          <Text style={styleguide.dark_title2}>vroom<Text style={styleguide.dark_title2_accent}>.</Text></Text>
-          <TouchableOpacity><Text style={styleguide.dark_subheader2}><FontAwesome>{Icons.plus}</FontAwesome></Text></TouchableOpacity>
+          <Text style={styleguide.dark_title2}>
+            vroom
+            <Text style={styleguide.dark_title2_accent}>
+              .
+            </Text>
+          </Text>
+          <TouchableOpacity onPress={() => this.addItem()}>
+            <Text style={styleguide.dark_subheader2}>
+              <FontAwesome>{Icons.plus}</FontAwesome>
+            </Text>
+          </TouchableOpacity>
         </View>
+
+        {/*<Modal
+          visible={this.state.modalVisible}
+          transparent={true}
+          animationType={'fade'}
+          onRequestClose={() => this.closeModal()}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.innerContainer}>
+              <Text>This is content inside of modal component</Text>
+              <Button
+                  onPress={() => this.addItem()}
+                  title="Add Item"
+              >
+              </Button>
+              <Button
+                  onPress={() => this.closeModal()}
+                  title="Close modal"
+              >
+              </Button>
+            </View>
+          </View>
+        </Modal>*/}
+
         <View style={styles.content}>
           <View style={styles.graph}>
           </View>
@@ -127,7 +245,12 @@ export default class Dashboard extends Component {
               styles.card,
               transformList,]
             }>
+            <View style={styles.mpg_statistics}>
+              <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
+              <Text style={styleguide.light_body_secondary}>Average Lifetime Efficiency</Text>
+            </View>
             <GasList
+              onRef={ref => (this.gaslist = ref)}
               enable={this.state.scrollEnable}
               data={this.state.textDataArr}
               average={this.state.averageMPG}/>
@@ -144,7 +267,7 @@ const styles = StyleSheet.create({
   navbar: {
     flex: 1,
     width: '100%',
-    paddingHorizontal: 32,
+    paddingHorizontal: 24,
     paddingTop: 32,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -168,6 +291,25 @@ const styles = StyleSheet.create({
   ico: {
     fontSize: 24,
     color: GLOBAL.COLOR.WHITE,
+  },
+  mpg_statistics: {
+    padding: 16,
+    borderBottomWidth: 2,
+  },
+
+
+  // FOR PROTOTYPING
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+
+    backgroundColor: 'rgba(37,50,55,0.80)'
+  },
+  innerContainer: {
+    alignItems: 'center',
+
+    padding: 32,
+    backgroundColor: GLOBAL.COLOR.WHITE,
   },
 
 });

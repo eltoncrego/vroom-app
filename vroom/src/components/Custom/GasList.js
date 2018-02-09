@@ -16,6 +16,20 @@ import {
 import GasListItem from './GasListItem';
 
 export default class GasList extends Component {
+
+  /*
+  * Method: Constructor()
+  * Author: Elton C. Rego
+  * Purpose: Sets up the component for use
+  *   - sets renderSeparator to it's own name
+  *   - sets success to it's own name
+  *   - sets setScrollEnabled to it's own name
+  *   - sets state variables
+  *       > enable : whether or not the scholling is enabled
+  *       > data : the list data passed in as a prop
+  *
+  * @param props - the props passed in from the parent component
+  */
   constructor(props) {
     super(props);
     this.renderSeparator = this.renderSeparator.bind(this);
@@ -28,6 +42,14 @@ export default class GasList extends Component {
     };
   }
 
+
+  componentDidMount() {
+    this.props.onRef(this)
+  }
+  componentWillUnmount() {
+    this.props.onRef(undefined)
+  }
+
   renderSeparator() {
     return (
       <View style={styles.separatorViewStyle}>
@@ -37,9 +59,9 @@ export default class GasList extends Component {
   }
 
   success(key) {
-    const data = this.state.data.filter(item => item.key !== key);
+    const data = this.state.data.filter((item) => {item.list_i.toString() !== key});
     this.setState({
-      data,
+      data: data,
     });
   }
 
@@ -52,8 +74,9 @@ export default class GasList extends Component {
   renderItem(item) {
     return (
       <GasListItem
-        totalPrice={item.totalPrice}
+        index={item.list_i.toString()}
         date={item.date}
+        totalPrice={item.totalPrice}
         gallonsFilled={item.gallonsFilled}
         distanceSinceLast={item.distanceSinceLast}
         success={this.success}
@@ -68,6 +91,7 @@ export default class GasList extends Component {
       <FlatList
         style={this.props.style}
         data={this.state.data}
+        keyExtractor={(item) => item.list_i.toString()}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({item}) => this.renderItem(item)}
         scrollEnabled={this.state.enable}

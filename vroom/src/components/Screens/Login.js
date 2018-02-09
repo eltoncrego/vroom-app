@@ -27,8 +27,12 @@ import {VAlert} from './../Custom/VAlert';
 export default class Login extends Component {
 
  /*
+  * Method: Constructor
   * Author: Elton C. Rego
-  * Purpose: Set up state for this specific component
+  *
+  * Purpose: Constructs the class with given props
+  *
+  * @param: properties
   */
   constructor(props) {
     super(props);
