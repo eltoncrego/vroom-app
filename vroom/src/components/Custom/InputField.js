@@ -57,6 +57,7 @@ export class InputField extends Component {
   }
 
   render({
+    autoFocus,
     icon,
     label,
     labelColor,
@@ -85,6 +86,7 @@ export class InputField extends Component {
          <Animated.Text style={[styles.ico, {color: a_color}]}><FontAwesome>{icon}</FontAwesome></Animated.Text>
         </View>
         <TextInput
+          autoFocus={autoFocus}
           style={[
             stylesheet.light_body,
             styles.input,
