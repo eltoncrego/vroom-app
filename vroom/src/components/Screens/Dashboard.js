@@ -47,6 +47,9 @@ export default class Dashboard extends Component {
       translation: new Animated.Value(0),
       cardState: 1,
       scrollEnable: true,
+
+      // Items we will pull from firebase
+      averageMPG: 31.34,
       textDataArr: [
         {
           totalPrice: '$32.50',
@@ -126,7 +129,8 @@ export default class Dashboard extends Component {
             }>
             <GasList
               enable={this.state.scrollEnable}
-              data={this.state.textDataArr}/>
+              data={this.state.textDataArr}
+              average={this.state.averageMPG}/>
           </Animated.View>
         </View>
       </View>

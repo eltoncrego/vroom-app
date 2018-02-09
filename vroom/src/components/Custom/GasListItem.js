@@ -18,6 +18,8 @@ import {
   PanResponder
 } from 'react-native';
 
+import FontAwesome, { Icons } from 'react-native-fontawesome';
+
 const {width} = Dimensions.get('window');
 
 export default class Gas extends PureComponent {
@@ -71,7 +73,28 @@ export default class Gas extends PureComponent {
     }
   }
 
+  componentWillMount() {
+    var mpg = (this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2);
+    if (mpg == this.props.average){
+      this.setState({
+        icon: Icons.minus,
+        color: GLOBAL.COLOR.YELLOW,
+      });
+    } else if (mpg < this.props.average){
+      this.setState({
+        icon: Icons.chevronDown,
+        color: GLOBAL.COLOR.RED,
+      });
+    } else {
+      this.setState({
+        icon: Icons.chevronUp,
+        color: GLOBAL.COLOR.GREEN,
+      });
+    }
+  }
+
   render() {
+
     return (
       <View style={styles.listItem}>
       <Animated.View
@@ -82,6 +105,12 @@ export default class Gas extends PureComponent {
           <Text style={styleguide.dark_body}>DELETE</Text>
         </View>
         <View style={styles.innerCell}>
+          <View style={styles.change}>
+            <Animated.Text
+              style={[styles.ico,{color: this.state.color,}]}>
+              <FontAwesome>{this.state.icon}</FontAwesome>
+            </Animated.Text>
+          </View>
           <View style={[styles.gasItem, {flex: 1}]}>
             <Text style={styleguide.light_body2}>
               {this.props.totalPrice}
@@ -123,7 +152,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
 
   listItem: {
@@ -131,6 +160,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'center',
     backgroundColor: GLOBAL.COLOR.RED,
+  },
+
+  change: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+
+  ico: {
+    fontSize: 16,
   },
 
   gasItem: {
