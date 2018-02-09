@@ -54,7 +54,6 @@
 		C3C0BA7EEBA74159AD9FA3E2 /* nunito_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A2938B3384D448DBC4992E3 /* nunito_bold.ttf */; };
 		D91949FCB6D94A389F6594FD /* nunito_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6E64339B83F4ABE8B6DAFDB /* nunito_light.ttf */; };
 		DC047B2A23E44189A05E7A9E /* nunito_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C64B791987E4464C9DE95EC3 /* nunito_regular.ttf */; };
-		E0504B049B3B4797A66320BD /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84F4CF281F454E238C6BA3FF /* fontawesome-webfont.ttf */; };
 		4CD5889FC06948C3AF270760 /* fontawesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D80B93C97C834AC3923EA8A4 /* fontawesome.ttf */; };
 /* End PBXBuildFile section */
 
@@ -424,7 +423,6 @@
 		6EC017CCC3BD4A85BE442471 /* libLottie.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottie.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		84F4CF281F454E238C6BA3FF /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "fontawesome-webfont.ttf"; path = "../assets/fonts/fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		9A2938B3384D448DBC4992E3 /* nunito_bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nunito_bold.ttf; path = ../assets/fonts/nunito_bold.ttf; sourceTree = "<group>"; };
 		9ABBC35961E7467FBA2B0D00 /* nunito_lightitalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nunito_lightitalic.ttf; path = ../assets/fonts/nunito_lightitalic.ttf; sourceTree = "<group>"; };
 		9C4D54C768244F1085BDE1FD /* nunito_italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nunito_italic.ttf; path = ../assets/fonts/nunito_italic.ttf; sourceTree = "<group>"; };
@@ -615,7 +613,6 @@
 		1FE936CF1F854EA1AA78D079 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				84F4CF281F454E238C6BA3FF /* fontawesome-webfont.ttf */,
 				F87E842F9B7147F682FBE844 /* nunito_black.ttf */,
 				5978910545E94036BEFE5C7C /* nunito_blackitalic.ttf */,
 				9A2938B3384D448DBC4992E3 /* nunito_bold.ttf */,
@@ -1250,7 +1247,6 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				E0504B049B3B4797A66320BD /* fontawesome-webfont.ttf in Resources */,
 				1E9C5C28340D48F7B4869F41 /* nunito_black.ttf in Resources */,
 				69D316206B7E456F82111F3C /* nunito_blackitalic.ttf in Resources */,
 				C3C0BA7EEBA74159AD9FA3E2 /* nunito_bold.ttf in Resources */,
