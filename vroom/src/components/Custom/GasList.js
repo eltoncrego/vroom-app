@@ -13,9 +13,9 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import ListItem from './ListItem';
+import GasListItem from './GasListItem';
 
-export default class SwipeableList extends Component {
+export default class GasList extends Component {
   constructor(props) {
     super(props);
     this.renderSeparator = this.renderSeparator.bind(this);
@@ -51,8 +51,11 @@ export default class SwipeableList extends Component {
 
   renderItem(item) {
     return (
-      <ListItem
-        text={item.key}
+      <GasListItem
+        totalPrice={item.totalPrice}
+        date={item.date}
+        gallonsFilled={item.gallonsFilled}
+        distanceSinceLast={item.distanceSinceLast}
         success={this.success}
         setScrollEnabled={enable => this.setScrollEnabled(enable)}
       />
@@ -67,6 +70,8 @@ export default class SwipeableList extends Component {
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({item}) => this.renderItem(item)}
         scrollEnabled={this.state.enable}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
       />
     );
   }
@@ -79,6 +84,6 @@ const styles = StyleSheet.create({
   },
   separatorStyle: {
     height: 1,
-    backgroundColor: '#000',
+    backgroundColor: 'rgba(37,50,55,0.20)',
   },
 });
