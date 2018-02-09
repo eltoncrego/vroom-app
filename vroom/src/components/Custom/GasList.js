@@ -57,6 +57,7 @@ export default class GasList extends Component {
         gallonsFilled={item.gallonsFilled}
         distanceSinceLast={item.distanceSinceLast}
         success={this.success}
+        average={this.props.average}
         setScrollEnabled={enable => this.setScrollEnabled(enable)}
       />
     );
