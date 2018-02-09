@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
   },
 
   sign_in_form: {
-    width: '74%',
+    margin: 32,
   },
 
   forgot_password_text: {
