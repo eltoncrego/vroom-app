@@ -72,7 +72,6 @@ export default class Auth extends Component {
     this.state = {
       signedIn: false,
       checkedSignIn: false,
-      onboarding: true,
     };
   }
 
@@ -209,10 +208,10 @@ export default class Auth extends Component {
          firebaseRef.database().ref("users").child(Auth.auth.uid).child("vehicles").once('value').then(function(snapshot) {
            if(snapshot.val() != null) {
              console.log("car object for this user! going to Dashboard");
-             that.setState({onboarding: false, signedIn: true, checkedSignIn: true});
+             that.setState({signedIn: true, checkedSignIn: true});
            } else {
              console.log("no car object for this user! going to Onboarding");
-             that.setState({onboarding: true, signedIn: true, checkedSignIn: true});
+             that.setState({signedIn: true, checkedSignIn: true});
            }
          }).catch(function(error) {
            console.log("Error getting document:", error.message);
