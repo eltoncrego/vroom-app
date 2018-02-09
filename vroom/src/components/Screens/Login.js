@@ -243,7 +243,7 @@ export default class Login extends Component {
           labelColor={"rgba(37,50,55,0.5)"}
           inactiveColor={GLOBAL.COLOR.DARKGRAY}
           activeColor={GLOBAL.COLOR.GREEN}
-          topMargin={32}
+          topMargin={24}
           autoCapitalize={"none"}
           secureTextEntry={true}
           onChangeText={
@@ -285,6 +285,7 @@ export default class Login extends Component {
               <Text style={styleguide.light_display2_accent}>.</Text>
             </Text>
             <InputField
+              autoFocus={true}
               icon={Icons.inbox}
               label={"email"}
               labelColor={"rgba(37,50,55,0.5)"}
@@ -293,7 +294,6 @@ export default class Login extends Component {
               topMargin={32}
               autoCapitalize={"none"}
               onChangeText={(text) => {this.setState({email: text})}}
-              onSubmitEditing={() => this.refs.password_field.focus()}
             />
             <InputField
               icon={Icons.lock}
@@ -306,9 +306,7 @@ export default class Login extends Component {
               secureTextEntry={true}
               onChangeText={(text) => {this.setState({password: text})}}
               onSubmitEditing={ () => {
-                if(this.state.sign_up){
-                  this.refs.password_verification_field.focus()
-                } else {
+                if(!this.state.sign_up){
                   this.signin();
                 }
               }}
