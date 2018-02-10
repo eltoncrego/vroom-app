@@ -65,18 +65,18 @@ export default class Dashboard extends Component {
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,
-      updatedODO: 108562,
-      averageMPG: 31.34, // update this calculation as user enters
+      updatedODO: 0,
+      averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [  // the data structure we will be using for gas
-        {
-          list_i: 0,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        }
+        // {
+        //   list_i: 0,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // }
       ],
     };
   }
@@ -107,6 +107,11 @@ export default class Dashboard extends Component {
   * //TODO actually calculate the math
   */
   addItem() {
+
+    if(this.state.userODO == 0 || this.state.user_filled == 0 || this.state.user_paid == 0){
+      alert("Please use a valid amount")
+      return;
+    }
 
     const userODO = this.state.userODO;
     const distance = userODO - this.state.updatedODO;
@@ -260,33 +265,34 @@ export default class Dashboard extends Component {
                 <InputField
                   autoFocus={true}
                   icon={Icons.dollar}
-                  label={"amount paid"}
+                  label={"amount paid in dollars"}
                   labelColor={"rgba(37,50,55,0.5)"}
                   inactiveColor={GLOBAL.COLOR.DARKGRAY}
                   activeColor={GLOBAL.COLOR.GREEN}
                   autoCapitalize={"none"}
+                  type={"numeric"}
                   topMargin={24}
                   onChangeText={(text) => {this.setState({user_paid: text})}}
                 />
                 <InputField
-                  autoFocus={true}
                   icon={Icons.tint}
                   label={"gallons filled"}
                   labelColor={"rgba(37,50,55,0.5)"}
                   inactiveColor={GLOBAL.COLOR.DARKGRAY}
                   activeColor={GLOBAL.COLOR.GREEN}
                   autoCapitalize={"none"}
+                  type={"numeric"}
                   topMargin={24}
                   onChangeText={(text) => {this.setState({user_filled: text})}}
                 />
                 <InputField
-                  autoFocus={true}
                   icon={Icons.automobile}
-                  label={"odometer reading"}
+                  label={"odometer reading in miles"}
                   labelColor={"rgba(37,50,55,0.5)"}
                   inactiveColor={GLOBAL.COLOR.DARKGRAY}
                   activeColor={GLOBAL.COLOR.GREEN}
                   autoCapitalize={"none"}
+                  type={"numeric"}
                   topMargin={24}
                   onChangeText={(text) => {this.setState({userODO: text})}}
                 />
@@ -294,7 +300,7 @@ export default class Dashboard extends Component {
                   backgroundColor={GLOBAL.COLOR.GREEN}
                   label={"Add Item"}
                   height={64}
-                  marginTop={40}
+                  marginTop={64}
                   shadowColor={GLOBAL.COLOR.GREEN}
                   width={"100%"}
                   onPress={() => this.addItem()}
@@ -304,7 +310,7 @@ export default class Dashboard extends Component {
                   backgroundColor={GLOBAL.COLOR.GRAY}
                   label={"Cancel"}
                   height={64}
-                  marginTop={40}
+                  marginTop={24}
                   shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
                   onPress={() => this.closeModal()}
@@ -333,7 +339,7 @@ export default class Dashboard extends Component {
               onRef={ref => (this.gaslist = ref)}
               enable={this.state.scrollEnable}
               data={this.state.textDataArr}
-              average={this.state.averageMPG}
+              average={this.state.averageMPG.toFixed(2)}
               removeItem={key => this.removeItem(key)}/>
           </Animated.View>
         </View>
