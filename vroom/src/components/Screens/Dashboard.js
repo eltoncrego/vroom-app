@@ -54,11 +54,12 @@ export default class Dashboard extends Component {
       scrollEnable: true,
 
       // Ignore these, they're for trying out modals
-      // modalVisible: false,
+      modalVisible: false,
 
       // Below are some dummy objects of stuff
       // we will pull from firebase
       // TODO: Pull from firebase
+      updatedODO: 108562,
       averageMPG: 31.34, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [  // the data structure we will be using for gas
@@ -79,18 +80,18 @@ export default class Dashboard extends Component {
   * Author: Elton C. Rego
   * Purpose: Opens the modal to add a gas item
   */
-  // openModel() {
-  //   this.setState({modalVisible:true});
-  // }
+  openModal() {
+    this.setState({modalVisible:true});
+  }
 
  /*
   * Function: closeModal()
   * Author: Elton C. Rego
   * Purpose: Closes the modal to add a gas item
   */
-  // closeModal() {
-  //   this.setState({modalVisible:false});
-  // }
+  closeModal() {
+    this.setState({modalVisible:false});
+  }
 
  /*
   * Function: addItem()
@@ -102,8 +103,10 @@ export default class Dashboard extends Component {
   addItem() {
 
     // REPLACE fixed amount with odo reading given by user
+    const userODO = 108562;
+
     const distance =
-    108562 - this.state.textDataArr[this.state.list_i].odometer;
+    108562 - userODO;
 
     // REPLACE fixed amount with gallons filled given by user
     const mpg = distance/8.01;
@@ -113,9 +116,10 @@ export default class Dashboard extends Component {
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)
       /(this.state.textDataArr.length+1);
 
-    //this.closeModal();
+    this.closeModal();
     this.setState({
       averageMPG: average,
+      updatedODO: userODO,
       textDataArr:
       [...this.state.textDataArr,
         {
@@ -123,16 +127,27 @@ export default class Dashboard extends Component {
           totalPrice: '$32.50',
           date: "February 8th, 2017",
           gallonsFilled: 8.01,
-          odometer: 108562,
+          odometer: userODO,
           distanceSinceLast: distance
         }
       ],
       list_i: this.state.list_i + 1,
     });
+
     // TODO: Push to Firebase
   }
 
   removeItem(key){
+
+    const mpgRemoved = this.state.textDataArr[key].distanceSinceLast
+      /this.state.textDataArr[key].gallonsFilled;
+
+    const averageMPG = this.state.textDataArr.length == 1 ? 0 :
+      (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
+      /(this.state.textDataArr.length - 1);
+
+    const ODO = this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
+
     this.state.textDataArr.splice(key, 1);
     console.log(this.state.textDataArr);
     for (var i = key; i < this.state.textDataArr.length; i++){
@@ -142,7 +157,11 @@ export default class Dashboard extends Component {
     console.log(this.state.textDataArr);
     this.setState({
       list_i: this.state.list_i - 1,
+      averageMPG: averageMPG,
+      updatedODO: ODO,
     });
+
+    // TODO: Push to firebase
   }
 
   /*
@@ -217,14 +236,14 @@ export default class Dashboard extends Component {
               .
             </Text>
           </Text>
-          <TouchableOpacity onPress={() => this.addItem()}>
+          <TouchableOpacity onPress={() => this.openModal()}>
             <Text style={styleguide.dark_subheader2}>
               <FontAwesome>{Icons.plus}</FontAwesome>
             </Text>
           </TouchableOpacity>
         </View>
 
-        {/*<Modal
+        <Modal
           visible={this.state.modalVisible}
           transparent={true}
           animationType={'fade'}
@@ -245,7 +264,7 @@ export default class Dashboard extends Component {
               </Button>
             </View>
           </View>
-        </Modal>*/}
+        </Modal>
 
         <View style={styles.content}>
           <View style={styles.graph}>
@@ -258,7 +277,7 @@ export default class Dashboard extends Component {
             }>
             <View style={styles.mpg_statistics}>
               <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
-              <Text style={styleguide.light_body_secondary}>Average Lifetime Efficiency</Text>
+              <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
             </View>
             <GasList
               onRef={ref => (this.gaslist = ref)}
@@ -306,7 +325,8 @@ const styles = StyleSheet.create({
   },
   mpg_statistics: {
     padding: 16,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(37,50,55,0.50)',
   },
 
 

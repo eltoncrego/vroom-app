@@ -56,6 +56,7 @@ export default class Gas extends PureComponent {
             duration: 300,
           }).start(() => {
             this.props.success(this.props.index);
+            position.setValue({x: 0, y: 0});
             this.setScrollViewEnabled(true);
           });
         }
