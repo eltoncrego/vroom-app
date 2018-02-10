@@ -38,7 +38,6 @@ export default class GasList extends Component {
 
     this.state = {
       enable: this.props.enable,
-      data: this.props.data,
     };
   }
 
@@ -59,10 +58,8 @@ export default class GasList extends Component {
   }
 
   success(key) {
-    const data = this.state.data.filter((item) => {item.list_i.toString() !== key});
-    this.setState({
-      data: data,
-    });
+    console.log("Removing value at key: " + key);
+    this.props.removeItem(key);
   }
 
   setScrollEnabled(enable) {
@@ -74,7 +71,7 @@ export default class GasList extends Component {
   renderItem(item) {
     return (
       <GasListItem
-        index={item.list_i.toString()}
+        index={item.list_i}
         date={item.date}
         totalPrice={item.totalPrice}
         gallonsFilled={item.gallonsFilled}
@@ -90,7 +87,7 @@ export default class GasList extends Component {
     return (
       <FlatList
         style={this.props.style}
-        data={this.state.data}
+        data={this.props.data}
         keyExtractor={(item) => item.list_i.toString()}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({item}) => this.renderItem(item)}
