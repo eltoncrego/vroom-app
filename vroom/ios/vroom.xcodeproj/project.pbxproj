@@ -21,7 +21,6 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1E9C5C28340D48F7B4869F41 /* nunito_black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F87E842F9B7147F682FBE844 /* nunito_black.ttf */; };
 		229FEE537FC34EDF88DC0C0A /* nunito_semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B775B338D03473B998F6077 /* nunito_semibold.ttf */; };
@@ -42,6 +41,7 @@
 		459087511104451CA51F1FF4 /* nunito_extralight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4366D2DFC7747EDA6EFFCB0 /* nunito_extralight.ttf */; };
 		4CD5889FC06948C3AF270760 /* fontawesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D80B93C97C834AC3923EA8A4 /* fontawesome.ttf */; };
 		56FFAA88321A03AFA9220355 /* libPods-vroom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54768FEE455C2BD9D15178A3 /* libPods-vroom.a */; };
+		593F3519202E9F1400CC767A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		59F5B244202ACE5D0000C7B5 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CEE550202AC71D0008257B /* Lottie.framework */; };
 		59F5B245202ACE5D0000C7B5 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 59CEE550202AC71D0008257B /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -456,7 +456,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
+				593F3519202E9F1400CC767A /* libReact.a in Frameworks */,
 				69871C1DC745CB5554F1497F /* libPods-vroomTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
