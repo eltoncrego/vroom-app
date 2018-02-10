@@ -134,6 +134,9 @@ export default class Dashboard extends Component {
 
   removeItem(key){
     this.state.textDataArr.splice(key, 1);
+    this.setState({
+      list_i: this.state.list_i -1,
+    });
   }
 
   /*
