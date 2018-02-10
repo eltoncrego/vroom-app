@@ -132,6 +132,9 @@ export default class Dashboard extends Component {
     // TODO: Push to Firebase
   }
 
+  removeItem(key){
+    this.state.textDataArr.splice(key, 1);
+  }
 
   /*
    * Function: componentWillMount()
@@ -179,6 +182,8 @@ export default class Dashboard extends Component {
    * @return: Component Views
    */
   render(){
+
+    console.log(this.state.textDataArr);
 
     var cardTranslation = this.state.translation.interpolate({
       inputRange: [0, 1],
@@ -253,7 +258,8 @@ export default class Dashboard extends Component {
               onRef={ref => (this.gaslist = ref)}
               enable={this.state.scrollEnable}
               data={this.state.textDataArr}
-              average={this.state.averageMPG}/>
+              average={this.state.averageMPG}
+              removeItem={key => this.removeItem(key)}/>
           </Animated.View>
         </View>
       </View>
