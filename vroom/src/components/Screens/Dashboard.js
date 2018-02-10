@@ -21,12 +21,14 @@ import {
   Animated,
   ScrollView,
   Modal,
-  Button,
+  KeyboardAvoidingView
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Custom components
 import GasList from '../Custom/GasList';
+import {InputField} from './../Custom/InputField';
+import {Button} from './../Custom/Button';
 
 /*
  * Class: Dashboard
@@ -57,15 +59,19 @@ export default class Dashboard extends Component {
       modalVisible: false,
 
       // Below are some dummy objects of stuff
-      // we will pull from firebase
-      // TODO: Pull from firebase
+      // we will sync with firebase
+      // TODO: sync with firebase
+
+      user_paid: 0,
+      user_filled: 0,
+      user_ODO: 0,
       updatedODO: 108562,
       averageMPG: 31.34, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [  // the data structure we will be using for gas
         {
           list_i: 0,
-          totalPrice: '$32.50',
+          totalPrice: 32.50,
           date: 'February 8th, 2018',
           gallonsFilled: 8.01,
           odometer: 108562,
@@ -102,16 +108,9 @@ export default class Dashboard extends Component {
   */
   addItem() {
 
-    // REPLACE fixed amount with odo reading given by user
-    const userODO = 108562;
-
-    const distance =
-    108562 - userODO;
-
-    // REPLACE fixed amount with gallons filled given by user
-    const mpg = distance/8.01;
-
-    // VERIFIED THIS MATH WORKS SO KEEP IT
+    const userODO = this.state.userODO;
+    const distance = userODO - this.state.updatedODO;
+    const mpg = distance/this.state.user_filled;
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)
       /(this.state.textDataArr.length+1);
@@ -124,13 +123,16 @@ export default class Dashboard extends Component {
       [...this.state.textDataArr,
         {
           list_i: this.state.list_i +1,
-          totalPrice: '$32.50',
+          totalPrice: parseFloat(this.state.user_paid),
           date: "February 8th, 2017",
-          gallonsFilled: 8.01,
+          gallonsFilled: this.state.user_filled,
           odometer: userODO,
           distanceSinceLast: distance
         }
       ],
+      user_paid: 0,
+      user_filled: 0,
+      userODO: 0,
       list_i: this.state.list_i + 1,
     });
 
@@ -250,19 +252,67 @@ export default class Dashboard extends Component {
           onRequestClose={() => this.closeModal()}
         >
           <View style={styles.modalContainer}>
-            <View style={styles.innerContainer}>
-              <Text>This is content inside of modal component</Text>
-              <Button
+            <KeyboardAvoidingView behavior="padding">
+              <View style={styles.innerContainer}>
+                <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
+                  <Text style={styleguide.light_title2_accent}>.</Text>
+                </Text>
+                <InputField
+                  autoFocus={true}
+                  icon={Icons.dollar}
+                  label={"amount paid"}
+                  labelColor={"rgba(37,50,55,0.5)"}
+                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                  activeColor={GLOBAL.COLOR.GREEN}
+                  autoCapitalize={"none"}
+                  topMargin={24}
+                  onChangeText={(text) => {this.setState({user_paid: text})}}
+                />
+                <InputField
+                  autoFocus={true}
+                  icon={Icons.tint}
+                  label={"gallons filled"}
+                  labelColor={"rgba(37,50,55,0.5)"}
+                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                  activeColor={GLOBAL.COLOR.GREEN}
+                  autoCapitalize={"none"}
+                  topMargin={24}
+                  onChangeText={(text) => {this.setState({user_filled: text})}}
+                />
+                <InputField
+                  autoFocus={true}
+                  icon={Icons.automobile}
+                  label={"odometer reading"}
+                  labelColor={"rgba(37,50,55,0.5)"}
+                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                  activeColor={GLOBAL.COLOR.GREEN}
+                  autoCapitalize={"none"}
+                  topMargin={24}
+                  onChangeText={(text) => {this.setState({userODO: text})}}
+                />
+                <Button
+                  backgroundColor={GLOBAL.COLOR.GREEN}
+                  label={"Add Item"}
+                  height={64}
+                  marginTop={40}
+                  shadowColor={GLOBAL.COLOR.GREEN}
+                  width={"100%"}
                   onPress={() => this.addItem()}
-                  title="Add Item"
-              >
-              </Button>
-              <Button
+                >
+                </Button>
+                <Button
+                  backgroundColor={GLOBAL.COLOR.GRAY}
+                  label={"Cancel"}
+                  height={64}
+                  marginTop={40}
+                  shadowColor={'rgba(0,0,0,0)'}
+                  width={"100%"}
                   onPress={() => this.closeModal()}
                   title="Close modal"
-              >
-              </Button>
-            </View>
+                >
+                </Button>
+              </View>
+            </KeyboardAvoidingView>
           </View>
         </Modal>
 
@@ -335,12 +385,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
 
-    backgroundColor: 'rgba(37,50,55,0.80)'
+    padding: 16,
+    backgroundColor: 'rgba(37,50,55,0.90)'
   },
   innerContainer: {
     alignItems: 'center',
-
     padding: 32,
+    borderRadius: 16,
     backgroundColor: GLOBAL.COLOR.WHITE,
   },
 

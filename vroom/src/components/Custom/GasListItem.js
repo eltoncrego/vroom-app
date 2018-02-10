@@ -114,7 +114,7 @@ export default class Gas extends PureComponent {
           </View>
           <View style={[styles.gasItem, {flex: 1}]}>
             <Text style={styleguide.light_body2}>
-              {this.props.totalPrice}
+              ${this.props.totalPrice.toFixed(2)}
             </Text>
             <Text style={styleguide.light_caption_secondary}>
               {this.props.date}
