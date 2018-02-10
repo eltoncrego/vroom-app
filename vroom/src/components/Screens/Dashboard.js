@@ -134,8 +134,14 @@ export default class Dashboard extends Component {
 
   removeItem(key){
     this.state.textDataArr.splice(key, 1);
+    console.log(this.state.textDataArr);
+    for (var i = key; i < this.state.textDataArr.length; i++){
+      console.log(i);
+      this.state.textDataArr[i].list_i -= 1;
+    }
+    console.log(this.state.textDataArr);
     this.setState({
-      list_i: this.state.list_i -1,
+      list_i: this.state.list_i - 1,
     });
   }
 
@@ -185,9 +191,6 @@ export default class Dashboard extends Component {
    * @return: Component Views
    */
   render(){
-
-    console.log(this.state.textDataArr);
-
     var cardTranslation = this.state.translation.interpolate({
       inputRange: [0, 1],
       outputRange: [-250, 0]
