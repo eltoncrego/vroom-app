@@ -167,7 +167,8 @@ export default class Dashboard extends Component {
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
       /(this.state.textDataArr.length - 1);
 
-    const ODO = this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
+    const ODO = this.state.textDataArr.length == 1 ? 0 :
+      this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
 
     this.state.textDataArr.splice(key, 1);
     console.log(this.state.textDataArr);
@@ -272,7 +273,6 @@ export default class Dashboard extends Component {
                   <Text style={styleguide.light_title2_accent}>.</Text>
                 </Text>
                 <InputField
-                  autoFocus={true}
                   icon={Icons.dollar}
                   label={"amount paid in dollars"}
                   labelColor={"rgba(37,50,55,0.5)"}
@@ -341,9 +341,15 @@ export default class Dashboard extends Component {
               styles.card,
               transformList,]
             }>
-            <View style={styles.mpg_statistics}>
-              <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
-              <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
+            <View style={styles.statistics}>
+              <View>
+                <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
+                <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
+              </View>
+              <View style={{alignItems:'flex-end'}}>
+                <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
+                <Text style={styleguide.light_body_secondary}>Odometer</Text>
+              </View>
             </View>
             <GasList
               onRef={ref => (this.gaslist = ref)}
@@ -421,7 +427,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: GLOBAL.COLOR.WHITE,
   },
-  mpg_statistics: {
+  statistics: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 16,
     borderBottomWidth: 1,
     borderColor: 'rgba(37,50,55,0.50)',
