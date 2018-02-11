@@ -284,7 +284,6 @@ export default class Login extends Component {
               <Text style={styleguide.light_display2_accent}>.</Text>
             </Text>
             <InputField
-              autoFocus={true}
               icon={Icons.inbox}
               label={"email"}
               labelColor={"rgba(37,50,55,0.5)"}
