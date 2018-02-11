@@ -24,6 +24,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import moment from 'moment';
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -64,88 +65,12 @@ export default class Dashboard extends Component {
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,
-      updatedODO: 108562,
-      averageMPG: 31.34, // update this calculation as user enters
-      list_i: 10, // index should update with initial pull and increment
+      updatedODO: 0,
+      averageMPG: 0, // update this calculation as user enters
+      list_i: 0, // index should update with initial pull and increment
       textDataArr: [  // the data structure we will be using for gas
         // {
         //   list_i: 0,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },{
-        //   list_i: 1,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },{
-        //   list_i: 2,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },{
-        //   list_i: 3,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },{
-        //   list_i: 4,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },
-        // {
-        //   list_i: 5,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },
-        // {
-        //   list_i: 6,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },
-        // {
-        //   list_i: 7,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },
-        // {
-        //   list_i: 8,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },
-        // {
-        //   list_i: 9,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },
-        // {
-        //   list_i: 10,
         //   totalPrice: 32.50,
         //   date: 'February 8th, 2018',
         //   gallonsFilled: 8.01,
@@ -174,6 +99,11 @@ export default class Dashboard extends Component {
     this.setState({modalVisible:false});
   }
 
+  getFormattedTime() {
+    var todaysDate = moment().format('MMM DD, YYYY - h:mma');
+    return todaysDate;
+  }
+
  /*
   * Function: addItem()
   * Author: Elton C. Rego
@@ -197,6 +127,7 @@ export default class Dashboard extends Component {
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)
       /(this.state.textDataArr.length+1);
+    const creationDate = this.getFormattedTime();
 
     this.closeModal();
 
@@ -212,7 +143,7 @@ export default class Dashboard extends Component {
         {
           list_i: 0,
           totalPrice: parseFloat(this.state.user_paid),
-          date: "February 8th, 2017",
+          date: creationDate,
           gallonsFilled: this.state.user_filled,
           odometer: userODO,
           distanceSinceLast: distance
