@@ -53,6 +53,7 @@ export default class Dashboard extends Component {
 
     this.state = {
       translation: new Animated.Value(0),
+      directionToSwipe: "down here to show",
       cardState: 1,
       scrollEnable: true,
 
@@ -113,15 +114,16 @@ export default class Dashboard extends Component {
   */
   addItem() {
 
-    if(this.state.userODO == 0 || this.state.user_filled == 0 || this.state.user_paid == 0){
+    var userODO = parseInt(this.state.user_ODO, 10);
+
+    if(userODO == null || this.state.user_filled == "" || this.state.user_paid == ""){
       alert("Please use a valid amount");
       return;
-    } else if (this.state.userODO < this.state.updatedODO) {
+    } else if (userODO < this.state.updatedODO) {
       alert("Your odometer reading cannot go backwards!");
       return;
     }
 
-    const userODO = this.state.userODO;
     const distance = userODO - this.state.updatedODO;
     const mpg = distance/this.state.user_filled;
     const average =
@@ -200,17 +202,22 @@ export default class Dashboard extends Component {
       onPanResponderMove: (e, {dy}) => {
         // put animation code here
         this.setState({scrollEnable: false});
-        if((dy < -16) && this.state.cardState == 1){
+        if((dy < -8) && this.state.cardState == 1){
           Animated.spring(
             this.state.translation,
-            { toValue: 0, friction: 6}
+            { toValue: 0, friction: 5}
           ).start();
-        } else if ((dy >= 16) && this.state.cardState == 0) {
+          this.setState({
+            directionToSwipe: "down here to show",
+          });
+        } else if ((dy >= 8) && this.state.cardState == 0) {
           Animated.spring(
             this.state.translation,
-            { toValue: 1, friction: 6}
+            { toValue: 1, friction: 5}
           ).start();
-
+          this.setState({
+            directionToSwipe: "up here to hide",
+          });
         }
       },
 
@@ -303,7 +310,7 @@ export default class Dashboard extends Component {
                   autoCapitalize={"none"}
                   type={"numeric"}
                   topMargin={24}
-                  onChangeText={(text) => {this.setState({userODO: text})}}
+                  onChangeText={(text) => {this.setState({user_ODO: text})}}
                 />
                 <Button
                   backgroundColor={GLOBAL.COLOR.GREEN}
@@ -339,6 +346,7 @@ export default class Dashboard extends Component {
               styles.card,
               transformList,]
             }>
+            <Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             <View {...this._panResponder.panHandlers} style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
