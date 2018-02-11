@@ -68,90 +68,90 @@ export default class Dashboard extends Component {
       averageMPG: 31.34, // update this calculation as user enters
       list_i: 10, // index should update with initial pull and increment
       textDataArr: [  // the data structure we will be using for gas
-        {
-          list_i: 0,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },{
-          list_i: 1,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },{
-          list_i: 2,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },{
-          list_i: 3,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },{
-          list_i: 4,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },
-        {
-          list_i: 5,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },
-        {
-          list_i: 6,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },
-        {
-          list_i: 7,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },
-        {
-          list_i: 8,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },
-        {
-          list_i: 9,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },
-        {
-          list_i: 10,
-          totalPrice: 32.50,
-          date: 'February 8th, 2018',
-          gallonsFilled: 8.01,
-          odometer: 108562,
-          distanceSinceLast: 251
-        },
+        // {
+        //   list_i: 0,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },{
+        //   list_i: 1,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },{
+        //   list_i: 2,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },{
+        //   list_i: 3,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },{
+        //   list_i: 4,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },
+        // {
+        //   list_i: 5,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },
+        // {
+        //   list_i: 6,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },
+        // {
+        //   list_i: 7,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },
+        // {
+        //   list_i: 8,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },
+        // {
+        //   list_i: 9,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },
+        // {
+        //   list_i: 10,
+        //   totalPrice: 32.50,
+        //   date: 'February 8th, 2018',
+        //   gallonsFilled: 8.01,
+        //   odometer: 108562,
+        //   distanceSinceLast: 251
+        // },
       ],
     };
   }
@@ -199,19 +199,24 @@ export default class Dashboard extends Component {
       /(this.state.textDataArr.length+1);
 
     this.closeModal();
+
+    for (var i = 0; i < this.state.textDataArr.length; i++){
+      this.state.textDataArr[i].list_i++;
+    }
+
     this.setState({
       averageMPG: average,
       updatedODO: userODO,
       textDataArr:
-      [...this.state.textDataArr,
+      [
         {
-          list_i: this.state.list_i +1,
+          list_i: 0,
           totalPrice: parseFloat(this.state.user_paid),
           date: "February 8th, 2017",
           gallonsFilled: this.state.user_filled,
           odometer: userODO,
           distanceSinceLast: distance
-        }
+        }, ...this.state.textDataArr
       ],
       user_paid: 0,
       user_filled: 0,
@@ -477,7 +482,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    height: 578,
+    maxHeight: 578,
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 1,
   },
