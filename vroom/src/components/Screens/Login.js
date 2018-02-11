@@ -144,7 +144,6 @@ export default class Login extends Component {
         'You can\'t log in with an empty email!',
         [
           {text: 'I understand', onPress: () => {
-            console.log('User understands their mistake.');
             this.setState({
               button_color: GLOBAL.COLOR.GREEN,
             });
@@ -160,7 +159,6 @@ export default class Login extends Component {
         'You can\'t log in with an empty password!',
         [
           {text: 'I understand', onPress: () => {
-            console.log('User understands their mistake.');
             this.setState({
               button_color: GLOBAL.COLOR.GREEN,
             });
@@ -184,7 +182,6 @@ export default class Login extends Component {
         'You can\'t log in with an empty email!',
         [
           {text: 'I understand', onPress: () => {
-            console.log('User understands their mistake.');
             this.setState({
               button_color: GLOBAL.COLOR.GREEN,
             });
@@ -200,7 +197,6 @@ export default class Login extends Component {
         'You can\'t log in with an empty password!',
         [
           {text: 'I understand', onPress: () => {
-            console.log('User understands their mistake.');
             this.setState({
               button_color: GLOBAL.COLOR.GREEN,
             });
@@ -216,7 +212,6 @@ export default class Login extends Component {
         'but your passwords don\'t match',
         [
           {text: 'Let me fix it!', onPress: () => {
-            console.log('User wants to fix it.');
             this.setState({
               button_color: GLOBAL.COLOR.GREEN,
             });
