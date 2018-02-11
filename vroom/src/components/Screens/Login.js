@@ -22,7 +22,7 @@ import {Icons} from 'react-native-fontawesome';
 import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
-import {VAlert} from './../Custom/VAlert';
+import VAlert from './../Custom/VAlert';
 
 export default class Login extends Component {
 
