@@ -18,7 +18,16 @@ import {
 import Animation from 'lottie-react-native';
 
 export class Button extends Component {
-  render({onPress, backgroundColor, label, width, height, marginTop, shadowColor, style} = this.props) {
+  render({
+    onPress,
+    backgroundColor,
+    label,
+    width,
+    height,
+    marginTop,
+    shadowColor,
+    style,
+  } = this.props) {
   return (
     <TouchableOpacity style={
       [
