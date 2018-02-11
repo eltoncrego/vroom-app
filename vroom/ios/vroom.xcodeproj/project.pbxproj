@@ -41,7 +41,6 @@
 		4CD5889FC06948C3AF270760 /* fontawesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D80B93C97C834AC3923EA8A4 /* fontawesome.ttf */; };
 		56FFAA88321A03AFA9220355 /* libPods-vroom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54768FEE455C2BD9D15178A3 /* libPods-vroom.a */; };
 		593F3519202E9F1400CC767A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		597AE2CD2030388F00F3FC38 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 597AE2CC2030388E00F3FC38 /* LaunchScreen.xib */; };
 		59F5B244202ACE5D0000C7B5 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CEE550202AC71D0008257B /* Lottie.framework */; };
 		59F5B245202ACE5D0000C7B5 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 59CEE550202AC71D0008257B /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -424,7 +423,6 @@
 		54768FEE455C2BD9D15178A3 /* libPods-vroom.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-vroom.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		559C08E12155865CFE0D48CB /* Pods-vroom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vroom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-vroom/Pods-vroom.debug.xcconfig"; sourceTree = "<group>"; };
 		5978910545E94036BEFE5C7C /* nunito_blackitalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nunito_blackitalic.ttf; path = ../assets/fonts/nunito_blackitalic.ttf; sourceTree = "<group>"; };
-		597AE2CC2030388E00F3FC38 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = ../../../../../../../../.Trash/LaunchScreen.xib; sourceTree = "<group>"; };
 		5B775B338D03473B998F6077 /* nunito_semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nunito_semibold.ttf; path = ../assets/fonts/nunito_semibold.ttf; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6EC017CCC3BD4A85BE442471 /* libLottie.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottie.a; sourceTree = "<group>"; };
@@ -599,7 +597,6 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				597AE2CC2030388E00F3FC38 /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = vroom;
@@ -1297,7 +1294,6 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				1E9C5C28340D48F7B4869F41 /* nunito_black.ttf in Resources */,
 				69D316206B7E456F82111F3C /* nunito_blackitalic.ttf in Resources */,
-				597AE2CD2030388F00F3FC38 /* LaunchScreen.xib in Resources */,
 				C3C0BA7EEBA74159AD9FA3E2 /* nunito_bold.ttf in Resources */,
 				10E46EBCE2DB40AD97CA012A /* nunito_bolditalic.ttf in Resources */,
 				4406EE5316804B67A4F66442 /* nunito_extrabold.ttf in Resources */,
@@ -1628,6 +1624,7 @@
 			baseConfigurationReference = 559C08E12155865CFE0D48CB /* Pods-vroom.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = vroom/vroom.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1655,6 +1652,7 @@
 			baseConfigurationReference = B36410804E843C00302E6A6B /* Pods-vroom.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = vroom/vroom.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 48FK3SRUK7;
