@@ -291,6 +291,7 @@ export default class Login extends Component {
               activeColor={GLOBAL.COLOR.GREEN}
               topMargin={32}
               autoCapitalize={"none"}
+              keyboardType={"email-address"}
               onChangeText={(text) => {this.setState({email: text})}}
             />
             <InputField
