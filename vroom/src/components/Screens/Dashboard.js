@@ -55,28 +55,103 @@ export default class Dashboard extends Component {
       cardState: 1,
       scrollEnable: true,
 
-      // Ignore these, they're for trying out modals
+      // Values for the add-gas modal
       modalVisible: false,
 
       // Below are some dummy objects of stuff
       // we will sync with firebase
       // TODO: sync with firebase
-
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,
-      updatedODO: 0,
-      averageMPG: 0, // update this calculation as user enters
-      list_i: 0, // index should update with initial pull and increment
+      updatedODO: 108562,
+      averageMPG: 31.34, // update this calculation as user enters
+      list_i: 10, // index should update with initial pull and increment
       textDataArr: [  // the data structure we will be using for gas
-        // {
-        //   list_i: 0,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // }
+        {
+          list_i: 0,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },{
+          list_i: 1,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },{
+          list_i: 2,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },{
+          list_i: 3,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },{
+          list_i: 4,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },
+        {
+          list_i: 5,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },
+        {
+          list_i: 6,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },
+        {
+          list_i: 7,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },
+        {
+          list_i: 8,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },
+        {
+          list_i: 9,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },
+        {
+          list_i: 10,
+          totalPrice: 32.50,
+          date: 'February 8th, 2018',
+          gallonsFilled: 8.01,
+          odometer: 108562,
+          distanceSinceLast: 251
+        },
       ],
     };
   }
@@ -109,7 +184,10 @@ export default class Dashboard extends Component {
   addItem() {
 
     if(this.state.userODO == 0 || this.state.user_filled == 0 || this.state.user_paid == 0){
-      alert("Please use a valid amount")
+      alert("Please use a valid amount");
+      return;
+    } else if (this.state.userODO < this.state.updatedODO) {
+      alert("Your odometer reading cannot go backwards!");
       return;
     }
 
@@ -222,11 +300,11 @@ export default class Dashboard extends Component {
       outputRange: [-250, 0]
     });
 
-   // Calculate the x and y transform from the pan value
-   let [translateY] = [cardTranslation];
+    // Calculate the x and y transform from the pan value
+    var [translateY] = [cardTranslation];
 
-   // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
-   let transformList = {transform: [{translateY}]};
+    // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
+    var transformList = {transform: [{translateY}]};
 
     return(
       <View style={
@@ -243,11 +321,6 @@ export default class Dashboard extends Component {
               .
             </Text>
           </Text>
-          <TouchableOpacity onPress={() => this.openModal()}>
-            <Text style={styleguide.dark_subheader2}>
-              <FontAwesome>{Icons.plus}</FontAwesome>
-            </Text>
-          </TouchableOpacity>
         </View>
 
         <Modal
@@ -258,7 +331,7 @@ export default class Dashboard extends Component {
         >
           <View style={styles.modalContainer}>
             <KeyboardAvoidingView behavior="padding">
-              <View style={styles.innerContainer}>
+              <View style={[styles.innerContainer]}>
                 <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
                   <Text style={styleguide.light_title2_accent}>.</Text>
                 </Text>
@@ -325,6 +398,7 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <View style={styles.graph}>
           </View>
+          {/* Uncomment inside and move to within animated.view to enable swipable*/}
           {/*...this._panResponder.panHandlers*/}
           <Animated.View
             style={[
@@ -343,6 +417,31 @@ export default class Dashboard extends Component {
               removeItem={key => this.removeItem(key)}/>
           </Animated.View>
         </View>
+
+
+        <TouchableOpacity style={
+            {
+              width: 64,
+              height: 64,
+              borderRadius: 32,
+              backgroundColor: GLOBAL.COLOR.GREEN,
+              shadowColor: GLOBAL.COLOR.DARKGRAY,
+              shadowOpacity: 0.3,
+              shadowOffset: {x: 0, y: 0},
+              shadowRadius: 30,
+
+              position: 'absolute',
+              zIndex: 2,
+              bottom: 32,
+              right: 32,
+            }
+          } onPress={() => this.openModal()}>
+          <View style={styles.floating_button}>
+              <Text style={styleguide.dark_title2}>
+                <FontAwesome>{Icons.plus}</FontAwesome>
+              </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -360,6 +459,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  floating_button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
   content: {
     flex: 10,
     justifyContent: 'flex-start',
@@ -372,6 +477,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
+    height: 578,
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 1,
   },
