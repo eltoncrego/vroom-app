@@ -334,14 +334,12 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <View style={styles.graph}>
           </View>
-          {/* Uncomment inside and move to within animated.view to enable swipable*/}
-          {/*...this._panResponder.panHandlers*/}
           <Animated.View
             style={[
               styles.card,
               transformList,]
             }>
-            <View style={styles.statistics}>
+            <View {...this._panResponder.panHandlers} style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
                 <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
