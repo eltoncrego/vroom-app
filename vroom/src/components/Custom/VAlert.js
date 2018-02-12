@@ -26,7 +26,7 @@ export default class VAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
+      visible: false,
       alertTitle: "Alert!",
       alertBody: "",
       buttonText: "OK",
@@ -35,7 +35,7 @@ export default class VAlert extends Component {
 
   fireVAlert(alertBody, alertTitle, buttonText) {
     this.setState({
-      modalVisible: true,
+      visible: true,
       alertBody: alertBody,
       alertTitle: alertTitle,
       buttonText: buttonText,
@@ -44,7 +44,7 @@ export default class VAlert extends Component {
 
   disableVAlert(){
     this.setState({
-      modalVisible: false,
+      visible: false,
     });
   }
 
@@ -59,7 +59,7 @@ export default class VAlert extends Component {
 
     return (
       <Modal
-        visible={this.state.modalVisible}
+        visible={this.state.visible}
         animationType={'fade'}
         transparent={true}>
         <View style={styles.main_container}>

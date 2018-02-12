@@ -139,6 +139,10 @@ export default class Login extends Component {
   signin = () => {
     if((!this.state.email)){
       this.shakeButton();
+      // VAlert.fireVAlert(
+      //   "Woah there!",
+      //   "You can\'t log in with an empty email!",
+      //   "Oh, okay");
       Alert.alert(
         'Woah there!',
         'You can\'t log in with an empty email!',
@@ -353,7 +357,7 @@ export default class Login extends Component {
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </Animated.View>
-        {/*<VAlert/>*/}
+        {/* <VAlert/>*/}
       </SafeAreaView>
     );
   }
