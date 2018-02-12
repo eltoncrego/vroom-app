@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "fb-watchman": "2.0.0",
     "firebase": "4.9.1",
     "lottie-react-native": "2.3.2",
     "moment": "2.20.1",
