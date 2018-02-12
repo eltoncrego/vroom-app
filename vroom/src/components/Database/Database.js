@@ -64,6 +64,37 @@ import Auth from '../Authentication/Auth';
   }
 
   /*
+  * Database function: pushFillup()
+  * Author: Alec Felt and Connick Shields (modified by Will Coates)
+  *
+  * Purpose: push a fillup to a user in the database
+  *
+  * @param: (fillupData) = the newest fillup (textDataArr[0])
+  * @return: void
+  * TODO create error message, update task object fields, add notifications?
+  */
+  export function pushFillup(fillupData) {
+    console.log("started pushFillup");
+    console.log("Here's fillupData:");
+    console.log(fillupData);
+    
+    if(Auth.checkAuth()) {
+
+      var user = Auth.getAuth().uid;
+
+      var fillup = {
+          list_i: fillupData.list_i,
+          totalPrice: fillupData.totalPrice,
+          gallonsFilled: fillupData.gallonsFilled,
+          odometer: fillupData.odometer,
+          distanceSinceLast: fillupData.distanceSinceLast,
+      };
+
+      firebaseRef.database().ref("users").child(user).child("fillups").push(fillup);
+    }
+  }
+
+  /*
    * Database function: queryCars()
    * Author: Alec Felt
    *
