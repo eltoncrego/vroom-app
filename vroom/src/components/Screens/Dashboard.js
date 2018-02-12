@@ -60,12 +60,14 @@ export default class Dashboard extends Component {
       // Values for the add-gas modal
       modalVisible: false,
 
-      // Below are some dummy objects of stuff
-      // we will sync with firebase
-      // TODO: sync with firebase
+      // Input state variables
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,
+
+      // Below are some dummy objects of stuff
+      // we will sync with firebase
+      // TODO: sync with firebase
       updatedODO: 0,
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
@@ -119,8 +121,9 @@ export default class Dashboard extends Component {
     if(userODO == null || this.state.user_filled == "" || this.state.user_paid == ""){
       alert("Please use a valid amount");
       return;
-    } else if (userODO < this.state.updatedODO) {
-      alert("Your odometer reading cannot go backwards!");
+    } else if (userODO <= this.state.updatedODO) {
+      alert("Your odometer reading cannot go backwards or stay constant between fillups!"
+      +"\nPlease verify it is correct.");
       return;
     }
 
