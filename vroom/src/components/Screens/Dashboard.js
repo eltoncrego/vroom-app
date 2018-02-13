@@ -25,7 +25,7 @@ import {
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
-import {pushFillup} from '../Database/Database.js';
+import {pushFillup, removeFillup} from '../Database/Database.js';
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -175,7 +175,7 @@ export default class Dashboard extends Component {
     // We want to push a new Fillup to the user in Firebase, based on these
     // variables
     var newFillup = [{
-          list_i: 0,
+          list_i: this.state.textDataArr.length,
           totalPrice: parseFloat(this.state.user_paid),
           date: creationDate,
           gallonsFilled: this.state.user_filled,
@@ -195,6 +195,11 @@ export default class Dashboard extends Component {
   }
 
   removeItem(key){
+
+    // TODO: Push to firebase
+    // We want to delete a specific Fillup from the user, based
+    // on these variables
+    removeFillup(this.state.textDataArr[key].list_i);
 
     const mpgRemoved = this.state.textDataArr[key].distanceSinceLast
       /this.state.textDataArr[key].gallonsFilled;
@@ -219,9 +224,7 @@ export default class Dashboard extends Component {
       updatedODO: ODO,
     });
 
-    // TODO: Push to firebase
-    // We want to delete a specific Fillup from the user, based
-    // on these variables
+
   }
 
   /*
