@@ -65,7 +65,7 @@ import Auth from '../Authentication/Auth';
 
   /*
   * Database function: pushFillup()
-  * Author: Alec Felt and Connick Shields (modified by Will Coates)
+  * Author: Will Coates
   *
   * Purpose: push a fillup to a user in the database
   *
@@ -91,6 +91,30 @@ import Auth from '../Authentication/Auth';
       };
 
       firebaseRef.database().ref("users").child(user).child("fillups").push(fillup);
+    }
+  }
+  /*
+  * Database function: removeFillup()
+  * Author: Will Coates
+  *
+  * Purpose: remove a fillup from a user in the database
+  *
+  * @param: i: the index of the particular fillup we're removing
+  * @return: void
+  * TODO create error message, update task object fields, add notifications?
+  */
+  export function removeFillup(i) {
+    console.log("removing array[" + i + "]");
+    
+    if(Auth.checkAuth()) {
+      var user = Auth.getAuth().uid;
+      firebaseRef.database().ref("users").child(user).child("fillups").equalTo(i).on("value", function(snapshot){
+        console.log("removing snapshot.val");
+        console.log(snapshot.val());
+        snapshot.forEach(function(data){
+          console.log(data.key);
+        });
+      });
     }
   }
 
