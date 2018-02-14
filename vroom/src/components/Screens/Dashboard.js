@@ -141,23 +141,22 @@ export default class Dashboard extends Component {
     }
 
     // instead of setting textDataArr here, try newfillup.concat(textDataArr) instead
-    var newFillup = [{
-          list_i: 0,
-          totalPrice: parseFloat(this.state.user_paid),
-          date: creationDate,
-          gallonsFilled: this.state.user_filled,
-          odometer: userODO,
-          distanceSinceLast: distance
-           }];
+    var newFillup = {
+      list_i: this.state.list_i + 1,
+      totalPrice: parseFloat(this.state.user_paid),
+      date: creationDate,
+      gallonsFilled: this.state.user_filled,
+      odometer: userODO,
+      distanceSinceLast: distance
+    };
 
     this.setState({
       averageMPG: average,
       updatedODO: userODO,
-     //textDataArr: newFillup.concat(this.state.textDataArr),
       textDataArr:
       [
         {
-          list_i: 0,
+          list_i: this.state.list_i + 1,
           totalPrice: parseFloat(this.state.user_paid),
           date: creationDate,
           gallonsFilled: this.state.user_filled,
@@ -172,26 +171,8 @@ export default class Dashboard extends Component {
     });
 
     // TODO: Push to Firebase
-    // We want to push a new Fillup to the user in Firebase, based on these
-    // variables
-    var newFillup = [{
-          list_i: this.state.textDataArr.length,
-          totalPrice: parseFloat(this.state.user_paid),
-          date: creationDate,
-          gallonsFilled: this.state.user_filled,
-          odometer: userODO,
-          distanceSinceLast: distance
-           }];
-    // console.log("here's this.state.textDataArr");
-    // console.log(this.state.textDataArr);
-    // console.log("here's the new fillup");
-    // console.log(newFillup);
-    // console.log("here's the new fillup concatenated with this.state.textDataArr");
-    this.state.textDataArr = newFillup.concat(this.state.textDataArr);
-    // console.log(this.state.textDataArr);
-    // console.log("here's the object we're passing in:");
-    // console.log(this.state.textDataArr[0]);
-    pushFillup(this.state.textDataArr[0]);
+
+    pushFillup(newFillup);
   }
 
   removeItem(key){
