@@ -74,23 +74,21 @@ import Auth from '../Authentication/Auth';
   * TODO create error message, update task object fields, add notifications?
   */
   export function pushFillup(fillupData) {
-    console.log("started pushFillup");
+    console.log("pushFillup");
     console.log("Here's fillupData:");
     console.log(fillupData);
-    
+
     if(Auth.checkAuth()) {
-
       var user = Auth.getAuth().uid;
+      // var fillup = {
+      //     list_i: fillupData.list_i,
+      //     totalPrice: fillupData.totalPrice,
+      //     gallonsFilled: fillupData.gallonsFilled,
+      //     odometer: fillupData.odometer,
+      //     distanceSinceLast: fillupData.distanceSinceLast,
+      // };
 
-      var fillup = {
-          list_i: fillupData.list_i,
-          totalPrice: fillupData.totalPrice,
-          gallonsFilled: fillupData.gallonsFilled,
-          odometer: fillupData.odometer,
-          distanceSinceLast: fillupData.distanceSinceLast,
-      };
-
-      firebaseRef.database().ref("users").child(user).child("fillups").push(fillup);
+      firebaseRef.database().ref("users").child(user).child("fillups").push(fillupData);
     }
   }
   /*
@@ -105,7 +103,7 @@ import Auth from '../Authentication/Auth';
   */
   export function removeFillup(i) {
     console.log("removing array[" + i + "]");
-    
+
     if(Auth.checkAuth()) {
       var user = Auth.getAuth().uid;
       firebaseRef.database().ref("users").child(user).child("fillups").equalTo(i).on("value", function(snapshot){
