@@ -86,7 +86,7 @@ export default class Settings extends Component {
           </Text>
           <TouchableOpacity onPress={() => this.props.closeCallBack()}>
             <View>
-              <Text style={styleguide.dark_title2}>
+              <Text style={styleguide.dark_title}>
                 <FontAwesome>{Icons.times}</FontAwesome>
               </Text>
             </View>

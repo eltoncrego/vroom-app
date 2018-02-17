@@ -355,6 +355,10 @@ export default class Dashboard extends Component {
    * @return: Component Views
    */
   render(){
+
+    var {height, width} = Dimensions.get('window');
+
+
     var cardTranslation = this.state.translation.interpolate({
       inputRange: [0, 1],
       outputRange: [-250, 0]
@@ -362,7 +366,7 @@ export default class Dashboard extends Component {
 
     var settingsTranslation = this.state.settingsShift.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 400]
+      outputRange: [0, width],
     });
 
     var modalBG = this.state.modalFade.interpolate({
@@ -398,7 +402,7 @@ export default class Dashboard extends Component {
           </Text>
           <TouchableOpacity onPress={() => this.openSettings()}>
             <Animated.View style={{opacity: modalBG}}>
-                <Text style={styleguide.dark_title2}>
+                <Text style={styleguide.dark_title}>
                   <FontAwesome>{Icons.gear}</FontAwesome>
                 </Text>
             </Animated.View>
@@ -525,7 +529,7 @@ export default class Dashboard extends Component {
             }
           } onPress={() => this.openModal()}>
           <View style={styles.floating_button}>
-              <Text style={styleguide.dark_title2}>
+              <Text style={styleguide.dark_title}>
                 <FontAwesome>{Icons.plus}</FontAwesome>
               </Text>
           </View>
