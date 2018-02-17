@@ -95,10 +95,11 @@ export default class Auth extends Component {
         console.log("signed user in");
       }
       return true;
-    }, error => {
-      console.log(error.message);
-      alert(error.message);
-      return false;
+    }).catch(function(error){
+      setTimeout(() => {
+        alert(error.message);
+      }, 30);
+      return false
     });
   }
 
@@ -121,11 +122,9 @@ export default class Auth extends Component {
         return true;
       }, error => {
         console.log(error.message);
-        if(error.code == "auth/email-already-in-use"){
-          alert("Your email is already registered. Attemping to sign you in automatically.")
-          databaseLogin(e, p);
-        }
-        alert(error.message);
+        setTimeout(() => {
+          alert(error.message);
+        }, 30);
         return false;
       });
   }

@@ -238,6 +238,8 @@ export default class Login extends Component {
     var that = this;
     Auth.firebaseSignup(this.state.email, this.state.password).then(function(rv){
       that.closeModal();
+    }).catch(function(error) {
+      that.closeModal();
     });
   }
 
@@ -467,8 +469,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 64,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
     backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
 
