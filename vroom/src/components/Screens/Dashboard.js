@@ -328,6 +328,13 @@ export default class Dashboard extends Component {
               .
             </Text>
           </Text>
+          <TouchableOpacity onPress={() => {/*Open settings */}}>
+            <View>
+                <Text style={styleguide.dark_title2}>
+                  <FontAwesome>{Icons.gear}</FontAwesome>
+                </Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         <Modal
@@ -407,13 +414,11 @@ export default class Dashboard extends Component {
           <Animated.View
             style={[
               styles.card,
-              transformList,
-              {
-                opacity: this.state.fadeIn,
-              }
-            ]}>
-            <Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
-            <View {...this._panResponder.panHandlers} style={styles.statistics}>
+              transformList,]
+            }>
+            {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
+            ...this._panResponder.panHandlers*/}
+            <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
                 <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
