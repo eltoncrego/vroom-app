@@ -62,6 +62,7 @@ export default class Dashboard extends Component {
 
     this.state = {
       translation: new Animated.Value(0),
+      fadeIn: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
       scrollEnable: true,
@@ -291,6 +292,13 @@ export default class Dashboard extends Component {
           list_i: fData.length,
         });
       }
+      Animated.timing(
+        that.state.fadeIn,
+        {
+          toValue: 1,
+          duration: 250,
+        }
+      ).start();
     }).catch(function(error) {
       console.log('Failed to load fill up data into state:', error);
     });
@@ -409,8 +417,11 @@ export default class Dashboard extends Component {
           <Animated.View
             style={[
               styles.card,
-              transformList,]
-            }>
+              transformList,
+              {
+                opacity: this.state.fadeIn,
+              }
+            ]}>
             <Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             <View {...this._panResponder.panHandlers} style={styles.statistics}>
               <View>
