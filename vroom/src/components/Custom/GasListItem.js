@@ -111,7 +111,7 @@ export default class Gas extends PureComponent {
         friction: 6,
       }),
       Animated.timing(this.state.bgAnimated, {
-        toValue: 1,
+        toValue: 0,
         duration: 500,
       }),
     ]).start();
@@ -121,7 +121,7 @@ export default class Gas extends PureComponent {
 
     var shift = this.state._animated.interpolate({
       inputRange: [0, 1],
-      outputRange: [315, 0],
+      outputRange: [width, 0],
     });
 
     var colorShift = this.state.bgAnimated.interpolate({
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
 
   innerCell: {
     width: width,
-    marginLeft: 116,
+    marginLeft: 100,
     backgroundColor: GLOBAL.COLOR.WHITE,
     paddingVertical: 16,
     paddingHorizontal: 16,
@@ -202,8 +202,7 @@ const styles = StyleSheet.create({
   },
 
   listItem: {
-    marginLeft: -132,
-    paddingHorizontal: 16,
+    marginLeft: -100,
     justifyContent: 'center',
   },
 
