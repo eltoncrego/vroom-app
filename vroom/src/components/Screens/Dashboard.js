@@ -31,6 +31,8 @@ import {
   pullFillups,
   updateMPG,
   pullAverageMPG,
+  updateODO,
+  pullODOReading,
 } from '../Database/Database.js';
 
 // Custom components
@@ -180,6 +182,7 @@ export default class Dashboard extends Component {
 
     pushFillup(newFillup);
     updateMPG(average);
+    updateODO(userODO);
   }
 
   removeItem(key){
@@ -187,10 +190,9 @@ export default class Dashboard extends Component {
     // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
     // on these variables
-    removeFillup(this.state.textDataArr[key].list_i);
 
-    const mpgRemoved = this.state.textDataArr[key].distanceSinceLast
-      /this.state.textDataArr[key].gallonsFilled;
+    const mpgRemoved = this.state.textDataArr[key-1].distanceSinceLast
+      /this.state.textDataArr[key-1].gallonsFilled;
 
     const averageMPG = this.state.textDataArr.length == 1 ? 0 :
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
@@ -198,6 +200,10 @@ export default class Dashboard extends Component {
 
     const ODO = this.state.textDataArr.length == 1 ? 0 :
       this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
+
+    removeFillup(this.state.textDataArr[key].list_i);
+    updateMPG(averageMPG);
+    updateODO(ODO);
 
     this.state.textDataArr.splice(key, 1);
     console.log(this.state.textDataArr);
@@ -211,7 +217,6 @@ export default class Dashboard extends Component {
       averageMPG: averageMPG,
       updatedODO: ODO,
     });
-
 
   }
 
@@ -261,20 +266,32 @@ export default class Dashboard extends Component {
   componentDidMount() {
     var that = this;
     pullFillups().then(function(fData){
-      that.setState({
-        textDataArr: fData,
-        updatedODO: fData[fData.length-1].odometer,
-        list_i: fData[fData.length-1].list_i,
-      });
+      if(fData){
+        that.setState({
+          textDataArr: fData,
+          list_i: fData[fData.length-1].list_i,
+        });
+      }
     }).catch(function(error) {
       console.log('Failed to load fill up data into state:', error);
     });
 
     pullAverageMPG().then(function(fData){
-      console.log(fData);
-      that.setState({
-        averageMPG: fData,
-      });
+      if(fData){
+        that.setState({
+          averageMPG: fData,
+        });
+      }
+    }).catch(function(error) {
+      console.log('Failed to load average mpg data into state:', error);
+    });
+
+    pullODOReading().then(function(fData){
+      if(fData){
+        that.setState({
+          updatedODO: fData,
+        });
+      }
     }).catch(function(error) {
       console.log('Failed to load average mpg data into state:', error);
     });

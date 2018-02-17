@@ -72,6 +72,14 @@ export function updateMPG(average) {
   }
 }
 
+export function updateODO(newODO) {
+  console.log("updateODO");
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    firebaseRef.database().ref("users").child(user).child("odometer").set(newODO);
+  }
+}
+
 /*
 * Database function: pullFillups()
 */
@@ -103,6 +111,23 @@ export function pullAverageMPG() {
 
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("average");
+
+  return query.once('value').then(function(snapshot){
+    return snapshot.val();
+  }).catch(function(error) {
+    console.log('Failed to pull average MPG data from firebase:', error);
+  });
+
+}
+
+/*
+* Database function: pullFillups()
+*/
+export function pullODOReading() {
+  console.log("pullODOReading");
+
+  const user = Auth.getAuth().uid;
+  const query = firebaseRef.database().ref("users").child(user).child("odometer");
 
   return query.once('value').then(function(snapshot){
     return snapshot.val();
