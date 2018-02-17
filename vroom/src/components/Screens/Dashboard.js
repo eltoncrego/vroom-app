@@ -262,14 +262,14 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
+
     var that = this;
     pullFillups().then(function(fData){
       if(fData){
         that.setState({
           textDataArr: fData,
-          list_i: fData[0].list_i,
+          list_i: fData.length,
         });
-        console.log("NEW LIST I: "+fData[0].list_i);
       }
     }).catch(function(error) {
       console.log('Failed to load fill up data into state:', error);
