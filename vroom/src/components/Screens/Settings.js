@@ -109,13 +109,16 @@ export default class Settings extends Component {
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => {
-                Linking.canOpenURL('itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8').then(supported => {
-                    if(Platform.os === 'ios'){
-                      supported && Linking.openURL('itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8');
-                    } else {
-                      supported && Linking.openURL('market://details?id=myandroidappid');
-                    }
-                }, (err) => console.log(err));
+                if(Platform.OS === 'android'){
+                  Linking.canOpenURL('market://details?id=myandroidappid').then(supported => {
+                    supported && Linking.openURL('market://details?id=myandroidappid');
+                  }, (err) => console.log(err));
+                } else {
+                  Linking.canOpenURL('itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8').then(supported => {
+                    supported && Linking.openURL('itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8');
+                  }, (err) => console.log(err));
+                }
+
               }}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
