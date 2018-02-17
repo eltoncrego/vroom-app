@@ -143,7 +143,7 @@ export default class Dashboard extends Component {
     const creationDate = this.getFormattedTime();
 
     this.closeModal();
-    
+
     // instead of setting textDataArr here, try newfillup.concat(textDataArr) instead
     var newFillup = {
       list_i: this.state.list_i + 1,
@@ -186,9 +186,14 @@ export default class Dashboard extends Component {
     // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
     // on these variables
+    const itemToRemove =
+    this.state.textDataArr.find(function (obj){
+      return obj.list_i === key;
+    });
+    const indexOf = this.state.textDataArr.indexOf(itemToRemove);
 
-    const mpgRemoved = this.state.textDataArr[key-1].distanceSinceLast
-      /this.state.textDataArr[key-1].gallonsFilled;
+    const mpgRemoved = itemToRemove.distanceSinceLast
+      /itemToRemove.gallonsFilled;
 
     const averageMPG = this.state.textDataArr.length == 1 ? 0 :
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
@@ -197,17 +202,14 @@ export default class Dashboard extends Component {
     const ODO = this.state.textDataArr.length == 1 ? 0 :
       this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
 
-    removeFillup(this.state.textDataArr[key].list_i);
+    removeFillup(key);
     updateMPG(averageMPG);
     updateODO(ODO);
 
-    this.state.textDataArr.splice(key, 1);
-    console.log(this.state.textDataArr);
-    for (var i = key; i < this.state.textDataArr.length; i++){
-      console.log(i);
+    this.state.textDataArr.pop(itemToRemove);
+    for (var i = indexOf; i < this.state.textDataArr.length; i++){
       this.state.textDataArr[i].list_i -= 1;
     }
-    console.log(this.state.textDataArr);
     this.setState({
       list_i: this.state.list_i - 1,
       averageMPG: averageMPG,

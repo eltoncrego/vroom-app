@@ -148,18 +148,21 @@ export function pullODOReading() {
 * TODO create error message, update task object fields, add notifications?
 */
 export function removeFillup(i) {
-  console.log("removing array[" + i + "]");
+  console.log("removing fillup");
+  console.log(i)
 
-  if(Auth.checkAuth()) {
-    var user = Auth.getAuth().uid;
-    firebaseRef.database().ref("users").child(user).child("fillups").equalTo(i).on("value", function(snapshot){
-      console.log("removing snapshot.val");
-      console.log(snapshot.val());
-      snapshot.forEach(function(data){
-        console.log(data.key);
-      });
+  var user = Auth.getAuth().uid;
+  const query = firebaseRef.database().ref("users").child(user).child("fillups");
+  query.once('value').then(function(snapshot){
+    snapshot.forEach(function(child) {
+      if (child.val().list_i == i) {
+        console.log('Removing child '+child.key);
+        child.ref.remove();
+      }
     });
-  }
+  }).catch(function(error) {
+    console.log('Failed to remove fillup data from firebase:', error);
+  });
 }
 
 /*
