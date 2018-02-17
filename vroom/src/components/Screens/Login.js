@@ -19,10 +19,14 @@ import {
   Modal,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
+import Animation from 'lottie-react-native';
+
 import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
-// import VAlert from './../Custom/VAlert';
+import Loading from './../Screens/Loading';
+
+import loader_icon from '../../../assets/animations/loading.json';
 
 export default class Login extends Component {
 
@@ -45,6 +49,8 @@ export default class Login extends Component {
       email: null,
       password: null,
       password_verification: null,
+
+      modalVisible: false,
 
       fade_animation: new Animated.Value(0),
       field_animation: new Animated.Value(0),
@@ -171,7 +177,11 @@ export default class Login extends Component {
       )
       return;
     }
-    Auth.firebaseLogin(this.state.email, this.state.password);
+    this.openModal();
+    var that = this;
+    Auth.firebaseLogin(this.state.email, this.state.password).then(function(rv){
+      that.closeModal();
+    });
   }
 
  /*
@@ -224,8 +234,30 @@ export default class Login extends Component {
       )
       return;
     }
-    Auth.firebaseSignup(this.state.email, this.state.password);
+    this.openModal();
+    var that = this;
+    Auth.firebaseSignup(this.state.email, this.state.password).then(function(rv){
+      that.closeModal();
+    });
   }
+
+  /*
+   * Function: openModal()
+   * Author: Elton C. Rego
+   * Purpose: Opens the modal to add a gas item
+   */
+   openModal() {
+     this.setState({modalVisible:true});
+   }
+
+  /*
+   * Function: closeModal()
+   * Author: Elton C. Rego
+   * Purpose: Closes the modal to add a gas item
+   */
+   closeModal() {
+     this.setState({modalVisible:false});
+   }
 
  /*
   * Author: Elton C. Rego
@@ -278,6 +310,19 @@ export default class Login extends Component {
         styleguide.container,
         styles.container,
       ]}>
+
+      <Modal
+        visible={this.state.modalVisible}
+        transparent={true}
+        animationType={'slide'}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.innerContainer}>
+            <Loading label={"we're contacting the database gods"}/>
+          </View>
+        </View>
+      </Modal>
+
         <Animated.View style={{opacity: this.state.fade_animation,}}>
           <KeyboardAvoidingView
             style={styles.sign_in_form}
@@ -371,6 +416,14 @@ const styles = StyleSheet.create({
   * Author: Elton C. Rego
   * Purpose: Styles the container for the login form
   */
+  loader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 3,
+  },
   container: {
     backgroundColor: GLOBAL.COLOR.WHITE,
     flexDirection: 'column',
@@ -385,6 +438,30 @@ const styles = StyleSheet.create({
   forgot_password_text: {
     marginTop: 8,
     alignSelf: 'flex-end',
-  }
+  },
+
+  // FOR PROTOTYPING
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 32,
+  },
+  innerContainer: {
+    alignItems: 'center',
+    padding: 64,
+    borderRadius: 8,
+    backgroundColor: GLOBAL.COLOR.DARKGRAY,
+  },
+
+  /*
+   * Style: Revi Animations
+   * Author: Elton C. Rego
+   * Purpose: This styles the Revis on each card
+   */
+  animations: {
+    alignSelf: 'center',
+    height: 128,
+    width: 128,
+  },
 
 });
