@@ -18,6 +18,8 @@ import {
   Alert,
   StatusBar,
   TextInput,
+  Linking,
+  Platform,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -93,18 +95,51 @@ export default class Settings extends Component {
         <View style={styles.content}>
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
             <View style={styles.content_wrapper}>
+              <TouchableOpacity onPress={() => {Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback')}}>
+                <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Contact Us
+                  </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.paperPlane}</FontAwesome></Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                Linking.canOpenURL('itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8').then(supported => {
+                    if(Platform.os === 'ios'){
+                      supported && Linking.openURL('itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8');
+                    } else {
+                      supported && Linking.openURL('market://details?id=myandroidappid');
+                    }
+                }, (err) => console.log(err));
+              }}>
+                <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Rate Us on App Store!
+                  </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.star}</FontAwesome></Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => {Auth.logOut()}}>
                 <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Sign Out
+                  </Text>
                   <View style={{
-                    marginRight: 16,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
                     <Text style={styleguide.dark_body}><FontAwesome>{Icons.unlockAlt}</FontAwesome></Text>
                   </View>
-                  <Text style={styleguide.dark_body}>
-                    Sign Out
-                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -142,9 +177,8 @@ const styles = StyleSheet.create({
   },
   setting_item: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    paddingHorizontal: 24,
-    paddingVertical: 16,
+    justifyContent: 'space-between',
+    padding: 24,
     borderBottomWidth: 1,
     borderTopWidth: 1,
     borderColor: 'rgba(255,255,255,0.50)',
