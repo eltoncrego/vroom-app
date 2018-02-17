@@ -64,11 +64,19 @@ export function pushFillup(fillupData) {
   }
 }
 
+export function updateMPG(average) {
+  console.log("updateMPG");
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    firebaseRef.database().ref("users").child(user).child("average").set(average);
+  }
+}
+
 /*
 * Database function: pullFillups()
 */
 export function pullFillups() {
-  console.log("pullFillup");
+  console.log("pullFillups");
 
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("fillups");
@@ -83,6 +91,23 @@ export function pullFillups() {
     return returnArr;
   }).catch(function(error) {
     console.log('Failed to pull fill up data from firebase:', error);
+  });
+
+}
+
+/*
+* Database function: pullFillups()
+*/
+export function pullAverageMPG() {
+  console.log("pullAverageMPG");
+
+  const user = Auth.getAuth().uid;
+  const query = firebaseRef.database().ref("users").child(user).child("average");
+
+  return query.once('value').then(function(snapshot){
+    return snapshot.val();
+  }).catch(function(error) {
+    console.log('Failed to pull average MPG data from firebase:', error);
   });
 
 }
