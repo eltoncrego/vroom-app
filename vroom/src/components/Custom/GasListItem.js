@@ -36,34 +36,51 @@ export default class Gas extends PureComponent {
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onPanResponderTerminationRequest: (evt, gestureState) => false,
       onPanResponderMove: (evt, gestureState) => {
-        if (gestureState.dx > 35) {
-          this.setScrollViewEnabled(false);
-          let newX = gestureState.dx + this.gestureDelay;
-          position.setValue({x: newX, y: 0});
+        if(this.props.allowDeleteOn == this.props.index){
+          if (gestureState.dx > 35) {
+            this.setScrollViewEnabled(false);
+            let newX = gestureState.dx + this.gestureDelay;
+            position.setValue({x: newX, y: 0});
+          }
+          if (gestureState.dx > 150) {
+            Animated.sequence([
+              Animated.timing(this.state.bgAnimated, {
+                toValue: 1,
+                duration: 25,
+              }),
+            ]).start();
+          } else {
+            Animated.timing(this.state.bgAnimated, {
+              toValue: 0,
+              duration: 25,
+            }).start();
+          }
         }
       },
       onPanResponderRelease: (evt, gestureState) => {
-        if (gestureState.dx < 150) {
-          Animated.timing(this.state.position, {
-            toValue: {x: 0, y: 0},
-            duration: 150,
-          }).start(() => {
-            this.setScrollViewEnabled(true);
-          });
-        } else {
-          Animated.timing(this.state.position, {
-            toValue: {x: width, y: 0},
-            duration: 300,
-          }).start(() => {
-            this.props.success(this.props.index);
-            Animated.timing(this.state._animated, {
-              toValue: 0,
-              duration: 250,
+        if(this.props.allowDeleteOn == this.props.index){
+          if (gestureState.dx < 150) {
+            Animated.timing(this.state.position, {
+              toValue: {x: 0, y: 0},
+              duration: 150,
             }).start(() => {
-              position.setValue({x: 0, y: 0});
               this.setScrollViewEnabled(true);
             });
-          });
+          } else {
+            Animated.timing(this.state.position, {
+              toValue: {x: width, y: 0},
+              duration: 300,
+            }).start(() => {
+              this.props.success(this.props.index);
+              Animated.timing(this.state._animated, {
+                toValue: 0,
+                duration: 250,
+              }).start(() => {
+                position.setValue({x: 0, y: 0});
+                this.setScrollViewEnabled(true);
+              });
+            });
+          }
         }
       },
     });
@@ -110,10 +127,6 @@ export default class Gas extends PureComponent {
         duration: 250 + 1/this.props.index * 250,
         friction: 6,
       }),
-      Animated.timing(this.state.bgAnimated, {
-        toValue: 0,
-        duration: 500,
-      }),
     ]).start();
   }
 
@@ -148,7 +161,9 @@ export default class Gas extends PureComponent {
         {...this.panResponder.panHandlers}
       >
         <View style={styles.absoluteCell}>
-          <Animated.Text style={[styleguide.dark_body, {opacity: this.state.bgAnimated}]}>DELETE</Animated.Text>
+          <Animated.Text style={[styleguide.dark_body, {
+            opacity: this.state.bgAnimated, paddingRight: 16,
+          }]}>DELETE</Animated.Text>
         </View>
         <View style={styles.innerCell}>
           <View style={styles.change}>
