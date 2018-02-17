@@ -63,7 +63,7 @@ export default class Dashboard extends Component {
 
     this.state = {
       translation: new Animated.Value(0),
-      settingsShift: new Animated.Value(0),
+      settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
@@ -273,7 +273,7 @@ export default class Dashboard extends Component {
       }
     ).start();
   }
-    
+
   componentDidMount() {
 
     var that = this;
