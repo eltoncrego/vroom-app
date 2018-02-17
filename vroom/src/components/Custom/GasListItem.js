@@ -95,7 +95,6 @@ export default class Gas extends PureComponent {
   }
 
   render() {
-
     return (
       <View style={styles.listItem}>
       <Animated.View
