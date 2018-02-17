@@ -25,7 +25,13 @@ import {
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
-import {pushFillup, removeFillup, pullFillups} from '../Database/Database.js';
+import {
+  pushFillup,
+  removeFillup,
+  pullFillups,
+  updateMPG,
+  pullAverageMPG,
+} from '../Database/Database.js';
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -173,6 +179,7 @@ export default class Dashboard extends Component {
     // TODO: Push to Firebase
 
     pushFillup(newFillup);
+    updateMPG(average);
   }
 
   removeItem(key){
@@ -253,12 +260,23 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
     var that = this;
-    pullFillups().then(function(firebaseFillupData){
+    pullFillups().then(function(fData){
       that.setState({
-        textDataArr: firebaseFillupData,
+        textDataArr: fData,
+        updatedODO: fData[fData.length-1].odometer,
+        list_i: fData[fData.length-1].list_i,
       });
     }).catch(function(error) {
       console.log('Failed to load fill up data into state:', error);
+    });
+
+    pullAverageMPG().then(function(fData){
+      console.log(fData);
+      that.setState({
+        averageMPG: fData,
+      });
+    }).catch(function(error) {
+      console.log('Failed to load average mpg data into state:', error);
     });
   }
 
@@ -280,8 +298,6 @@ export default class Dashboard extends Component {
 
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
-
-    console.log(this.state.textDataArr);
 
     return(
       <View style={
