@@ -264,17 +264,6 @@ export default class Dashboard extends Component {
   componentDidMount() {
 
     var that = this;
-    pullFillups().then(function(fData){
-      if(fData){
-        that.setState({
-          textDataArr: fData,
-          list_i: fData.length,
-        });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load fill up data into state:', error);
-    });
-
     pullAverageMPG().then(function(fData){
       if(fData){
         that.setState({
@@ -292,7 +281,18 @@ export default class Dashboard extends Component {
         });
       }
     }).catch(function(error) {
-      console.log('Failed to load average mpg data into state:', error);
+      console.log('Failed to load odometer data into state:', error);
+    });
+
+    pullFillups().then(function(fData){
+      if(fData){
+        that.setState({
+          textDataArr: fData,
+          list_i: fData.length,
+        });
+      }
+    }).catch(function(error) {
+      console.log('Failed to load fill up data into state:', error);
     });
   }
 
