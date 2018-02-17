@@ -56,15 +56,24 @@ export default class Gas extends PureComponent {
             duration: 300,
           }).start(() => {
             this.props.success(this.props.index);
-            position.setValue({x: 0, y: 0});
-            this.setScrollViewEnabled(true);
+            Animated.timing(this.state._animated, {
+              toValue: 0,
+              duration: 250,
+            }).start(() => {
+              position.setValue({x: 0, y: 0});
+              this.setScrollViewEnabled(true);
+            });
           });
         }
       },
     });
 
     this.panResponder = panResponder;
-    this.state = {position};
+    this.state = {
+      position,
+      _animated: new Animated.Value(0),
+      bgAnimated: new Animated.Value(0),
+    };
   }
 
   setScrollViewEnabled(enabled) {
@@ -94,16 +103,52 @@ export default class Gas extends PureComponent {
     }
   }
 
+  componentDidMount(){
+    Animated.sequence([
+      Animated.timing(this.state._animated, {
+        toValue: 1,
+        duration: 250 + 1/this.props.index * 250,
+        friction: 6,
+      }),
+      Animated.timing(this.state.bgAnimated, {
+        toValue: 1,
+        duration: 500,
+      }),
+    ]).start();
+  }
+
   render() {
 
+    var shift = this.state._animated.interpolate({
+      inputRange: [0, 1],
+      outputRange: [315, 0],
+    });
+
+    var colorShift = this.state.bgAnimated.interpolate({
+      inputRange: [0, 1],
+      outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.RED],
+    });
+
     return (
-      <View style={styles.listItem}>
+      <Animated.View style={[,
+        styles.listItem,
+        {
+          backgroundColor: colorShift,
+        }
+      ]}>
       <Animated.View
-        style={[this.state.position.getLayout()]}
+        style={[
+          this.state.position.getLayout(),
+          {
+            transform: [
+              { translateX: shift },
+            ],
+          },
+        ]}
         {...this.panResponder.panHandlers}
       >
         <View style={styles.absoluteCell}>
-          <Text style={styleguide.dark_body}>DELETE</Text>
+          <Animated.Text style={[styleguide.dark_body, {opacity: this.state.bgAnimated}]}>DELETE</Animated.Text>
         </View>
         <View style={styles.innerCell}>
           <View style={styles.change}>
@@ -138,7 +183,7 @@ export default class Gas extends PureComponent {
           </View>
         </View>
       </Animated.View>
-    </View>
+    </Animated.View>
     );
   }
 }
@@ -160,7 +205,6 @@ const styles = StyleSheet.create({
     marginLeft: -132,
     paddingHorizontal: 16,
     justifyContent: 'center',
-    backgroundColor: GLOBAL.COLOR.RED,
   },
 
   change: {
