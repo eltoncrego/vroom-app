@@ -95,7 +95,16 @@ export default class Settings extends Component {
             <View style={styles.content_wrapper}>
               <TouchableOpacity onPress={() => {Auth.logOut()}}>
                 <View style={styles.setting_item}>
-                    <Text style={styleguide.light_body}>Sign Out</Text>
+                  <View style={{
+                    marginRight: 16,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.unlockAlt}</FontAwesome></Text>
+                  </View>
+                  <Text style={styleguide.dark_body}>
+                    Sign Out
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -118,6 +127,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    // borderBottomWidth: 1,
+    // borderColor: 'rgba(255,255,255,0.50)',
   },
   content: {
     flex: 9,
@@ -127,15 +138,17 @@ const styles = StyleSheet.create({
   },
   content_wrapper: {
     flex: 1,
-    backgroundColor: GLOBAL.COLOR.WHITE,
     width: '100%',
   },
   setting_item: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 16,
+    justifyContent: 'flex-start',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
     borderBottomWidth: 1,
-    borderColor: 'rgba(37,50,55,0.50)',
+    borderTopWidth: 1,
+    borderColor: 'rgba(255,255,255,0.50)',
+    backgroundColor: 'rgba(255,255,255,0.10)',
   },
   footer: {
     flex: 1,
