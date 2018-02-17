@@ -25,6 +25,15 @@ import {
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
+import {
+  pushFillup,
+  removeFillup,
+  pullFillups,
+  updateMPG,
+  pullAverageMPG,
+  updateODO,
+  pullODOReading,
+} from '../Database/Database.js';
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -55,6 +64,7 @@ export default class Dashboard extends Component {
     this.state = {
       translation: new Animated.Value(0),
       settingsShift: new Animated.Value(0),
+      fadeIn: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
       scrollEnable: true,
@@ -69,20 +79,10 @@ export default class Dashboard extends Component {
 
       // Below are some dummy objects of stuff
       // we will sync with firebase
-      // TODO: sync with firebase
       updatedODO: 0,
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
-      textDataArr: [  // the data structure we will be using for gas
-        // {
-        //   list_i: 0,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },
-      ],
+      textDataArr: [],
     };
   }
 
@@ -132,15 +132,20 @@ export default class Dashboard extends Component {
     const distance = userODO - this.state.updatedODO;
     const mpg = distance/this.state.user_filled;
     const average =
-      ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)
-      /(this.state.textDataArr.length+1);
+      ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
     const creationDate = this.getFormattedTime();
 
     this.closeModal();
 
-    for (var i = 0; i < this.state.textDataArr.length; i++){
-      this.state.textDataArr[i].list_i++;
-    }
+    // instead of setting textDataArr here, try newfillup.concat(textDataArr) instead
+    var newFillup = {
+      list_i: this.state.list_i + 1,
+      totalPrice: parseFloat(this.state.user_paid),
+      date: creationDate,
+      gallonsFilled: this.state.user_filled,
+      odometer: userODO,
+      distanceSinceLast: distance
+    };
 
     this.setState({
       averageMPG: average,
@@ -148,7 +153,7 @@ export default class Dashboard extends Component {
       textDataArr:
       [
         {
-          list_i: 0,
+          list_i: this.state.list_i + 1,
           totalPrice: parseFloat(this.state.user_paid),
           date: creationDate,
           gallonsFilled: this.state.user_filled,
@@ -163,12 +168,25 @@ export default class Dashboard extends Component {
     });
 
     // TODO: Push to Firebase
+
+    pushFillup(newFillup);
+    updateMPG(average);
+    updateODO(userODO);
   }
 
   removeItem(key){
 
-    const mpgRemoved = this.state.textDataArr[key].distanceSinceLast
-      /this.state.textDataArr[key].gallonsFilled;
+    // TODO: Push to firebase
+    // We want to delete a specific Fillup from the user, based
+    // on these variables
+    const itemToRemove =
+    this.state.textDataArr.find(function (obj){
+      return obj.list_i === key;
+    });
+    const indexOf = this.state.textDataArr.indexOf(itemToRemove);
+
+    const mpgRemoved = itemToRemove.distanceSinceLast
+      /itemToRemove.gallonsFilled;
 
     const averageMPG = this.state.textDataArr.length == 1 ? 0 :
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
@@ -177,20 +195,20 @@ export default class Dashboard extends Component {
     const ODO = this.state.textDataArr.length == 1 ? 0 :
       this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
 
-    this.state.textDataArr.splice(key, 1);
-    console.log(this.state.textDataArr);
-    for (var i = key; i < this.state.textDataArr.length; i++){
-      console.log(i);
+    removeFillup(key);
+    updateMPG(averageMPG);
+    updateODO(ODO);
+
+    this.state.textDataArr.pop(itemToRemove);
+    for (var i = indexOf; i < this.state.textDataArr.length; i++){
       this.state.textDataArr[i].list_i -= 1;
     }
-    console.log(this.state.textDataArr);
     this.setState({
       list_i: this.state.list_i - 1,
       averageMPG: averageMPG,
       updatedODO: ODO,
     });
 
-    // TODO: Push to firebase
   }
 
   /*
@@ -200,6 +218,7 @@ export default class Dashboard extends Component {
    *    - sets up the pan responder for the GasList transition
    */
   componentWillMount() {
+
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
@@ -253,6 +272,48 @@ export default class Dashboard extends Component {
         duration: 150,
       }
     ).start();
+  }
+    
+  componentDidMount() {
+
+    var that = this;
+    pullAverageMPG().then(function(fData){
+      if(fData){
+        that.setState({
+          averageMPG: fData,
+        });
+      }
+    }).catch(function(error) {
+      console.log('Failed to load average mpg data into state:', error);
+    });
+
+    pullODOReading().then(function(fData){
+      if(fData){
+        that.setState({
+          updatedODO: fData,
+        });
+      }
+    }).catch(function(error) {
+      console.log('Failed to load odometer data into state:', error);
+    });
+
+    pullFillups().then(function(fData){
+      if(fData){
+        that.setState({
+          textDataArr: fData,
+          list_i: fData.length,
+        });
+      }
+      Animated.timing(
+        that.state.fadeIn,
+        {
+          toValue: 1,
+          duration: 250,
+        }
+      ).start();
+    }).catch(function(error) {
+      console.log('Failed to load fill up data into state:', error);
+    });
   }
 
   /*
