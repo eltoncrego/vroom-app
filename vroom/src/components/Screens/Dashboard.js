@@ -37,6 +37,7 @@ import {
 
 // Custom components
 import GasList from '../Custom/GasList';
+import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 
@@ -62,6 +63,7 @@ export default class Dashboard extends Component {
 
     this.state = {
       translation: new Animated.Value(0),
+      settingsShift: new Animated.Value(0),
       fadeIn: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
@@ -252,6 +254,26 @@ export default class Dashboard extends Component {
     });
   }
 
+  openSettings(){
+    Animated.timing(
+      this.state.settingsShift,
+      {
+        toValue: 0,
+        duration: 150,
+      }
+    ).start();
+  }
+
+  closeSettings(){
+    Animated.timing(
+      this.state.settingsShift,
+      {
+        toValue: 1,
+        duration: 150,
+      }
+    ).start();
+  }
+    
   componentDidMount() {
 
     var that = this;
@@ -307,11 +329,18 @@ export default class Dashboard extends Component {
       outputRange: [-250, 0]
     });
 
+    var settingsTranslation = this.state.settingsShift.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 400]
+    });
+
     // Calculate the x and y transform from the pan value
     var [translateY] = [cardTranslation];
+    var [translateX] = [settingsTranslation];
 
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
+    var settingsList = {transform: [{translateX}]};
 
     return(
       <View style={
@@ -321,6 +350,9 @@ export default class Dashboard extends Component {
         }]
       }>
       <StatusBar barStyle="light-content"/>
+        <Animated.View style={[styles.settings, settingsList]}>
+          <Settings closeCallBack={() => this.closeSettings()}/>
+        </Animated.View>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
             vroom
@@ -328,7 +360,7 @@ export default class Dashboard extends Component {
               .
             </Text>
           </Text>
-          <TouchableOpacity onPress={() => {/*Open settings */}}>
+          <TouchableOpacity onPress={() => this.openSettings()}>
             <View>
                 <Text style={styleguide.dark_title2}>
                   <FontAwesome>{Icons.gear}</FontAwesome>
@@ -468,7 +500,14 @@ export default class Dashboard extends Component {
 }
 
 const styles = StyleSheet.create({
-
+  settings: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 3,
+  },
   navbar: {
     flex: 1,
     width: '100%',
