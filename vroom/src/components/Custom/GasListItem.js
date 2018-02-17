@@ -107,7 +107,7 @@ export default class Gas extends PureComponent {
     Animated.sequence([
       Animated.timing(this.state._animated, {
         toValue: 1,
-        duration: 250,
+        duration: 250 + 1/this.props.index * 250,
         friction: 6,
       }),
       Animated.timing(this.state.bgAnimated, {
