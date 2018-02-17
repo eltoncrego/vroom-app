@@ -25,7 +25,7 @@ import {
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
-import {pushFillup, removeFillup} from '../Database/Database.js';
+import {pushFillup, removeFillup, pullFillups} from '../Database/Database.js';
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -215,6 +215,7 @@ export default class Dashboard extends Component {
    *    - sets up the pan responder for the GasList transition
    */
   componentWillMount() {
+
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
@@ -250,6 +251,17 @@ export default class Dashboard extends Component {
     });
   }
 
+  componentDidMount() {
+    var that = this;
+    pullFillups().then(function(firebaseFillupData){
+      that.setState({
+        textDataArr: firebaseFillupData,
+      });
+    }).catch(function(error) {
+      console.log('Failed to load fill up data into state:', error);
+    });
+  }
+
   /*
    * Function: render()
    * Author: Elton C. Rego
@@ -268,6 +280,8 @@ export default class Dashboard extends Component {
 
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
+
+    console.log(this.state.textDataArr);
 
     return(
       <View style={
