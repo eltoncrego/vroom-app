@@ -15,6 +15,7 @@ import {
 
 // Necessary Files
 import Loading from '../Screens/Loading.js';
+import Settings from '../Screens/Settings.js'
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
 
@@ -256,6 +257,7 @@ export default class Auth extends Component {
    */
   render() {
 
+    // return <Settings/>;
 
     if (!this.state.checkedSignIn) {
       return <Loading/>;
