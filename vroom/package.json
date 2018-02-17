@@ -7,13 +7,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "fb-watchman": "2.0.0",
     "firebase": "4.9.1",
     "lottie-react-native": "2.3.2",
     "moment": "2.20.1",
     "react": "16.2.0",
     "react-native": "0.53.0",
     "react-native-fontawesome": "5.7.0",
-    "react-navigation": "1.0.0"
+    "react-navigation": "^1.0.3"
   },
   "devDependencies": {
     "babel-jest": "22.1.0",

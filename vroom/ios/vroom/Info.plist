@@ -39,7 +39,6 @@
 	<string/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>fontawesome-webfont.ttf</string>
 		<string>nunito_black.ttf</string>
 		<string>nunito_blackitalic.ttf</string>
 		<string>nunito_bold.ttf</string>
@@ -54,7 +53,7 @@
 		<string>nunito_regular.ttf</string>
 		<string>nunito_semibold.ttf</string>
 		<string>nunito_semibolditalic.ttf</string>
-		<string>fontawesome.ttf</string>
+		<string>FontAwesome.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
