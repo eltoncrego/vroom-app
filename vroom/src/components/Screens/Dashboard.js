@@ -103,6 +103,13 @@ export default class Dashboard extends Component {
         duration: 400,
       }
     ).start();
+    Animated.timing(
+      this.state.fadeIn,
+      {
+        toValue: 0.1,
+        duration: 400,
+      }
+    ).start();
   }
 
  /*
@@ -115,6 +122,13 @@ export default class Dashboard extends Component {
       this.state.modalFade,
       {
         toValue: 0,
+        duration: 400,
+      }
+    ).start();
+    Animated.timing(
+      this.state.fadeIn,
+      {
+        toValue: 1,
         duration: 400,
       }
     ).start();
@@ -469,7 +483,7 @@ export default class Dashboard extends Component {
             style={[
               styles.card,
               transformList,
-              {opacity: modalBG}]
+              {opacity: this.state.fadeIn}]
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
