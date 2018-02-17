@@ -416,7 +416,7 @@ export default class Dashboard extends Component {
           onRequestClose={() => this.closeModal()}
         >
           <View style={styles.modalContainer}>
-            <KeyboardAvoidingView behavior="padding">
+            <KeyboardAvoidingView behavior={'position'}>
               <View style={[styles.innerContainer]}>
                 <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
                   <Text style={styleguide.light_title2_accent}>.</Text>
