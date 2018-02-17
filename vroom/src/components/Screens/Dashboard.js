@@ -151,12 +151,19 @@ export default class Dashboard extends Component {
 
     var userODO = parseInt(this.state.user_ODO, 10);
 
+    // throw alert if user leaves any fields blank
     if(userODO == null || this.state.user_filled == "" || this.state.user_paid == ""){
       alert("Please use a valid amount");
       return;
+    // throw alert if user enters a strange odometer value
     } else if (userODO <= this.state.updatedODO) {
       alert("Your odometer reading cannot go backwards or stay constant between fillups!"
       +"\nPlease verify it is correct.");
+      return;
+    }
+    else if (this.state.user_filled >= (userODO - this.state.updatedODO)){
+      alert("You shouldn't be getting under 1 mile per gallon!"
+        + "\nPlease verify your input (or buy different gas).");
       return;
     }
 
@@ -168,7 +175,7 @@ export default class Dashboard extends Component {
 
     this.closeModal();
 
-    // instead of setting textDataArr here, try newfillup.concat(textDataArr) instead
+
     var newFillup = {
       list_i: this.state.list_i + 1,
       totalPrice: parseFloat(this.state.user_paid),
