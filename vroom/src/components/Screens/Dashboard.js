@@ -143,11 +143,7 @@ export default class Dashboard extends Component {
     const creationDate = this.getFormattedTime();
 
     this.closeModal();
-
-    for (var i = 0; i < this.state.textDataArr.length; i++){
-      this.state.textDataArr[i].list_i++;
-    }
-
+    
     // instead of setting textDataArr here, try newfillup.concat(textDataArr) instead
     var newFillup = {
       list_i: this.state.list_i + 1,
@@ -269,8 +265,9 @@ export default class Dashboard extends Component {
       if(fData){
         that.setState({
           textDataArr: fData,
-          list_i: fData[fData.length-1].list_i,
+          list_i: fData[0].list_i,
         });
+        console.log("NEW LIST I: "+fData[0].list_i);
       }
     }).catch(function(error) {
       console.log('Failed to load fill up data into state:', error);
