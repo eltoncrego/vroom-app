@@ -107,6 +107,7 @@ export class InputField extends Component {
           secureTextEntry={secureTextEntry}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
+          autoCorrect={this.props.autoCorrect}
         />
       </Animated.View>
     );

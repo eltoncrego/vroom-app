@@ -65,6 +65,7 @@ export default class Dashboard extends Component {
       translation: new Animated.Value(0),
       settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
+      modalFade: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
       scrollEnable: true,
@@ -92,7 +93,23 @@ export default class Dashboard extends Component {
   * Purpose: Opens the modal to add a gas item
   */
   openModal() {
-    this.setState({modalVisible:true});
+    this.setState({
+      modalVisible:true
+    });
+    Animated.timing(
+      this.state.modalFade,
+      {
+        toValue: 1,
+        duration: 400,
+      }
+    ).start();
+    Animated.timing(
+      this.state.fadeIn,
+      {
+        toValue: 0.1,
+        duration: 400,
+      }
+    ).start();
   }
 
  /*
@@ -101,6 +118,20 @@ export default class Dashboard extends Component {
   * Purpose: Closes the modal to add a gas item
   */
   closeModal() {
+    Animated.timing(
+      this.state.modalFade,
+      {
+        toValue: 0,
+        duration: 400,
+      }
+    ).start();
+    Animated.timing(
+      this.state.fadeIn,
+      {
+        toValue: 1,
+        duration: 400,
+      }
+    ).start();
     this.setState({modalVisible:false});
   }
 
@@ -324,6 +355,10 @@ export default class Dashboard extends Component {
    * @return: Component Views
    */
   render(){
+
+    var {height, width} = Dimensions.get('window');
+
+
     var cardTranslation = this.state.translation.interpolate({
       inputRange: [0, 1],
       outputRange: [-250, 0]
@@ -331,7 +366,12 @@ export default class Dashboard extends Component {
 
     var settingsTranslation = this.state.settingsShift.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 400]
+      outputRange: [0, width],
+    });
+
+    var modalBG = this.state.modalFade.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 0.1],
     });
 
     // Calculate the x and y transform from the pan value
@@ -361,22 +401,22 @@ export default class Dashboard extends Component {
             </Text>
           </Text>
           <TouchableOpacity onPress={() => this.openSettings()}>
-            <View>
-                <Text style={styleguide.dark_title2}>
+            <Animated.View style={{opacity: modalBG}}>
+                <Text style={styleguide.dark_title}>
                   <FontAwesome>{Icons.gear}</FontAwesome>
                 </Text>
-            </View>
+            </Animated.View>
           </TouchableOpacity>
         </View>
 
         <Modal
           visible={this.state.modalVisible}
           transparent={true}
-          animationType={'fade'}
+          animationType={'slide'}
           onRequestClose={() => this.closeModal()}
         >
           <View style={styles.modalContainer}>
-            <KeyboardAvoidingView behavior="padding">
+            <KeyboardAvoidingView behavior={'position'}>
               <View style={[styles.innerContainer]}>
                 <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
                   <Text style={styleguide.light_title2_accent}>.</Text>
@@ -446,7 +486,8 @@ export default class Dashboard extends Component {
           <Animated.View
             style={[
               styles.card,
-              transformList,]
+              transformList,
+              {opacity: this.state.fadeIn}]
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
@@ -488,7 +529,7 @@ export default class Dashboard extends Component {
             }
           } onPress={() => this.openModal()}>
           <View style={styles.floating_button}>
-              <Text style={styleguide.dark_title2}>
+              <Text style={styleguide.dark_title}>
                 <FontAwesome>{Icons.plus}</FontAwesome>
               </Text>
           </View>
@@ -555,15 +596,13 @@ const styles = StyleSheet.create({
   // FOR PROTOTYPING
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-
-    padding: 16,
-    backgroundColor: 'rgba(37,50,55,0.90)'
+    justifyContent: 'flex-end',
   },
   innerContainer: {
     alignItems: 'center',
     padding: 32,
-    borderRadius: 16,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
     backgroundColor: GLOBAL.COLOR.WHITE,
   },
 

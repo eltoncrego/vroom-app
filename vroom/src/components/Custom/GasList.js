@@ -52,7 +52,7 @@ export default class GasList extends Component {
   renderSeparator() {
     return (
       <View style={styles.separatorViewStyle}>
-        <View style={styles.separatorStyle} />
+        <View style={[styles.separatorStyle, {backgroundColor: 'rgba(37,50,55,0.20)',}]} />
       </View>
     );
   }
@@ -78,6 +78,7 @@ export default class GasList extends Component {
         distanceSinceLast={item.distanceSinceLast}
         success={this.success}
         average={this.props.average}
+        allowDeleteOn={this.props.data.length}
         setScrollEnabled={enable => this.setScrollEnabled(enable)}
       />
     );
@@ -106,6 +107,5 @@ const styles = StyleSheet.create({
   },
   separatorStyle: {
     height: 1,
-    backgroundColor: 'rgba(37,50,55,0.20)',
   },
 });

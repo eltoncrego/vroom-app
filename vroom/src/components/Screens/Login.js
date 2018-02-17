@@ -238,6 +238,8 @@ export default class Login extends Component {
     var that = this;
     Auth.firebaseSignup(this.state.email, this.state.password).then(function(rv){
       that.closeModal();
+    }).catch(function(error) {
+      that.closeModal();
     });
   }
 
@@ -248,6 +250,13 @@ export default class Login extends Component {
    */
    openModal() {
      this.setState({modalVisible:true});
+     Animated.timing(
+       this.state.fade_animation,
+       {
+         toValue: 0.1,
+         duration: 150,
+       }
+     ).start();
    }
 
   /*
@@ -256,6 +265,13 @@ export default class Login extends Component {
    * Purpose: Closes the modal to add a gas item
    */
    closeModal() {
+     Animated.timing(
+       this.state.fade_animation,
+       {
+         toValue: 1,
+         duration: 150,
+       }
+     ).start();
      this.setState({modalVisible:false});
    }
 
@@ -281,6 +297,7 @@ export default class Login extends Component {
           topMargin={24}
           autoCapitalize={"none"}
           secureTextEntry={true}
+          autoCorrect={false}
           onChangeText={
             (text) => {this.setState({password_verification: text})}
           }
@@ -317,6 +334,7 @@ export default class Login extends Component {
         animationType={'slide'}
       >
         <View style={styles.modalContainer}>
+          <View style={{flex: 3}}></View>
           <View style={styles.innerContainer}>
             <Loading label={"we're contacting the database gods"}/>
           </View>
@@ -341,6 +359,7 @@ export default class Login extends Component {
               topMargin={32}
               autoCapitalize={"none"}
               keyboardType={"email-address"}
+              autoCorrect={false}
               onChangeText={(text) => {this.setState({email: text})}}
             />
             <InputField
@@ -352,6 +371,7 @@ export default class Login extends Component {
               topMargin={24}
               autoCapitalize={"none"}
               secureTextEntry={true}
+              autoCorrect={false}
               onChangeText={(text) => {this.setState({password: text})}}
               onSubmitEditing={ () => {
                 if(!this.state.sign_up){
@@ -444,12 +464,13 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
-    padding: 32,
   },
   innerContainer: {
+    flex: 1,
     alignItems: 'center',
     padding: 64,
-    borderRadius: 8,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
     backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
 
