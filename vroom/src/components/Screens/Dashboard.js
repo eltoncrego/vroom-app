@@ -77,20 +77,10 @@ export default class Dashboard extends Component {
 
       // Below are some dummy objects of stuff
       // we will sync with firebase
-      // TODO: sync with firebase
       updatedODO: 0,
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
-      textDataArr: [  // the data structure we will be using for gas
-        // {
-        //   list_i: 0,
-        //   totalPrice: 32.50,
-        //   date: 'February 8th, 2018',
-        //   gallonsFilled: 8.01,
-        //   odometer: 108562,
-        //   distanceSinceLast: 251
-        // },
-      ],
+      textDataArr: [],
     };
   }
 
