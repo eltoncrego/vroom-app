@@ -6,7 +6,7 @@
 // Global Requirements
 import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
-STYLE = require('../../global-styles');
+styleguide = require('../../global-styles');
 
 // Components
 import {
@@ -14,6 +14,7 @@ import {
   StyleSheet,
   StatusBar,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import Animation from 'lottie-react-native';
 import loader_icon from '../../../assets/animations/loading.json';
@@ -80,14 +81,14 @@ export default class Loading extends Component {
               }
             }
             style={{
-              width: "100%", 
+              width: "100%",
               height: "100%",
             }}
             loop={true}
             source={loader_icon}
           />
         </View>
-        
+        <Text style={[styleguide.dark_body_secondary, {width: '85%', textAlign: 'center'}]}>{this.props.label}</Text>
       </View>
     );
   }

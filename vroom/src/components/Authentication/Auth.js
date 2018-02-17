@@ -90,13 +90,15 @@ export default class Auth extends Component {
   * @return: boolean
   */
   static firebaseLogin = (e, p) => {
-    firebase.auth().signInWithEmailAndPassword(e, p).then((user) => {
+    return firebase.auth().signInWithEmailAndPassword(e, p).then((user) => {
       if(user){
         console.log("signed user in");
       }
+      return true;
     }, error => {
       console.log(error.message);
       alert(error.message);
+      return false;
     });
   }
 
@@ -111,19 +113,20 @@ export default class Auth extends Component {
   * @return: boolean
   */
   static firebaseSignup = (e, p) => {
-    firebase.auth().createUserWithEmailAndPassword(e, p)
+    return firebase.auth().createUserWithEmailAndPassword(e, p)
       .then((user) => {
         if(user){
           console.log("signed user up");
         }
+        return true;
       }, error => {
         console.log(error.message);
         if(error.code == "auth/email-already-in-use"){
           alert("Your email is already registered. Attemping to sign you in automatically.")
           databaseLogin(e, p);
-          return;
         }
         alert(error.message);
+        return false;
       });
   }
 
@@ -257,8 +260,8 @@ export default class Auth extends Component {
    */
   render() {
 
-    if (!this.state.checkedSignIn || this.state.authenticating) {
-      return(<Loading/>);
+    if (!this.state.checkedSignIn) {
+      return(<Loading label={"someone dropped screws in here"}/>);
     }
 
     if(this.state.signedIn){
