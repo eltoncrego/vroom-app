@@ -20,6 +20,14 @@
 {
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+  
+  NSLog(@"isTestMode1: %d",[FBAdSettings isTestMode]);
+  NSString *testDeviceKey = [FBAdSettings testDeviceHash];
+  if (testDeviceKey) {
+    [FBAdSettings setLogLevel:FBAdLogLevelLog];
+    [FBAdSettings addTestDevice:testDeviceKey];
+  }
+  
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];

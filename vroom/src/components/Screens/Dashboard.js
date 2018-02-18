@@ -39,7 +39,12 @@ import {
 import GasList from '../Custom/GasList';
 import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
+import FacebookAd from './../Custom/FacebookAd';
 import {Button} from './../Custom/Button';
+
+// For Facebook Adds
+import { NativeAdsManager } from 'react-native-fbads';
+const adsManager = new NativeAdsManager('113653902793626_113786369447046');
 
 /*
  * Class: Dashboard
@@ -498,6 +503,9 @@ export default class Dashboard extends Component {
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
+            <View  style={styles.ad}>
+              <FacebookAd adsManager={adsManager}/>
+            </View>
             <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
@@ -590,6 +598,13 @@ const styles = StyleSheet.create({
   ico: {
     fontSize: 24,
     color: GLOBAL.COLOR.WHITE,
+  },
+  ad: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(37,50,55,0.50)',
   },
   statistics: {
     flexDirection: 'row',
