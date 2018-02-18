@@ -3,11 +3,13 @@ package com.vroom;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.callstack.react.fbads.FBAdsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.facebook.FacebookSdk;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +26,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new LottiePackage()
+          new FBAdsPackage(),
+          new LottiePackage()
       );
     }
 

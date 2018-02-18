@@ -21,7 +21,8 @@ import {
   Animated,
   ScrollView,
   Modal,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
@@ -39,7 +40,13 @@ import {
 import GasList from '../Custom/GasList';
 import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
+import FacebookAd from './../Custom/FacebookAd';
 import {Button} from './../Custom/Button';
+
+// For Facebook Adds
+import { NativeAdsManager } from 'react-native-fbads';
+var platform_id = Platform.OS === 'ios' ? '113653902793626_113786369447046' : '113653902793626_114103656081984';
+const adsManager = new NativeAdsManager(platform_id);
 
 /*
  * Class: Dashboard
@@ -84,6 +91,7 @@ export default class Dashboard extends Component {
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [],
+      isPremium: true,
     };
   }
 
@@ -388,7 +396,13 @@ export default class Dashboard extends Component {
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
-
+    
+    var adContent = this.state.isPremium? null : 
+    <View  style={styles.ad}>
+      <FacebookAd adsManager={adsManager}/>
+    </View>;
+    
+    var modalBehavior = Platform.OS === 'ios' ? "padding" : null;
     return(
       <View style={
         [styleguide.container,
@@ -423,7 +437,7 @@ export default class Dashboard extends Component {
           onRequestClose={() => this.closeModal()}
         >
           <View style={styles.modalContainer}>
-            <KeyboardAvoidingView behavior={'position'}>
+            <KeyboardAvoidingView behavior={modalBehavior}>
               <View style={[styles.innerContainer]}>
                 <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
                   <Text style={styleguide.light_title2_accent}>.</Text>
@@ -461,21 +475,25 @@ export default class Dashboard extends Component {
                   topMargin={24}
                   onChangeText={(text) => {this.setState({user_ODO: text})}}
                 />
-                <Button
-                  backgroundColor={GLOBAL.COLOR.GREEN}
-                  label={"Add Item"}
-                  height={64}
-                  marginTop={64}
-                  shadowColor={GLOBAL.COLOR.GREEN}
-                  width={"100%"}
-                  onPress={() => this.addItem()}
-                >
-                </Button>
+                
+                  <Button
+                    backgroundColor={GLOBAL.COLOR.GREEN}
+                    label={"Add Item"}
+                    height={64}
+                    marginTop={64}
+                    shadowColor={GLOBAL.COLOR.GREEN}
+                    width={"100%"}
+                    onPress={() => this.addItem()}
+                  >
+                  </Button>
+              </View>
+            </KeyboardAvoidingView>
+              <View style={styles.modal_buttons}>
                 <Button
                   backgroundColor={GLOBAL.COLOR.GRAY}
                   label={"Cancel"}
                   height={64}
-                  marginTop={24}
+                  marginTop={0}
                   shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
                   onPress={() => this.closeModal()}
@@ -483,7 +501,6 @@ export default class Dashboard extends Component {
                 >
                 </Button>
               </View>
-            </KeyboardAvoidingView>
           </View>
         </Modal>
 
@@ -498,6 +515,7 @@ export default class Dashboard extends Component {
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
+            {adContent}
             <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
@@ -591,6 +609,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: GLOBAL.COLOR.WHITE,
   },
+  ad: {
+    borderBottomWidth: 1,
+    borderColor: 'rgba(37,50,55,0.50)',
+  },
   statistics: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -610,6 +632,12 @@ const styles = StyleSheet.create({
     padding: 32,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
+    backgroundColor: GLOBAL.COLOR.WHITE,
+  },
+  modal_buttons: {
+    alignItems: 'center',
+    padding: 32,
+    paddingTop: 0,
     backgroundColor: GLOBAL.COLOR.WHITE,
   },
 
