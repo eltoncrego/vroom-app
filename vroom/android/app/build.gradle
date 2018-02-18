@@ -141,9 +141,7 @@ repositories {
 }
 
 dependencies {
-    compile(project(':react-native-fbads')) {
-      exclude group: "com.google.android.gms"
-    }
+    compile project(':react-native-fbads')
     compile project(':lottie-react-native')
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile fileTree(dir: "libs", include: ["*.jar"])
