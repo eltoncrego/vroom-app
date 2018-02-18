@@ -401,8 +401,7 @@ export default class Dashboard extends Component {
       <FacebookAd adsManager={adsManager}/>
     </View>;
     
-    var modalBehavior = null; //Platform.OS === 'android' ? null : "position";
-
+    var modalBehavior = Platform.OS === 'ios' ? "padding" : null;
     return(
       <View style={
         [styleguide.container,
@@ -475,21 +474,25 @@ export default class Dashboard extends Component {
                   topMargin={24}
                   onChangeText={(text) => {this.setState({user_ODO: text})}}
                 />
-                <Button
-                  backgroundColor={GLOBAL.COLOR.GREEN}
-                  label={"Add Item"}
-                  height={64}
-                  marginTop={64}
-                  shadowColor={GLOBAL.COLOR.GREEN}
-                  width={"100%"}
-                  onPress={() => this.addItem()}
-                >
-                </Button>
+                
+                  <Button
+                    backgroundColor={GLOBAL.COLOR.GREEN}
+                    label={"Add Item"}
+                    height={64}
+                    marginTop={64}
+                    shadowColor={GLOBAL.COLOR.GREEN}
+                    width={"100%"}
+                    onPress={() => this.addItem()}
+                  >
+                  </Button>
+              </View>
+            </KeyboardAvoidingView>
+              <View style={styles.modal_buttons}>
                 <Button
                   backgroundColor={GLOBAL.COLOR.GRAY}
                   label={"Cancel"}
                   height={64}
-                  marginTop={24}
+                  marginTop={0}
                   shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
                   onPress={() => this.closeModal()}
@@ -497,7 +500,6 @@ export default class Dashboard extends Component {
                 >
                 </Button>
               </View>
-            </KeyboardAvoidingView>
           </View>
         </Modal>
 
@@ -629,6 +631,12 @@ const styles = StyleSheet.create({
     padding: 32,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
+    backgroundColor: GLOBAL.COLOR.WHITE,
+  },
+  modal_buttons: {
+    alignItems: 'center',
+    padding: 32,
+    paddingTop: 0,
     backgroundColor: GLOBAL.COLOR.WHITE,
   },
 
