@@ -91,7 +91,7 @@ export default class Dashboard extends Component {
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [],
-      isPremium: true,
+      isPremium: false,
     };
   }
 
@@ -480,8 +480,8 @@ export default class Dashboard extends Component {
                     backgroundColor={GLOBAL.COLOR.GREEN}
                     label={"Add Item"}
                     height={64}
-                    marginTop={64}
-                    shadowColor={GLOBAL.COLOR.GREEN}
+                    marginTop={24}
+                    shadowColor={'rgba(0,0,0,0)'}
                     width={"100%"}
                     onPress={() => this.addItem()}
                   >
@@ -630,14 +630,18 @@ const styles = StyleSheet.create({
   innerContainer: {
     alignItems: 'center',
     padding: 32,
+    paddingBottom: 8,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     backgroundColor: GLOBAL.COLOR.WHITE,
+    zIndex: 2,
+    overflow: 'visible',
   },
   modal_buttons: {
     alignItems: 'center',
     padding: 32,
-    paddingTop: 0,
+    paddingTop: 8,
+    zIndex: 1,
     backgroundColor: GLOBAL.COLOR.WHITE,
   },
 
