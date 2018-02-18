@@ -34,6 +34,7 @@ import {
   pullAverageMPG,
   updateODO,
   pullODOReading,
+  pullUserPermissions,
 } from '../Database/Database.js';
 
 // Custom components
@@ -364,6 +365,16 @@ export default class Dashboard extends Component {
           list_i: fData.length,
         });
       }
+    }).catch(function(error) {
+      console.log('Failed to load fill up data into state:', error);
+    });
+    
+    pullUserPermissions().then(function(fData){
+      if(fData){
+        that.setState({
+          isPremium: fData,
+        });
+      }
       Animated.timing(
         that.state.fadeIn,
         {
@@ -372,7 +383,7 @@ export default class Dashboard extends Component {
         }
       ).start();
     }).catch(function(error) {
-      console.log('Failed to load fill up data into state:', error);
+      console.log('Failed to load user permiission data into state:', error);
     });
   }
 

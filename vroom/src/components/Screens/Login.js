@@ -22,6 +22,7 @@ import {Icons} from 'react-native-fontawesome';
 import Animation from 'lottie-react-native';
 
 import Auth from '../Authentication/Auth';
+import {initUser} from '../Database/Database';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import Loading from './../Screens/Loading';
