@@ -600,9 +600,6 @@ const styles = StyleSheet.create({
     color: GLOBAL.COLOR.WHITE,
   },
   ad: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 16,
     borderBottomWidth: 1,
     borderColor: 'rgba(37,50,55,0.50)',
   },
