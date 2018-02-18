@@ -89,6 +89,7 @@ export default class Dashboard extends Component {
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [],
+      isPremium: true,
     };
   }
 
@@ -393,6 +394,11 @@ export default class Dashboard extends Component {
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
+    
+    var adContent = this.state.isPremium? null : 
+    <View  style={styles.ad}>
+      <FacebookAd adsManager={adsManager}/>
+    </View>;
 
     return(
       <View style={
@@ -503,9 +509,7 @@ export default class Dashboard extends Component {
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
-            <View  style={styles.ad}>
-              <FacebookAd adsManager={adsManager}/>
-            </View>
+            {adContent}
             <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
