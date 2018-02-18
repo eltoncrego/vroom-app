@@ -103,6 +103,27 @@ export default class Auth extends Component {
     });
   }
 
+  /*
+   * Database function: firebasePasswordReset()
+   * Author: Payam Katoozian
+   * 
+   * Purpose: Reset the user's password
+   * 
+   * @param: (e) = email
+   * @return: boolean
+   */
+  static firebasePasswordReset = (e) => {
+    firebase.auth().sendPasswordResetEmail(e).then((user) => {
+      if (user) {
+        console.log("mr. resetti is upsetti");
+      }
+    }, error =>{
+      console.log(error.message);
+      alert(error.message);
+    });
+  }
+
+
  /*
   * Database function: databaseSignup
   * Author: Alec Felt and Connick Shields
