@@ -21,7 +21,8 @@ import {
   Animated,
   ScrollView,
   Modal,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
@@ -44,7 +45,7 @@ import {Button} from './../Custom/Button';
 
 // For Facebook Adds
 import { NativeAdsManager } from 'react-native-fbads';
-const adsManager = new NativeAdsManager('113653902793626_113786369447046');
+const adsManager = new NativeAdsManager('113653902793626_114103656081984');
 
 /*
  * Class: Dashboard
@@ -399,6 +400,8 @@ export default class Dashboard extends Component {
     <View  style={styles.ad}>
       <FacebookAd adsManager={adsManager}/>
     </View>;
+    
+    var modalBehavior = null; //Platform.OS === 'android' ? null : "position";
 
     return(
       <View style={
@@ -434,7 +437,7 @@ export default class Dashboard extends Component {
           onRequestClose={() => this.closeModal()}
         >
           <View style={styles.modalContainer}>
-            <KeyboardAvoidingView behavior={'position'}>
+            <KeyboardAvoidingView behavior={modalBehavior}>
               <View style={[styles.innerContainer]}>
                 <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
                   <Text style={styleguide.light_title2_accent}>.</Text>
