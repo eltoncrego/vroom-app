@@ -45,7 +45,8 @@ import {Button} from './../Custom/Button';
 
 // For Facebook Adds
 import { NativeAdsManager } from 'react-native-fbads';
-const adsManager = new NativeAdsManager('113653902793626_114103656081984');
+var platform_id = Platform.OS === 'ios' ? '113653902793626_113786369447046' : '113653902793626_114103656081984';
+const adsManager = new NativeAdsManager(platform_id);
 
 /*
  * Class: Dashboard
@@ -90,7 +91,7 @@ export default class Dashboard extends Component {
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [],
-      isPremium: false,
+      isPremium: true,
     };
   }
 
