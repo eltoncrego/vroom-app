@@ -15,7 +15,7 @@ import {
 
 // Necessary Files
 import Loading from '../Screens/Loading.js';
-import {firebaseRef} from '../Database/Database';
+import {firebaseRef, initUser} from '../Database/Database';
 import * as firebase from 'firebase';
 
 /*
@@ -117,7 +117,7 @@ export default class Auth extends Component {
     return firebase.auth().createUserWithEmailAndPassword(e, p)
       .then((user) => {
         if(user){
-          console.log("signed user up");
+          console.log("signed up:");
         }
         return true;
       }, error => {
@@ -211,12 +211,13 @@ export default class Auth extends Component {
        if (user) {
          Auth.auth = user;
          console.log("user is signed in");
-         firebaseRef.database().ref("users").child(Auth.auth.uid).child("vehicles").once('value').then(function(snapshot) {
-           if(snapshot.val() != null) {
-             console.log("car object for this user! going to Dashboard");
+         firebaseRef.database().ref("users").child(Auth.auth.uid).child("premiumUser").once('value').then(function(snapshot) {
+           if(snapshot.val() !== null) {
+             console.log("Database init for this user! going to Dashboard");
              that.setState({signedIn: true, checkedSignIn: true});
            } else {
-             console.log("no car object for this user! going to Onboarding");
+             console.log("No database value for this user! going to Onboarding");
+             initUser();
              that.setState({signedIn: true, checkedSignIn: true});
            }
          }).catch(function(error) {
