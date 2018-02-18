@@ -43,10 +43,11 @@ import {InputField} from './../Custom/InputField';
 import FacebookAd from './../Custom/FacebookAd';
 import {Button} from './../Custom/Button';
 
-// For Facebook Adds
+// For Facebook Ads and Analytics
 import { NativeAdsManager } from 'react-native-fbads';
 var platform_id = Platform.OS === 'ios' ? '113653902793626_113786369447046' : '113653902793626_114103656081984';
 const adsManager = new NativeAdsManager(platform_id);
+import {AppEventsLogger} from 'react-native-fbsdk';
 
 /*
  * Class: Dashboard
@@ -101,6 +102,9 @@ export default class Dashboard extends Component {
   * Purpose: Opens the modal to add a gas item
   */
   openModal() {
+
+    AppEventsLogger.logEvent('Opened the transaction panel');
+
     this.setState({
       modalVisible:true
     });
@@ -126,6 +130,7 @@ export default class Dashboard extends Component {
   * Purpose: Closes the modal to add a gas item
   */
   closeModal() {
+
     Animated.timing(
       this.state.modalFade,
       {
@@ -156,6 +161,8 @@ export default class Dashboard extends Component {
   * //TODO actually calculate the math
   */
   addItem() {
+
+    AppEventsLogger.logEvent('User Created a Gas Item');
 
     var userODO = parseInt(this.state.user_ODO, 10);
 
@@ -222,6 +229,8 @@ export default class Dashboard extends Component {
 
   removeItem(key){
 
+    AppEventsLogger.logEvent('User Deleted a Gas Item');
+
     // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
     // on these variables
@@ -263,44 +272,47 @@ export default class Dashboard extends Component {
    * Purpose: Called when the component is called from the stack
    *    - sets up the pan responder for the GasList transition
    */
-  componentWillMount() {
-
-    this._panResponder = PanResponder.create({
-      onMoveShouldSetResponderCapture: () => true,
-      onMoveShouldSetPanResponderCapture: () => true,
-
-      onPanResponderMove: (e, {dy}) => {
-        // put animation code here
-        this.setState({scrollEnable: false});
-        if((dy < -8) && this.state.cardState == 1){
-          Animated.spring(
-            this.state.translation,
-            { toValue: 0, friction: 5}
-          ).start();
-          this.setState({
-            directionToSwipe: "down here to show",
-          });
-        } else if ((dy >= 8) && this.state.cardState == 0) {
-          Animated.spring(
-            this.state.translation,
-            { toValue: 1, friction: 5}
-          ).start();
-          this.setState({
-            directionToSwipe: "up here to hide",
-          });
-        }
-      },
-
-      onPanResponderRelease: (evt, gestureState) => {
-        this.setState({
-          cardState: !this.state.cardState,
-          scrollEnable: !this.state.scrollEnable,
-        });
-      },
-    });
-  }
+  // componentWillMount() {
+  //
+  //   this._panResponder = PanResponder.create({
+  //     onMoveShouldSetResponderCapture: () => true,
+  //     onMoveShouldSetPanResponderCapture: () => true,
+  //
+  //     onPanResponderMove: (e, {dy}) => {
+  //       // put animation code here
+  //       this.setState({scrollEnable: false});
+  //       if((dy < -8) && this.state.cardState == 1){
+  //         Animated.spring(
+  //           this.state.translation,
+  //           { toValue: 0, friction: 5}
+  //         ).start();
+  //         this.setState({
+  //           directionToSwipe: "down here to show",
+  //         });
+  //       } else if ((dy >= 8) && this.state.cardState == 0) {
+  //         Animated.spring(
+  //           this.state.translation,
+  //           { toValue: 1, friction: 5}
+  //         ).start();
+  //         this.setState({
+  //           directionToSwipe: "up here to hide",
+  //         });
+  //       }
+  //     },
+  //
+  //     onPanResponderRelease: (evt, gestureState) => {
+  //       this.setState({
+  //         cardState: !this.state.cardState,
+  //         scrollEnable: !this.state.scrollEnable,
+  //       });
+  //     },
+  //   });
+  // }
 
   openSettings(){
+
+    AppEventsLogger.logEvent('Accessed Settings Panel');
+
     Animated.timing(
       this.state.settingsShift,
       {
@@ -321,6 +333,8 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
+
+    AppEventsLogger.logEvent('Loaded Dashboard');
 
     var that = this;
     pullAverageMPG().then(function(fData){
@@ -396,12 +410,12 @@ export default class Dashboard extends Component {
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
-    
-    var adContent = this.state.isPremium? null : 
+
+    var adContent = this.state.isPremium? null :
     <View  style={styles.ad}>
       <FacebookAd adsManager={adsManager}/>
     </View>;
-    
+
     var modalBehavior = Platform.OS === 'ios' ? "padding" : null;
     return(
       <View style={
@@ -475,7 +489,7 @@ export default class Dashboard extends Component {
                   topMargin={24}
                   onChangeText={(text) => {this.setState({user_ODO: text})}}
                 />
-                
+
                   <Button
                     backgroundColor={GLOBAL.COLOR.GREEN}
                     label={"Add Item"}
@@ -496,7 +510,10 @@ export default class Dashboard extends Component {
                   marginTop={0}
                   shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
-                  onPress={() => this.closeModal()}
+                  onPress={() => {
+                    this.closeModal();
+                    AppEventsLogger.logEvent('Canceled the transaction panel');
+                  }}
                   title="Close modal"
                 >
                 </Button>
