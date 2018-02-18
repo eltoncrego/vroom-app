@@ -89,7 +89,7 @@ export default class Dashboard extends Component {
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [],
-      isPremium: true,
+      isPremium: false,
     };
   }
 
