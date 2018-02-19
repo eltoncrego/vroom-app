@@ -322,6 +322,8 @@ export default class Login extends Component {
     */
     var signup_button_text = this.state.sign_up ?
       "sign up!" : "sign in!" ;
+      
+    var keyboardBehavior = Platform.OS === 'ios' ? "padding" : null;
 
     return (
       <SafeAreaView style={[
@@ -345,7 +347,7 @@ export default class Login extends Component {
         <Animated.View style={{opacity: this.state.fade_animation,}}>
           <KeyboardAvoidingView
             style={styles.sign_in_form}
-            behavior="padding"
+            behavior={keyboardBehavior}
           >
             <Text style={styleguide.light_display2}>
               {this.state.page_text}

@@ -18,6 +18,9 @@ import Loading from '../Screens/Loading.js';
 import {firebaseRef, initUser} from '../Database/Database';
 import * as firebase from 'firebase';
 
+//Testing
+import Onboarding from '../Screens/Onboarding'
+
 /*
  * Class: Auth
  * Author: Elton C. Rego
@@ -259,6 +262,8 @@ export default class Auth extends Component {
    * @return: View
    */
   render() {
+    
+    return(<Onboarding/>);
 
     if (!this.state.checkedSignIn) {
       return(<Loading label={"someone dropped screws in here"}/>);
