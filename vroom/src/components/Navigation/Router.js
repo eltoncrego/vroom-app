@@ -14,6 +14,7 @@ import {StackNavigator} from "react-navigation";
 import Login from '../Screens/Login';
 import Dashboard from '../Screens/Dashboard';
 import Onboarding from '../Screens/Onboarding';
+import ForgotPassword from '../Screens/ForgotPassword';
 
 /*
  * Constant: SignedOut
@@ -27,6 +28,13 @@ export const SignedOut = StackNavigator ({
     screen: Login,
     navigationOptions: {
       title: 'Login',
+      header: null,
+    },
+  },
+  ForgotPassword: {
+    screen: ForgotPassword,
+    navigationOptions: {
+      title: 'ForgotPassword',
       header: null,
     },
   },
@@ -73,6 +81,7 @@ export const SignedUp = StackNavigator({
     navigationOptions: {
       title: 'Dashboard',
       header: null,
+      gesturesEnabled: false,
     },
   },
 });

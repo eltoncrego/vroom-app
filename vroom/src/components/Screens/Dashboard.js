@@ -169,7 +169,7 @@ export default class Dashboard extends Component {
 
     AppEventsLogger.logEvent('User Created a Gas Item');
 
-    
+
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
       this.shakeButton();
       alert("Please use a valid total dollar amount");
@@ -265,7 +265,7 @@ export default class Dashboard extends Component {
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
       /(this.state.textDataArr.length - 1);
 
-    const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO : 
+    const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO :
       this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
 
     removeFillup(key);
@@ -364,8 +364,8 @@ export default class Dashboard extends Component {
     }).catch(function(error) {
       console.log('Failed to load average mpg data into state:', error);
     });
-    
-    
+
+
     pullOGODOReading().then(function(fData){
       that.setState({
         originalODO: fData,
@@ -398,7 +398,7 @@ export default class Dashboard extends Component {
     }).catch(function(error) {
       console.log('Failed to load fill up data into state:', error);
     });
-    
+
     pullUserPermissions().then(function(fData){
       if(fData){
         that.setState({
@@ -416,7 +416,7 @@ export default class Dashboard extends Component {
       console.log('Failed to load user permiission data into state:', error);
     });
   }
-  
+
   /*
    * Author: Elton C. Rego
    * Purpose: When called, shakes the button
@@ -495,12 +495,12 @@ export default class Dashboard extends Component {
     </View>;
 
     var modalBehavior = Platform.OS === 'ios' ? "position" : null;
-    
+
     var buttonColor = this.state.button_color.interpolate({
       inputRange: [0, 1],
       outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
     });
-    
+
     return(
       <View style={
         [styleguide.container,
@@ -581,13 +581,13 @@ export default class Dashboard extends Component {
               <View style={styles.modal_buttons}>
               <Animated.View
                 style={
-                { 
+                {
                   width: '100%',
                   transform: [{translateX: this.state.shake_animation}]
                 }}>
                 <Button
                   backgroundColor={buttonColor}
-                  label={"Add Item"}
+                  label={"add item"}
                   height={64}
                   marginTop={8}
                   shadowColor={'rgba(0,0,0,0)'}
@@ -598,7 +598,7 @@ export default class Dashboard extends Component {
               </Animated.View>
                 <Button
                   backgroundColor={GLOBAL.COLOR.GRAY}
-                  label={"Cancel"}
+                  label={"cancel"}
                   height={64}
                   marginTop={16}
                   shadowColor={'rgba(0,0,0,0)'}

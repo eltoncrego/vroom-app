@@ -58,7 +58,7 @@ export default class Onboarding extends Component {
    }
 
    submitOnboardingODO(){
-     
+
      if(this.state.userODO != null || !isNaN(this.state.user_ODO)){
        initUser(this.state.userODO);
        goTo(this.props.navigation, 'Dashboard');
@@ -92,7 +92,7 @@ export default class Onboarding extends Component {
        )
      }
    }
-   
+
    /*
     * Author: Elton C. Rego
     * Purpose: When called, shakes the button
@@ -140,7 +140,7 @@ export default class Onboarding extends Component {
   render() {
 
     var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
-    
+
     var buttonColor = this.state.button_color.interpolate({
       inputRange: [0, 1],
       outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
@@ -152,15 +152,15 @@ export default class Onboarding extends Component {
         styles.container,
       ]}>
         <KeyboardAvoidingView
-          style={styles.sign_in_form}
+          style={styles.onboarding_form}
           behavior={keyboardBehavior}
         >
-          <Text style={styleguide.light_display2}>
+          <Text style={styleguide.light_headline2}>
             Welcome
-            <Text style={styleguide.light_display2_accent}>.</Text>
+            <Text style={styleguide.light_headline2_accent}>.</Text>
           </Text>
           <Text
-            style={styleguide.light_headline_secondary}>To get started, let us know how many miles are on your car.</Text>
+            style={styleguide.light_title_secondary}>To get started, let us know how many miles are on your car.</Text>
           <InputField
             icon={Icons.mapO}
             label={"Odometer Reading"}
@@ -184,7 +184,7 @@ export default class Onboarding extends Component {
             }}>
             <Button
                backgroundColor={buttonColor}
-               label={"Lets Go!"}
+               label={"lets go!"}
                height={64}
                marginTop={40}
                shadowColor={buttonColor}
@@ -201,9 +201,9 @@ const styles = StyleSheet.create({
     backgroundColor: GLOBAL.COLOR.WHITE,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
-  sign_in_form: {
+  onboarding_form: {
     margin: 32,
   },
 });

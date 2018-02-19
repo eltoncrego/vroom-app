@@ -111,17 +111,16 @@ export default class Auth extends Component {
   /*
    * Database function: firebasePasswordReset()
    * Author: Payam Katoozian
-   * 
+   *
    * Purpose: Reset the user's password
-   * 
+   *
    * @param: (e) = email
    * @return: boolean
    */
   static firebasePasswordReset = (e) => {
     firebase.auth().sendPasswordResetEmail(e).then((user) => {
       if (user) {
-        console.log("mr. resetti is upsetti");
-        alert("OK, check your email")
+        console.log("user reset password");
       }
     }, error =>{
       console.log(error.message);
@@ -288,7 +287,7 @@ export default class Auth extends Component {
    * @return: View
    */
   render() {
-    
+
     // return(<Onboarding/>);
 
     if (!this.state.checkedSignIn) {
