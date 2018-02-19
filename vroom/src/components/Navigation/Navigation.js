@@ -25,6 +25,10 @@ export function clearNavStack(nav, page) {
   nav.dispatch(resetAction);
 }
 
+export function goBack(nav) {
+  nav.dispatch(NavigationActions.back())
+}
+
 /*
 * Navigation function: goTo
 * Author: Alec Felt
