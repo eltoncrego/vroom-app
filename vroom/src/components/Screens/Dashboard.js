@@ -450,7 +450,7 @@ export default class Dashboard extends Component {
       <FacebookAd adsManager={adsManager}/>
     </View>;
 
-    var modalBehavior = Platform.OS === 'ios' ? "padding" : null;
+    var modalBehavior = Platform.OS === 'ios' ? "position" : null;
     return(
       <View style={
         [styleguide.container,
