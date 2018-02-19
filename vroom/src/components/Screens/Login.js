@@ -87,7 +87,7 @@ export default class Login extends Component {
       this.state.fade_animation,
       {
         toValue: 0,
-        duration: 1000,
+        duration: 500,
       }
     ).start(() => {
       that.setState({
@@ -108,7 +108,7 @@ export default class Login extends Component {
         that.state.fade_animation,
         {
           toValue: 1,
-          duration: 1000,
+          duration: 500,
         }
       ).start();
     });
