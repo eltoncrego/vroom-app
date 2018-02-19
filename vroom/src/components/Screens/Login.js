@@ -17,6 +17,7 @@ import {
   Alert,
   Animated,
   Modal,
+  Platform,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import Animation from 'lottie-react-native';
