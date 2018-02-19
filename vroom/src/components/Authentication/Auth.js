@@ -138,8 +138,11 @@ export default class Auth extends Component {
   static firebaseSignup = (e, p) => {
     return firebase.auth().createUserWithEmailAndPassword(e, p)
       .then((user) => {
-        if(user){
+        if(user && user.emailVerified === false){
           console.log("signed user up");
+          user.sendEmailVerification().then(() => {
+            console.log("sent verification email to user");
+          });
         }
         return true;
       }, error => {
