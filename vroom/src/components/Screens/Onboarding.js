@@ -91,7 +91,7 @@ export default class Onboarding extends Component {
    */
   render() {
 
-    var keyboardBehavior = Platform.OS === 'ios' ? "padding" : null;
+    var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
 
     return(
       <SafeAreaView style={[
