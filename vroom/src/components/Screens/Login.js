@@ -17,11 +17,13 @@ import {
   Alert,
   Animated,
   Modal,
+  Platform,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import Animation from 'lottie-react-native';
 
 import Auth from '../Authentication/Auth';
+import {initUser} from '../Database/Database';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import Loading from './../Screens/Loading';
@@ -41,7 +43,7 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      button_color: GLOBAL.COLOR.GREEN,
+      button_color: new Animated.Value(0),
 
       sign_up: false,
       page_text: "Sign in",
@@ -105,37 +107,38 @@ export default class Login extends Component {
     }
   }
 
- /*
-  * Author: Elton C. Rego
-  * Purpose: When called, shakes the button
-  */
-  shakeButton(){
-    this.setState({
-      button_color: GLOBAL.COLOR.RED,
-    });
-    Animated.sequence([
-      Animated.timing(this.state.shake_animation, {
-        toValue: -8,
-        duration: 50,
-      }),
-      Animated.timing(this.state.shake_animation, {
-        toValue: 8,
-        duration: 50,
-      }),
-      Animated.timing(this.state.shake_animation, {
-        toValue: -8,
-        duration: 50,
-      }),
-      Animated.timing(this.state.shake_animation, {
-        toValue: 8,
-        duration: 50,
-      }),
-      Animated.timing(this.state.shake_animation, {
-        toValue: 0,
-        duration: 50,
-      }),
-    ]).start();
-  }
+  /*
+   * Author: Elton C. Rego
+   * Purpose: When called, shakes the button
+   */
+   shakeButton(){
+     Animated.sequence([
+       Animated.timing(this.state.button_color, {
+         toValue: 1,
+         duration: 150,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: -8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: -8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 0,
+         duration: 50,
+       }),
+     ]).start();
+   }
 
  /*
   * Author: Alec Felt, Connick Shields
@@ -154,9 +157,10 @@ export default class Login extends Component {
         'You can\'t log in with an empty email!',
         [
           {text: 'I understand', onPress: () => {
-            this.setState({
-              button_color: GLOBAL.COLOR.GREEN,
-            });
+            Animated.timing(this.state.button_color, {
+              toValue: 0,
+              duration: 150,
+            }).start();
           }},
         ],
       )
@@ -169,9 +173,10 @@ export default class Login extends Component {
         'You can\'t log in with an empty password!',
         [
           {text: 'I understand', onPress: () => {
-            this.setState({
-              button_color: GLOBAL.COLOR.GREEN,
-            });
+            Animated.timing(this.state.button_color, {
+              toValue: 0,
+              duration: 150,
+            }).start();
           }},
         ],
       )
@@ -222,9 +227,10 @@ export default class Login extends Component {
         'You can\'t log in with an empty email!',
         [
           {text: 'I understand', onPress: () => {
-            this.setState({
-              button_color: GLOBAL.COLOR.GREEN,
-            });
+            Animated.timing(this.state.button_color, {
+              toValue: 0,
+              duration: 150,
+            }).start();
           }},
         ],
       )
@@ -237,9 +243,10 @@ export default class Login extends Component {
         'You can\'t log in with an empty password!',
         [
           {text: 'I understand', onPress: () => {
-            this.setState({
-              button_color: GLOBAL.COLOR.GREEN,
-            });
+            Animated.timing(this.state.button_color, {
+              toValue: 0,
+              duration: 150,
+            }).start();
           }},
         ],
       )
@@ -252,9 +259,10 @@ export default class Login extends Component {
         'but your passwords don\'t match',
         [
           {text: 'Let me fix it!', onPress: () => {
-            this.setState({
-              button_color: GLOBAL.COLOR.GREEN,
-            });
+            Animated.timing(this.state.button_color, {
+              toValue: 0,
+              duration: 150,
+            }).start();
           }},
         ],
       )
@@ -324,6 +332,7 @@ export default class Login extends Component {
           autoCapitalize={"none"}
           secureTextEntry={true}
           autoCorrect={false}
+          returnKeyType={'done'}
           onChangeText={
             (text) => {this.setState({password_verification: text})}
           }
@@ -347,6 +356,13 @@ export default class Login extends Component {
     */
     var signup_button_text = this.state.sign_up ?
       "sign up!" : "sign in!" ;
+      
+    var keyboardBehavior = Platform.OS === 'ios' ? "padding" : null;
+    
+    var buttonColor = this.state.button_color.interpolate({
+      inputRange: [0, 1],
+      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
+    });
 
     return (
       <SafeAreaView style={[
@@ -370,7 +386,7 @@ export default class Login extends Component {
         <Animated.View style={{opacity: this.state.fade_animation,}}>
           <KeyboardAvoidingView
             style={styles.sign_in_form}
-            behavior="padding"
+            behavior={keyboardBehavior}
           >
             <Text style={styleguide.light_display2}>
               {this.state.page_text}
@@ -386,6 +402,7 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               keyboardType={"email-address"}
               autoCorrect={false}
+              returnKeyType={'done'}
               onChangeText={(text) => {this.setState({email: text})}}
             />
             <InputField
@@ -398,6 +415,7 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               secureTextEntry={true}
               autoCorrect={false}
+              returnKeyType={'done'}
               onChangeText={(text) => {this.setState({password: text})}}
               onSubmitEditing={ () => {
                 if(!this.state.sign_up){
@@ -421,11 +439,11 @@ export default class Login extends Component {
                 }
               }>
                <Button
-                backgroundColor={this.state.button_color}
+                backgroundColor={buttonColor}
                 label={this.state.button_text}
                 height={64}
                 marginTop={40}
-                shadowColor={this.state.button_color}
+                shadowColor={buttonColor}
                 onPress={()=>{
                   if(this.state.sign_up){
                     this.signup();

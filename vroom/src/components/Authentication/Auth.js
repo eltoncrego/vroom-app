@@ -11,12 +11,16 @@ GLOBAL = require('../../Globals');
 import {
   SignedOut,
   SignedIn,
+  SignedUp
 } from "../Navigation/Router";
 
 // Necessary Files
 import Loading from '../Screens/Loading.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
+
+//Testing
+import Onboarding from '../Screens/Onboarding'
 
 /*
  * Class: Auth
@@ -75,6 +79,7 @@ export default class Auth extends Component {
     this.state = {
       signedIn: false,
       checkedSignIn: false,
+      onboardingNeeded: true,
       authenticating: false,
     };
   }
@@ -236,13 +241,13 @@ export default class Auth extends Component {
        if (user) {
          Auth.auth = user;
          console.log("user is signed in");
-         firebaseRef.database().ref("users").child(Auth.auth.uid).child("vehicles").once('value').then(function(snapshot) {
-           if(snapshot.val() != null) {
-             console.log("car object for this user! going to Dashboard");
-             that.setState({signedIn: true, checkedSignIn: true});
+         firebaseRef.database().ref("users").child(Auth.auth.uid).child("originalODO").once('value').then(function(snapshot) {
+           if(snapshot.val() !== null) {
+             console.log("Database init for this user! going to Dashboard");
+             that.setState({signedIn: true, checkedSignIn: true, onboardingNeeded: false});
            } else {
-             console.log("no car object for this user! going to Onboarding");
-             that.setState({signedIn: true, checkedSignIn: true});
+             console.log("No database value for this user! going to Onboarding");
+             that.setState({signedIn: true, checkedSignIn: true, onboardingNeeded: true});
            }
          }).catch(function(error) {
            console.log("Error getting document:", error.message);
@@ -283,13 +288,17 @@ export default class Auth extends Component {
    * @return: View
    */
   render() {
+    
+    // return(<Onboarding/>);
 
     if (!this.state.checkedSignIn) {
       return(<Loading label={"someone dropped screws in here"}/>);
     }
 
-    if(this.state.signedIn){
-       return(<SignedIn/>);
+    if(this.state.signedIn && this.state.onboardingNeeded){
+       return(<SignedUp/>);
+    } else if (this.state.signedIn && !this.state.onboardingNeeded){
+      return(<SignedIn/>);
     } else {
        return(<SignedOut/>);
     }
