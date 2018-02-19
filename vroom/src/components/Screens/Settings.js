@@ -108,7 +108,7 @@ export default class Settings extends Component {
                   </View>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {
+              {/*}<TouchableOpacity onPress={() => {
                 if(Platform.OS === 'android'){
                   Linking.canOpenURL('market://details?id=myandroidappid').then(supported => {
                     supported && Linking.openURL('market://details?id=myandroidappid');
@@ -131,7 +131,7 @@ export default class Settings extends Component {
                     <Text style={styleguide.dark_body}><FontAwesome>{Icons.star}</FontAwesome></Text>
                   </View>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity>*/}
               <TouchableOpacity onPress={() => {Auth.logOut()}}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
