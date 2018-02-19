@@ -21,7 +21,8 @@ import {
   Animated,
   ScrollView,
   Modal,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
@@ -33,13 +34,22 @@ import {
   pullAverageMPG,
   updateODO,
   pullODOReading,
+  pullUserPermissions,
+  pullOGODOReading,
 } from '../Database/Database.js';
 
 // Custom components
 import GasList from '../Custom/GasList';
 import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
+import FacebookAd from './../Custom/FacebookAd';
 import {Button} from './../Custom/Button';
+
+// For Facebook Ads and Analytics
+import { NativeAdsManager } from 'react-native-fbads';
+var platform_id = Platform.OS === 'ios' ? '113653902793626_113786369447046' : '113653902793626_114103656081984';
+const adsManager = new NativeAdsManager(platform_id);
+import {AppEventsLogger} from 'react-native-fbsdk';
 
 /*
  * Class: Dashboard
@@ -66,6 +76,8 @@ export default class Dashboard extends Component {
       settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
+      button_color: new Animated.Value(0),
+      shake_animation: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
       scrollEnable: true,
@@ -81,9 +93,11 @@ export default class Dashboard extends Component {
       // Below are some dummy objects of stuff
       // we will sync with firebase
       updatedODO: 0,
+      originalODO: 0,
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [],
+      isPremium: false,
     };
   }
 
@@ -93,6 +107,9 @@ export default class Dashboard extends Component {
   * Purpose: Opens the modal to add a gas item
   */
   openModal() {
+
+    AppEventsLogger.logEvent('Opened the transaction panel');
+
     this.setState({
       modalVisible:true
     });
@@ -118,6 +135,7 @@ export default class Dashboard extends Component {
   * Purpose: Closes the modal to add a gas item
   */
   closeModal() {
+
     Animated.timing(
       this.state.modalFade,
       {
@@ -149,25 +167,40 @@ export default class Dashboard extends Component {
   */
   addItem() {
 
-    var userODO = parseInt(this.state.user_ODO, 10);
+    AppEventsLogger.logEvent('User Created a Gas Item');
+
+    
+    if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
+      this.shakeButton();
+      alert("Please use a valid total dollar amount");
+      return;
+    }
+    if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
+      this.shakeButton();
+      alert("Please use a valid gallon amount");
+      return;
+    }
+    if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
+      this.shakeButton();
+      alert("Please use a valid Odometer Reading");
+      return;
+    }
 
     // throw alert if user leaves any fields blank
-    if(userODO == null || this.state.user_filled == "" || this.state.user_paid == ""){
-      alert("Please use a valid amount");
-      return;
-    // throw alert if user enters a strange odometer value
-    } else if (userODO <= this.state.updatedODO) {
+    if (this.state.user_ODO <= this.state.updatedODO) {
+      this.shakeButton();
       alert("Your odometer reading cannot go backwards or stay constant between fillups!"
       +"\nPlease verify it is correct.");
       return;
     }
-    else if (this.state.user_filled >= (userODO - this.state.updatedODO)){
+    else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
+      this.shakeButton();
       alert("You shouldn't be getting under 1 mile per gallon!"
         + "\nPlease verify your input (or buy different gas).");
       return;
     }
 
-    const distance = userODO - this.state.updatedODO;
+    const distance = this.state.user_ODO - this.state.updatedODO;
     const mpg = distance/this.state.user_filled;
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
@@ -181,13 +214,13 @@ export default class Dashboard extends Component {
       totalPrice: parseFloat(this.state.user_paid),
       date: creationDate,
       gallonsFilled: this.state.user_filled,
-      odometer: userODO,
+      odometer: this.state.user_ODO,
       distanceSinceLast: distance
     };
 
     this.setState({
       averageMPG: average,
-      updatedODO: userODO,
+      updatedODO: this.state.user_ODO,
       textDataArr:
       [
         {
@@ -195,13 +228,13 @@ export default class Dashboard extends Component {
           totalPrice: parseFloat(this.state.user_paid),
           date: creationDate,
           gallonsFilled: this.state.user_filled,
-          odometer: userODO,
+          odometer: this.state.user_ODO,
           distanceSinceLast: distance
         }, ...this.state.textDataArr
       ],
       user_paid: 0,
       user_filled: 0,
-      userODO: 0,
+      user_ODO: 0,
       list_i: this.state.list_i + 1,
     });
 
@@ -209,10 +242,12 @@ export default class Dashboard extends Component {
 
     pushFillup(newFillup);
     updateMPG(average);
-    updateODO(userODO);
+    updateODO(this.state.user_ODO);
   }
 
   removeItem(key){
+
+    AppEventsLogger.logEvent('User Deleted a Gas Item');
 
     // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
@@ -230,7 +265,7 @@ export default class Dashboard extends Component {
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
       /(this.state.textDataArr.length - 1);
 
-    const ODO = this.state.textDataArr.length == 1 ? 0 :
+    const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO : 
       this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
 
     removeFillup(key);
@@ -255,44 +290,47 @@ export default class Dashboard extends Component {
    * Purpose: Called when the component is called from the stack
    *    - sets up the pan responder for the GasList transition
    */
-  componentWillMount() {
-
-    this._panResponder = PanResponder.create({
-      onMoveShouldSetResponderCapture: () => true,
-      onMoveShouldSetPanResponderCapture: () => true,
-
-      onPanResponderMove: (e, {dy}) => {
-        // put animation code here
-        this.setState({scrollEnable: false});
-        if((dy < -8) && this.state.cardState == 1){
-          Animated.spring(
-            this.state.translation,
-            { toValue: 0, friction: 5}
-          ).start();
-          this.setState({
-            directionToSwipe: "down here to show",
-          });
-        } else if ((dy >= 8) && this.state.cardState == 0) {
-          Animated.spring(
-            this.state.translation,
-            { toValue: 1, friction: 5}
-          ).start();
-          this.setState({
-            directionToSwipe: "up here to hide",
-          });
-        }
-      },
-
-      onPanResponderRelease: (evt, gestureState) => {
-        this.setState({
-          cardState: !this.state.cardState,
-          scrollEnable: !this.state.scrollEnable,
-        });
-      },
-    });
-  }
+  // componentWillMount() {
+  //
+  //   this._panResponder = PanResponder.create({
+  //     onMoveShouldSetResponderCapture: () => true,
+  //     onMoveShouldSetPanResponderCapture: () => true,
+  //
+  //     onPanResponderMove: (e, {dy}) => {
+  //       // put animation code here
+  //       this.setState({scrollEnable: false});
+  //       if((dy < -8) && this.state.cardState == 1){
+  //         Animated.spring(
+  //           this.state.translation,
+  //           { toValue: 0, friction: 5}
+  //         ).start();
+  //         this.setState({
+  //           directionToSwipe: "down here to show",
+  //         });
+  //       } else if ((dy >= 8) && this.state.cardState == 0) {
+  //         Animated.spring(
+  //           this.state.translation,
+  //           { toValue: 1, friction: 5}
+  //         ).start();
+  //         this.setState({
+  //           directionToSwipe: "up here to hide",
+  //         });
+  //       }
+  //     },
+  //
+  //     onPanResponderRelease: (evt, gestureState) => {
+  //       this.setState({
+  //         cardState: !this.state.cardState,
+  //         scrollEnable: !this.state.scrollEnable,
+  //       });
+  //     },
+  //   });
+  // }
 
   openSettings(){
+
+    AppEventsLogger.logEvent('Accessed Settings Panel');
+
     Animated.timing(
       this.state.settingsShift,
       {
@@ -314,6 +352,8 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
 
+    AppEventsLogger.logEvent('Loaded Dashboard');
+
     var that = this;
     pullAverageMPG().then(function(fData){
       if(fData){
@@ -324,11 +364,24 @@ export default class Dashboard extends Component {
     }).catch(function(error) {
       console.log('Failed to load average mpg data into state:', error);
     });
+    
+    
+    pullOGODOReading().then(function(fData){
+      that.setState({
+        originalODO: fData,
+      });
+    }).catch(function(error) {
+      console.log('Failed to load original odometer data into state:', error);
+    });
 
     pullODOReading().then(function(fData){
-      if(fData){
+      if(fData != null){
         that.setState({
           updatedODO: fData,
+        });
+      } else {
+        that.setState({
+          updatedODO: that.state.originalODO,
         });
       }
     }).catch(function(error) {
@@ -342,6 +395,16 @@ export default class Dashboard extends Component {
           list_i: fData.length,
         });
       }
+    }).catch(function(error) {
+      console.log('Failed to load fill up data into state:', error);
+    });
+    
+    pullUserPermissions().then(function(fData){
+      if(fData){
+        that.setState({
+          isPremium: fData,
+        });
+      }
       Animated.timing(
         that.state.fadeIn,
         {
@@ -350,9 +413,46 @@ export default class Dashboard extends Component {
         }
       ).start();
     }).catch(function(error) {
-      console.log('Failed to load fill up data into state:', error);
+      console.log('Failed to load user permiission data into state:', error);
     });
   }
+  
+  /*
+   * Author: Elton C. Rego
+   * Purpose: When called, shakes the button
+   */
+   shakeButton(){
+     Animated.sequence([
+       Animated.timing(this.state.button_color, {
+         toValue: 1,
+         duration: 150,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: -8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: -8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 0,
+         duration: 50,
+       }),
+       Animated.timing(this.state.button_color, {
+         toValue: 0,
+         duration: 150,
+       }),
+     ]).start();
+   }
 
   /*
    * Function: render()
@@ -389,6 +489,18 @@ export default class Dashboard extends Component {
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
 
+    var adContent = this.state.isPremium? null :
+    <View  style={styles.ad}>
+      <FacebookAd adsManager={adsManager}/>
+    </View>;
+
+    var modalBehavior = Platform.OS === 'ios' ? "position" : null;
+    
+    var buttonColor = this.state.button_color.interpolate({
+      inputRange: [0, 1],
+      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
+    });
+    
     return(
       <View style={
         [styleguide.container,
@@ -423,20 +535,21 @@ export default class Dashboard extends Component {
           onRequestClose={() => this.closeModal()}
         >
           <View style={styles.modalContainer}>
-            <KeyboardAvoidingView behavior={'position'}>
+            <KeyboardAvoidingView behavior={modalBehavior}>
               <View style={[styles.innerContainer]}>
                 <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
                   <Text style={styleguide.light_title2_accent}>.</Text>
                 </Text>
                 <InputField
                   icon={Icons.dollar}
-                  label={"amount paid in dollars"}
+                  label={"total amount paid for fillup"}
                   labelColor={"rgba(37,50,55,0.5)"}
                   inactiveColor={GLOBAL.COLOR.DARKGRAY}
                   activeColor={GLOBAL.COLOR.GREEN}
                   autoCapitalize={"none"}
                   type={"numeric"}
                   topMargin={24}
+                  returnKeyType={'done'}
                   onChangeText={(text) => {this.setState({user_paid: text})}}
                 />
                 <InputField
@@ -448,6 +561,7 @@ export default class Dashboard extends Component {
                   autoCapitalize={"none"}
                   type={"numeric"}
                   topMargin={24}
+                  returnKeyType={'done'}
                   onChangeText={(text) => {this.setState({user_filled: text})}}
                 />
                 <InputField
@@ -459,31 +573,44 @@ export default class Dashboard extends Component {
                   autoCapitalize={"none"}
                   type={"numeric"}
                   topMargin={24}
+                  returnKeyType={'done'}
                   onChangeText={(text) => {this.setState({user_ODO: text})}}
                 />
+              </View>
+            </KeyboardAvoidingView>
+              <View style={styles.modal_buttons}>
+              <Animated.View
+                style={
+                { 
+                  width: '100%',
+                  transform: [{translateX: this.state.shake_animation}]
+                }}>
                 <Button
-                  backgroundColor={GLOBAL.COLOR.GREEN}
+                  backgroundColor={buttonColor}
                   label={"Add Item"}
                   height={64}
-                  marginTop={64}
-                  shadowColor={GLOBAL.COLOR.GREEN}
+                  marginTop={8}
+                  shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
                   onPress={() => this.addItem()}
                 >
                 </Button>
+              </Animated.View>
                 <Button
                   backgroundColor={GLOBAL.COLOR.GRAY}
                   label={"Cancel"}
                   height={64}
-                  marginTop={24}
+                  marginTop={16}
                   shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
-                  onPress={() => this.closeModal()}
+                  onPress={() => {
+                    this.closeModal();
+                    AppEventsLogger.logEvent('Canceled the transaction panel');
+                  }}
                   title="Close modal"
                 >
                 </Button>
               </View>
-            </KeyboardAvoidingView>
           </View>
         </Modal>
 
@@ -498,6 +625,7 @@ export default class Dashboard extends Component {
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
+            {adContent}
             <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
@@ -591,6 +719,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: GLOBAL.COLOR.WHITE,
   },
+  ad: {
+    borderBottomWidth: 1,
+    borderColor: 'rgba(37,50,55,0.50)',
+  },
   statistics: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -608,8 +740,18 @@ const styles = StyleSheet.create({
   innerContainer: {
     alignItems: 'center',
     padding: 32,
+    paddingBottom: 8,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
+    backgroundColor: GLOBAL.COLOR.WHITE,
+    zIndex: 2,
+    overflow: 'visible',
+  },
+  modal_buttons: {
+    alignItems: 'center',
+    padding: 32,
+    paddingTop: 8,
+    zIndex: 1,
     backgroundColor: GLOBAL.COLOR.WHITE,
   },
 

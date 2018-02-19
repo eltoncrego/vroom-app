@@ -64,6 +64,16 @@ export function pushFillup(fillupData) {
   }
 }
 
+export function initUser(originalODO){
+  console.log("initUser");
+  if(Auth.checkAuth()) {
+    console.log("AUTH")
+    var user = Auth.getAuth().uid;
+    firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
+    firebaseRef.database().ref("users").child(user).child("originalODO").set(originalODO);
+  }
+}
+
 export function updateMPG(average) {
   console.log("updateMPG");
   if(Auth.checkAuth()) {
@@ -132,9 +142,37 @@ export function pullODOReading() {
   return query.once('value').then(function(snapshot){
     return snapshot.val();
   }).catch(function(error) {
-    console.log('Failed to pull average MPG data from firebase:', error);
+    console.log('Failed to pull Original Odometer data from firebase:', error);
   });
 
+}
+
+/*
+* Database function: pullFillups()
+*/
+export function pullOGODOReading() {
+  console.log("pullOGDOReading");
+
+  const user = Auth.getAuth().uid;
+  const query = firebaseRef.database().ref("users").child(user).child("originalODO");
+
+  return query.once('value').then(function(snapshot){
+    return snapshot.val();
+  }).catch(function(error) {
+    console.log('Failed to pull Odometer data from firebase:', error);
+  });
+
+}
+
+export function pullUserPermissions(){
+  console.log("Pulling user permissions.");
+  const user = Auth.getAuth().uid;
+  const query = firebaseRef.database().ref("users").child(user).child("premiumUser");
+  return query.once('value').then(function(snapshot){
+    return snapshot.val();
+  }).catch(function(error) {
+    console.log('Failed to pull user permission data from firebase:', error);
+  });
 }
 
 /*
