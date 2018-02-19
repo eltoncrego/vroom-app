@@ -91,6 +91,7 @@ export default class Dashboard extends Component {
       // Below are some dummy objects of stuff
       // we will sync with firebase
       updatedODO: 0,
+      originalODO: 0,
       averageMPG: 0, // update this calculation as user enters
       list_i: 0, // index should update with initial pull and increment
       textDataArr: [],
@@ -249,7 +250,7 @@ export default class Dashboard extends Component {
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
       /(this.state.textDataArr.length - 1);
 
-    const ODO = this.state.textDataArr.length == 1 ? 0 :
+    const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO : 
       this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
 
     removeFillup(key);
@@ -348,6 +349,15 @@ export default class Dashboard extends Component {
     }).catch(function(error) {
       console.log('Failed to load average mpg data into state:', error);
     });
+    
+    
+    pullOGODOReading().then(function(fData){
+      that.setState({
+        originalODO: fData,
+      });
+    }).catch(function(error) {
+      console.log('Failed to load original odometer data into state:', error);
+    });
 
     pullODOReading().then(function(fData){
       if(fData != null){
@@ -355,13 +365,8 @@ export default class Dashboard extends Component {
           updatedODO: fData,
         });
       } else {
-        pullOGODOReading().then(function(fData){
-          that.setState({
-            updatedODO: fData,
-          });
-          updateODO(fData);
-        }).catch(function(error) {
-          console.log('Failed to load original odometer data into state:', error);
+        that.setState({
+          updatedODO: that.state.originalODO,
         });
       }
     }).catch(function(error) {
