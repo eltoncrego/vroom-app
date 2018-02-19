@@ -116,6 +116,7 @@ export default class Auth extends Component {
     firebase.auth().sendPasswordResetEmail(e).then((user) => {
       if (user) {
         console.log("mr. resetti is upsetti");
+        alert("OK, check your email")
       }
     }, error =>{
       console.log(error.message);
