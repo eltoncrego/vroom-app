@@ -31,6 +31,7 @@ public class MainActivity extends ReactActivity {
                 new MainReactPackage(),
                 new FBSDKPackage(mCallbackManager),
         };
+
         return Arrays.<ReactPackage>asList(packages);
     }
 
