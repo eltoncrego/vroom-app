@@ -76,6 +76,8 @@ export default class Dashboard extends Component {
       settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
+      button_color: new Animated.Value(0),
+      shake_animation: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
       scrollEnable: true,
@@ -169,25 +171,30 @@ export default class Dashboard extends Component {
 
     
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
+      this.shakeButton();
       alert("Please use a valid total dollar amount");
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
+      this.shakeButton();
       alert("Please use a valid gallon amount");
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
+      this.shakeButton();
       alert("Please use a valid Odometer Reading");
       return;
     }
 
     // throw alert if user leaves any fields blank
     if (this.state.user_ODO <= this.state.updatedODO) {
+      this.shakeButton();
       alert("Your odometer reading cannot go backwards or stay constant between fillups!"
       +"\nPlease verify it is correct.");
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
+      this.shakeButton();
       alert("You shouldn't be getting under 1 mile per gallon!"
         + "\nPlease verify your input (or buy different gas).");
       return;
@@ -409,6 +416,43 @@ export default class Dashboard extends Component {
       console.log('Failed to load user permiission data into state:', error);
     });
   }
+  
+  /*
+   * Author: Elton C. Rego
+   * Purpose: When called, shakes the button
+   */
+   shakeButton(){
+     Animated.sequence([
+       Animated.timing(this.state.button_color, {
+         toValue: 1,
+         duration: 150,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: -8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: -8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 8,
+         duration: 50,
+       }),
+       Animated.timing(this.state.shake_animation, {
+         toValue: 0,
+         duration: 50,
+       }),
+       Animated.timing(this.state.button_color, {
+         toValue: 0,
+         duration: 150,
+       }),
+     ]).start();
+   }
 
   /*
    * Function: render()
@@ -451,6 +495,12 @@ export default class Dashboard extends Component {
     </View>;
 
     var modalBehavior = Platform.OS === 'ios' ? "position" : null;
+    
+    var buttonColor = this.state.button_color.interpolate({
+      inputRange: [0, 1],
+      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
+    });
+    
     return(
       <View style={
         [styleguide.container,
@@ -529,8 +579,14 @@ export default class Dashboard extends Component {
               </View>
             </KeyboardAvoidingView>
               <View style={styles.modal_buttons}>
+              <Animated.View
+                style={
+                { 
+                  width: '100%',
+                  transform: [{translateX: this.state.shake_animation}]
+                }}>
                 <Button
-                  backgroundColor={GLOBAL.COLOR.GREEN}
+                  backgroundColor={buttonColor}
                   label={"Add Item"}
                   height={64}
                   marginTop={8}
@@ -539,6 +595,7 @@ export default class Dashboard extends Component {
                   onPress={() => this.addItem()}
                 >
                 </Button>
+              </Animated.View>
                 <Button
                   backgroundColor={GLOBAL.COLOR.GRAY}
                   label={"Cancel"}
