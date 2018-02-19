@@ -55,7 +55,6 @@ export default class Login extends Component {
       modalVisible: false,
 
       fade_animation: new Animated.Value(0),
-      field_animation: new Animated.Value(0),
       shake_animation: new Animated.Value(0),
     };
   }
@@ -83,28 +82,36 @@ export default class Login extends Component {
   *   text of the signup link
   */
   toggleSignUp(){
-    this.setState({
-      sign_up: !this.state.sign_up,
-    });
+    var that = this;
     Animated.timing(
-      this.state.field_animation,
+      this.state.fade_animation,
       {
-        toValue: 1,
-        duration: 500,
+        toValue: 0,
+        duration: 1000,
       }
-    ).start();
-    if(this.state.sign_up){
-      this.setState({
-        field_animation: new Animated.Value(0),
-        page_text: "Sign in",
-        button_text: "sign in!",
+    ).start(() => {
+      that.setState({
+        sign_up: !this.state.sign_up,
       });
-    } else {
-      this.setState({
-        page_text: "Sign up",
-        button_text: "sign up!",
-      });
-    }
+      if(!that.state.sign_up){
+        that.setState({
+          page_text: "Sign in",
+          button_text: "sign in!",
+        });
+      } else {
+        that.setState({
+          page_text: "Sign up",
+          button_text: "sign up!",
+        });
+      }
+      Animated.timing(
+        that.state.fade_animation,
+        {
+          toValue: 1,
+          duration: 1000,
+        }
+      ).start();
+    });
   }
 
   /*
@@ -199,11 +206,7 @@ export default class Login extends Component {
         'Forgot your password?',
         'No problem! Simply enter your email on the previous screen and hit this button again!',
         [
-          {text: 'OK',  onPress: () => {
-            this.setState({
-              button_color: GLOBAL.COLOR.GREEN,
-            });
-          }},
+          {text: 'OK',  onPress: () => {}},
         ],
       )
       return;
@@ -321,7 +324,6 @@ export default class Login extends Component {
     *   and toggles the verify password field visibity as such
     */
     var pw_confirm_field = this.state.sign_up ?
-      <Animated.View style={{opacity: this.state.field_animation,}}>
         <InputField
           icon={Icons.check}
           label={"re-enter password"}
@@ -337,8 +339,7 @@ export default class Login extends Component {
             (text) => {this.setState({password_verification: text})}
           }
           onSubmitEditing={ () => {() => this.signup()}}
-        />
-      </Animated.View> : null ;
+        />: null ;
 
    /*
     * Author: Elton C. Rego
@@ -356,9 +357,9 @@ export default class Login extends Component {
     */
     var signup_button_text = this.state.sign_up ?
       "sign up!" : "sign in!" ;
-      
+
     var keyboardBehavior = Platform.OS === 'ios' ? "padding" : null;
-    
+
     var buttonColor = this.state.button_color.interpolate({
       inputRange: [0, 1],
       outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
