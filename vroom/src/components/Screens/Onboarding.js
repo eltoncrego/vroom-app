@@ -123,7 +123,6 @@ export default class Onboarding extends Component {
             onChangeText={(text) => {this.setState({
               userODO: text,
             })}}
-            onSubmitEditing={() => {this.submitOnboardingODO()}}
           />
           <Button
              backgroundColor={GLOBAL.COLOR.GREEN}
