@@ -207,13 +207,13 @@ export default class Dashboard extends Component {
       totalPrice: parseFloat(this.state.user_paid),
       date: creationDate,
       gallonsFilled: this.state.user_filled,
-      odometer: userODO,
+      odometer: this.state.user_ODO,
       distanceSinceLast: distance
     };
 
     this.setState({
       averageMPG: average,
-      updatedODO: userODO,
+      updatedODO: this.state.user_ODO,
       textDataArr:
       [
         {
@@ -221,13 +221,13 @@ export default class Dashboard extends Component {
           totalPrice: parseFloat(this.state.user_paid),
           date: creationDate,
           gallonsFilled: this.state.user_filled,
-          odometer: userODO,
+          odometer: this.state.user_ODO,
           distanceSinceLast: distance
         }, ...this.state.textDataArr
       ],
       user_paid: 0,
       user_filled: 0,
-      userODO: 0,
+      user_ODO: 0,
       list_i: this.state.list_i + 1,
     });
 
@@ -235,7 +235,7 @@ export default class Dashboard extends Component {
 
     pushFillup(newFillup);
     updateMPG(average);
-    updateODO(userODO);
+    updateODO(this.state.user_ODO);
   }
 
   removeItem(key){
