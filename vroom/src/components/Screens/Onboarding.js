@@ -17,7 +17,8 @@ import {
   Platform,
   Text,
   Alert,
-  Keyboard
+  Keyboard,
+  Animated,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import {InputField} from './../Custom/InputField'
@@ -50,7 +51,9 @@ export default class Onboarding extends Component {
    constructor(props) {
      super(props);
      this.state = {
+       button_color: new Animated.Value(0),
        userODO: null,
+       shake_animation: new Animated.Value(0),
      };
    }
 
@@ -60,23 +63,68 @@ export default class Onboarding extends Component {
        initUser(this.state.userODO);
        goTo(this.props.navigation, 'Dashboard');
      } else if (this.state.userODO < 0){
+       this.shakeButton();
        Alert.alert(
          'Where did you get your car?',
          'I want a car that loses miles...',
          [
-           {text: 'Let me try again'},
+           {text: 'Let me try again', onPress: () => {
+             Animated.timing(this.state.button_color, {
+               toValue: 0,
+               duration: 150,
+             }).start();
+           }},
          ],
        )
      } else {
+       this.shakeButton();
        Alert.alert(
          'Hold up!',
          'You didn\'t enter anything!',
          [
-           {text: 'Let me try again'},
+           {text: 'Let me try again', onPress: () => {
+             Animated.timing(this.state.button_color, {
+               toValue: 0,
+               duration: 150,
+             }).start();
+           }},
          ],
        )
      }
    }
+   
+   /*
+    * Author: Elton C. Rego
+    * Purpose: When called, shakes the button
+    */
+    shakeButton(){
+      Animated.sequence([
+        Animated.timing(this.state.button_color, {
+          toValue: 1,
+          duration: 150,
+        }),
+        Animated.timing(this.state.shake_animation, {
+          toValue: -8,
+          duration: 50,
+        }),
+        Animated.timing(this.state.shake_animation, {
+          toValue: 8,
+          duration: 50,
+        }),
+        Animated.timing(this.state.shake_animation, {
+          toValue: -8,
+          duration: 50,
+        }),
+        Animated.timing(this.state.shake_animation, {
+          toValue: 8,
+          duration: 50,
+        }),
+        Animated.timing(this.state.shake_animation, {
+          toValue: 0,
+          duration: 50,
+        }),
+      ]).start();
+    }
 
 
 
@@ -92,6 +140,11 @@ export default class Onboarding extends Component {
   render() {
 
     var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
+    
+    var buttonColor = this.state.button_color.interpolate({
+      inputRange: [0, 1],
+      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
+    });
 
     return(
       <SafeAreaView style={[
@@ -124,13 +177,19 @@ export default class Onboarding extends Component {
               userODO: text,
             })}}
           />
-          <Button
-             backgroundColor={GLOBAL.COLOR.GREEN}
-             label={"Lets Go!"}
-             height={64}
-             marginTop={40}
-             shadowColor={GLOBAL.COLOR.GREEN}
-             onPress={() => {this.submitOnboardingODO()}}/>
+          <Animated.View
+            style={
+            {
+              transform: [{translateX: this.state.shake_animation}]
+            }}>
+            <Button
+               backgroundColor={buttonColor}
+               label={"Lets Go!"}
+               height={64}
+               marginTop={40}
+               shadowColor={buttonColor}
+               onPress={() => {this.submitOnboardingODO()}}/>
+          </Animated.View>
         </KeyboardAvoidingView>
       </SafeAreaView>
     );
