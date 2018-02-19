@@ -52,21 +52,21 @@
 	<string/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>nunito_black.ttf</string>
-		<string>nunito_blackitalic.ttf</string>
-		<string>nunito_bold.ttf</string>
-		<string>nunito_bolditalic.ttf</string>
-		<string>nunito_extrabold.ttf</string>
-		<string>nunito_extrabolditalic.ttf</string>
-		<string>nunito_extralight.ttf</string>
-		<string>nunito_extralightitalic.ttf</string>
-		<string>nunito_italic.ttf</string>
-		<string>nunito_light.ttf</string>
-		<string>nunito_lightitalic.ttf</string>
-		<string>nunito_regular.ttf</string>
-		<string>nunito_semibold.ttf</string>
-		<string>nunito_semibolditalic.ttf</string>
 		<string>FontAwesome.ttf</string>
+		<string>Nunito-Black.ttf</string>
+		<string>Nunito-BlackItalic.ttf</string>
+		<string>Nunito-Bold.ttf</string>
+		<string>Nunito-BoldItalic.ttf</string>
+		<string>Nunito-ExtraBold.ttf</string>
+		<string>Nunito-ExtraBoldItalic.ttf</string>
+		<string>Nunito-ExtraLight.ttf</string>
+		<string>Nunito-ExtraLightItalic.ttf</string>
+		<string>Nunito-Italic.ttf</string>
+		<string>Nunito-Light.ttf</string>
+		<string>Nunito-LightItalic.ttf</string>
+		<string>Nunito-Regular.ttf</string>
+		<string>Nunito-SemiBold.ttf</string>
+		<string>Nunito-SemiBoldItalic.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
