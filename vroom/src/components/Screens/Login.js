@@ -185,6 +185,32 @@ export default class Login extends Component {
   }
 
  /*
+  * Author: Payam Katoozian
+  * Purpose: allow resetting of password
+  */
+  passwordReset = () => {
+    if(!this.state.email){
+      Alert.alert(
+        'Forgot your password?',
+        'No problem! Simply enter your email on the previous screen and hit this button again!',
+        [
+          {text: 'OK',  onPress: () => {
+            this.setState({
+              button_color: GLOBAL.COLOR.GREEN,
+            });
+          }},
+        ],
+      )
+      return;
+    }
+    Auth.firebasePasswordReset(this.state.email);
+    Alert.alert(
+      'Password Reset Request Received',
+      'Please check your email'
+    )
+  }
+
+ /*
   * Author: Connick Shields
   * Purpose: navigates to a signup component
   */
@@ -380,7 +406,7 @@ export default class Login extends Component {
               }}
             />
             {pw_confirm_field}
-            <TouchableOpacity onPress={() => {alert("ok?")}}>
+            <TouchableOpacity onPress={() => {this.passwordReset()}}>
               <Text
                 style={[
                   styleguide.light_body_secondary,
