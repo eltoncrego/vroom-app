@@ -167,25 +167,33 @@ export default class Dashboard extends Component {
 
     AppEventsLogger.logEvent('User Created a Gas Item');
 
-    var userODO = parseInt(this.state.user_ODO, 10);
+    
+    if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
+      alert("Please use a valid total dollar amount");
+      return;
+    }
+    if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
+      alert("Please use a valid gallon amount");
+      return;
+    }
+    if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
+      alert("Please use a valid Odometer Reading");
+      return;
+    }
 
     // throw alert if user leaves any fields blank
-    if(userODO == null || this.state.user_filled == "" || this.state.user_paid == ""){
-      alert("Please use a valid amount");
-      return;
-    // throw alert if user enters a strange odometer value
-    } else if (userODO <= this.state.updatedODO) {
+    if (this.state.user_ODO <= this.state.updatedODO) {
       alert("Your odometer reading cannot go backwards or stay constant between fillups!"
       +"\nPlease verify it is correct.");
       return;
     }
-    else if (this.state.user_filled >= (userODO - this.state.updatedODO)){
+    else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
       alert("You shouldn't be getting under 1 mile per gallon!"
         + "\nPlease verify your input (or buy different gas).");
       return;
     }
 
-    const distance = userODO - this.state.updatedODO;
+    const distance = this.state.user_ODO - this.state.updatedODO;
     const mpg = distance/this.state.user_filled;
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
@@ -484,13 +492,14 @@ export default class Dashboard extends Component {
                 </Text>
                 <InputField
                   icon={Icons.dollar}
-                  label={"amount paid in dollars"}
+                  label={"total amount paid for fillup"}
                   labelColor={"rgba(37,50,55,0.5)"}
                   inactiveColor={GLOBAL.COLOR.DARKGRAY}
                   activeColor={GLOBAL.COLOR.GREEN}
                   autoCapitalize={"none"}
                   type={"numeric"}
                   topMargin={24}
+                  returnKeyType={'done'}
                   onChangeText={(text) => {this.setState({user_paid: text})}}
                 />
                 <InputField
@@ -502,6 +511,7 @@ export default class Dashboard extends Component {
                   autoCapitalize={"none"}
                   type={"numeric"}
                   topMargin={24}
+                  returnKeyType={'done'}
                   onChangeText={(text) => {this.setState({user_filled: text})}}
                 />
                 <InputField
@@ -513,27 +523,27 @@ export default class Dashboard extends Component {
                   autoCapitalize={"none"}
                   type={"numeric"}
                   topMargin={24}
+                  returnKeyType={'done'}
                   onChangeText={(text) => {this.setState({user_ODO: text})}}
                 />
-
-                  <Button
-                    backgroundColor={GLOBAL.COLOR.GREEN}
-                    label={"Add Item"}
-                    height={64}
-                    marginTop={24}
-                    shadowColor={'rgba(0,0,0,0)'}
-                    width={"100%"}
-                    onPress={() => this.addItem()}
-                  >
-                  </Button>
               </View>
             </KeyboardAvoidingView>
               <View style={styles.modal_buttons}>
                 <Button
+                  backgroundColor={GLOBAL.COLOR.GREEN}
+                  label={"Add Item"}
+                  height={64}
+                  marginTop={8}
+                  shadowColor={'rgba(0,0,0,0)'}
+                  width={"100%"}
+                  onPress={() => this.addItem()}
+                >
+                </Button>
+                <Button
                   backgroundColor={GLOBAL.COLOR.GRAY}
                   label={"Cancel"}
                   height={64}
-                  marginTop={0}
+                  marginTop={16}
                   shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
                   onPress={() => {

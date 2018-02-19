@@ -300,6 +300,7 @@ export default class Login extends Component {
           autoCapitalize={"none"}
           secureTextEntry={true}
           autoCorrect={false}
+          returnKeyType={'done'}
           onChangeText={
             (text) => {this.setState({password_verification: text})}
           }
@@ -364,6 +365,7 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               keyboardType={"email-address"}
               autoCorrect={false}
+              returnKeyType={'done'}
               onChangeText={(text) => {this.setState({email: text})}}
             />
             <InputField
@@ -376,6 +378,7 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               secureTextEntry={true}
               autoCorrect={false}
+              returnKeyType={'done'}
               onChangeText={(text) => {this.setState({password: text})}}
               onSubmitEditing={ () => {
                 if(!this.state.sign_up){
