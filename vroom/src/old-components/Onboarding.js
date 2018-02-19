@@ -25,8 +25,6 @@ import Animation from 'lottie-react-native';
 import {firebaseRef, queryCars} from '../Database/Database';
 import {Auth} from '../Login';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
-// import { Dropdown } from 'react-native-material-dropdown';
-// import { TextField } from 'react-native-material-textfield';
 
 // Files Needed
 import revi from '../../../assets/animations/revi-hi.json';
