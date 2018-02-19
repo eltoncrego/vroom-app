@@ -105,6 +105,7 @@ export class InputField extends Component {
           underlineColorAndroid={'transparent'}
           autoCapitalize={autoCapitalize}
           secureTextEntry={secureTextEntry}
+          returnKeyType={ this.props.returnKeyType }
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
           autoCorrect={this.props.autoCorrect}
