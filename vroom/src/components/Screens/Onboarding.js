@@ -16,10 +16,16 @@ import {
   KeyboardAvoidingView,
   Platform,
   Text,
+  Alert
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
+import { goTo, clearNavStack } from '../Navigation/Navigation';
+
+import {
+  initUser,
+} from '../Database/Database.js';
 
 /*
  * Class: Onboarding
@@ -31,6 +37,46 @@ import {Button} from './../Custom/Button';
  */
 
 export default class Onboarding extends Component {
+
+  /*
+   * Method: Constructor
+   * Author: Elton C. Rego
+   *
+   * Purpose: Constructs the class with given props
+   *
+   * @param: properties
+   */
+   constructor(props) {
+     super(props);
+     this.state = {
+       userODO: null,
+     };
+   }
+
+   submitOnboardingODO(){
+     if(this.state.userODO != null){
+      initUser(this.state.userODO);
+       goTo(this.props.navigation, 'Dashboard');
+     } else if (this.state.userODO < 0){
+       Alert.alert(
+         'Where did you get your car?',
+         'I want a car that loses miles...',
+         [
+           {text: 'Let me try again'},
+         ],
+       )
+     } else {
+       Alert.alert(
+         'Hold up!',
+         'You didn\'t enter anything!',
+         [
+           {text: 'Let me try again'},
+         ],
+       )
+     }
+   }
+
+
 
   /*
    * Method: render
@@ -70,8 +116,10 @@ export default class Onboarding extends Component {
             type={"numeric"}
             secureTextEntry={false}
             autoCorrect={false}
-            onChangeText={(text) => {}}
-            onSubmitEditing={ () => {}}
+            onChangeText={(text) => {this.setState({
+              userODO: text,
+            })}}
+            onSubmitEditing={() => {this.submitOnboardingODO()}}
           />
           <Button
            backgroundColor={GLOBAL.COLOR.GREEN}
@@ -79,7 +127,7 @@ export default class Onboarding extends Component {
            height={64}
            marginTop={40}
            shadowColor={GLOBAL.COLOR.GREEN}
-           onPress={()=>{}}
+           onPress={() => {this.submitOnboardingODO()}}
          />
           </KeyboardAvoidingView>
       </SafeAreaView>

@@ -35,6 +35,7 @@ import {
   updateODO,
   pullODOReading,
   pullUserPermissions,
+  pullOGODOReading,
 } from '../Database/Database.js';
 
 // Custom components
@@ -349,9 +350,18 @@ export default class Dashboard extends Component {
     });
 
     pullODOReading().then(function(fData){
-      if(fData){
+      if(fData != null){
         that.setState({
           updatedODO: fData,
+        });
+      } else {
+        pullOGODOReading().then(function(fData){
+          that.setState({
+            updatedODO: fData,
+          });
+          updateODO(fData);
+        }).catch(function(error) {
+          console.log('Failed to load original odometer data into state:', error);
         });
       }
     }).catch(function(error) {
