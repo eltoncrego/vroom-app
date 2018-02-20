@@ -12,7 +12,6 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Alert,
   Animated,
   Modal,
   Platform,
@@ -25,6 +24,7 @@ import { goTo, clearNavStack } from '../Navigation/Navigation';
 import {initUser} from '../Database/Database';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
+import VAlert from './../Custom/VAlert';
 import Loading from './../Screens/Loading';
 
 import loader_icon from '../../../assets/animations/loading.json';
@@ -143,6 +143,10 @@ export default class Login extends Component {
          toValue: 0,
          duration: 50,
        }),
+       Animated.timing(this.state.button_color, {
+         toValue: 0,
+         duration: 150,
+       }),
      ]).start();
    }
 
@@ -154,38 +158,16 @@ export default class Login extends Component {
   signin = () => {
     if((!this.state.email)){
       this.shakeButton();
-      // VAlert.fireVAlert(
-      //   "Woah there!",
-      //   "You can\'t log in with an empty email!",
-      //   "Oh, okay");
-      Alert.alert(
-        'Woah there!',
-        'You can\'t log in with an empty email!',
-        [
-          {text: 'I understand', onPress: () => {
-            Animated.timing(this.state.button_color, {
-              toValue: 0,
-              duration: 150,
-            }).start();
-          }},
-        ],
-      )
+      this.refs.valert.showAlert('Woah there!',
+      'You can\'t log in with an empty email!',
+      'I understand');
       return;
     }
     if((!this.state.password)){
       this.shakeButton();
-      Alert.alert(
-        'Hey there, friendo!',
-        'You can\'t log in with an empty password!',
-        [
-          {text: 'I understand', onPress: () => {
-            Animated.timing(this.state.button_color, {
-              toValue: 0,
-              duration: 150,
-            }).start();
-          }},
-        ],
-      )
+      this.refs.valert.showAlert('Hey there, friendo!',
+      'You can\'t log in with an empty password!',
+      'I understand');
       return;
     }
     this.openModal();
@@ -202,50 +184,23 @@ export default class Login extends Component {
   signup = () => {
     if((!this.state.email)){
       this.shakeButton();
-      Alert.alert(
-        'Now wait just a second!',
-        'You can\'t log in with an empty email!',
-        [
-          {text: 'I understand', onPress: () => {
-            Animated.timing(this.state.button_color, {
-              toValue: 0,
-              duration: 150,
-            }).start();
-          }},
-        ],
-      )
+      this.refs.valert.showAlert('Now wait just a second!',
+      'You can\'t sign up with an empty email!',
+      'I understand');
       return;
     }
     if((!this.state.password)){
       this.shakeButton();
-      Alert.alert(
-        'Hold up!',
-        'You can\'t log in with an empty password!',
-        [
-          {text: 'I understand', onPress: () => {
-            Animated.timing(this.state.button_color, {
-              toValue: 0,
-              duration: 150,
-            }).start();
-          }},
-        ],
-      )
+      this.refs.valert.showAlert('Hold up!',
+      'You can\'t sign up with an empty password!',
+      'I understand');
       return;
     }
     if(this.state.password != this.state.password_verification){
       this.shakeButton();
-      Alert.alert(
-        'Imma let you finish',
-        'but your passwords don\'t match',
-        [
-          {text: 'Let me fix it!', onPress: () => {
-            Animated.timing(this.state.button_color, {
-              toValue: 0,
-              duration: 150,
-            }).start();
-          }},
-        ],
-      )
+      this.refs.valert.showAlert('Our OCD is going off...',
+      'your passwords don\'t match',
+      'I understand');
       return;
     }
     this.openModal();
@@ -361,6 +316,8 @@ export default class Login extends Component {
         </View>
       </Modal>
 
+      <VAlert ref="valert"/>
+
         <Animated.View style={{opacity: this.state.fade_animation,}}>
           <KeyboardAvoidingView
             style={styles.sign_in_form}
@@ -446,7 +403,6 @@ export default class Login extends Component {
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </Animated.View>
-        {/* <VAlert/>*/}
       </SafeAreaView>
     );
   }

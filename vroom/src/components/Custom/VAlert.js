@@ -10,7 +10,7 @@ stylesheet = require('../../global-styles');
 
 // Components
 import {
-  Modal,
+  Animated,
   View,
   Text,
   StyleSheet,
@@ -26,93 +26,86 @@ export default class VAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
-      alertTitle: "Alert!",
-      alertBody: "",
-      buttonText: "OK",
+      translation: new Animated.Value(0),
+      alertTitle: "Alert",
+      alertText: "Something is wrong",
+      buttonText: "Ok",
     };
   }
 
-  fireVAlert(alertBody, alertTitle, buttonText) {
+  showAlert(alertTitle, alertText, buttonText, timeoutValue){
     this.setState({
-      visible: true,
-      alertBody: alertBody,
       alertTitle: alertTitle,
+      alertText: alertText,
       buttonText: buttonText,
     });
+    Animated.spring(
+      this.state.translation,
+      {
+        toValue: 1,
+        friction: 6,
+      }
+    ).start();
+    if (timeoutValue != null){
+      var that = this;
+      setTimeout(function(){ that.dismissAlert(); }, timeoutValue);
+    }
   }
 
-  disableVAlert(){
-    this.setState({
-      visible: false,
+  dismissAlert(){
+    Animated.spring(
+      this.state.translation,
+      {
+        toValue: 0,
+        friction: 3,
+      }
+    ).start();
+  }
+
+  render(){
+
+    var alertShift = this.state.translation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [-350, -32]
     });
-  }
-
-  render({
-    alertText,
-  } = this.props){
-
-    var body_section = (this.state.alertBody == "") ? null :
-    <View style={styles.alert_body_container}>
-      <Text style={styleguide.light_body}>{this.state.alertBody}</Text>
-    </View>;
 
     return (
-      <Modal
-        visible={this.state.visible}
-        animationType={'fade'}
-        transparent={true}>
-        <View style={styles.main_container}>
-          <View style={styles.alert_header_container}>
-            <Text style={styleguide.dark_subheader2}>{this.state.alertTitle}</Text>
+      <Animated.View style={[styles.main_container,
+        {
+          transform: [{translateY: alertShift}]
+        }]}>
+        <Text style={styleguide.dark_subheader2}>{this.state.alertTitle}</Text>
+        <Text style={styleguide.dark_body}>{this.state.alertText}</Text>
+        <TouchableOpacity onPress={() => this.dismissAlert()}>
+          <View style={styles.button}>
+            <Text style={styleguide.dark_body2}>{this.state.buttonText}</Text>
           </View>
-          {body_section}
-          <TouchableOpacity style={styles.confirm_button} onPress={() => {this.disableVAlert()}}>
-            <Text style={styleguide.light_body2}>{this.state.buttonText}</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+        </TouchableOpacity>
+      </Animated.View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   main_container: {
-    flex: 1,
-    zIndex: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(37,50,55,0.90)',
-  },
-  alert_header_container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    zIndex: 50,
+    padding: 16,
+    paddingTop: 48+32,
     backgroundColor: GLOBAL.COLOR.RED,
-    width: '75%',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    paddingHorizontal: 32,
-    paddingVertical: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
+    shadowColor: GLOBAL.COLOR.RED,
+    shadowOpacity: 0.5,
+    shadowOffset: {width: 4, height: 4},
+    shadowRadius: 30,
   },
-  alert_body_container: {
-    backgroundColor: GLOBAL.COLOR.WHITE,
-    width: '75%',
-    paddingHorizontal: 32,
-    paddingVertical: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  confirm_button: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '75%',
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    borderTopWidth: 2,
-    borderColor: GLOBAL.COLOR.RED,
-    backgroundColor: GLOBAL.COLOR.WHITE,
-    paddingVertical: 16,
-    opacity: 0.9,
+  button: {
+    width: '100%',
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderColor: 'rgba(37,50,55,0.20)'
   }
 });
