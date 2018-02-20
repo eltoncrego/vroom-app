@@ -725,7 +725,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    maxHeight: 578,
+    minHeight: '90%',
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 1,
   },
