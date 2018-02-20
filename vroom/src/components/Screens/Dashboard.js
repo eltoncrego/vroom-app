@@ -44,6 +44,7 @@ import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
 import FacebookAd from './../Custom/FacebookAd';
 import {Button} from './../Custom/Button';
+import VAlert from './../Custom/VAlert';
 
 // For Facebook Ads and Analytics
 import { NativeAdsManager } from 'react-native-fbads';
@@ -172,31 +173,41 @@ export default class Dashboard extends Component {
 
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
       this.shakeButton();
-      alert("Please use a valid total dollar amount");
+      this.refs.valert.showAlert('Somethings not right...',
+      'Please enter a valid total dollar amount!',
+      'Ok', 5000);
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.shakeButton();
-      alert("Please use a valid gallon amount");
+      this.refs.valert.showAlert('Somethings not right...',
+      'Please enter a valid gallong amount!',
+      'Ok', 5000);
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
       this.shakeButton();
-      alert("Please use a valid Odometer Reading");
+      this.refs.valert.showAlert('Somethings not right...',
+      'Please enter a valid odometer reading!',
+      'Ok', 5000);
       return;
     }
 
     // throw alert if user leaves any fields blank
     if (this.state.user_ODO <= this.state.updatedODO) {
       this.shakeButton();
-      alert("Your odometer reading cannot go backwards or stay constant between fillups!"
-      +"\nPlease verify it is correct.");
+      this.refs.valert.showAlert('Somethings not right...',
+      'Your odometer reading cannot go backwards or stay constant between fillups!'
+      +"\nPlease verify it is correct.",
+      'Ok', 5000);
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
       this.shakeButton();
-      alert("You shouldn't be getting under 1 mile per gallon!"
-        + "\nPlease verify your input (or buy different gas).");
+      this.refs.valert.showAlert('Somethings not right...',
+      'You shouldn\'t be getting under 1 mile per gallon!'
+      +"\nPlease verify your input (or buy different gas).",
+      'Ok', 5000);
       return;
     }
 
@@ -509,6 +520,9 @@ export default class Dashboard extends Component {
         }]
       }>
       <StatusBar barStyle="light-content"/>
+
+        <VAlert ref="valert"/>
+
         <Animated.View style={[styles.settings, settingsList]}>
           <Settings closeCallBack={() => this.closeSettings()}/>
         </Animated.View>
