@@ -175,21 +175,21 @@ export default class Dashboard extends Component {
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
-      'Ok', 5000);
+      '', 5000);
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid gallong amount!',
-      'Ok', 5000);
+      '', 5000);
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
-      'Ok', 5000);
+      '', 5000);
       return;
     }
 
@@ -199,7 +199,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
-      'Ok', 5000);
+      '', 5000);
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
@@ -207,7 +207,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
-      'Ok', 5000);
+      '', 5000);
       return;
     }
 
