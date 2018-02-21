@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="1024px" viewBox="0 0 1440 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>site_background</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Prototyping" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="site_background" fill="#9FD356">
+            <path d="M-57.9774581,206.793044 C104.019362,535.828676 316.146416,720.841929 578.403702,761.832804 C840.660989,802.82368 1150.51899,699.396812 1507.97771,451.552202 L1507.97771,1294.84222 L-57.9774581,1264.37824 L-57.9774581,206.793044 Z" id="Path-2" fill-opacity="0.1"></path>
+            <path d="M-91.6102435,905.743839 C343.715167,599.405427 659.770309,432.126931 856.555182,403.90835 C1053.34006,375.689769 1261.09373,467.855067 1479.81621,680.404242 L1479.81621,1164.47512 L-91.6102435,1164.47512 L-91.6102435,905.743839 Z" id="Path" fill-opacity="0.5"></path>
+        </g>
+    </g>
+</svg>
