@@ -8,6 +8,18 @@ import com.facebook.react.ReactApplication;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import io.callstack.react.fbads.FBAdsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import io.callstack.react.fbads.FBAdsPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import io.callstack.react.fbads.FBAdsPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import io.callstack.react.fbads.FBAdsPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import io.callstack.react.fbads.FBAdsPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,6 +48,18 @@ public class MainApplication extends Application implements ReactApplication {
       mCallbackManager = new CallbackManager.Factory().create();
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new FBSDKPackage(),
+            new FBAdsPackage(),
+            new LottiePackage(),
+            new FBSDKPackage(),
+            new FBAdsPackage(),
+            new LottiePackage(),
+            new FBSDKPackage(),
+            new FBAdsPackage(),
+            new LottiePackage(),
+            new FBSDKPackage(),
+            new FBAdsPackage(),
+            new LottiePackage(),
         new FBSDKPackage(mCallbackManager),
         new FBAdsPackage(),
         new LottiePackage()
