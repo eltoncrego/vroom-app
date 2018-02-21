@@ -144,18 +144,6 @@ dependencies {
     compile project(':react-native-fbsdk')
     compile project(':react-native-fbads')
     compile project(':lottie-react-native')
-    compile project(':react-native-fbsdk')
-    compile project(':react-native-fbads')
-    compile project(':lottie-react-native')
-    compile project(':react-native-fbsdk')
-    compile project(':react-native-fbads')
-    compile project(':lottie-react-native')
-    compile project(':react-native-fbsdk')
-    compile project(':react-native-fbads')
-    compile project(':lottie-react-native')
-    compile project(':react-native-fbsdk')
-    compile project(':react-native-fbads')
-    compile project(':lottie-react-native')
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile fileTree(dir: "libs", include: ["*.jar"])
 //    compile "com.android.support:appcompat-v7:26.1.0"
