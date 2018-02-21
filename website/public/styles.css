@@ -1,0 +1,270 @@
+html {
+  vertical-align: baseline;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
+body {
+	font-family: 'Nunito', sans-serif;
+	font-size: 15pt;
+	color: #253237;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background-image: url("./src/site_background.svg");
+  background-size: cover;
+  opacity: 0.2;
+}
+
+h2 i {
+  color: #9FD356;
+  font-style: normal;
+}
+
+main.full {
+  min-height: calc(100vh - 32pt);
+  padding-top: 32pt;
+  padding-bottom: 32pt;
+  width: 75%;
+}
+
+#header {
+  width: calc(100% - 32pt);
+  padding: 0pt 32pt;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-logo-link {
+  display: flex;
+  flex-direction: column;
+}
+
+.site-logo {
+  width: 176pt;
+  height: auto;
+}
+
+#content {
+  flex: 10;
+  padding: 16pt 32pt;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  margin: 32pt 0 0 0;
+  line-height: 1.4;
+}
+
+#contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 32pt 0pt;
+}
+
+#contact button{
+  background-color: #B8E986;
+  font-family: 'Nunito', sans-serif;
+	font-size: 15pt;
+	color: white;
+  border-style: none;
+  padding: 16pt 32pt;
+  border-radius: 32pt;
+
+  transition: all .1s cubic-bezier(.17,.67,.83,.67);
+}
+
+#contact button:hover{
+  transform: scale(1.1);
+  box-shadow: 4pt 4pt 30pt rgba(159, 211, 86, .2);
+}
+
+.team {
+  margin: 16pt 0pt;
+}
+
+#card-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.team-card{
+  min-width: 32pt;
+  min-height: 32pt;
+  border-radius: 8pt;
+  padding: 16pt 16pt 32pt 16pt;
+  margin: 12pt 8pt;
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: all .1s cubic-bezier(.17,.67,.83,.67);
+  z-index: 0;
+
+  text-decoration: none;
+  color: #253237;
+}
+
+.team-card:hover{
+  transform: scale(1.1);
+  box-shadow: 4pt 4pt 30pt rgba(37,50,55,0.1);
+  z-index: 10;
+}
+
+.team-card h3{
+  margin: 16pt 0 0 0;
+  width: 128pt;
+  text-align: center;
+}
+
+.team-card p{
+  margin: 0;
+  opacity: 0.5;
+  width: 128pt;
+  text-align: center;
+}
+
+.team-avi {
+  width: 128pt;
+  height: 128pt;
+  border-radius: 8pt;
+  background-size: cover;
+}
+
+#elton {
+  background-image: url("src/team/elton.jpg");
+}
+
+#will {
+  background-image: url("src/team/will.jpg");
+}
+
+#connick {
+  background-image: url("src/team/connick.jpg");
+}
+
+#payam {
+  background-image: url("src/team/payam.jpg");
+}
+
+#ryan {
+  background-image: url("src/team/ryan.jpg");
+}
+
+#alec {
+  background-image: url("src/team/alec.jpg");
+}
+
+#teeny {
+  background-image: url("src/team/teeny.jpg");
+}
+
+@media (max-width: 600px){
+  main.full {
+    width: 95%;
+  }
+
+  #header {
+    width: calc(100% - 64pt);
+    padding: 0pt 32pt;
+    justify-content: center;
+  }
+
+  #desc {
+    align-items: flex-start;
+    margin: 0;
+  }
+
+  #card-wrapper{
+    justify-content: center;
+  }
+
+  #footer-right{
+    margin: 16pt 0pt 8pt 0pt !important;
+    text-align: center !important;
+  }
+
+  #footer-left {
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  footer {
+    padding: 16pt !important;
+    width: calc(100% - 32pt) !important;
+    justify-content: center !important;
+  }
+}
+
+footer {
+  font-size: 8pt;
+  background-color: #F4F5F5;
+  padding: 12pt 64pt 12pt 64pt;
+  width: calc(100% - 128pt);
+  color: rgba(37,50,55,0.5);
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  border-top-style: solid;
+  border-top-color: #DFE1E2;
+  border-top-width: 1pt;
+}
+
+#footer-left{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+footer p {
+  padding: 0;
+  margin: 0;
+}
+
+footer a{
+  font-size: 15pt;
+  color: rgba(37,50,55,0.5);
+  padding: 2pt 4pt;
+}
+
+#footer-right a {
+  font-size: 8pt;
+  padding: 0;
+  margin-top: 4pt;
+}
