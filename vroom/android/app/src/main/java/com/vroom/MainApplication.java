@@ -36,6 +36,9 @@ public class MainApplication extends Application implements ReactApplication {
       mCallbackManager = new CallbackManager.Factory().create();
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new FBSDKPackage(),
+            new FBAdsPackage(),
+            new LottiePackage(),
         new FBSDKPackage(mCallbackManager),
         new FBAdsPackage(),
         new LottiePackage()
