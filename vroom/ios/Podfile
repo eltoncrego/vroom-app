@@ -15,7 +15,6 @@ target 'vroom' do
   target 'vroom-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'ReactNativeFBAds', :path => '../node_modules/react-native-fbads'
 
   end
 
