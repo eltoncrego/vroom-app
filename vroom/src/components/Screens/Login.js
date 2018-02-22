@@ -44,7 +44,7 @@ export default class Login extends Component {
     this.state = {
       button_color: new Animated.Value(0),
 
-      sign_up: false,
+      sign_up: true,
       page_text: "Sign in",
       button_text: "sign in!",
       email: null,
