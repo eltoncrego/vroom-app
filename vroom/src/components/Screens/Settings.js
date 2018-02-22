@@ -25,6 +25,7 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Our Components
 import Auth from '../Authentication/Auth';
+import { goTo, clearNavStack } from '../Navigation/Navigation';
 
 
 // Files Needed
@@ -132,6 +133,40 @@ export default class Settings extends Component {
                   </View>
                 </View>
               </TouchableOpacity>*/}
+              <TouchableOpacity onPress={() => {
+                Linking.canOpenURL('https://revi.tech/privacy').then(supported => {
+                  supported && Linking.openURL('https://revi.tech/privacy');
+                }, (err) => console.log(err));
+              }}>
+                <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Our Privacy Policy
+                  </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                Linking.canOpenURL('https://revi.tech/vroom/eula').then(supported => {
+                  supported && Linking.openURL('https://revi.tech/vroom/eula');
+                }, (err) => console.log(err));
+              }}>
+                <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Vroom End User License Agreement
+                  </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => {Auth.logOut()}}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
