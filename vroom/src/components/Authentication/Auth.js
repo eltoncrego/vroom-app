@@ -118,13 +118,13 @@ export default class Auth extends Component {
    * @return: boolean
    */
   static firebasePasswordReset = (e) => {
-    firebase.auth().sendPasswordResetEmail(e).then((user) => {
+    return firebase.auth().sendPasswordResetEmail(e).then((user) => {
       if (user) {
         console.log("user reset password");
       }
+      return;
     }, error =>{
-      console.log(error.message);
-      alert(error.message);
+      throw new Error(error);
     });
   }
 
