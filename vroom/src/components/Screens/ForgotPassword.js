@@ -23,6 +23,7 @@ import Auth from '../Authentication/Auth';
 import { goTo, goBack } from '../Navigation/Navigation';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
+import VAlert from './../Custom/VAlert';
 
 /*
  * Class: ForgotPassword
@@ -59,29 +60,20 @@ export default class ForgotPassword extends Component {
     passwordReset = () => {
       if(!this.state.email){
         this.shakeButton();
-        Alert.alert(
-          'No email entered',
-          'Simply enter your email and try again!',
-          [
-            {text: 'Try again',  onPress: () => {
-              Animated.timing(this.state.button_color, {
-                toValue: 0,
-                duration: 150,
-              }).start();
-            }},
-          ],
-        )
+        this.refs.valert.showAlert('No email entered',
+        'Simply enter your email address and try again!',
+        'Ok');
       } else {
-        Auth.firebasePasswordReset(this.state.email);
-        Alert.alert(
-          'Password Reset Request Received',
+        var that = this;
+        Auth.firebasePasswordReset(this.state.email).then(function(){
+          that.refs.valert.showAlert('Password Reset Request Received',
           'Please check your email',
-          [
-            {text: 'I\'ll go check',  onPress: () => {
-              goBack(this.props.navigation);
-            }},
-          ],
-        )
+          'I\'ll go check!', GLOBAL.COLOR.GREEN);
+        }).catch(function(error){
+          that.refs.valert.showAlert("Alert",
+          error.message,
+          'Ok');
+        });
       }
     }
 
@@ -115,6 +107,10 @@ export default class ForgotPassword extends Component {
           toValue: 0,
           duration: 50,
         }),
+        Animated.timing(this.state.button_color, {
+          toValue: 0,
+          duration: 150,
+        })
       ]).start();
     }
 
@@ -133,6 +129,7 @@ export default class ForgotPassword extends Component {
          {
            backgroundColor: GLOBAL.COLOR.WHITE,
          }]}>
+         <VAlert ref="valert"/>
          <View style={styles.navbar}>
            <TouchableOpacity onPress={() => {goBack(this.props.navigation)}}>
              <Animated.View>
