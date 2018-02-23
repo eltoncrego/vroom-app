@@ -20,7 +20,7 @@ import {Icons} from 'react-native-fontawesome';
 import Animation from 'lottie-react-native';
 
 import Auth from '../Authentication/Auth';
-import { goTo, clearNavStack } from '../Navigation/Navigation';
+import { goTo } from '../Navigation/Navigation';
 import {initUser} from '../Database/Database';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
@@ -44,9 +44,9 @@ export default class Login extends Component {
     this.state = {
       button_color: new Animated.Value(0),
 
-      sign_up: false,
-      page_text: "Sign in",
-      button_text: "sign in!",
+      sign_up: true,
+      page_text: "Sign up",
+      button_text: "sign up!",
       email: null,
       password: null,
       password_verification: null,
@@ -174,7 +174,12 @@ export default class Login extends Component {
     var that = this;
     Auth.firebaseLogin(this.state.email, this.state.password).then(function(rv){
       that.closeModal();
-    });
+    }).catch(function(error){
+      that.closeModal();
+      that.refs.valert.showAlert('Alert',
+      error.message,
+      'Ok');
+    })
   }
 
  /*
@@ -209,6 +214,9 @@ export default class Login extends Component {
       that.closeModal();
     }).catch(function(error) {
       that.closeModal();
+      that.refs.valert.showAlert('Alert',
+      error.message,
+      'Ok');
     });
   }
 
@@ -359,9 +367,9 @@ export default class Login extends Component {
               }}
             />
             {pw_confirm_field}
-            <TouchableOpacity onPress={() => {
-                goTo(this.props.navigation, 'ForgotPassword');
-              }}>
+          <TouchableOpacity onPress={() => {
+              goTo(this.props.navigation, 'ForgotPassword');
+            }}>
               <Text
                 style={[
                   styleguide.light_body_secondary,
@@ -392,10 +400,10 @@ export default class Login extends Component {
             </Animated.View>
             <TouchableOpacity onPress={() => this.toggleSignUp()}>
               <Text style={[
-                styleguide.light_body_secondary,
+                styleguide.light_body,
                 {
                   alignSelf: 'center',
-                  paddingTop: 40
+                  marginTop: 32,
                 }
               ]}>
                 {signup_link_text}
@@ -449,8 +457,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 64,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
     backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
 

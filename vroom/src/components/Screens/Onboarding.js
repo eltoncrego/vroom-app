@@ -19,8 +19,12 @@ import {
   Alert,
   Keyboard,
   Animated,
+  TouchableOpacity,
 } from 'react-native';
-import {Icons} from 'react-native-fontawesome';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
+
+// Our Components
+import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
@@ -151,6 +155,16 @@ export default class Onboarding extends Component {
         styleguide.container,
         styles.container,
       ]}>
+      <View style={styles.navbar}>
+        <TouchableOpacity onPress={() => {Auth.logOut();}}>
+          <Animated.View>
+              <Text style={styleguide.light_subheader}>
+                <FontAwesome>{Icons.signOut}</FontAwesome> Sign Out
+              </Text>
+          </Animated.View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.content}>
         <KeyboardAvoidingView
           style={styles.onboarding_form}
           behavior={keyboardBehavior}
@@ -191,6 +205,7 @@ export default class Onboarding extends Component {
                onPress={() => {this.submitOnboardingODO()}}/>
           </Animated.View>
         </KeyboardAvoidingView>
+      </View>
       </SafeAreaView>
     );
   }
@@ -203,7 +218,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  onboarding_form: {
+  navbar: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  content: {
+    flex: 10,
     margin: 32,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
 });

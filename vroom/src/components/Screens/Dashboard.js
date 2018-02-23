@@ -42,15 +42,8 @@ import {
 import GasList from '../Custom/GasList';
 import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
-import FacebookAd from './../Custom/FacebookAd';
 import {Button} from './../Custom/Button';
 import VAlert from './../Custom/VAlert';
-
-// For Facebook Ads and Analytics
-import { NativeAdsManager } from 'react-native-fbads';
-var platform_id = Platform.OS === 'ios' ? '113653902793626_113786369447046' : '113653902793626_114103656081984';
-const adsManager = new NativeAdsManager(platform_id);
-import {AppEventsLogger} from 'react-native-fbsdk';
 
 /*
  * Class: Dashboard
@@ -109,8 +102,6 @@ export default class Dashboard extends Component {
   */
   openModal() {
 
-    AppEventsLogger.logEvent('Opened the transaction panel');
-
     this.setState({
       modalVisible:true
     });
@@ -154,11 +145,6 @@ export default class Dashboard extends Component {
     this.setState({modalVisible:false});
   }
 
-  getFormattedTime() {
-    var todaysDate = moment().format('MMM DD, YYYY - h:mma');
-    return todaysDate;
-  }
-
  /*
   * Function: addItem()
   * Author: Elton C. Rego
@@ -168,28 +154,25 @@ export default class Dashboard extends Component {
   */
   addItem() {
 
-    AppEventsLogger.logEvent('User Created a Gas Item');
-
-
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
-      '', 5000);
+      '', null, 5000);
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid gallong amount!',
-      '', 5000);
+      '',null,5000);
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
-      '', 5000);
+      '', null,5000);
       return;
     }
 
@@ -199,7 +182,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
-      '', 5000);
+      '', null,5000);
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
@@ -207,7 +190,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
-      '', 5000);
+      '', null,5000);
       return;
     }
 
@@ -215,7 +198,7 @@ export default class Dashboard extends Component {
     const mpg = distance/this.state.user_filled;
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
-    const creationDate = this.getFormattedTime();
+    const creationDate = moment().toArray();
 
     this.closeModal();
 
@@ -232,17 +215,7 @@ export default class Dashboard extends Component {
     this.setState({
       averageMPG: average,
       updatedODO: this.state.user_ODO,
-      textDataArr:
-      [
-        {
-          list_i: this.state.list_i + 1,
-          totalPrice: parseFloat(this.state.user_paid),
-          date: creationDate,
-          gallonsFilled: this.state.user_filled,
-          odometer: this.state.user_ODO,
-          distanceSinceLast: distance
-        }, ...this.state.textDataArr
-      ],
+      textDataArr: [newFillup, ...this.state.textDataArr],
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,
@@ -257,8 +230,6 @@ export default class Dashboard extends Component {
   }
 
   removeItem(key){
-
-    AppEventsLogger.logEvent('User Deleted a Gas Item');
 
     // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
@@ -340,8 +311,6 @@ export default class Dashboard extends Component {
 
   openSettings(){
 
-    AppEventsLogger.logEvent('Accessed Settings Panel');
-
     Animated.timing(
       this.state.settingsShift,
       {
@@ -362,8 +331,6 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-
-    AppEventsLogger.logEvent('Loaded Dashboard');
 
     var that = this;
     pullAverageMPG().then(function(fData){
@@ -500,11 +467,6 @@ export default class Dashboard extends Component {
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
 
-    var adContent = this.state.isPremium? null :
-    <View  style={styles.ad}>
-      <FacebookAd adsManager={adsManager}/>
-    </View>;
-
     var modalBehavior = Platform.OS === 'ios' ? "position" : null;
 
     var buttonColor = this.state.button_color.interpolate({
@@ -524,7 +486,7 @@ export default class Dashboard extends Component {
         <VAlert ref="valert"/>
 
         <Animated.View style={[styles.settings, settingsList]}>
-          <Settings closeCallBack={() => this.closeSettings()}/>
+          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.valert}/>
         </Animated.View>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
@@ -603,7 +565,6 @@ export default class Dashboard extends Component {
                   backgroundColor={buttonColor}
                   label={"add item"}
                   height={64}
-                  marginTop={8}
                   shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
                   onPress={() => this.addItem()}
@@ -619,7 +580,6 @@ export default class Dashboard extends Component {
                   width={"100%"}
                   onPress={() => {
                     this.closeModal();
-                    AppEventsLogger.logEvent('Canceled the transaction panel');
                   }}
                   title="Close modal"
                 >
@@ -639,7 +599,6 @@ export default class Dashboard extends Component {
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
-            {adContent}
             <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
@@ -754,9 +713,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     alignItems: 'center',
     padding: 32,
-    paddingBottom: 8,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    paddingBottom: 20,
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 2,
     overflow: 'visible',
@@ -764,7 +721,7 @@ const styles = StyleSheet.create({
   modal_buttons: {
     alignItems: 'center',
     padding: 32,
-    paddingTop: 8,
+    paddingTop: 20,
     zIndex: 1,
     backgroundColor: GLOBAL.COLOR.WHITE,
   },
