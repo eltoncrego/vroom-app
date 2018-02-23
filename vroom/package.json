@@ -7,9 +7,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@firebase/app-types": "^0.1.1",
+    "@firebase/app-types": "^0.1.2",
     "fb-watchman": "2.0.0",
-    "firebase": "^4.10.0",
+    "firebase": "^4.10.1",
     "lottie-react-native": "2.3.2",
     "moment": "2.20.1",
     "prop-types": "^15.6.0",
