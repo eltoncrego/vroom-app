@@ -196,7 +196,7 @@ export default class Auth extends Component {
           throw new Error(error);
         });
       } else {
-        reurn "user is null"
+        return "user is null";
       }
   }
 
