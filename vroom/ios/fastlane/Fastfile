@@ -17,11 +17,21 @@ platform :ios do
     increment_build_number(xcodeproj: "vroom.xcodeproj")
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
     upload_to_app_store
+    clean_build_artifacts
+    commit_version_bump(
+      message: "Fastlane iOS: new prod build #{lane_context[SharedValues::BUILD_NUMBER]} [ci skip]",
+      xcodeproj: "vroom.xcodeproj"
+    )
   end
   desc "Push a new beta build to TestFlight"
   lane :beta do
     increment_build_number(xcodeproj: "vroom.xcodeproj")
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
     upload_to_testflight
+    clean_build_artifacts
+    commit_version_bump(
+      message: "Fastlane iOS: new test build #{lane_context[SharedValues::BUILD_NUMBER]} [ci skip]",
+      xcodeproj: "vroom.xcodeproj"
+    )
   end
 end
