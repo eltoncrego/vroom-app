@@ -565,7 +565,6 @@ export default class Dashboard extends Component {
                   backgroundColor={buttonColor}
                   label={"add item"}
                   height={64}
-                  marginTop={8}
                   shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
                   onPress={() => this.addItem()}
@@ -714,7 +713,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     alignItems: 'center',
     padding: 32,
-    paddingBottom: 8,
+    paddingBottom: 20,
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 2,
     overflow: 'visible',
@@ -722,7 +721,7 @@ const styles = StyleSheet.create({
   modal_buttons: {
     alignItems: 'center',
     padding: 32,
-    paddingTop: 8,
+    paddingTop: 20,
     zIndex: 1,
     backgroundColor: GLOBAL.COLOR.WHITE,
   },
