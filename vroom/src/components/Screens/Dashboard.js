@@ -154,11 +154,6 @@ export default class Dashboard extends Component {
     this.setState({modalVisible:false});
   }
 
-  getFormattedTime() {
-    var todaysDate = moment().format('MMM DD, YYYY - h:mma');
-    return todaysDate;
-  }
-
  /*
   * Function: addItem()
   * Author: Elton C. Rego
@@ -215,7 +210,7 @@ export default class Dashboard extends Component {
     const mpg = distance/this.state.user_filled;
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
-    const creationDate = this.getFormattedTime();
+    const creationDate = moment();
 
     this.closeModal();
 
@@ -232,17 +227,7 @@ export default class Dashboard extends Component {
     this.setState({
       averageMPG: average,
       updatedODO: this.state.user_ODO,
-      textDataArr:
-      [
-        {
-          list_i: this.state.list_i + 1,
-          totalPrice: parseFloat(this.state.user_paid),
-          date: creationDate,
-          gallonsFilled: this.state.user_filled,
-          odometer: this.state.user_ODO,
-          distanceSinceLast: distance
-        }, ...this.state.textDataArr
-      ],
+      textDataArr: [newFillup, ...this.state.textDataArr],
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,
