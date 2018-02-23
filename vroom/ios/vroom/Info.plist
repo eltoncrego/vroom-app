@@ -20,6 +20,17 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb113653902793626</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -34,7 +45,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
@@ -52,6 +63,7 @@
 		<string>Nunito-Regular.ttf</string>
 		<string>Nunito-SemiBold.ttf</string>
 		<string>Nunito-SemiBoldItalic.ttf</string>
+		<string>fontawesome.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
@@ -63,6 +75,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>LSApplicationQueriesSchemes</key>
 </dict>
 </plist>
