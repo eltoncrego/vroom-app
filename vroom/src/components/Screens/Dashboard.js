@@ -102,8 +102,6 @@ export default class Dashboard extends Component {
   */
   openModal() {
 
-    AppEventsLogger.logEvent('Opened the transaction panel');
-
     this.setState({
       modalVisible:true
     });
@@ -160,9 +158,6 @@ export default class Dashboard extends Component {
   * //TODO actually calculate the math
   */
   addItem() {
-
-    AppEventsLogger.logEvent('User Created a Gas Item');
-
 
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
       this.shakeButton();
@@ -251,8 +246,6 @@ export default class Dashboard extends Component {
 
   removeItem(key){
 
-    AppEventsLogger.logEvent('User Deleted a Gas Item');
-
     // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
     // on these variables
@@ -333,8 +326,6 @@ export default class Dashboard extends Component {
 
   openSettings(){
 
-    AppEventsLogger.logEvent('Accessed Settings Panel');
-
     Animated.timing(
       this.state.settingsShift,
       {
@@ -355,8 +346,6 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-
-    AppEventsLogger.logEvent('Loaded Dashboard');
 
     var that = this;
     pullAverageMPG().then(function(fData){
@@ -607,7 +596,6 @@ export default class Dashboard extends Component {
                   width={"100%"}
                   onPress={() => {
                     this.closeModal();
-                    AppEventsLogger.logEvent('Canceled the transaction panel');
                   }}
                   title="Close modal"
                 >
