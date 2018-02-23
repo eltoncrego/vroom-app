@@ -25,7 +25,8 @@ platform :ios do
     clean_build_artifacts
     commit_version_bump(
       message: "Fastlane iOS: new prod build #{lane_context[SharedValues::BUILD_NUMBER]} [ci skip]",
-      xcodeproj: "vroom.xcodeproj"
+      xcodeproj: "vroom.xcodeproj",
+      include: %w[project.pbxproj]
     )
   end
   desc "Push a new beta build to TestFlight"
@@ -41,7 +42,8 @@ platform :ios do
     clean_build_artifacts
     commit_version_bump(
       message: "Fastlane iOS: new test build #{lane_context[SharedValues::BUILD_NUMBER]} [ci skip]",
-      xcodeproj: "vroom.xcodeproj"
+      xcodeproj: "vroom.xcodeproj",
+      include: %w[project.pbxproj]
     )
   end
 end
