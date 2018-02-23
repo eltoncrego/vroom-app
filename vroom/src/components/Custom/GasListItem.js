@@ -27,7 +27,7 @@ export default class Gas extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.gestureDelay = -35;
+    this.gestureDelay = 35;
     this.scrollViewEnabled = true;
 
     const position = new Animated.ValueXY();
@@ -37,12 +37,12 @@ export default class Gas extends PureComponent {
       onPanResponderTerminationRequest: (evt, gestureState) => false,
       onPanResponderMove: (evt, gestureState) => {
         if(this.props.allowDeleteOn == this.props.index){
-          if (gestureState.dx > 35) {
+          if (gestureState.dx < -35) {
             this.setScrollViewEnabled(false);
             let newX = gestureState.dx + this.gestureDelay;
             position.setValue({x: newX, y: 0});
           }
-          if (gestureState.dx > 150) {
+          if (gestureState.dx < -150) {
             Animated.sequence([
               Animated.timing(this.state.bgAnimated, {
                 toValue: 1,
@@ -59,7 +59,7 @@ export default class Gas extends PureComponent {
       },
       onPanResponderRelease: (evt, gestureState) => {
         if(this.props.allowDeleteOn == this.props.index){
-          if (gestureState.dx < 150) {
+          if (gestureState.dx > -150) {
             Animated.timing(this.state.position, {
               toValue: {x: 0, y: 0},
               duration: 150,
@@ -68,17 +68,12 @@ export default class Gas extends PureComponent {
             });
           } else {
             Animated.timing(this.state.position, {
-              toValue: {x: width, y: 0},
+              toValue: {x: -width, y: 0},
               duration: 300,
             }).start(() => {
               this.props.success(this.props.index);
-              Animated.timing(this.state._animated, {
-                toValue: 0,
-                duration: 250,
-              }).start(() => {
-                position.setValue({x: 0, y: 0});
-                this.setScrollViewEnabled(true);
-              });
+              position.setValue({x: 0, y: 0});
+              this.setScrollViewEnabled(true);
             });
           }
         }
@@ -130,6 +125,21 @@ export default class Gas extends PureComponent {
     ]).start();
   }
 
+  formatDate(date) {
+    var monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
+
+    var day = date[2];
+    var monthIndex = date[1];
+    var year = date[0];
+
+    return monthNames[monthIndex] + ' ' + day + ', ' + year;
+  }
+
   render() {
 
     var shift = this.state._animated.interpolate({
@@ -160,11 +170,6 @@ export default class Gas extends PureComponent {
         ]}
         {...this.panResponder.panHandlers}
       >
-        <View style={styles.absoluteCell}>
-          <Animated.Text style={[styleguide.dark_body, {
-            opacity: this.state.bgAnimated, paddingRight: 16,
-          }]}>DELETE</Animated.Text>
-        </View>
         <View style={styles.innerCell}>
           <View style={styles.change}>
             <Animated.Text
@@ -177,7 +182,7 @@ export default class Gas extends PureComponent {
               ${this.props.totalPrice.toFixed(2)}
             </Text>
             <Text style={styleguide.light_caption_secondary}>
-              {this.props.date}
+              {this.formatDate(this.props.date)}
             </Text>
           </View>
           <View style={styles.gasItem}>
@@ -197,6 +202,11 @@ export default class Gas extends PureComponent {
             </Text>
           </View>
         </View>
+        <View style={styles.absoluteCell}>
+          <Animated.Text style={[styleguide.dark_body, {
+            opacity: this.state.bgAnimated, paddingLeft: 16,
+          }]}>DELETE</Animated.Text>
+        </View>
       </Animated.View>
     </Animated.View>
     );
@@ -207,7 +217,7 @@ const styles = StyleSheet.create({
 
   innerCell: {
     width: width,
-    marginLeft: 100,
+    marginRight: 100,
     backgroundColor: GLOBAL.COLOR.WHITE,
     paddingVertical: 16,
     paddingHorizontal: 16,
@@ -217,7 +227,7 @@ const styles = StyleSheet.create({
   },
 
   listItem: {
-    marginLeft: -100,
+    marginRight: -100,
     justifyContent: 'center',
   },
 
@@ -240,10 +250,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left: 0,
+    right: 0,
     width: 100,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
 

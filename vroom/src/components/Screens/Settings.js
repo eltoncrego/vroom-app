@@ -25,6 +25,7 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Our Components
 import Auth from '../Authentication/Auth';
+import { goTo, clearNavStack } from '../Navigation/Navigation';
 
 
 // Files Needed
@@ -95,7 +96,9 @@ export default class Settings extends Component {
         <View style={styles.content}>
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
             <View style={styles.content_wrapper}>
-              <TouchableOpacity onPress={() => {Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback')}}>
+              <TouchableOpacity onPress={() => {Linking.canOpenURL('mailto:contact@revi.tech?subject=Vroom Feedback').then(supported => {
+                supported && Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback');
+              }, (err) => console.log(err));}}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
                     Contact Us
@@ -132,7 +135,50 @@ export default class Settings extends Component {
                   </View>
                 </View>
               </TouchableOpacity>*/}
-              <TouchableOpacity onPress={() => {Auth.logOut()}}>
+              <TouchableOpacity onPress={() => {
+                Linking.canOpenURL('https://revi.tech/privacy').then(supported => {
+                  supported && Linking.openURL('https://revi.tech/privacy');
+                }, (err) => console.log(err));
+              }}>
+                <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Our Privacy Policy
+                  </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                Linking.canOpenURL('https://revi.tech/vroom/eula').then(supported => {
+                  supported && Linking.openURL('https://revi.tech/vroom/eula');
+                }, (err) => console.log(err));
+              }}>
+                <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Vroom End User License Agreement
+                  </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                  var that = this;
+                  Auth.logOut().then(function(){}).catch(
+                    function(error){
+                      this.props.alert.showAlert("Alert",
+                      error.message,
+                      "Ok");
+                    }
+                  )
+              }}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
                     Sign Out

@@ -99,12 +99,9 @@ export default class Auth extends Component {
       if(user){
         console.log("signed user in");
       }
-      return true;
+      return;
     }).catch(function(error){
-      setTimeout(() => {
-        alert(error.message);
-      }, 30);
-      return false
+      throw new Error(error);
     });
   }
 
@@ -118,13 +115,13 @@ export default class Auth extends Component {
    * @return: boolean
    */
   static firebasePasswordReset = (e) => {
-    firebase.auth().sendPasswordResetEmail(e).then((user) => {
+    return firebase.auth().sendPasswordResetEmail(e).then((user) => {
       if (user) {
         console.log("user reset password");
       }
+      return;
     }, error =>{
-      console.log(error.message);
-      alert(error.message);
+      throw new Error(error);
     });
   }
 
@@ -148,13 +145,9 @@ export default class Auth extends Component {
             console.log("sent verification email to user");
           });
         }
-        return true;
+        return;
       }, error => {
-        console.log(error.message);
-        setTimeout(() => {
-          alert(error.message);
-        }, 30);
-        return false;
+        throw new Error(error);
       });
   }
 
@@ -169,13 +162,14 @@ export default class Auth extends Component {
   */
   static logOut = () => {
     // if signOut() returns void, then go back to login
-    firebase.auth().signOut().then((vo) => {
+    return firebase.auth().signOut().then((vo) => {
       if(!vo){
         console.log("signed user out");
       }
+      return;
     }, error => {
       console.log(error.message);
-      alert(error.message);
+      throw new Error(error);
     });
   }
 
@@ -187,20 +181,22 @@ export default class Auth extends Component {
   */
   static deleteUser = () => {
       if (Auth.checkAuth()) {
-        Auth.getAuth().delete().then(function() {
-          firebaseRef.database().ref("users").child(Auth.getAuth().uid).remove()
+        Auth.getAuth().delete().then(function(returnvalue) {
+          return firebaseRef.database().ref("users").child(Auth.getAuth().uid).remove()
           .then(function(){
             Auth.logOut();
-            alert("Poof! You're gone.");
+            return "Poof you're gone";
           }).catch(function(error){
             console.log("ERROR: serious logic bug in Auth: deleteUser()");
+            throw new Error(error);
           })
+          return returnvalue;
         }).catch(function(error) {
-          alert("Sorry, your account is unable to be deleted at this time. Please reauthenticate");
           console.log(error.message);
+          throw new Error(error);
         });
       } else {
-        alert("user is null");
+        return "user is null";
       }
   }
 
@@ -220,8 +216,9 @@ export default class Auth extends Component {
       Auth.getAuth().reauthenticateWithCredential(credential)
       .then(() => {
         Auth.deleteUser();
+        return;
       }).catch((error) => {
-        alert("Incorrect credentials.");
+        throw new Error(error);
       });
   }
 
