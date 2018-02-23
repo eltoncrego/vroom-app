@@ -145,11 +145,6 @@ export default class Dashboard extends Component {
     this.setState({modalVisible:false});
   }
 
-  getFormattedTime() {
-    var todaysDate = moment().format('MMM DD, YYYY - h:mma');
-    return todaysDate;
-  }
-
  /*
   * Function: addItem()
   * Author: Elton C. Rego
@@ -163,21 +158,21 @@ export default class Dashboard extends Component {
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
-      '', 5000);
+      '', null, 5000);
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid gallong amount!',
-      '', 5000);
+      '',null,5000);
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
-      '', 5000);
+      '', null,5000);
       return;
     }
 
@@ -187,7 +182,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
-      '', 5000);
+      '', null,5000);
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
@@ -195,7 +190,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
-      '', 5000);
+      '', null,5000);
       return;
     }
 
@@ -203,7 +198,7 @@ export default class Dashboard extends Component {
     const mpg = distance/this.state.user_filled;
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
-    const creationDate = this.getFormattedTime();
+    const creationDate = moment().toArray();
 
     this.closeModal();
 
@@ -220,17 +215,7 @@ export default class Dashboard extends Component {
     this.setState({
       averageMPG: average,
       updatedODO: this.state.user_ODO,
-      textDataArr:
-      [
-        {
-          list_i: this.state.list_i + 1,
-          totalPrice: parseFloat(this.state.user_paid),
-          date: creationDate,
-          gallonsFilled: this.state.user_filled,
-          odometer: this.state.user_ODO,
-          distanceSinceLast: distance
-        }, ...this.state.textDataArr
-      ],
+      textDataArr: [newFillup, ...this.state.textDataArr],
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,

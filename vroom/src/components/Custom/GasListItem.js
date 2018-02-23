@@ -125,6 +125,21 @@ export default class Gas extends PureComponent {
     ]).start();
   }
 
+  formatDate(date) {
+    var monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
+
+    var day = date[2];
+    var monthIndex = date[1];
+    var year = date[0];
+
+    return monthNames[monthIndex] + ' ' + day + ', ' + year;
+  }
+
   render() {
 
     var shift = this.state._animated.interpolate({
@@ -167,7 +182,7 @@ export default class Gas extends PureComponent {
               ${this.props.totalPrice.toFixed(2)}
             </Text>
             <Text style={styleguide.light_caption_secondary}>
-              {this.props.date}
+              {this.formatDate(this.props.date)}
             </Text>
           </View>
           <View style={styles.gasItem}>
