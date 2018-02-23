@@ -142,6 +142,7 @@ repositories {
 
 dependencies {
     compile project(':react-native-fbsdk')
+    compile project(':react-native-fbsdk')
     compile project(':react-native-fbads')
     compile project(':lottie-react-native')
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
