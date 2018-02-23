@@ -524,7 +524,7 @@ export default class Dashboard extends Component {
         <VAlert ref="valert"/>
 
         <Animated.View style={[styles.settings, settingsList]}>
-          <Settings closeCallBack={() => this.closeSettings()}/>
+          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.valert}/>
         </Animated.View>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>

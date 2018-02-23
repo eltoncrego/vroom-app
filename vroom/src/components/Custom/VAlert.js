@@ -27,17 +27,19 @@ export default class VAlert extends Component {
     super(props);
     this.state = {
       translation: new Animated.Value(0),
+      alertColor: GLOBAL.COLOR.RED,
       alertTitle: "Alert",
       alertText: "Something is wrong",
       buttonText: "Ok",
     };
   }
 
-  showAlert(alertTitle, alertText, buttonText, timeoutValue){
+  showAlert(alertTitle, alertText, buttonText, alertColor, timeoutValue){
     this.setState({
       alertTitle: alertTitle,
       alertText: alertText,
       buttonText: buttonText,
+      alertColor: alertColor == null ? GLOBAL.COLOR.RED : alertColor,
     });
     Animated.spring(
       this.state.translation,
@@ -72,6 +74,8 @@ export default class VAlert extends Component {
     return (
       <Animated.View style={[styles.main_container,
         {
+          backgroundColor: this.state.alertColor,
+          shadowColor: this.state.alertColor,
           transform: [{translateY: alertShift}]
         }]}>
         <Text style={styleguide.dark_subheader2}>{this.state.alertTitle}</Text>
@@ -95,8 +99,6 @@ const styles = StyleSheet.create({
     zIndex: 50,
     padding: 16,
     paddingTop: 48+32,
-    backgroundColor: GLOBAL.COLOR.RED,
-    shadowColor: GLOBAL.COLOR.RED,
     shadowOpacity: 0.5,
     shadowOffset: {width: 4, height: 4},
     shadowRadius: 30,

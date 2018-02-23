@@ -174,7 +174,12 @@ export default class Login extends Component {
     var that = this;
     Auth.firebaseLogin(this.state.email, this.state.password).then(function(rv){
       that.closeModal();
-    });
+    }).catch(function(error){
+      that.closeModal();
+      that.refs.valert.showAlert('Alert',
+      error.message,
+      'Ok');
+    })
   }
 
  /*
@@ -209,6 +214,9 @@ export default class Login extends Component {
       that.closeModal();
     }).catch(function(error) {
       that.closeModal();
+      that.refs.valert.showAlert('Alert',
+      error.message,
+      'Ok');
     });
   }
 
