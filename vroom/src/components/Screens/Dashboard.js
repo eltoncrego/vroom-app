@@ -42,15 +42,8 @@ import {
 import GasList from '../Custom/GasList';
 import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
-import FacebookAd from './../Custom/FacebookAd';
 import {Button} from './../Custom/Button';
 import VAlert from './../Custom/VAlert';
-
-// For Facebook Ads and Analytics
-import { NativeAdsManager } from 'react-native-fbads';
-var platform_id = Platform.OS === 'ios' ? '113653902793626_113786369447046' : '113653902793626_114103656081984';
-const adsManager = new NativeAdsManager(platform_id);
-import {AppEventsLogger} from 'react-native-fbsdk';
 
 /*
  * Class: Dashboard
@@ -500,11 +493,6 @@ export default class Dashboard extends Component {
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
 
-    var adContent = this.state.isPremium? null :
-    <View  style={styles.ad}>
-      <FacebookAd adsManager={adsManager}/>
-    </View>;
-
     var modalBehavior = Platform.OS === 'ios' ? "position" : null;
 
     var buttonColor = this.state.button_color.interpolate({
@@ -639,7 +627,6 @@ export default class Dashboard extends Component {
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
-            {adContent}
             <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
