@@ -98,7 +98,7 @@ android {
     buildToolsVersion "26.0.2" // changed accordingto medium guide
 
     defaultConfig {
-        applicationId "com.vroom"
+        applicationId "tech.revi.vroom"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
