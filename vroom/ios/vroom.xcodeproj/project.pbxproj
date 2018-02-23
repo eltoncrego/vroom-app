@@ -1719,7 +1719,6 @@
 					"\"${PODS_ROOT}/FirebaseDatabase/Frameworks\"",
 					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
 					"\"${PODS_ROOT}/FirebaseMessaging/Frameworks\"",
-					"~/Documents/FacebookSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1761,7 +1760,6 @@
 					"\"${PODS_ROOT}/FirebaseDatabase/Frameworks\"",
 					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
 					"\"${PODS_ROOT}/FirebaseMessaging/Frameworks\"",
-					"~/Documents/FacebookSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
