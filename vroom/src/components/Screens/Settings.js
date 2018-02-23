@@ -167,7 +167,16 @@ export default class Settings extends Component {
                   </View>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {Auth.logOut()}}>
+              <TouchableOpacity onPress={() => {
+                  var that = this;
+                  Auth.logOut().then(function(){}).catch(
+                    function(error){
+                      this.props.alert.showAlert("Alert",
+                      error.message,
+                      "Ok");
+                    }
+                  )
+              }}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
                     Sign Out
