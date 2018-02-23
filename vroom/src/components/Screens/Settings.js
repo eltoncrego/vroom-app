@@ -96,7 +96,9 @@ export default class Settings extends Component {
         <View style={styles.content}>
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
             <View style={styles.content_wrapper}>
-              <TouchableOpacity onPress={() => {Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback')}}>
+              <TouchableOpacity onPress={() => {Linking.canOpenURL('mailto:contact@revi.tech?subject=Vroom Feedback').then(supported => {
+                supported && Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback');
+              }, (err) => console.log(err));}}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
                     Contact Us

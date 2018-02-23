@@ -42,15 +42,8 @@ import {
 import GasList from '../Custom/GasList';
 import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
-import FacebookAd from './../Custom/FacebookAd';
 import {Button} from './../Custom/Button';
 import VAlert from './../Custom/VAlert';
-
-// For Facebook Ads and Analytics
-import { NativeAdsManager } from 'react-native-fbads';
-var platform_id = Platform.OS === 'ios' ? '113653902793626_113786369447046' : '113653902793626_114103656081984';
-const adsManager = new NativeAdsManager(platform_id);
-import {AppEventsLogger} from 'react-native-fbsdk';
 
 /*
  * Class: Dashboard
@@ -109,8 +102,6 @@ export default class Dashboard extends Component {
   */
   openModal() {
 
-    AppEventsLogger.logEvent('Opened the transaction panel');
-
     this.setState({
       modalVisible:true
     });
@@ -167,9 +158,6 @@ export default class Dashboard extends Component {
   * //TODO actually calculate the math
   */
   addItem() {
-
-    AppEventsLogger.logEvent('User Created a Gas Item');
-
 
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
       this.shakeButton();
@@ -258,8 +246,6 @@ export default class Dashboard extends Component {
 
   removeItem(key){
 
-    AppEventsLogger.logEvent('User Deleted a Gas Item');
-
     // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
     // on these variables
@@ -340,8 +326,6 @@ export default class Dashboard extends Component {
 
   openSettings(){
 
-    AppEventsLogger.logEvent('Accessed Settings Panel');
-
     Animated.timing(
       this.state.settingsShift,
       {
@@ -362,8 +346,6 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-
-    AppEventsLogger.logEvent('Loaded Dashboard');
 
     var that = this;
     pullAverageMPG().then(function(fData){
@@ -500,11 +482,6 @@ export default class Dashboard extends Component {
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
 
-    var adContent = this.state.isPremium? null :
-    <View  style={styles.ad}>
-      <FacebookAd adsManager={adsManager}/>
-    </View>;
-
     var modalBehavior = Platform.OS === 'ios' ? "position" : null;
 
     var buttonColor = this.state.button_color.interpolate({
@@ -619,7 +596,6 @@ export default class Dashboard extends Component {
                   width={"100%"}
                   onPress={() => {
                     this.closeModal();
-                    AppEventsLogger.logEvent('Canceled the transaction panel');
                   }}
                   title="Close modal"
                 >
@@ -639,7 +615,6 @@ export default class Dashboard extends Component {
             }>
             {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
             ...this._panResponder.panHandlers*/}
-            {adContent}
             <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
