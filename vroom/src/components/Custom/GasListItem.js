@@ -167,7 +167,7 @@ export default class Gas extends PureComponent {
               ${this.props.totalPrice.toFixed(2)}
             </Text>
             <Text style={styleguide.light_caption_secondary}>
-              {this.props.date}
+              {this.props.date.format('MMM DD, YYYY')}
             </Text>
           </View>
           <View style={styles.gasItem}>
