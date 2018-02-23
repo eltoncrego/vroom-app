@@ -715,8 +715,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 32,
     paddingBottom: 8,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 2,
     overflow: 'visible',
