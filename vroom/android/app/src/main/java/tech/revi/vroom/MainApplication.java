@@ -1,4 +1,4 @@
-package com.vroom;
+package tech.revi.vroom;
 
 import android.app.Application;
 
