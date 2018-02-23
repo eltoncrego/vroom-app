@@ -457,8 +457,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 64,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
     backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
 
