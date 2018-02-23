@@ -17,7 +17,7 @@ platform :ios do
     increment_build_number(xcodeproj: "vroom.xcodeproj")
     cocoapods
     match(
-      git_url: "https://github.com/revitechnologies/vroom-certificates",
+      git_url: "git@github.com:revitechnologies/vroom-certificates.git",
       type: "appstore"
     )
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
@@ -33,7 +33,7 @@ platform :ios do
     increment_build_number(xcodeproj: "vroom.xcodeproj")
     cocoapods
     match(
-      git_url: "https://github.com/revitechnologies/vroom-certificates",
+      git_url: "git@github.com:revitechnologies/vroom-certificates.git",
       type: "development"
     )
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
