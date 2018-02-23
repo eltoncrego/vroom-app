@@ -37,10 +37,8 @@
 		2DCD954D1E0B4F2C00145EB5 /* vroomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* vroomTests.m */; };
 		2F794A32505B4B38A56F95AB /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 088250B19AEB4140B9C470C4 /* Nunito-ExtraBold.ttf */; };
 		305ABF2296EE4A4ABD0B34F0 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48B38432E463437A8CB3172D /* Nunito-Light.ttf */; };
-		30D6833B1E3C497380E9C2E3 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34AC900F075B445A84A967B5 /* libRCTFBSDK.a */; };
 		3C44173A6EE84D3DAF2102CC /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A604A98028C54903A5D55B4D /* libLottieReactNative.a */; };
 		56FFAA88321A03AFA9220355 /* libPods-vroom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54768FEE455C2BD9D15178A3 /* libPods-vroom.a */; };
-		5927A32A20391788003607AC /* librn-fbads.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5927A32920391770003607AC /* librn-fbads.a */; };
 		593F3519202E9F1400CC767A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		59F5B244202ACE5D0000C7B5 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CEE550202AC71D0008257B /* Lottie.framework */; };
 		59F5B245202ACE5D0000C7B5 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 59CEE550202AC71D0008257B /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -58,7 +56,6 @@
 		B0C14F706520418D96D1C004 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E005E82F0FC54EA2B35AE088 /* Nunito-SemiBold.ttf */; };
 		BA8623E13C534077AAB6C1B6 /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 659AEBBCCC7D42E7B10DDFED /* Nunito-SemiBoldItalic.ttf */; };
 		C45EC3ECE7A74806992DB15C /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE667EFCF8DB47B5BE2B7C91 /* FontAwesome.ttf */; };
-		C708D434DFCF4215B998BB11 /* librn-fbads.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1341CAC936CA442BBBE2C878 /* librn-fbads.a */; };
 		D71EF688033F4682AA08C781 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E75C4EC5DECF423786F4022A /* Nunito-Regular.ttf */; };
 		DD3F4EEE72AD4EB2A6F4E294 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5274F21B03E44E59851C74F2 /* Nunito-Bold.ttf */; };
 		F9467C7B8EFC4295864E6172 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC1A5E3FBBF8438E868918E8 /* Nunito-BlackItalic.ttf */; };
@@ -489,7 +486,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5927A32A20391788003607AC /* librn-fbads.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -507,8 +503,6 @@
 				3C44173A6EE84D3DAF2102CC /* libLottieReactNative.a in Frameworks */,
 				618BCE18C2CD4CDEBFA4770B /* libLottie.a in Frameworks */,
 				56FFAA88321A03AFA9220355 /* libPods-vroom.a in Frameworks */,
-				30D6833B1E3C497380E9C2E3 /* libRCTFBSDK.a in Frameworks */,
-				C708D434DFCF4215B998BB11 /* librn-fbads.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
