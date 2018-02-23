@@ -34,7 +34,7 @@ platform :ios do
     cocoapods
     match(
       git_url: "git@github.com:revitechnologies/vroom-certificates.git",
-      type: "development"
+      type: "appstore"
     )
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
     upload_to_testflight

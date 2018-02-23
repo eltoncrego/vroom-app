@@ -1489,7 +1489,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Revi Technologies LLC (48FK3SRUK7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Revi Technologies LLC (48FK3SRUK7)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 48FK3SRUK7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
