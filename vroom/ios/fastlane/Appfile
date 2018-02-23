@@ -1,0 +1,8 @@
+app_identifier "tech.revi.vroom" # The bundle identifier of your app
+apple_id "revi@revi.tech" # Your Apple email address
+
+itc_team_id "118973624" # iTunes Connect Team ID
+team_id "48FK3SRUK7" # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
