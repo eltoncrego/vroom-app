@@ -1,0 +1,11 @@
+Vroom compares each fillup to your lifetime average efficiency, leading you to be more careful about how you drive and use gas.
+By simply being mindful of how much you’re spending on gas, you will have a better handle on your finances.
+
+With vroom you can:
+- Add gas transactions to your personal list
+- View average efficiency
+- See your odometer reading at a glance
+- See how each transaction stacks against your average efficiency
+all within seconds and without clutter.
+
+Please, don’t hesitate to contact us if you have ideas for features you’d like to see and use, or even if you just need to report a bug!
