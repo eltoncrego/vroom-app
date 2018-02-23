@@ -20,21 +20,6 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb113653902793626</string>
-			</array>
-		</dict>
-	</array>
-	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>FacebookAppID</key>
-	<string>113653902793626</string>
-	<key>FacebookDisplayName</key>
-	<string>vroom.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -67,7 +52,6 @@
 		<string>Nunito-Regular.ttf</string>
 		<string>Nunito-SemiBold.ttf</string>
 		<string>Nunito-SemiBoldItalic.ttf</string>
-		<string>fontawesome.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
@@ -80,9 +64,5 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbauth2</string>
-		<string>fb-messenger-share-api</string>
-	</array>
 </dict>
 </plist>
