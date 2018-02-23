@@ -15,6 +15,7 @@ platform :ios do
   desc "Push a new release build to the App Store"
   lane :release do
     increment_build_number(xcodeproj: "vroom.xcodeproj")
+    cocoapods
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
     upload_to_app_store
     clean_build_artifacts
@@ -26,6 +27,7 @@ platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
     increment_build_number(xcodeproj: "vroom.xcodeproj")
+    cocoapods
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
     upload_to_testflight
     clean_build_artifacts
