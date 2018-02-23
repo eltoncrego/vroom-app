@@ -98,13 +98,21 @@ android {
     buildToolsVersion "26.0.2" // changed accordingto medium guide
 
     defaultConfig {
-        applicationId "com.vroom"
+        applicationId "tech.revi.vroom"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("VROOMFASTLANE_RELEASE_STORE_FILE"))
+            storePassword System.getenv("VROOMFASTLANE_RELEASE_STORE_PASSWORD")
+            keyAlias System.getenv("VROOMFASTLANE_RELEASE_KEY_FILE")
+            keyPassword System.getenv("VROOMFASTLANE_RELEASE_KEY_PASSWORD")
         }
     }
     splits {
@@ -119,6 +127,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
