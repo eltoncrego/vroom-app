@@ -17,7 +17,7 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Deploy a new internal build to Google Play Store"
+  desc "Deploy a new internal testing build to Google Play Store"
   lane :test_internal do
     version_code = increment_version_code(
       gradle_file_path: "./app/build.gradle"
@@ -34,7 +34,7 @@ platform :android do
     )
   end
 
-  desc "Deploy a new external build to Google Play Store"
+  desc "Deploy a new external testing build to Google Play Store"
   lane :test_external do
     version_code = increment_version_code(
       gradle_file_path: "./app/build.gradle"
@@ -60,7 +60,7 @@ platform :android do
     # You can also use other beta testing services here
   end
 
-  desc "Deploy a new production build to the Google Play"
+  desc "Deploy a new production build to Google Play Store"
   lane :deploy do
     gradle(task: "assembleRelease")
     upload_to_play_store
