@@ -27,14 +27,6 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 import Auth from '../Authentication/Auth';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
 
-
-// Files Needed
-// import {firebaseRef} from "../Database/Database";
-// import Auth from "../Authentication/Auth";
-// import {goTo, clearNavStack} from "../Navigation/Navigation";
-// import * as firebase from 'firebase';
-
-
 /*
  * Class: Settings
  * Author: Elton C.  Rego
