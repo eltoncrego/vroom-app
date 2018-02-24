@@ -12,9 +12,27 @@
 default_platform(:ios)
 
 platform :ios do
+  desc "Build a debug version of the app locally"
+  lane :build do
+    yarn(
+      command: "install",
+      package_path: "../package.json"
+    )
+    cocoapods
+    match(
+      git_url: "git@github.com:revitechnologies/vroom-certificates.git",
+      type: "development"
+    )
+    build_ios_app(
+      workspace: "vroom.xcworkspace",
+      scheme: "vroom",
+      export_method: "development"
+    )
+  end
+
   desc "Push a new release build to the App Store"
   lane :release do
-    increment_build_number(xcodeproj: "vroom.xcodeproj")
+    #increment_build_number(xcodeproj: "vroom.xcodeproj")
     yarn(
       command: "install",
       package_path: "../package.json"
@@ -26,12 +44,12 @@ platform :ios do
     )
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
     upload_to_app_store
-    clean_build_artifacts
-    commit_version_bump(
-      message: "Fastlane iOS: new prod build #{lane_context[SharedValues::BUILD_NUMBER]} [ci skip]",
-      xcodeproj: "vroom.xcodeproj",
-      force: true
-    )
+    #clean_build_artifacts
+    #commit_version_bump(
+    #  message: "Fastlane iOS: new prod build #{lane_context[SharedValues::BUILD_NUMBER]} [ci skip]",
+    #  xcodeproj: "vroom.xcodeproj",
+    #  force: true
+    #)
   end
   desc "Push a new beta build to TestFlight - internally"
   lane :beta_internal do
