@@ -85,8 +85,12 @@ platform :ios do
       type: "appstore"
     )
     build_app(workspace: "vroom.xcworkspace", scheme: "vroom")
+    changelog = read_changelog(
+      changelog_path: './../CHANGELOG.md'
+    )
     upload_to_testflight(
-      distribute_external: true
+      distribute_external: true,
+      changelog: changelog
     )
     clean_build_artifacts
     commit_version_bump(
