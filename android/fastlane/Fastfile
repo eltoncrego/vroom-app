@@ -17,8 +17,8 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Deploy a new version to Google Play Store"
-  lane :alpha do
+  desc "Deploy a new internal build to Google Play Store"
+  lane :test_internal do
     version_code = increment_version_code(
       gradle_file_path: "./app/build.gradle"
     )
@@ -29,7 +29,25 @@ platform :android do
     )
     git_commit(
       path: "./app/build.gradle",
-      message: "Fastlane Android: new alpha build #{version_code} [ci skip]"
+      message: "Fastlane Android: new internal build #{version_code} [ci skip]",
+      force: true
+    )
+  end
+
+  desc "Deploy a new external build to Google Play Store"
+  lane :test_external do
+    version_code = increment_version_code(
+      gradle_file_path: "./app/build.gradle"
+    )
+    gradle(task: "assembleRelease")
+    supply(
+      track: "beta",
+      apk: "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
+    )
+    git_commit(
+      path: "./app/build.gradle",
+      message: "Fastlane Android: new internal build #{version_code} [ci skip]",
+      force: true
     )
   end
 
@@ -42,7 +60,7 @@ platform :android do
     # You can also use other beta testing services here
   end
 
-  desc "Deploy a new version to the Google Play"
+  desc "Deploy a new production build to the Google Play"
   lane :deploy do
     gradle(task: "assembleRelease")
     upload_to_play_store
