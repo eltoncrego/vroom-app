@@ -1,78 +1,21 @@
-<p align="center"><img src="https://github.com/eltoncrego/vroom-app/blob/master/assets/companylogofullv2@0.5x.png?raw=true" width="500"></p>
+[![Build Status](https://www.bitrise.io/app/5298e41d14dd4eba/status.svg?token=IkzE95gJAK_6YT8_1WKzGQ)](https://www.bitrise.io/app/5298e41d14dd4eba)
 
-# Vroom
-The app that keeps your car running!
+## Lessons Learned from using Android Studio to Emulate
+### Written by Will Coates
 
-## Design Phase
-Design of Vroom is being done in Sketch and exported to this github for easy access throughout the team. Please pull the repository's design branch and reference the exports/assets folders for completed designs. If you wish to collaborate a trial or license of Sketch is necessary to do so.
+* Follow this tutorial VERY CLOSELY! (Click on the Building Projects with Native Code tab)
+  If you skip a step it will cause you lots of problems that are difficult to unwind!
+  https://facebook.github.io/react-native/docs/getting-started.html
 
-Animations are being completed in AfterEffect using the BodyMovin plugin in conjunction with Lottie React Native by Airbnb. An active license of Adobe Create Cloud is necessary to work on these files.
+* When setting up the environment variable ANDROID_HOME and adding tools and platform-tools to your PATH:
+	+ I did this (except for Windows), and it still didn't work. When I tried to build the app,
+    + I got an error that said it could not find the sdk. This persisted even though I tried a few different things (e.g. creating a file called local.properties in the root directory of the project, containing the line "sdk.dir = PATH_TO_SDK")
+	+ I eventually had to re-install Android Studio. When I reinstalled it and opened a sample project, it prompted me to set the path to the SDK
 
-## Development Phase 
+* IMPORTANT: Once Android Studio is installed, you should create a sample project with it and open that! This will do a few things:
+	+ It will give you access to the Android Virtual Device Manager, which is how you run the Android emulator that needs to be running before you build the react-native project
+	+ It will give you some popups that are very useful:
+		- Ex: a popup told me that I forgot to install the build-tools
+		- KEY: a popup prompted me to set the path for the sdk folder
 
-Please follow our filename conventions! All folders should be lowercase and words within the same name should be separated by underscores.
-
-Example:
-filename.ext
-folder_name_with_multiple_words
-
-### Layout
-Always begin the file with any imports that you might need for that component. Include the following comment at the top:
-
-```javascript
-/*
- * Import all the necessary components for this page.
- * Please delete components that aren't used.
- */
-```
-
-Each import area of the component must be in the following order with examples/
-
-```javascript
-// Global Requirements
-import React, { Component } from 'react';
-
-// Components
-import {
-  View,
-} from 'react-native';
-import Animation from 'lottie-react-native';
-
-// Files Needed
-import revi from '../../../assets/animations/revi-hi.json';
-```
-
-Above a major chunk of code, defined as a function, large variable, constant, or style; use the following comment style:
-
-```javascript
-/*
- * <Type of Code Block>: <Name of Code Block>
- * Author: <Author Name>
- *
- * Purpose: <Short blurb on what the code is supposed to do>
- * 
- * @param: <any parameters passed into a method>
- * @return: <the return type of a method>
- * TODO: <anything left to do, repeat if necessary, one for each task>
- */
-```
-
-When installing new components and modules into our react-native project. Please add all shell commands to the init script with the following format:
-
-```shell
-echo "<command to be executed>";
-<command to be executed> &&
-echo "success";
-```
-## Error Messages
-When writing error messages that are delivered to users, please record your error message in the Error Messages file, so the rest of the team can write consistent messages. 
-
-Also keep in mind these guidelines (from Microsoft):
-
-  A well-written error message provides the following information to the user:
-  
-     -What happened and why?
-  
-     -What is the end result for the user?
-  
-     -What can the user do to prevent it from happening again?
+* Install yarn, as per Connick's directions (if you want to see those, search "Building the Application for the First Time" in the GitHub repository)

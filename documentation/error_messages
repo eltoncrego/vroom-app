@@ -1,8 +1,0 @@
-List any error messages that will be delivered to users here (so the team can write consistent error messages):
-
-(When user login fails):  "Error: incorrect username or password"
-(When user logout fails): "Error: logout failed"
-(When make,model,year dropdowns aren't set by user): "Error: please set Make, Year, and Model dropdowns"
-(When event input fields are empty): "Error: please set date/time of event"
-(When querying a task fails in Calendar.js in loopThruTasks()): "ERROR loopThruTasks: "+error.message
-(When querying the tasks for a specific uid in Calendar.js/getTaskByDate()): "Error getting tasks: ", error
