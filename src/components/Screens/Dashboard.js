@@ -164,7 +164,7 @@ export default class Dashboard extends Component {
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.shakeButton();
       this.refs.valert.showAlert('Somethings not right...',
-      'Please enter a valid gallong amount!',
+      'Please enter a valid gallon amount!',
       '',null,5000);
       return;
     }
