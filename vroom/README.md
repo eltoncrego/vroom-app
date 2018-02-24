@@ -1,3 +1,5 @@
+[![Build Status](https://www.bitrise.io/app/5298e41d14dd4eba/status.svg?token=IkzE95gJAK_6YT8_1WKzGQ)](https://www.bitrise.io/app/5298e41d14dd4eba)
+
 ## Lessons Learned from using Android Studio to Emulate
 ### Written by Will Coates
 
