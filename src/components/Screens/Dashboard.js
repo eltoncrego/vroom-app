@@ -14,10 +14,8 @@ import {
   StyleSheet,
   StatusBar,
   Dimensions,
-  SafeAreaView,
   Text,
   TouchableOpacity,
-  PanResponder,
   Animated,
   ScrollView,
   KeyboardAvoidingView,
@@ -49,8 +47,6 @@ import VAlert from './../Custom/VAlert';
  * Author: Elton C.  Rego
  *
  * Purpose: Be the main screen on the application
- * TODO: Add items to list
- * TODO: Remove items from list properly
  */
 export default class Dashboard extends Component {
 
@@ -65,30 +61,27 @@ export default class Dashboard extends Component {
     super(props);
 
     this.state = {
+      // Animation Values
       translation: new Animated.Value(0),
-      settingsShift: new Animated.Value(1),
       transactionShift: new Animated.Value(0),
+      settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
-      directionToSwipe: "down here to show",
-      cardState: 1,
+
+      // item toggles for expected behavior
       scrollEnable: true,
       settingAvailable: true,
-
-      // Values for the add-gas modal
-      modalVisible: false,
 
       // Input state variables
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,
 
-      // Below are some dummy objects of stuff
-      // we will sync with firebase
+      // Vars that sync with firebase
       updatedODO: 0,
       originalODO: 0,
-      averageMPG: 0, // update this calculation as user enters
-      list_i: 0, // index should update with initial pull and increment
+      averageMPG: 0,
+      list_i: 0,
       textDataArr: [],
       isPremium: false,
     };
@@ -164,7 +157,6 @@ export default class Dashboard extends Component {
   * Author: Elton C. Rego
   * Purpose: Adds an object to the GasList item used for gas
   *
-  * //TODO actually calculate the math
   */
   addItem() {
 
@@ -243,9 +235,14 @@ export default class Dashboard extends Component {
     updateODO(this.state.user_ODO);
   }
 
+  /*
+   * Function: removeItem()
+   * Author: Elton C. Rego
+   * Purpose: Removes an object to the GasList item used for gas
+   *
+   */
   removeItem(key){
 
-    // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
     // on these variables
     const itemToRemove =
@@ -280,18 +277,28 @@ export default class Dashboard extends Component {
 
   }
 
+  /*
+   * Function: openSettings()
+   * Author: Elton C. Rego
+   * Purpose: Opens the settings Panel
+   *
+   */
   openSettings(){
-    if(this.state.settingAvailable){
-      Animated.timing(
-        this.state.settingsShift,
-        {
-          toValue: 0,
-          duration: 150,
-        }
-      ).start();
-    }
+    Animated.timing(
+      this.state.settingsShift,
+      {
+        toValue: 0,
+        duration: 150,
+      }
+    ).start();
   }
 
+  /*
+   * Function: closeSettings()
+   * Author: Elton C. Rego
+   * Purpose: Closes the settings Panel
+   *
+   */
   closeSettings(){
     Animated.timing(
       this.state.settingsShift,
@@ -302,6 +309,12 @@ export default class Dashboard extends Component {
     ).start();
   }
 
+  /*
+   * Function: componentDidMount()
+   * Author: Elton C. Rego
+   * Purpose: Pulls all the data from firebase and loads it into the view
+   *
+   */
   componentDidMount() {
 
     var that = this;
@@ -431,7 +444,7 @@ export default class Dashboard extends Component {
               .
             </Text>
           </Text>
-          <TouchableOpacity onPress={() => this.openSettings()}>
+          <TouchableOpacity onPress={() => this.openSettings()} disabled={!this.state.settingAvailable}>
             <Animated.View style={{opacity: modalBG}}>
                 <Text style={styleguide.dark_title}>
                   <FontAwesome>{Icons.gear}</FontAwesome>
