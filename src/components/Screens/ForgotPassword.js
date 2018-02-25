@@ -128,6 +128,7 @@ export default class ForgotPassword extends Component {
             height={64}
             marginTop={40}
             width={'100%'}
+            shadow={true}
             onPress={() => {this.passwordReset();}}/>
          </KeyboardAvoidingView>
        </SafeAreaView>

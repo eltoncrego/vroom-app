@@ -87,6 +87,7 @@ export class Button extends Component {
     width,
     height,
     marginTop,
+    shadow,
   } = this.props) {
 
   var buttonColor = this.state.button_color.interpolate({
@@ -114,7 +115,7 @@ export class Button extends Component {
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: buttonColor,
-              shadowColor: buttonColor,
+              shadowColor: shadow ? buttonColor : 'rgba(0,0,0,0)',
               shadowOpacity: 0.5,
               shadowOffset: {width: 4, height: 4},
               shadowRadius: 30,
