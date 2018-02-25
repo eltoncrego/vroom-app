@@ -187,7 +187,7 @@ export default class Settings extends Component {
           </ScrollView>
         </View>
         <View style={styles.footer}>
-          <Text style={styleguide.dark_caption_secondary}>Made with <FontAwesome>{Icons.heart}</FontAwesome> by Revi</Text>
+          <Text style={styleguide.dark_caption_secondary}>Made with <FontAwesome>{Icons.heart}</FontAwesome> by Revi Technologies LLC in Santa Cruz</Text>
         </View>
       </View>
     );
