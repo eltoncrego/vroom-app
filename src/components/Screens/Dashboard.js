@@ -555,10 +555,13 @@ export default class Dashboard extends Component {
                 autoCapitalize={"none"}
                 type={"numeric"}
                 topMargin={this.state.topMargin}
-                returnKeyType={'done'}
+                returnKeyType={'next'}
                 onChangeText={(text) => {this.setState({user_paid: text})}}
+                onSubmitEditing={() => {this.refs.gas.focus();}}
+
               />
               <InputField
+                ref="gas"
                 icon={Icons.tint}
                 label={"gallons filled"}
                 labelColor={"rgba(37,50,55,0.5)"}
@@ -567,10 +570,12 @@ export default class Dashboard extends Component {
                 autoCapitalize={"none"}
                 type={"numeric"}
                 topMargin={24}
-                returnKeyType={'done'}
+                returnKeyType={'next'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
+                onSubmitEditing={() => {this.refs.odo.focus();}}
               />
               <InputField
+                ref="odo"
                 icon={Icons.automobile}
                 label={"odometer reading in miles"}
                 labelColor={"rgba(37,50,55,0.5)"}
@@ -579,8 +584,9 @@ export default class Dashboard extends Component {
                 autoCapitalize={"none"}
                 type={"numeric"}
                 topMargin={24}
-                returnKeyType={'done'}
+                returnKeyType={'submit'}
                 onChangeText={(text) => {this.setState({user_ODO: text})}}
+                onSubmitEditing={() => {this.addItem()}}
               />
               <Button
                 ref="submitButton"
