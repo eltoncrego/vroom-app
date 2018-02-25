@@ -114,6 +114,9 @@ android {
             keyAlias System.getenv("VROOMFASTLANE_RELEASE_KEY_ALIAS")
             keyPassword System.getenv("VROOMFASTLANE_RELEASE_KEY_PASSWORD")
         }
+        debug{
+        
+        }
     }
     splits {
         abi {
@@ -128,6 +131,10 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
         }
     }
     // applicationVariants are e.g. debug, release
