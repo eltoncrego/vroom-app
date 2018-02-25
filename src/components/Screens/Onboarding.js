@@ -70,7 +70,7 @@ export default class Onboarding extends Component {
      if(this.state.userODO != null || !isNaN(this.state.user_ODO)){
        var finalODOInput = this.state.userODO;
        finalODOInput = finalODOInput.replace(/\,/g,'');
-       finalODOInput = parseInt(finalODOInput, 10);
+       finalODOInput = parseFloat(finalODOInput, 10);
        initUser(finalODOInput);
        goTo(this.props.navigation, 'Dashboard');
      } else if (this.state.userODO < 0){

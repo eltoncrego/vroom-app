@@ -47,8 +47,6 @@ export default class ForgotPassword extends Component {
    constructor(props) {
      super(props);
      this.state = {
-       button_color: new Animated.Value(0),
-       shake_animation: new Animated.Value(0),
        email: "",
      };
    }
@@ -59,17 +57,19 @@ export default class ForgotPassword extends Component {
     */
     passwordReset = () => {
       if(!this.state.email){
-        this.shakeButton();
+        this.refs.linkButton.indicateError();
         this.refs.valert.showAlert('No email entered',
         'Simply enter your email address and try again!',
         'Ok');
       } else {
         var that = this;
         Auth.firebasePasswordReset(this.state.email).then(function(){
+          that.refs.linkButton.indicateError();
           that.refs.valert.showAlert('Password Reset Request Received',
           'Please check your email',
           'I\'ll go check!', GLOBAL.COLOR.GREEN);
         }).catch(function(error){
+          that.refs.linkButton.indicateError();
           that.refs.valert.showAlert("Alert",
           error.message,
           'Ok');
@@ -77,51 +77,9 @@ export default class ForgotPassword extends Component {
       }
     }
 
-   /*
-    * Author: Elton C. Rego
-    * Purpose: When called, shakes the button
-    */
-    shakeButton(){
-      Animated.sequence([
-        Animated.timing(this.state.button_color, {
-          toValue: 1,
-          duration: 150,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: -8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: -8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 0,
-          duration: 50,
-        }),
-        Animated.timing(this.state.button_color, {
-          toValue: 0,
-          duration: 150,
-        })
-      ]).start();
-    }
-
    render() {
 
      var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
-
-     var buttonColor = this.state.button_color.interpolate({
-       inputRange: [0, 1],
-       outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
-     });
 
      return(
        <SafeAreaView style={[
@@ -163,20 +121,14 @@ export default class ForgotPassword extends Component {
              autoCorrect={false}
              onChangeText={(text) => {this.setState({email: text})}}
            />
-         <Animated.View
-           style={
-           {
-             width: '100%',
-             transform: [{translateX: this.state.shake_animation}]
-           }}>
-           <Button
-              backgroundColor={buttonColor}
-              label={"send me a link"}
-              height={64}
-              marginTop={40}
-              shadowColor={buttonColor}
-              onPress={() => {this.passwordReset();}}/>
-         </Animated.View>
+         <Button
+            ref="linkButton"
+            backgroundColor={GLOBAL.COLOR.GREEN}
+            label={"send me a link"}
+            height={64}
+            marginTop={40}
+            width={'100%'}
+            onPress={() => {this.passwordReset();}}/>
          </KeyboardAvoidingView>
        </SafeAreaView>
      );
@@ -201,5 +153,4 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
-
 });
