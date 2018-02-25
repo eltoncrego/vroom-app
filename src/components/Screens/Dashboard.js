@@ -20,7 +20,6 @@ import {
   PanResponder,
   Animated,
   ScrollView,
-  Modal,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -68,11 +67,13 @@ export default class Dashboard extends Component {
     this.state = {
       translation: new Animated.Value(0),
       settingsShift: new Animated.Value(1),
+      transactionShift: new Animated.Value(0),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
       scrollEnable: true,
+      settingAvailable: true,
 
       // Values for the add-gas modal
       modalVisible: false,
@@ -98,11 +99,14 @@ export default class Dashboard extends Component {
   * Author: Elton C. Rego
   * Purpose: Opens the modal to add a gas item
   */
-  openModal() {
-
-    this.setState({
-      modalVisible:true
-    });
+  openTransaction() {
+    Animated.spring(
+      this.state.transactionShift,
+      {
+        toValue: 1,
+        friction: 8,
+      }
+    ).start();
     Animated.timing(
       this.state.modalFade,
       {
@@ -117,6 +121,9 @@ export default class Dashboard extends Component {
         duration: 400,
       }
     ).start();
+    this.setState({
+      settingAvailable: false,
+    });
   }
 
  /*
@@ -124,8 +131,17 @@ export default class Dashboard extends Component {
   * Author: Elton C. Rego
   * Purpose: Closes the modal to add a gas item
   */
-  closeModal() {
-
+  closeTransaction() {
+    this.setState({
+      settingAvailable: true,
+    });
+    Animated.spring(
+      this.state.transactionShift,
+      {
+        toValue: 0,
+        friction: 8,
+      }
+    ).start();
     Animated.timing(
       this.state.modalFade,
       {
@@ -156,21 +172,21 @@ export default class Dashboard extends Component {
       this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
-      '', null, 5000);
+      '');
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid gallon amount!',
-      '',null,5000);
+      '');
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
       this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
-      '', null,5000);
+      '');
       return;
     }
 
@@ -180,7 +196,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
-      '', null,5000);
+      '');
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
@@ -188,7 +204,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
-      '', null,5000);
+      '');
       return;
     }
 
@@ -198,7 +214,7 @@ export default class Dashboard extends Component {
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
     const creationDate = moment().toArray();
 
-    this.closeModal();
+    this.closeTransaction();
 
 
     var newFillup = {
@@ -265,14 +281,15 @@ export default class Dashboard extends Component {
   }
 
   openSettings(){
-
-    Animated.timing(
-      this.state.settingsShift,
-      {
-        toValue: 0,
-        duration: 150,
-      }
-    ).start();
+    if(this.state.settingAvailable){
+      Animated.timing(
+        this.state.settingsShift,
+        {
+          toValue: 0,
+          duration: 150,
+        }
+      ).start();
+    }
   }
 
   closeSettings(){
@@ -377,6 +394,11 @@ export default class Dashboard extends Component {
       outputRange: [1, 0.1],
     });
 
+    var transactionTranslation = this.state.transactionShift.interpolate({
+      inputRange: [0, 1],
+      outputRange: [812, 0],
+    });
+
     // Calculate the x and y transform from the pan value
     var [translateY] = [cardTranslation];
     var [translateX] = [settingsTranslation];
@@ -384,6 +406,7 @@ export default class Dashboard extends Component {
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
+    var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     var modalBehavior = Platform.OS === 'ios' ? "position" : null;
 
@@ -417,12 +440,7 @@ export default class Dashboard extends Component {
           </TouchableOpacity>
         </View>
 
-        <Modal
-          visible={this.state.modalVisible}
-          transparent={true}
-          animationType={'slide'}
-          onRequestClose={() => this.closeModal()}
-        >
+        <Animated.View style={[styles.transaction, transformTransaction]}>
           <View style={styles.modalContainer}>
             <KeyboardAvoidingView behavior={modalBehavior}>
               <View style={[styles.innerContainer]}>
@@ -484,13 +502,13 @@ export default class Dashboard extends Component {
                   marginTop={16}
                   width={"100%"}
                   onPress={() => {
-                    this.closeModal();
+                    this.closeTransaction();
                   }}
                   title="Close modal"
                 />
               </View>
           </View>
-        </Modal>
+        </Animated.View>
 
         <View style={styles.content}>
           <View style={styles.graph}>
@@ -535,11 +553,11 @@ export default class Dashboard extends Component {
               shadowRadius: 30,
 
               position: 'absolute',
-              zIndex: 2,
+              zIndex: 1,
               bottom: 32,
               right: 32,
             }
-          } onPress={() => this.openModal()}>
+          } onPress={() => this.openTransaction()}>
           <View style={styles.floating_button}>
               <Text style={styleguide.dark_title}>
                 <FontAwesome>{Icons.plus}</FontAwesome>
@@ -560,6 +578,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     zIndex: 3,
+  },
+  transaction: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    zIndex: 2,
   },
   navbar: {
     flex: 1,
