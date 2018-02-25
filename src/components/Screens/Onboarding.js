@@ -147,6 +147,7 @@ export default class Onboarding extends Component {
              label={"lets go!"}
              height={64}
              marginTop={40}
+             shadow={true}
              onPress={() => {this.submitOnboardingODO()}}/>
         </KeyboardAvoidingView>
       </View>

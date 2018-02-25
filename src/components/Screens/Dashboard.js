@@ -70,8 +70,6 @@ export default class Dashboard extends Component {
       settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
-      button_color: new Animated.Value(0),
-      shake_animation: new Animated.Value(0),
       directionToSwipe: "down here to show",
       cardState: 1,
       scrollEnable: true,
@@ -155,21 +153,21 @@ export default class Dashboard extends Component {
   addItem() {
 
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
       '', null, 5000);
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid gallon amount!',
       '',null,5000);
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
       '', null,5000);
@@ -178,7 +176,7 @@ export default class Dashboard extends Component {
 
     // throw alert if user leaves any fields blank
     if (this.state.user_ODO <= this.state.updatedODO) {
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
@@ -186,7 +184,7 @@ export default class Dashboard extends Component {
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
@@ -265,49 +263,6 @@ export default class Dashboard extends Component {
     });
 
   }
-
-  /*
-   * Function: componentWillMount()
-   * Author: Elton C. Rego
-   * Purpose: Called when the component is called from the stack
-   *    - sets up the pan responder for the GasList transition
-   */
-  // componentWillMount() {
-  //
-  //   this._panResponder = PanResponder.create({
-  //     onMoveShouldSetResponderCapture: () => true,
-  //     onMoveShouldSetPanResponderCapture: () => true,
-  //
-  //     onPanResponderMove: (e, {dy}) => {
-  //       // put animation code here
-  //       this.setState({scrollEnable: false});
-  //       if((dy < -8) && this.state.cardState == 1){
-  //         Animated.spring(
-  //           this.state.translation,
-  //           { toValue: 0, friction: 5}
-  //         ).start();
-  //         this.setState({
-  //           directionToSwipe: "down here to show",
-  //         });
-  //       } else if ((dy >= 8) && this.state.cardState == 0) {
-  //         Animated.spring(
-  //           this.state.translation,
-  //           { toValue: 1, friction: 5}
-  //         ).start();
-  //         this.setState({
-  //           directionToSwipe: "up here to hide",
-  //         });
-  //       }
-  //     },
-  //
-  //     onPanResponderRelease: (evt, gestureState) => {
-  //       this.setState({
-  //         cardState: !this.state.cardState,
-  //         scrollEnable: !this.state.scrollEnable,
-  //       });
-  //     },
-  //   });
-  // }
 
   openSettings(){
 
@@ -396,43 +351,6 @@ export default class Dashboard extends Component {
   }
 
   /*
-   * Author: Elton C. Rego
-   * Purpose: When called, shakes the button
-   */
-   shakeButton(){
-     Animated.sequence([
-       Animated.timing(this.state.button_color, {
-         toValue: 1,
-         duration: 150,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: -8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: -8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 0,
-         duration: 50,
-       }),
-       Animated.timing(this.state.button_color, {
-         toValue: 0,
-         duration: 150,
-       }),
-     ]).start();
-   }
-
-  /*
    * Function: render()
    * Author: Elton C. Rego
    * Purpose: renders the component
@@ -468,11 +386,6 @@ export default class Dashboard extends Component {
     var settingsList = {transform: [{translateX}]};
 
     var modalBehavior = Platform.OS === 'ios' ? "position" : null;
-
-    var buttonColor = this.state.button_color.interpolate({
-      inputRange: [0, 1],
-      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
-    });
 
     return(
       <View style={
@@ -555,35 +468,26 @@ export default class Dashboard extends Component {
               </View>
             </KeyboardAvoidingView>
               <View style={styles.modal_buttons}>
-              <Animated.View
-                style={
-                {
-                  width: '100%',
-                  transform: [{translateX: this.state.shake_animation}]
-                }}>
                 <Button
-                  backgroundColor={buttonColor}
+                  ref="submitButton"
+                  backgroundColor={GLOBAL.COLOR.GREEN}
                   label={"add item"}
                   height={64}
-                  shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
+                  shadow={true}
                   onPress={() => this.addItem()}
-                >
-                </Button>
-              </Animated.View>
+                />
                 <Button
                   backgroundColor={GLOBAL.COLOR.GRAY}
                   label={"cancel"}
                   height={64}
                   marginTop={16}
-                  shadowColor={'rgba(0,0,0,0)'}
                   width={"100%"}
                   onPress={() => {
                     this.closeModal();
                   }}
                   title="Close modal"
-                >
-                </Button>
+                />
               </View>
           </View>
         </Modal>

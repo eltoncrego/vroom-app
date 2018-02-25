@@ -356,7 +356,7 @@ export default class Login extends Component {
               label={this.state.button_text}
               height={64}
               marginTop={40}
-              shadowColor={GLOBAL.COLOR.GREEN}
+              shadow={true}
               onPress={()=>{
                 if(this.state.sign_up){
                   this.signup();
