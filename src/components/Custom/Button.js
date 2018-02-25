@@ -98,18 +98,13 @@ export class Button extends Component {
   <Animated.View
     style={
       {
-        transform: [{translateX: this.state.shake_animation}]
-      }
-    }>
-    <TouchableOpacity
-      style={[
-      styleguide.button_container,
-      {
+        transform: [{translateX: this.state.shake_animation}],
         width: width,
         height: height,
         marginTop: marginTop,
-      }]}
-    onPress={onPress}>
+      }
+    }>
+    <TouchableOpacity style={styleguide.button_container} onPress={onPress}>
         <Animated.View style={
           [
             {
