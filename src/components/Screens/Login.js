@@ -110,38 +110,74 @@ export default class Login extends Component {
   }
 
   keyboardWillShow = (event) => {
-    var end = (event.endCoordinates.height-128)/2;
-    Animated.parallel([
-      Animated.timing(this.state.keyboardHeight, {
-        duration: Platform.OS === 'ios' ? event.duration : 200,
-        toValue: end,
-      }),
-      Animated.timing(this.state.pageTextSize, {
-        duration: Platform.OS === 'ios' ? event.duration : 200,
-        toValue: 35,
-      }),
-      Animated.timing(this.state.formMargin, {
-        duration: Platform.OS === 'ios' ? event.duration : 200,
-        toValue: 0,
-      }),
-    ]).start();
+    if(Platform.OS === 'ios'){
+      var end = (event.endCoordinates.height-128)/2;
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: event.duration,
+          toValue: end,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: event.duration,
+          toValue: 35,
+        }),
+        Animated.timing(this.state.formMargin, {
+          duration: event.duration,
+          toValue: 0,
+        }),
+      ]).start();
+    } else {
+      var end = (event.endCoordinates.height-200)/2;
+      alert(end);
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: 200,
+          toValue: end,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: 200,
+          toValue: 35,
+        }),
+        Animated.timing(this.state.formMargin, {
+          duration: 200,
+          toValue: 0,
+        }),
+      ]).start();
+    }
   };
 
   keyboardWillHide = (event) => {
-    Animated.parallel([
-      Animated.timing(this.state.keyboardHeight, {
-        duration: Platform.OS === 'ios' ? event.duration : 200,
-        toValue: 0,
-      }),
-      Animated.timing(this.state.pageTextSize, {
-        duration: Platform.OS === 'ios' ? event.duration : 200,
-        toValue: 50,
-      }),
-      Animated.timing(this.state.formMargin, {
-        duration: Platform.OS === 'ios' ? event.duration : 200,
-        toValue: 24,
-      }),
-    ]).start();
+    if(Platform.OS === 'ios'){
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: event.duration,
+          toValue: 0,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: event.duration,
+          toValue: 50,
+        }),
+        Animated.timing(this.state.formMargin, {
+          duration: event.duration,
+          toValue: 24,
+        }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: 200,
+          toValue: 0,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: 200,
+          toValue: 50,
+        }),
+        Animated.timing(this.state.formMargin, {
+          duration: 200,
+          toValue: 24,
+        }),
+      ]).start();
+    }
   };
 
  /*
