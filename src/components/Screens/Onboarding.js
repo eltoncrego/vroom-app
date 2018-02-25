@@ -19,6 +19,7 @@ import {
   Alert,
   Animated,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -56,8 +57,112 @@ export default class Onboarding extends Component {
      super(props);
      this.state = {
        userODO: null,
+       keyboardHeight: new Animated.Value(0),
+       pageTextSize: new Animated.Value(25),
+       pageDescriptionSize: new Animated.Value(20),
+       topMargin: new Animated.Value(24),
      };
    }
+
+   /*
+    * Author: Elton C. Rego
+    * Purpose: sets event listeners for the keyboard
+    */
+    componentWillMount () {
+      this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+      this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
+    }
+
+    componentWillUnmount() {
+      this.keyboardWillShowSub.remove();
+      this.keyboardWillHideSub.remove();
+   }
+
+   keyboardWillShow = (event) => {
+     if(Platform.OS === 'ios'){
+       var end = (event.endCoordinates.height-128)/2;
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: event.duration,
+           toValue: end,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: event.duration,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: event.duration,
+           toValue: 15,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 8,
+         }),
+       ]).start();
+     } else {
+       var end = (event.endCoordinates.height-128)/2;
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: 200,
+           toValue: end,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: 200,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: 200,
+           toValue: 15,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 8,
+         }),
+       ]).start();
+     }
+   };
+
+   keyboardWillHide = (event) => {
+     if(Platform.OS === 'ios'){
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: event.duration,
+           toValue: 0,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: event.duration,
+           toValue: 25,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: event.duration,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 24,
+         }),
+       ]).start();
+     } else {
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: 200,
+           toValue: 0,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: 200,
+           toValue: 25,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: 200,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 24,
+         }),
+       ]).start();
+     }
+   };
 
    /*
     * Method: submitOnboardingODO
@@ -115,23 +220,20 @@ export default class Onboarding extends Component {
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <KeyboardAvoidingView
-          style={styles.onboarding_form}
-          behavior={keyboardBehavior}
-        >
-          <Text style={styleguide.light_headline2}>
+        <Animated.View style={[styles.onboarding_form, {paddingBottom: this.state.keyboardHeight}]}>
+          <Animated.Text style={[styleguide.light_headline2, {fontSize: this.state.pageTextSize}]}>
             Welcome
-            <Text style={styleguide.light_headline2_accent}>.</Text>
-          </Text>
-          <Text
-            style={styleguide.light_title_secondary}>To get started, let us know how many miles are on your car.</Text>
+            <Animated.Text style={[styleguide.light_headline2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
+          </Animated.Text>
+          <Animated.Text
+            style={[styleguide.light_title_secondary, {fontSize: this.state.pageDescriptionSize}]}>To get started, let us know how many miles are on your car.</Animated.Text>
           <InputField
             icon={Icons.mapO}
             label={"Odometer Reading"}
             labelColor={"rgba(37,50,55,0.5)"}
             inactiveColor={GLOBAL.COLOR.DARKGRAY}
             activeColor={GLOBAL.COLOR.GREEN}
-            topMargin={24}
+            topMargin={this.state.topMargin}
             autoCapitalize={"none"}
             type={"numeric"}
             secureTextEntry={false}
@@ -149,7 +251,7 @@ export default class Onboarding extends Component {
              marginTop={40}
              shadow={true}
              onPress={() => {this.submitOnboardingODO()}}/>
-        </KeyboardAvoidingView>
+         </Animated.View>
       </View>
       </SafeAreaView>
     );
@@ -174,7 +276,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 10,
-    margin: 32,
+    marginHorizontal: 32,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },

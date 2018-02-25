@@ -115,7 +115,7 @@ android {
             keyPassword System.getenv("VROOMFASTLANE_RELEASE_KEY_PASSWORD")
         }
         debug{
-        
+
         }
     }
     splits {

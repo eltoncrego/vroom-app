@@ -56,6 +56,10 @@ export class InputField extends Component {
     ).start();
   }
 
+  focus(){
+    this.refs.input.focus();
+  }
+
   render({
     autoFocus,
     icon,
@@ -86,6 +90,7 @@ export class InputField extends Component {
          <Animated.Text style={[styles.ico, {color: a_color}]}><FontAwesome>{icon}</FontAwesome></Animated.Text>
         </View>
         <TextInput
+          ref="input"
           autoFocus={autoFocus}
           style={[
             stylesheet.light_body,

@@ -15,6 +15,7 @@ import {
   Alert,
   Animated,
   Platform,
+  Keyboard,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -48,8 +49,112 @@ export default class ForgotPassword extends Component {
      super(props);
      this.state = {
        email: "",
+       keyboardHeight: new Animated.Value(0),
+       pageTextSize: new Animated.Value(25),
+       pageDescriptionSize: new Animated.Value(20),
+       topMargin: new Animated.Value(24),
      };
    }
+
+   /*
+    * Author: Elton C. Rego
+    * Purpose: sets event listeners for the keyboard
+    */
+    componentWillMount () {
+      this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+      this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
+    }
+
+    componentWillUnmount() {
+      this.keyboardWillShowSub.remove();
+      this.keyboardWillHideSub.remove();
+   }
+
+   keyboardWillShow = (event) => {
+     if(Platform.OS === 'ios'){
+       var end = (event.endCoordinates.height-128)/2;
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: event.duration,
+           toValue: end,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: event.duration,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: event.duration,
+           toValue: 15,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 8,
+         }),
+       ]).start();
+     } else {
+       var end = (event.endCoordinates.height-128)/2;
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: 200,
+           toValue: end,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: 200,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: 200,
+           toValue: 15,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 8,
+         }),
+       ]).start();
+     }
+   };
+
+   keyboardWillHide = (event) => {
+     if(Platform.OS === 'ios'){
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: event.duration,
+           toValue: 0,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: event.duration,
+           toValue: 25,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: event.duration,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 24,
+         }),
+       ]).start();
+     } else {
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: 200,
+           toValue: 0,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: 200,
+           toValue: 25,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: 200,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 24,
+         }),
+       ]).start();
+     }
+   };
 
    /*
     * Author: Payam Katoozian
@@ -97,25 +202,22 @@ export default class ForgotPassword extends Component {
              </Animated.View>
            </TouchableOpacity>
          </View>
-         <KeyboardAvoidingView
-           style={styles.content}
-           behavior={"padding"}
-         >
-           <Text style={styleguide.light_headline2}>
-             Forgot Password
-             <Text style={styleguide.light_headline2_accent}>.</Text>
-           </Text>
-           <Text
-             style={styleguide.light_title_secondary}>
+         <Animated.View style={[styles.content, {paddingBottom: this.state.keyboardHeight}]}>
+           <Animated.Text style={[styleguide.light_title2, {fontSize: this.state.pageTextSize}]}>
+             Password Reset
+             <Animated.Text style={[styleguide.light_title2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
+           </Animated.Text>
+           <Animated.Text
+             style={[styleguide.light_subheader_secondary, {fontSize: this.state.pageDescriptionSize}]}>
              To reset your password, please enter the email address associated with your account.
-           </Text>
+           </Animated.Text>
            <InputField
              icon={Icons.inbox}
              label={"email"}
              labelColor={"rgba(37,50,55,0.5)"}
              inactiveColor={GLOBAL.COLOR.DARKGRAY}
              activeColor={GLOBAL.COLOR.GREEN}
-             topMargin={32}
+             topMargin={this.state.topMargin}
              autoCapitalize={"none"}
              keyboardType={"email-address"}
              autoCorrect={false}
@@ -130,7 +232,7 @@ export default class ForgotPassword extends Component {
             width={'100%'}
             shadow={true}
             onPress={() => {this.passwordReset();}}/>
-         </KeyboardAvoidingView>
+        </Animated.View>
        </SafeAreaView>
      );
    }
@@ -150,7 +252,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 10,
-    margin: 32,
+    marginHorizontal: 32,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
