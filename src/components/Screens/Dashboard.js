@@ -20,6 +20,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Keyboard
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
@@ -67,6 +68,9 @@ export default class Dashboard extends Component {
       settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
+      keyboardHeight: new Animated.Value(32),
+      pageTextSize: new Animated.Value(25),
+      topMargin: new Animated.Value(24),
 
       // item toggles for expected behavior
       scrollEnable: true,
@@ -152,6 +156,90 @@ export default class Dashboard extends Component {
     this.setState({modalVisible:false});
   }
 
+  /*
+   * Author: Elton C. Rego
+   * Purpose: sets event listeners for the keyboard
+   */
+   componentWillMount () {
+     this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+     this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
+   }
+
+   componentWillUnmount() {
+     this.keyboardWillShowSub.remove();
+     this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = (event) => {
+    if(Platform.OS === 'ios'){
+      var end = (event.endCoordinates.height-128)/2+32;
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: event.duration,
+          toValue: end,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: event.duration,
+          toValue: 20,
+        }),
+        Animated.timing(this.state.topMargin, {
+          duration: 200,
+          toValue: 8,
+        }),
+      ]).start();
+    } else {
+      var end = (event.endCoordinates.height-128)/2+32;
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: 200,
+          toValue: end,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: 200,
+          toValue: 20,
+        }),
+        Animated.timing(this.state.topMargin, {
+          duration: 200,
+          toValue: 8,
+        }),
+      ]).start();
+    }
+  };
+
+  keyboardWillHide = (event) => {
+    if(Platform.OS === 'ios'){
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: event.duration,
+          toValue: 32,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: event.duration,
+          toValue: 25,
+        }),
+        Animated.timing(this.state.topMargin, {
+          duration: 200,
+          toValue: 24,
+        }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: 200,
+          toValue: 32,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: 200,
+          toValue: 25,
+        }),
+        Animated.timing(this.state.topMargin, {
+          duration: 200,
+          toValue: 24,
+        }),
+      ]).start();
+    }
+  };
+
  /*
   * Function: addItem()
   * Author: Elton C. Rego
@@ -164,21 +252,21 @@ export default class Dashboard extends Component {
       this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
-      '');
+      'Ok');
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid gallon amount!',
-      '');
+      'Ok');
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
       this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
-      '');
+      'Ok');
       return;
     }
 
@@ -188,7 +276,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
-      '');
+      'Ok');
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
@@ -196,7 +284,7 @@ export default class Dashboard extends Component {
       this.refs.valert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
-      '');
+      'Ok');
       return;
     }
 
@@ -419,10 +507,9 @@ export default class Dashboard extends Component {
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
+    // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
+    console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
-
-    var modalBehavior = Platform.OS === 'ios' ? "position" : null;
-
     return(
       <View style={
         [styleguide.container,
@@ -455,71 +542,68 @@ export default class Dashboard extends Component {
 
         <Animated.View style={[styles.transaction, transformTransaction]}>
           <View style={styles.modalContainer}>
-            <KeyboardAvoidingView behavior={modalBehavior}>
-              <View style={[styles.innerContainer]}>
-                <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
-                  <Text style={styleguide.light_title2_accent}>.</Text>
-                </Text>
-                <InputField
-                  icon={Icons.dollar}
-                  label={"total amount paid for fillup"}
-                  labelColor={"rgba(37,50,55,0.5)"}
-                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
-                  activeColor={GLOBAL.COLOR.GREEN}
-                  autoCapitalize={"none"}
-                  type={"numeric"}
-                  topMargin={24}
-                  returnKeyType={'done'}
-                  onChangeText={(text) => {this.setState({user_paid: text})}}
-                />
-                <InputField
-                  icon={Icons.tint}
-                  label={"gallons filled"}
-                  labelColor={"rgba(37,50,55,0.5)"}
-                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
-                  activeColor={GLOBAL.COLOR.GREEN}
-                  autoCapitalize={"none"}
-                  type={"numeric"}
-                  topMargin={24}
-                  returnKeyType={'done'}
-                  onChangeText={(text) => {this.setState({user_filled: text})}}
-                />
-                <InputField
-                  icon={Icons.automobile}
-                  label={"odometer reading in miles"}
-                  labelColor={"rgba(37,50,55,0.5)"}
-                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
-                  activeColor={GLOBAL.COLOR.GREEN}
-                  autoCapitalize={"none"}
-                  type={"numeric"}
-                  topMargin={24}
-                  returnKeyType={'done'}
-                  onChangeText={(text) => {this.setState({user_ODO: text})}}
-                />
-              </View>
-            </KeyboardAvoidingView>
-              <View style={styles.modal_buttons}>
-                <Button
-                  ref="submitButton"
-                  backgroundColor={GLOBAL.COLOR.GREEN}
-                  label={"add item"}
-                  height={64}
-                  width={"100%"}
-                  shadow={true}
-                  onPress={() => this.addItem()}
-                />
-                <Button
-                  backgroundColor={GLOBAL.COLOR.GRAY}
-                  label={"cancel"}
-                  height={64}
-                  marginTop={16}
-                  width={"100%"}
-                  onPress={() => {
-                    this.closeTransaction();
-                  }}
-                  title="Close modal"
-                />
-              </View>
+            <View style={[styles.innerContainer]}>
+              <Animated.Text style={[styleguide.light_title2, {width: '100%', fontSize: this.state.pageTextSize}]}>Add Transaction
+                <Animated.Text style={[styleguide.light_title2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
+              </Animated.Text>
+              <InputField
+                icon={Icons.dollar}
+                label={"total amount paid for fillup"}
+                labelColor={"rgba(37,50,55,0.5)"}
+                inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                activeColor={GLOBAL.COLOR.GREEN}
+                autoCapitalize={"none"}
+                type={"numeric"}
+                topMargin={this.state.topMargin}
+                returnKeyType={'done'}
+                onChangeText={(text) => {this.setState({user_paid: text})}}
+              />
+              <InputField
+                icon={Icons.tint}
+                label={"gallons filled"}
+                labelColor={"rgba(37,50,55,0.5)"}
+                inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                activeColor={GLOBAL.COLOR.GREEN}
+                autoCapitalize={"none"}
+                type={"numeric"}
+                topMargin={24}
+                returnKeyType={'done'}
+                onChangeText={(text) => {this.setState({user_filled: text})}}
+              />
+              <InputField
+                icon={Icons.automobile}
+                label={"odometer reading in miles"}
+                labelColor={"rgba(37,50,55,0.5)"}
+                inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                activeColor={GLOBAL.COLOR.GREEN}
+                autoCapitalize={"none"}
+                type={"numeric"}
+                topMargin={24}
+                returnKeyType={'done'}
+                onChangeText={(text) => {this.setState({user_ODO: text})}}
+              />
+              <Button
+                ref="submitButton"
+                backgroundColor={GLOBAL.COLOR.GREEN}
+                label={"add item"}
+                height={64}
+                width={"100%"}
+                shadow={true}
+                marginTop={this.state.keyboardHeight}
+                onPress={() => this.addItem()}
+              />
+              <Button
+                backgroundColor={GLOBAL.COLOR.GRAY}
+                label={"cancel"}
+                height={64}
+                marginTop={16}
+                width={"100%"}
+                onPress={() => {
+                  this.closeTransaction();
+                }}
+                title="Close modal"
+              />
+            </View>
           </View>
         </Animated.View>
 
@@ -532,8 +616,6 @@ export default class Dashboard extends Component {
               transformList,
               {opacity: this.state.fadeIn}]
             }>
-            {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
-            ...this._panResponder.panHandlers*/}
             <View  style={styles.statistics}>
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
@@ -655,17 +737,9 @@ const styles = StyleSheet.create({
   innerContainer: {
     alignItems: 'center',
     padding: 32,
-    paddingBottom: 20,
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 2,
     overflow: 'visible',
-  },
-  modal_buttons: {
-    alignItems: 'center',
-    padding: 32,
-    paddingTop: 20,
-    zIndex: 1,
-    backgroundColor: GLOBAL.COLOR.WHITE,
   },
 
 });
