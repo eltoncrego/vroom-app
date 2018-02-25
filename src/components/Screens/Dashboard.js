@@ -172,7 +172,7 @@ export default class Dashboard extends Component {
 
   keyboardWillShow = (event) => {
     if(Platform.OS === 'ios'){
-      var end = (event.endCoordinates.height-128)/2+32;
+      var end = (event.endCoordinates.height-64)/2+32;
       Animated.parallel([
         Animated.timing(this.state.keyboardHeight, {
           duration: event.duration,
@@ -188,7 +188,7 @@ export default class Dashboard extends Component {
         }),
       ]).start();
     } else {
-      var end = (event.endCoordinates.height-128)/2+32;
+      var end = (event.endCoordinates.height-64)/2+32;
       Animated.parallel([
         Animated.timing(this.state.keyboardHeight, {
           duration: 200,
@@ -555,7 +555,7 @@ export default class Dashboard extends Component {
                 autoCapitalize={"none"}
                 type={"numeric"}
                 topMargin={this.state.topMargin}
-                returnKeyType={'next'}
+                returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_paid: text})}}
                 onSubmitEditing={() => {this.refs.gas.focus();}}
 
@@ -570,7 +570,7 @@ export default class Dashboard extends Component {
                 autoCapitalize={"none"}
                 type={"numeric"}
                 topMargin={24}
-                returnKeyType={'next'}
+                returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
                 onSubmitEditing={() => {this.refs.odo.focus();}}
               />
@@ -584,7 +584,7 @@ export default class Dashboard extends Component {
                 autoCapitalize={"none"}
                 type={"numeric"}
                 topMargin={24}
-                returnKeyType={'submit'}
+                returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_ODO: text})}}
                 onSubmitEditing={() => {this.addItem()}}
               />
