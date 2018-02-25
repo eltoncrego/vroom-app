@@ -29,6 +29,23 @@ import Loading from './../Screens/Loading';
 
 import loader_icon from '../../../assets/animations/loading.json';
 
+/*
+* Class: Button
+* Author: Elton C. Rego
+* Purpose: Renders a styled button with the given properties
+*
+* @function: componentDidMount() - sets up the component
+* @function: toggleSignUp() - call when you want to switch the state from
+*   sign up to sign in and vice versa
+* @function: signin() - asynchronous call to firebase sign in, verifies if
+*   the data is inputted correctly
+* @function: - asynchronous call to firebase sign up, verifies if
+*   the data is inputted correctly
+* @function: openModal() - opens the modal for indicating Loading
+* @function: closeModal() - closes the modal for indicating loaded
+*
+* @return Login: the view for sign up and sign in screens
+*/
 export default class Login extends Component {
 
  /*
@@ -42,8 +59,6 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      button_color: new Animated.Value(0),
-
       sign_up: true,
       page_text: "Sign up",
       button_text: "sign up!",
@@ -54,7 +69,6 @@ export default class Login extends Component {
       modalVisible: false,
 
       fade_animation: new Animated.Value(0),
-      shake_animation: new Animated.Value(0),
     };
   }
 
@@ -113,43 +127,6 @@ export default class Login extends Component {
     });
   }
 
-  /*
-   * Author: Elton C. Rego
-   * Purpose: When called, shakes the button
-   */
-   shakeButton(){
-     Animated.sequence([
-       Animated.timing(this.state.button_color, {
-         toValue: 1,
-         duration: 150,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: -8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: -8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 0,
-         duration: 50,
-       }),
-       Animated.timing(this.state.button_color, {
-         toValue: 0,
-         duration: 150,
-       }),
-     ]).start();
-   }
-
  /*
   * Author: Alec Felt, Connick Shields
   * Purpose: Checks state.email and state.password and
@@ -157,14 +134,14 @@ export default class Login extends Component {
   */
   signin = () => {
     if((!this.state.email)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Woah there!',
       'You can\'t log in with an empty email!',
       'I understand');
       return;
     }
     if((!this.state.password)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Hey there, friendo!',
       'You can\'t log in with an empty password!',
       'I understand');
@@ -188,21 +165,21 @@ export default class Login extends Component {
   */
   signup = () => {
     if((!this.state.email)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Now wait just a second!',
       'You can\'t sign up with an empty email!',
       'I understand');
       return;
     }
     if((!this.state.password)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Hold up!',
       'You can\'t sign up with an empty password!',
       'I understand');
       return;
     }
     if(this.state.password != this.state.password_verification){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Our OCD is going off...',
       'your passwords don\'t match',
       'I understand');
@@ -300,11 +277,6 @@ export default class Login extends Component {
 
     var keyboardBehavior = Platform.OS === 'ios' ? "padding" : null;
 
-    var buttonColor = this.state.button_color.interpolate({
-      inputRange: [0, 1],
-      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
-    });
-
     return (
       <SafeAreaView style={[
         styleguide.container,
@@ -377,27 +349,21 @@ export default class Login extends Component {
                 ]}
               >forgot password?</Text>
           </TouchableOpacity>
-            <Animated.View
-              style={
-                {
-                  transform: [{translateX: this.state.shake_animation}]
+             <Button
+              ref="submitButton"
+              backgroundColor={GLOBAL.COLOR.GREEN}
+              label={this.state.button_text}
+              height={64}
+              marginTop={40}
+              shadowColor={GLOBAL.COLOR.GREEN}
+              onPress={()=>{
+                if(this.state.sign_up){
+                  this.signup();
+                } else {
+                  this.signin();
                 }
-              }>
-               <Button
-                backgroundColor={buttonColor}
-                label={this.state.button_text}
-                height={64}
-                marginTop={40}
-                shadowColor={buttonColor}
-                onPress={()=>{
-                  if(this.state.sign_up){
-                    this.signup();
-                  } else {
-                    this.signin();
-                  }
-                }}
-              />
-            </Animated.View>
+              }}
+            />
             <TouchableOpacity onPress={() => this.toggleSignUp()}>
               <Text style={[
                 styleguide.light_body,
