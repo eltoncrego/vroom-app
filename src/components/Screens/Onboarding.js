@@ -17,7 +17,6 @@ import {
   Platform,
   Text,
   Alert,
-  Keyboard,
   Animated,
   TouchableOpacity,
 } from 'react-native';
@@ -27,7 +26,8 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
-import { goTo, clearNavStack } from '../Navigation/Navigation';
+import { goTo } from '../Navigation/Navigation';
+import VAlert from './../Custom/VAlert';
 
 import {
   initUser,
@@ -55,82 +55,36 @@ export default class Onboarding extends Component {
    constructor(props) {
      super(props);
      this.state = {
-       button_color: new Animated.Value(0),
        userODO: null,
-       shake_animation: new Animated.Value(0),
      };
    }
 
+   /*
+    * Method: submitOnboardingODO
+    * Author: Elton C. Rego
+    *
+    * Purpose: take the number from the InputField and pushes it to
+    *   firebase after a series of input checks
+    */
    submitOnboardingODO(){
-
      if(this.state.userODO != null || !isNaN(this.state.user_ODO)){
-       initUser(this.state.userODO);
+       var finalODOInput = this.state.userODO;
+       finalODOInput = finalODOInput.replace(/\,/g,'');
+       finalODOInput = parseInt(finalODOInput, 10);
+       initUser(finalODOInput);
        goTo(this.props.navigation, 'Dashboard');
      } else if (this.state.userODO < 0){
-       this.shakeButton();
-       Alert.alert(
-         'Where did you get your car?',
-         'I want a car that loses miles...',
-         [
-           {text: 'Let me try again', onPress: () => {
-             Animated.timing(this.state.button_color, {
-               toValue: 0,
-               duration: 150,
-             }).start();
-           }},
-         ],
-       )
+       this.refs.submitButton.indicateError();
+       this.refs.valert.showAlert('Where did you get your car?',
+       'An odometer cannot read negative miles unless it is damaged.',
+       'Ok');
      } else {
-       this.shakeButton();
-       Alert.alert(
-         'Hold up!',
-         'You didn\'t enter anything!',
-         [
-           {text: 'Let me try again', onPress: () => {
-             Animated.timing(this.state.button_color, {
-               toValue: 0,
-               duration: 150,
-             }).start();
-           }},
-         ],
-       )
+       this.refs.submitButton.indicateError();
+       this.refs.valert.showAlert('Hold up!',
+       'You didn\'t enter anything!',
+       'Let me try again');
      }
    }
-
-   /*
-    * Author: Elton C. Rego
-    * Purpose: When called, shakes the button
-    */
-    shakeButton(){
-      Animated.sequence([
-        Animated.timing(this.state.button_color, {
-          toValue: 1,
-          duration: 150,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: -8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: -8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 0,
-          duration: 50,
-        }),
-      ]).start();
-    }
-
-
 
   /*
    * Method: render
@@ -145,16 +99,12 @@ export default class Onboarding extends Component {
 
     var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
 
-    var buttonColor = this.state.button_color.interpolate({
-      inputRange: [0, 1],
-      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
-    });
-
     return(
       <SafeAreaView style={[
         styleguide.container,
         styles.container,
       ]}>
+      <VAlert ref="valert"/>
       <View style={styles.navbar}>
         <TouchableOpacity onPress={() => {Auth.logOut();}}>
           <Animated.View>
@@ -191,19 +141,13 @@ export default class Onboarding extends Component {
               userODO: text,
             })}}
           />
-          <Animated.View
-            style={
-            {
-              transform: [{translateX: this.state.shake_animation}]
-            }}>
-            <Button
-               backgroundColor={buttonColor}
-               label={"lets go!"}
-               height={64}
-               marginTop={40}
-               shadowColor={buttonColor}
-               onPress={() => {this.submitOnboardingODO()}}/>
-          </Animated.View>
+          <Button
+             ref="submitButton"
+             backgroundColor={GLOBAL.COLOR.GREEN}
+             label={"lets go!"}
+             height={64}
+             marginTop={40}
+             onPress={() => {this.submitOnboardingODO()}}/>
         </KeyboardAvoidingView>
       </View>
       </SafeAreaView>

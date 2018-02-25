@@ -19,6 +19,7 @@ import {
 import {Icons} from 'react-native-fontawesome';
 import Animation from 'lottie-react-native';
 
+// Our Custom Components
 import Auth from '../Authentication/Auth';
 import { goTo } from '../Navigation/Navigation';
 import {initUser} from '../Database/Database';
