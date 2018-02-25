@@ -100,8 +100,8 @@ export default class Login extends Component {
    * Purpose: sets event listeners for the keyboard
    */
    componentWillMount () {
-     this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
-     this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+     this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+     this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
    }
 
    componentWillUnmount() {
@@ -113,15 +113,15 @@ export default class Login extends Component {
     var end = (event.endCoordinates.height-128)/2;
     Animated.parallel([
       Animated.timing(this.state.keyboardHeight, {
-        duration: event.duration,
+        duration: Platform.OS === 'ios' ? event.duration : 200,
         toValue: end,
       }),
       Animated.timing(this.state.pageTextSize, {
-        duration: event.duration,
+        duration: Platform.OS === 'ios' ? event.duration : 200,
         toValue: 35,
       }),
       Animated.timing(this.state.formMargin, {
-        duration: event.duration,
+        duration: Platform.OS === 'ios' ? event.duration : 200,
         toValue: 0,
       }),
     ]).start();
@@ -130,15 +130,15 @@ export default class Login extends Component {
   keyboardWillHide = (event) => {
     Animated.parallel([
       Animated.timing(this.state.keyboardHeight, {
-        duration: event.duration,
+        duration: Platform.OS === 'ios' ? event.duration : 200,
         toValue: 0,
       }),
       Animated.timing(this.state.pageTextSize, {
-        duration: event.duration,
+        duration: Platform.OS === 'ios' ? event.duration : 200,
         toValue: 50,
       }),
       Animated.timing(this.state.formMargin, {
-        duration: event.duration,
+        duration: Platform.OS === 'ios' ? event.duration : 200,
         toValue: 24,
       }),
     ]).start();
