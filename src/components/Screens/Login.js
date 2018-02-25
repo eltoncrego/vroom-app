@@ -123,12 +123,11 @@ export default class Login extends Component {
         }),
         Animated.timing(this.state.formMargin, {
           duration: event.duration,
-          toValue: 0,
+          toValue: 8,
         }),
       ]).start();
     } else {
-      var end = (event.endCoordinates.height-200)/2;
-      alert(end);
+      var end = (event.endCoordinates.height-128)/2;
       Animated.parallel([
         Animated.timing(this.state.keyboardHeight, {
           duration: 200,
@@ -140,7 +139,7 @@ export default class Login extends Component {
         }),
         Animated.timing(this.state.formMargin, {
           duration: 200,
-          toValue: 0,
+          toValue: 8,
         }),
       ]).start();
     }
@@ -334,6 +333,7 @@ export default class Login extends Component {
     */
     var pw_confirm_field = this.state.sign_up ?
         <InputField
+          ref="password2"
           icon={Icons.check}
           label={"re-enter password"}
           labelColor={"rgba(37,50,55,0.5)"}
@@ -403,10 +403,14 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               keyboardType={"email-address"}
               autoCorrect={false}
-              returnKeyType={'done'}
+              returnKeyType={'next'}
               onChangeText={(text) => {this.setState({email: text})}}
+              onSubmitEditing={ () => {
+                this.refs.password1.focus();
+              }}
             />
             <InputField
+              ref="password1"
               icon={Icons.lock}
               label={"password"}
               labelColor={"rgba(37,50,55,0.5)"}
@@ -416,11 +420,13 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               secureTextEntry={true}
               autoCorrect={false}
-              returnKeyType={'go'}
+              returnKeyType={this.state.sign_up? 'next' : 'go'}
               onChangeText={(text) => {this.setState({password: text})}}
               onSubmitEditing={ () => {
                 if(!this.state.sign_up){
                   this.signin();
+                } else {
+                  this.refs.password2.focus();
                 }
               }}
             />

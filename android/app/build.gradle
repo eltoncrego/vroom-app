@@ -120,7 +120,6 @@ android {
             keyAlias System.getenv("VROOMFASTLANE_RELEASE_KEY_ALIAS")
             keyPassword System.getenv("VROOMFASTLANE_RELEASE_KEY_PASSWORD")
         }
-
     }
     splits {
         abi {
