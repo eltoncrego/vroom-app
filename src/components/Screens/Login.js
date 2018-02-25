@@ -7,7 +7,6 @@ styleguide = require('../../global-styles');
 import {
   SafeAreaView,
   View,
-  KeyboardAvoidingView,
   StatusBar,
   StyleSheet,
   Text,
@@ -15,6 +14,7 @@ import {
   Animated,
   Modal,
   Platform,
+  Keyboard,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import Animation from 'lottie-react-native';
@@ -60,6 +60,7 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // State Variable
       sign_up: true,
       page_text: "Sign up",
       button_text: "sign up!",
@@ -67,9 +68,14 @@ export default class Login extends Component {
       password: null,
       password_verification: null,
 
+      // Modal toggle
       modalVisible: false,
 
+      // Animation Values
       fade_animation: new Animated.Value(0),
+      keyboardHeight: new Animated.Value(0),
+      pageTextSize: new Animated.Value(50),
+      formMargin: new Animated.Value(24),
     };
   }
 
@@ -88,6 +94,55 @@ export default class Login extends Component {
       }
     ).start();
   }
+
+  /*
+   * Author: Elton C. Rego
+   * Purpose: sets event listeners for the keyboard
+   */
+   componentWillMount () {
+     this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
+     this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+   }
+
+   componentWillUnmount() {
+     this.keyboardWillShowSub.remove();
+     this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = (event) => {
+    var end = (event.endCoordinates.height-128)/2;
+    Animated.parallel([
+      Animated.timing(this.state.keyboardHeight, {
+        duration: event.duration,
+        toValue: end,
+      }),
+      Animated.timing(this.state.pageTextSize, {
+        duration: event.duration,
+        toValue: 35,
+      }),
+      Animated.timing(this.state.formMargin, {
+        duration: event.duration,
+        toValue: 0,
+      }),
+    ]).start();
+  };
+
+  keyboardWillHide = (event) => {
+    Animated.parallel([
+      Animated.timing(this.state.keyboardHeight, {
+        duration: event.duration,
+        toValue: 0,
+      }),
+      Animated.timing(this.state.pageTextSize, {
+        duration: event.duration,
+        toValue: 50,
+      }),
+      Animated.timing(this.state.formMargin, {
+        duration: event.duration,
+        toValue: 24,
+      }),
+    ]).start();
+  };
 
  /*
   * Author: Elton C. Rego
@@ -256,7 +311,7 @@ export default class Login extends Component {
           onChangeText={
             (text) => {this.setState({password_verification: text})}
           }
-          onSubmitEditing={ () => {() => this.signup()}}
+          onSubmitEditing={() => this.signup()}
         />: null ;
 
    /*
@@ -275,8 +330,6 @@ export default class Login extends Component {
     */
     var signup_button_text = this.state.sign_up ?
       "sign up!" : "sign in!" ;
-
-    var keyboardBehavior = Platform.OS === 'ios' ? "padding" : null;
 
     return (
       <SafeAreaView style={[
@@ -299,22 +352,18 @@ export default class Login extends Component {
 
       <VAlert ref="valert"/>
 
-        <Animated.View style={{opacity: this.state.fade_animation,}}>
-          <KeyboardAvoidingView
-            style={styles.sign_in_form}
-            behavior={keyboardBehavior}
-          >
-            <Text style={styleguide.light_display2}>
-              {this.state.page_text}
-              <Text style={styleguide.light_display2_accent}>.</Text>
-            </Text>
+        <Animated.View style={[styles.sign_in_form, {opacity: this.state.fade_animation, paddingBottom: this.state.keyboardHeight}]}>
+          <Animated.Text style={[styleguide.light_display2, {fontSize: this.state.pageTextSize}]}>
+            {this.state.page_text}
+            <Animated.Text style={[styleguide.light_display2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
+          </Animated.Text>
             <InputField
               icon={Icons.inbox}
               label={"email"}
               labelColor={"rgba(37,50,55,0.5)"}
               inactiveColor={GLOBAL.COLOR.DARKGRAY}
               activeColor={GLOBAL.COLOR.GREEN}
-              topMargin={32}
+              topMargin={this.state.formMargin}
               autoCapitalize={"none"}
               keyboardType={"email-address"}
               autoCorrect={false}
@@ -340,43 +389,41 @@ export default class Login extends Component {
               }}
             />
             {pw_confirm_field}
-          <TouchableOpacity onPress={() => {
-              goTo(this.props.navigation, 'ForgotPassword');
-            }}>
-              <Text
-                style={[
-                  styleguide.light_body_secondary,
-                  styles.forgot_password_text
-                ]}
-              >forgot password?</Text>
-          </TouchableOpacity>
-             <Button
-              ref="submitButton"
-              backgroundColor={GLOBAL.COLOR.GREEN}
-              label={this.state.button_text}
-              height={64}
-              marginTop={40}
-              shadow={true}
-              onPress={()=>{
-                if(this.state.sign_up){
-                  this.signup();
-                } else {
-                  this.signin();
-                }
-              }}
-            />
-            <TouchableOpacity onPress={() => this.toggleSignUp()}>
-              <Text style={[
-                styleguide.light_body,
-                {
-                  alignSelf: 'center',
-                  marginTop: 32,
-                }
-              ]}>
-                {signup_link_text}
-              </Text>
+            <TouchableOpacity onPress={() => {
+                goTo(this.props.navigation, 'ForgotPassword');
+              }}>
+                <Text
+                  style={[
+                    styleguide.light_body_secondary,
+                    styles.forgot_password_text
+                  ]}
+                >forgot password?</Text>
             </TouchableOpacity>
-          </KeyboardAvoidingView>
+         <Button
+          ref="submitButton"
+          backgroundColor={GLOBAL.COLOR.GREEN}
+          label={this.state.button_text}
+          height={64}
+          marginTop={40}
+          shadow={true}
+          onPress={()=>{
+            if(this.state.sign_up){
+              this.signup();
+            } else {
+              this.signin();
+            }
+          }}/>
+          <TouchableOpacity onPress={() => this.toggleSignUp()}>
+            <Text style={[
+              styleguide.light_body,
+              {
+                alignSelf: 'center',
+                marginTop: 32,
+              }
+            ]}>
+              {signup_link_text}
+            </Text>
+          </TouchableOpacity>
         </Animated.View>
       </SafeAreaView>
     );
