@@ -63,7 +63,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
-  light_display2_sceondary: {
+  light_display2_secondary: {
     fontSize: 50,
     fontFamily: 'Nunito-Black',
     color: 'rgba(37,50,55,0.5)',
@@ -118,7 +118,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
-  dark_display2_sceondary: {
+  dark_display2_secondary: {
     fontSize: 50,
 
     fontFamily: 'Nunito-Black',
@@ -176,7 +176,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
-  light_headline2_sceondary: {
+  light_headline2_secondary: {
     fontSize: 35,
 
     fontFamily: 'Nunito-Black',
@@ -232,7 +232,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
-  dark_headline2_sceondary: {
+  dark_headline2_secondary: {
     fontSize: 35,
 
     fontFamily: 'Nunito-Black',
@@ -290,7 +290,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
-  light_title2_sceondary: {
+  light_title2_secondary: {
     fontSize: 25,
 
     fontFamily: 'Nunito-Black',
@@ -460,7 +460,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
-  dark_subheader2_sceondary: {
+  dark_subheader2_secondary: {
     fontSize: 20,
 
     fontFamily: 'Nunito-Black',
@@ -518,7 +518,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
-  light_body2_sceondary: {
+  light_body2_secondary: {
     fontSize: 15,
 
     fontFamily: 'Nunito-Black',
@@ -574,7 +574,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
-  dark_body2_sceondary: {
+  dark_body2_secondary: {
     fontSize: 15,
 
     fontFamily: 'Nunito-Black',
@@ -632,7 +632,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
-  light_caption2_sceondary: {
+  light_caption2_secondary: {
     fontSize: 10,
 
     fontFamily: 'Nunito-Black',
@@ -688,7 +688,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
-  dark_caption2_sceondary: {
+  dark_caption2_secondary: {
     fontSize: 10,
 
     fontFamily: 'Nunito-Black',
@@ -746,7 +746,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
-  light_small2_sceondary: {
+  light_small2_secondary: {
     fontSize: 8,
 
     fontFamily: 'Nunito-Black',
@@ -802,7 +802,7 @@ module.exports = StyleSheet.create({
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
-  dark_small2_sceondary: {
+  dark_small2_secondary: {
     fontSize: 8,
 
     fontFamily: 'Nunito-Black',

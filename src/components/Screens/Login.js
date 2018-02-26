@@ -436,7 +436,7 @@ export default class Login extends Component {
               }}>
                 <Text
                   style={[
-                    styleguide.light_body_secondary,
+                    styleguide.light_body2,
                     styles.forgot_password_text
                   ]}
                 >forgot password?</Text>
