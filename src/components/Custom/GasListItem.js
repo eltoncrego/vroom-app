@@ -30,6 +30,11 @@ export default class Gas extends PureComponent {
     this.gestureDelay = 35;
     this.scrollViewEnabled = true;
 
+    this.state = {
+      expanded    : false,
+      animation   : new Animated.Value(),
+    }
+
     const position = new Animated.ValueXY();
     const panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => false,
@@ -140,6 +145,36 @@ export default class Gas extends PureComponent {
     return monthNames[monthIndex] + ' ' + day + ', ' + year;
   }
 
+  _setMaxHeight(event){
+      this.setState({
+          maxHeight   : event.nativeEvent.layout.height
+      });
+  }
+
+  _setMinHeight(event){
+      this.setState({
+          minHeight   : event.nativeEvent.layout.height
+      });
+  }
+
+  toggle(){
+      //Step 1
+      let initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
+          finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
+
+      this.setState({
+          expanded : !this.state.expanded  //Step 2
+      });
+
+      this.state.animation.setValue(initialValue);  //Step 3
+      Animated.spring(     //Step 4
+          this.state.animation,
+          {
+              toValue: finalValue
+          }
+      ).start();  //Step 5
+  }
+
   render() {
 
     var shift = this.state._animated.interpolate({
@@ -171,36 +206,64 @@ export default class Gas extends PureComponent {
         {...this.panResponder.panHandlers}
       >
         <View style={styles.innerCell}>
-          <View style={styles.change}>
-            <Animated.Text
-              style={[styles.ico,{color: this.state.color,}]}>
-              <FontAwesome>{this.state.icon}</FontAwesome>
-            </Animated.Text>
-          </View>
-          <View style={[styles.gasItem, {flex: 1}]}>
-            <Text style={styleguide.light_body2}>
-              ${this.props.totalPrice.toFixed(2)}
-            </Text>
-            <Text style={styleguide.light_caption_secondary}>
-              {this.formatDate(this.props.date)}
-            </Text>
-          </View>
-          <View style={styles.gasItem}>
-            <Text style={styleguide.light_body2}>
-              {this.props.gallonsFilled}gal
-            </Text>
-            <Text style={styleguide.light_caption_secondary}>
-              Amount Filled
-            </Text>
-          </View>
-          <View style={styles.gasItem}>
-            <Text style={styleguide.light_body2}>
-              {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
-            </Text>
-            <Text style={styleguide.light_caption_secondary}>
-              Efficiency
-            </Text>
-          </View>
+          <Animated.View style={styles.topCell} onLayout={this._setMinHeight.bind(this)}>
+            <View style={styles.change}>
+              <Animated.Text
+                style={[styles.ico,{color: this.state.color,}]}>
+                <FontAwesome>{this.state.icon}</FontAwesome>
+              </Animated.Text>
+            </View>
+            <View style={[styles.gasItem, {flex: 1}]}>
+              <Text style={styleguide.light_body2}>
+                ${this.props.totalPrice.toFixed(2)}
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                {this.formatDate(this.props.date)}
+              </Text>
+            </View>
+            <View style={styles.gasItem}>
+              <Text style={styleguide.light_body2}>
+                {this.props.gallonsFilled}gal
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                Amount Filled
+              </Text>
+            </View>
+            <View style={styles.gasItem}>
+              <Text style={styleguide.light_body2}>
+                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                Efficiency
+              </Text>
+            </View>
+          </Animated.View>
+          <Animated.View style={styles.expandedCell} onLayout={this._setMaxHeight.bind(this)}>
+            <View style={styles.gasItem}>
+              <Text style={styleguide.light_body2}>
+                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                Efficiency
+              </Text>
+            </View>
+            <View style={styles.gasItem}>
+              <Text style={styleguide.light_body2}>
+                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                Efficiency
+              </Text>
+            </View>
+            <View style={styles.gasItem}>
+              <Text style={styleguide.light_body2}>
+                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                Efficiency
+              </Text>
+            </View>
+          </Animated.View>
         </View>
         <View style={styles.absoluteCell}>
           <Animated.Text style={[styleguide.dark_body, {
@@ -219,11 +282,23 @@ const styles = StyleSheet.create({
     width: width,
     marginRight: 100,
     backgroundColor: GLOBAL.COLOR.WHITE,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    padding: 16,
+  },
+
+  topCell: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+
+  expandedCell: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderColor: 'rgba(37,50,55,0.50)'
   },
 
   listItem: {
