@@ -20,6 +20,7 @@ import {
   TextInput,
   Linking,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -33,7 +34,7 @@ import { goTo, clearNavStack } from '../Navigation/Navigation';
  *
  * Purpose: Be the main area where users can customize their experience
  */
-export default class Settings extends Component {
+export default class Toolbox extends Component {
 
   /*
    * Method: constructor(props)
@@ -70,20 +71,13 @@ export default class Settings extends Component {
   render() {
 
     return (
-      <View style={[styleguide.container,{
-        backgroundColor: GLOBAL.COLOR.GRAY,
+      <SafeAreaView style={[styleguide.container,{
+        backgroundColor: GLOBAL.COLOR.DARKGRAY,
       }]}>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
-            settings<Text style={styleguide.dark_title2_accent}>.</Text>
+            toolbox<Text style={styleguide.dark_title2_accent}>.</Text>
           </Text>
-          <TouchableOpacity onPress={() => this.props.closeCallBack()}>
-            <View>
-              <Text style={styleguide.dark_title}>
-                <FontAwesome>{Icons.times}</FontAwesome>
-              </Text>
-            </View>
-          </TouchableOpacity>
         </View>
         <View style={styles.content}>
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
@@ -189,7 +183,7 @@ export default class Settings extends Component {
         <View style={styles.footer}>
           <Text style={styleguide.dark_caption_secondary}>Made with <FontAwesome>{Icons.heart}</FontAwesome> by Revi Technologies LLC in Santa Cruz</Text>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -199,7 +193,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingHorizontal: 24,
-    paddingTop: 32,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

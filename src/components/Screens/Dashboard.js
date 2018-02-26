@@ -20,7 +20,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Keyboard
+  Keyboard,
+  SafeAreaView
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
@@ -38,7 +39,6 @@ import {
 
 // Custom components
 import GasList from '../Custom/GasList';
-import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import VAlert from './../Custom/VAlert';
@@ -65,7 +65,6 @@ export default class Dashboard extends Component {
       // Animation Values
       translation: new Animated.Value(0),
       transactionShift: new Animated.Value(0),
-      settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
       keyboardHeight: new Animated.Value(32),
@@ -366,38 +365,6 @@ export default class Dashboard extends Component {
   }
 
   /*
-   * Function: openSettings()
-   * Author: Elton C. Rego
-   * Purpose: Opens the settings Panel
-   *
-   */
-  openSettings(){
-    Animated.timing(
-      this.state.settingsShift,
-      {
-        toValue: 0,
-        duration: 150,
-      }
-    ).start();
-  }
-
-  /*
-   * Function: closeSettings()
-   * Author: Elton C. Rego
-   * Purpose: Closes the settings Panel
-   *
-   */
-  closeSettings(){
-    Animated.timing(
-      this.state.settingsShift,
-      {
-        toValue: 1,
-        duration: 150,
-      }
-    ).start();
-  }
-
-  /*
    * Function: componentDidMount()
    * Author: Elton C. Rego
    * Purpose: Pulls all the data from firebase and loads it into the view
@@ -485,11 +452,6 @@ export default class Dashboard extends Component {
       outputRange: [-250, 0]
     });
 
-    var settingsTranslation = this.state.settingsShift.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, width],
-    });
-
     var modalBG = this.state.modalFade.interpolate({
       inputRange: [0, 1],
       outputRange: [1, 0.1],
@@ -502,16 +464,14 @@ export default class Dashboard extends Component {
 
     // Calculate the x and y transform from the pan value
     var [translateY] = [cardTranslation];
-    var [translateX] = [settingsTranslation];
 
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
-    var settingsList = {transform: [{translateX}]};
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
     console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
     return(
-      <View style={
+      <SafeAreaView style={
         [styleguide.container,
         {
           backgroundColor: GLOBAL.COLOR.DARKGRAY,
@@ -520,10 +480,6 @@ export default class Dashboard extends Component {
       <StatusBar barStyle="light-content"/>
 
         <VAlert ref="valert"/>
-
-        <Animated.View style={[styles.settings, settingsList]}>
-          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.valert}/>
-        </Animated.View>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
             vroom
@@ -531,13 +487,6 @@ export default class Dashboard extends Component {
               .
             </Text>
           </Text>
-          <TouchableOpacity onPress={() => this.openSettings()} disabled={!this.state.settingAvailable}>
-            <Animated.View style={{opacity: modalBG}}>
-                <Text style={styleguide.dark_title}>
-                  <FontAwesome>{Icons.gear}</FontAwesome>
-                </Text>
-            </Animated.View>
-          </TouchableOpacity>
         </View>
 
         <Animated.View style={[styles.transaction, transformTransaction]}>
@@ -655,8 +604,8 @@ export default class Dashboard extends Component {
 
               position: 'absolute',
               zIndex: 1,
-              bottom: 32,
-              right: 32,
+              bottom: 16,
+              right: 16,
             }
           } onPress={() => this.openTransaction()}>
           <View style={styles.floating_button}>
@@ -665,21 +614,13 @@ export default class Dashboard extends Component {
               </Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   }
 
 }
 
 const styles = StyleSheet.create({
-  settings: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 3,
-  },
   transaction: {
     position: 'absolute',
     bottom: 0,
@@ -691,7 +632,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingHorizontal: 24,
-    paddingTop: 32,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

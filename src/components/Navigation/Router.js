@@ -8,13 +8,16 @@ import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
 
 // Components
-import {StackNavigator} from "react-navigation";
+import {Animated, Platform} from "react-native";
+import {StackNavigator, TabNavigator} from "react-navigation";
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Necessary Files
 import Login from '../Screens/Login';
 import Dashboard from '../Screens/Dashboard';
 import Onboarding from '../Screens/Onboarding';
 import ForgotPassword from '../Screens/ForgotPassword';
+import Toolbox from '../Screens/Toolbox';
 
 /*
  * Constant: SignedOut
@@ -51,14 +54,38 @@ export const SignedOut = StackNavigator ({
  *   should not have a drawer menu here.
  * @return: SignedIn(Dashboard)
  */
-export const SignedIn = StackNavigator({
+export const SignedIn = TabNavigator({
   Dashboard: {
     screen: Dashboard,
     navigationOptions: {
-      title: 'Dashboard',
-      header: null,
+      tabBarIcon: ({ tintColor }) => (
+      <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.car}</FontAwesome></Animated.Text>
+    ),
     },
   },
+  Toolbox: {
+    screen: Toolbox,
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => (
+      <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.gear}</FontAwesome></Animated.Text>
+    ),
+    },
+  }
+},
+{
+  tabBarOptions: {
+    showLabel: Platform.OS === 'ios'? false : true,
+    activeTintColor: GLOBAL.COLOR.WHITE,
+    inactiveTintColor: GLOBAL.COLOR.GRAY,
+    style: {
+      backgroundColor: '#000',
+    },
+    indicatorStyle: {
+        backgroundColor: GLOBAL.COLOR.WHITE,
+    },
+  },
+  tabBarPosition: 'bottom',
+  animationEnabled: true,
 });
 
 /*
