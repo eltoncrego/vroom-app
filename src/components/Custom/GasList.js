@@ -80,6 +80,7 @@ export default class GasList extends Component {
         average={this.props.average}
         allowDeleteOn={this.props.data.length}
         setScrollEnabled={enable => this.setScrollEnabled(enable)}
+        onPress={console.log("Pressing a GasListItem! Here's the data:\ndate = " + date + "\ntotalPrice = " + totalPrice + "\ngallonsFilled = " + gallonsFilled + "\ndistanceSinceLast + " + distanceSinceLast);}
       />
     );
   }

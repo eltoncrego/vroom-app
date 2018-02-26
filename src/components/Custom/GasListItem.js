@@ -170,44 +170,48 @@ export default class Gas extends PureComponent {
         ]}
         {...this.panResponder.panHandlers}
       >
-        <View style={styles.innerCell}>
-          <View style={styles.change}>
-            <Animated.Text
-              style={[styles.ico,{color: this.state.color,}]}>
-              <FontAwesome>{this.state.icon}</FontAwesome>
-            </Animated.Text>
+        <TouchableOpacity
+        onPress={this.props.onPress}
+        >
+          <View style={styles.innerCell}>
+            <View style={styles.change}>
+              <Animated.Text
+                style={[styles.ico,{color: this.state.color,}]}>
+                <FontAwesome>{this.state.icon}</FontAwesome>
+              </Animated.Text>
+            </View>
+            <View style={[styles.gasItem, {flex: 1}]}>
+              <Text style={styleguide.light_body2}>
+                ${this.props.totalPrice.toFixed(2)}
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                {this.formatDate(this.props.date)}
+              </Text>
+            </View>
+            <View style={styles.gasItem}>
+              <Text style={styleguide.light_body2}>
+                {this.props.gallonsFilled}gal
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                Amount Filled
+              </Text>
+            </View>
+            <View style={styles.gasItem}>
+              <Text style={styleguide.light_body2}>
+                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
+              </Text>
+              <Text style={styleguide.light_caption_secondary}>
+                Efficiency
+              </Text>
+            </View>
           </View>
-          <View style={[styles.gasItem, {flex: 1}]}>
-            <Text style={styleguide.light_body2}>
-              ${this.props.totalPrice.toFixed(2)}
-            </Text>
-            <Text style={styleguide.light_caption_secondary}>
-              {this.formatDate(this.props.date)}
-            </Text>
+          <View style={styles.absoluteCell}>
+            <Animated.Text style={[styleguide.dark_body, {
+              opacity: this.state.bgAnimated, paddingLeft: 16,
+            }]}>DELETE</Animated.Text>
           </View>
-          <View style={styles.gasItem}>
-            <Text style={styleguide.light_body2}>
-              {this.props.gallonsFilled}gal
-            </Text>
-            <Text style={styleguide.light_caption_secondary}>
-              Amount Filled
-            </Text>
-          </View>
-          <View style={styles.gasItem}>
-            <Text style={styleguide.light_body2}>
-              {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
-            </Text>
-            <Text style={styleguide.light_caption_secondary}>
-              Efficiency
-            </Text>
-          </View>
-        </View>
-        <View style={styles.absoluteCell}>
-          <Animated.Text style={[styleguide.dark_body, {
-            opacity: this.state.bgAnimated, paddingLeft: 16,
-          }]}>DELETE</Animated.Text>
-        </View>
-      </Animated.View>
+        </Animated.View>
+      </TouchableOpacity>
     </Animated.View>
     );
   }
