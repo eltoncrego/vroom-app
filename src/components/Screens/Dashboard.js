@@ -543,7 +543,7 @@ export default class Dashboard extends Component {
                 label={"add item"}
                 height={64}
                 width={"100%"}
-                shadow={true}
+                shadow={false}
                 marginTop={this.state.keyboardHeight}
                 onPress={() => this.addItem()}
               />
@@ -593,8 +593,8 @@ export default class Dashboard extends Component {
 
         <TouchableOpacity style={
             {
-              width: 64,
-              height: 64,
+              width: 56,
+              height: 56,
               borderRadius: 32,
               backgroundColor: GLOBAL.COLOR.GREEN,
               shadowColor: GLOBAL.COLOR.DARKGRAY,
@@ -609,7 +609,7 @@ export default class Dashboard extends Component {
             }
           } onPress={() => this.openTransaction()}>
           <View style={styles.floating_button}>
-              <Text style={styleguide.dark_title}>
+              <Text style={styleguide.dark_subheader}>
                 <FontAwesome>{Icons.plus}</FontAwesome>
               </Text>
           </View>

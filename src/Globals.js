@@ -20,5 +20,7 @@ module.exports = {
     GREEN: '#B8E986',
     YELLOW: '#F8E778',
     BRAND: '#9FD356',
+    DARKBLUE: '#4F6E7C',
+    BLUE: '#C2DFE3',
   },
 };

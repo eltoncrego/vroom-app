@@ -72,7 +72,7 @@ export default class Toolbox extends Component {
 
     return (
       <SafeAreaView style={[styleguide.container,{
-        backgroundColor: GLOBAL.COLOR.DARKGRAY,
+        backgroundColor: GLOBAL.COLOR.DARKBLUE,
       }]}>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>

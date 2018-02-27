@@ -9,7 +9,7 @@ GLOBAL = require('../../Globals');
 
 // Components
 import {Animated, Platform} from "react-native";
-import {StackNavigator, TabNavigator} from "react-navigation";
+import TabView, {StackNavigator, TabNavigator} from "react-navigation";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Necessary Files
@@ -59,32 +59,43 @@ export const SignedIn = TabNavigator({
     screen: Dashboard,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-      <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.tachometer}</FontAwesome></Animated.Text>
-    ),
+        <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.tachometer}</FontAwesome></Animated.Text>
+      ),
     },
   },
   Toolbox: {
     screen: Toolbox,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-      <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.gears}</FontAwesome></Animated.Text>
-    ),
+        <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.gear}</FontAwesome></Animated.Text>
+      ),
     },
   }
 },
 {
+  tabBarComponent: props => {
+    const backgroundColor = props.position.interpolate({
+      inputRange: [0,1],
+      outputRange: [GLOBAL.COLOR.DARKGRAY,GLOBAL.COLOR.DARKBLUE],
+    })
+    return (
+      <TabView.TabBarBottom
+        {...props}
+        style={{ backgroundColor }}
+      />
+    );
+  },
   tabBarOptions: {
     showLabel: Platform.OS === 'ios'? false : true,
     activeTintColor: GLOBAL.COLOR.WHITE,
-    inactiveTintColor: GLOBAL.COLOR.GRAY,
+    inactiveTintColor: 'rgba(255,255,255,0.5)',
     style: {
-      backgroundColor: '#000',
+      backgroundColor: GLOBAL.COLOR.DARKGRAY,
     },
     indicatorStyle: {
         backgroundColor: GLOBAL.COLOR.WHITE,
     },
   },
-  tabBarPosition: 'bottom',
   animationEnabled: true,
 });
 
