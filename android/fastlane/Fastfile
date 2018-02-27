@@ -16,7 +16,7 @@ platform :android do
   # lane :test do
   #   gradle(task: "test")
   # end
-  
+
   desc "Build a debug version of the app locally"
   lane :build do
     yarn(
