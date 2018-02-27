@@ -482,7 +482,7 @@ export default class Dashboard extends Component {
         <VAlert ref="valert"/>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
-            vroom
+            dashboard
             <Text style={styleguide.dark_title2_accent}>
               .
             </Text>

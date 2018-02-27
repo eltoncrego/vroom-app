@@ -356,8 +356,8 @@ export default class Login extends Component {
     *   and toggles the sign up link text as such
     */
     var signup_link_text = this.state.sign_up ?
-      "Have an account with us? Sign in!"
-      : "Don't have an account? Sign up!" ;
+      "have an account with us? sign in!"
+      : "don't have an account? sign up!" ;
 
    /*
     * Author: Elton C. Rego
@@ -436,7 +436,7 @@ export default class Login extends Component {
               }}>
                 <Text
                   style={[
-                    styleguide.light_body2,
+                    styleguide.light_body,
                     styles.forgot_password_text
                   ]}
                 >forgot password?</Text>

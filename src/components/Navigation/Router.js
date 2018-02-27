@@ -59,7 +59,7 @@ export const SignedIn = TabNavigator({
     screen: Dashboard,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-      <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.car}</FontAwesome></Animated.Text>
+      <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.tachometer}</FontAwesome></Animated.Text>
     ),
     },
   },
@@ -67,7 +67,7 @@ export const SignedIn = TabNavigator({
     screen: Toolbox,
     navigationOptions: {
       tabBarIcon: ({ tintColor }) => (
-      <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.gear}</FontAwesome></Animated.Text>
+      <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.gears}</FontAwesome></Animated.Text>
     ),
     },
   }
@@ -107,11 +107,11 @@ export const SignedUp = StackNavigator({
     },
   },
   Dashboard: {
-    screen: Dashboard,
+    screen: SignedIn,
     navigationOptions: {
       title: 'Dashboard',
       header: null,
       gesturesEnabled: false,
     },
-  },
+  }
 });
