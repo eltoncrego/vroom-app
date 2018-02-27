@@ -46,7 +46,7 @@ module.exports = StyleSheet.create({
   */
   light_display: {
     fontSize: 50,
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
@@ -59,7 +59,7 @@ module.exports = StyleSheet.create({
   },
   light_display_secondary: {
     fontSize: 50,
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
@@ -72,7 +72,7 @@ module.exports = StyleSheet.create({
   light_display_disabled: {
     fontSize: 50,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.2)',
     backgroundColor: 'transparent',
   },
@@ -86,7 +86,7 @@ module.exports = StyleSheet.create({
   light_display_accent: {
     fontSize: 50,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -100,7 +100,7 @@ module.exports = StyleSheet.create({
   dark_display: {
     fontSize: 50,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
@@ -114,7 +114,7 @@ module.exports = StyleSheet.create({
   dark_display_secondary: {
     fontSize: 50,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
@@ -128,7 +128,7 @@ module.exports = StyleSheet.create({
   dark_display_disabled: {
     fontSize: 50,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.2)',
     backgroundColor: 'transparent',
   },
@@ -142,7 +142,7 @@ module.exports = StyleSheet.create({
   dark_display_accent: {
     fontSize: 50,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -158,7 +158,7 @@ module.exports = StyleSheet.create({
   light_headline: {
     fontSize: 35,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
@@ -172,7 +172,7 @@ module.exports = StyleSheet.create({
   light_headline_secondary: {
     fontSize: 35,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
@@ -186,7 +186,7 @@ module.exports = StyleSheet.create({
   light_headline_disabled: {
     fontSize: 35,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.2)',
     backgroundColor: 'transparent',
   },
@@ -200,7 +200,7 @@ module.exports = StyleSheet.create({
   light_headline_accent: {
     fontSize: 35,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -214,7 +214,7 @@ module.exports = StyleSheet.create({
   dark_headline: {
     fontSize: 35,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
@@ -228,7 +228,7 @@ module.exports = StyleSheet.create({
   dark_headline_secondary: {
     fontSize: 35,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
@@ -242,7 +242,7 @@ module.exports = StyleSheet.create({
   dark_headline_disabled: {
     fontSize: 35,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.2)',
     backgroundColor: 'transparent',
   },
@@ -256,7 +256,7 @@ module.exports = StyleSheet.create({
   dark_headline_accent: {
     fontSize: 35,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -272,7 +272,7 @@ module.exports = StyleSheet.create({
   light_title: {
     fontSize: 25,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
@@ -286,7 +286,7 @@ module.exports = StyleSheet.create({
   light_title_secondary: {
     fontSize: 25,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
@@ -300,7 +300,7 @@ module.exports = StyleSheet.create({
   light_title_disabled: {
     fontSize: 25,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.2)',
     backgroundColor: 'transparent',
   },
@@ -314,7 +314,7 @@ module.exports = StyleSheet.create({
   light_title_accent: {
     fontSize: 25,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -328,7 +328,7 @@ module.exports = StyleSheet.create({
   dark_title: {
     fontSize: 25,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
@@ -342,7 +342,7 @@ module.exports = StyleSheet.create({
   dark_title_secondary: {
     fontSize: 25,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
@@ -356,7 +356,7 @@ module.exports = StyleSheet.create({
   dark_title_disabled: {
     fontSize: 25,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.2)',
     backgroundColor: 'transparent',
   },
@@ -370,7 +370,7 @@ module.exports = StyleSheet.create({
   dark_title_accent: {
     fontSize: 25,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -386,7 +386,7 @@ module.exports = StyleSheet.create({
   light_subheader: {
     fontSize: 20,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
@@ -400,7 +400,7 @@ module.exports = StyleSheet.create({
   light_subheader_secondary: {
     fontSize: 20,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
@@ -414,7 +414,7 @@ module.exports = StyleSheet.create({
   light_subheader_disabled: {
     fontSize: 20,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.2)',
     backgroundColor: 'transparent',
   },
@@ -428,7 +428,7 @@ module.exports = StyleSheet.create({
   light_subheader_accent: {
     fontSize: 20,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -442,7 +442,7 @@ module.exports = StyleSheet.create({
   dark_subheader: {
     fontSize: 20,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
@@ -456,7 +456,7 @@ module.exports = StyleSheet.create({
   dark_subheader_secondary: {
     fontSize: 20,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
@@ -470,7 +470,7 @@ module.exports = StyleSheet.create({
   dark_subheader_disabled: {
     fontSize: 20,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.2)',
     backgroundColor: 'transparent',
   },
@@ -484,7 +484,7 @@ module.exports = StyleSheet.create({
   dark_subheader_accent: {
     fontSize: 20,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -500,7 +500,7 @@ module.exports = StyleSheet.create({
   light_body: {
     fontSize: 15,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
@@ -514,7 +514,7 @@ module.exports = StyleSheet.create({
   light_body_secondary: {
     fontSize: 15,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
@@ -528,7 +528,7 @@ module.exports = StyleSheet.create({
   light_body_disabled: {
     fontSize: 15,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.2)',
     backgroundColor: 'transparent',
   },
@@ -542,7 +542,7 @@ module.exports = StyleSheet.create({
   light_body_accent: {
     fontSize: 15,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -556,7 +556,7 @@ module.exports = StyleSheet.create({
   dark_body: {
     fontSize: 15,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
@@ -570,7 +570,7 @@ module.exports = StyleSheet.create({
   dark_body_secondary: {
     fontSize: 15,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
@@ -584,7 +584,7 @@ module.exports = StyleSheet.create({
   dark_body_disabled: {
     fontSize: 15,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.2)',
     backgroundColor: 'transparent',
   },
@@ -598,7 +598,7 @@ module.exports = StyleSheet.create({
   dark_body_accent: {
     fontSize: 15,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -614,7 +614,7 @@ module.exports = StyleSheet.create({
   light_caption: {
     fontSize: 10,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
@@ -628,7 +628,7 @@ module.exports = StyleSheet.create({
   light_caption_secondary: {
     fontSize: 10,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
@@ -642,7 +642,7 @@ module.exports = StyleSheet.create({
   light_caption_disabled: {
     fontSize: 10,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.2)',
     backgroundColor: 'transparent',
   },
@@ -656,7 +656,7 @@ module.exports = StyleSheet.create({
   light_caption_accent: {
     fontSize: 10,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -670,7 +670,7 @@ module.exports = StyleSheet.create({
   dark_caption: {
     fontSize: 10,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
@@ -684,7 +684,7 @@ module.exports = StyleSheet.create({
   dark_caption_secondary: {
     fontSize: 10,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
@@ -698,7 +698,7 @@ module.exports = StyleSheet.create({
   dark_caption_disabled: {
     fontSize: 10,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.2)',
     backgroundColor: 'transparent',
   },
@@ -712,7 +712,7 @@ module.exports = StyleSheet.create({
   dark_caption_accent: {
     fontSize: 10,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -728,7 +728,7 @@ module.exports = StyleSheet.create({
   light_small: {
     fontSize: 8,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.DARKGRAY,
     backgroundColor: 'transparent',
   },
@@ -742,7 +742,7 @@ module.exports = StyleSheet.create({
   light_small_secondary: {
     fontSize: 8,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.5)',
     backgroundColor: 'transparent',
   },
@@ -756,7 +756,7 @@ module.exports = StyleSheet.create({
   light_small_disabled: {
     fontSize: 8,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(37,50,55,0.2)',
     backgroundColor: 'transparent',
   },
@@ -770,7 +770,7 @@ module.exports = StyleSheet.create({
   light_small_accent: {
     fontSize: 8,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
@@ -784,7 +784,7 @@ module.exports = StyleSheet.create({
   dark_small: {
     fontSize: 8,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
   },
@@ -798,7 +798,7 @@ module.exports = StyleSheet.create({
   dark_small_secondary: {
     fontSize: 8,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.5)',
     backgroundColor: 'transparent',
   },
@@ -812,7 +812,7 @@ module.exports = StyleSheet.create({
   dark_small_disabled: {
     fontSize: 8,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: 'rgba(255,255,255,0.2)',
     backgroundColor: 'transparent',
   },
@@ -826,7 +826,7 @@ module.exports = StyleSheet.create({
   dark_small_accent: {
     fontSize: 8,
 
-    fontFamily: 'Raleway-Regular',
+    fontFamily: 'Nunito-Light',
     color: GLOBAL.COLOR.BRAND,
     backgroundColor: 'transparent',
   },
