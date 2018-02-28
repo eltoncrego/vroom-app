@@ -109,10 +109,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file(System.getenv("VROOMFASTLANE_DEBUG_STORE_FILE"))
-            storePassword System.getenv("VROOMFASTLANE_DEBUG_STORE_PASSWORD")
-            keyAlias System.getenv("VROOMFASTLANE_DEBUG_KEY_ALIAS")
-            keyPassword System.getenv("VROOMFASTLANE_DEBUG_KEY_PASSWORD")
+            storeFile file("vroom-debug.keystore")
+            storePassword "debugandroid"
+            keyAlias "vroom-debug-key"
+            keyPassword "debugandroid"
         }
         release {
             storeFile file(System.getenv("VROOMFASTLANE_RELEASE_STORE_FILE"))
