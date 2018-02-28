@@ -18,10 +18,10 @@ import {
   TouchableOpacity,
   Animated,
   ScrollView,
-  KeyboardAvoidingView,
+  Image,
   Platform,
   Keyboard,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
@@ -70,6 +70,7 @@ export default class Dashboard extends Component {
       keyboardHeight: new Animated.Value(32),
       pageTextSize: new Animated.Value(25),
       topMargin: new Animated.Value(24),
+      placeholderVisible: new Animated.Value(0),
 
       // item toggles for expected behavior
       scrollEnable: true,
@@ -305,14 +306,22 @@ export default class Dashboard extends Component {
       distanceSinceLast: distance
     };
 
-    this.setState({
-      averageMPG: average,
-      updatedODO: this.state.user_ODO,
-      textDataArr: [newFillup, ...this.state.textDataArr],
-      user_paid: 0,
-      user_filled: 0,
-      user_ODO: 0,
-      list_i: this.state.list_i + 1,
+    Animated.timing(
+      this.state.placeholderVisible,
+      {
+        toValue: 0,
+        duration: 250,
+      }
+    ).start(() => {
+      this.setState({
+        averageMPG: average,
+        updatedODO: this.state.user_ODO,
+        textDataArr: [newFillup, ...this.state.textDataArr],
+        user_paid: "",
+        user_filled: "",
+        user_ODO: "",
+        list_i: this.state.list_i + 1,
+      });
     });
 
     // TODO: Push to Firebase
@@ -353,6 +362,15 @@ export default class Dashboard extends Component {
     updateODO(ODO);
 
     this.state.textDataArr.pop(itemToRemove);
+    if(this.state.textDataArr.length == 0){
+      Animated.timing(
+        this.state.placeholderVisible,
+        {
+          toValue: 1,
+          duration: 250,
+        }
+      ).start();
+    }
     for (var i = indexOf; i < this.state.textDataArr.length; i++){
       this.state.textDataArr[i].list_i -= 1;
     }
@@ -429,7 +447,17 @@ export default class Dashboard extends Component {
           toValue: 1,
           duration: 250,
         }
-      ).start();
+      ).start(() => {
+        if(that.state.textDataArr.length == 0){
+          Animated.timing(
+            that.state.placeholderVisible,
+            {
+              toValue: 1,
+              duration: 250,
+            }
+          ).start();
+        }
+      });
     }).catch(function(error) {
       console.log('Failed to load user permiission data into state:', error);
     });
@@ -470,6 +498,7 @@ export default class Dashboard extends Component {
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
     console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
+
     return(
       <SafeAreaView style={
         [styleguide.container,
@@ -489,6 +518,16 @@ export default class Dashboard extends Component {
           </Text>
         </View>
 
+        <Animated.View style={[styles.no_items, {opacity: this.state.placeholderVisible}]}>
+          <Image
+            style={styles.placeholder}
+            resizeMethod="scale"
+            source={require('../../../assets/images/placeholder.png')}
+          />
+        <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
+        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
+        </Animated.View>
+
         <Animated.View style={[styles.transaction, transformTransaction]}>
           <View style={styles.modalContainer}>
             <View style={[styles.innerContainer]}>
@@ -496,6 +535,7 @@ export default class Dashboard extends Component {
                 <Animated.Text style={[styleguide.light_title2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
               </Animated.Text>
               <InputField
+                ref="paid"
                 icon={Icons.dollar}
                 label={"total amount paid for fillup"}
                 labelColor={"rgba(37,50,55,0.5)"}
@@ -507,7 +547,7 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_paid: text})}}
                 onSubmitEditing={() => {this.refs.gas.focus();}}
-
+                value={this.state.user_paid}
               />
               <InputField
                 ref="gas"
@@ -522,6 +562,7 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
                 onSubmitEditing={() => {this.refs.odo.focus();}}
+                value={this.state.user_filled}
               />
               <InputField
                 ref="odo"
@@ -536,6 +577,7 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_ODO: text})}}
                 onSubmitEditing={() => {this.addItem()}}
+                value={this.state.user_ODO}
               />
               <Button
                 ref="submitButton"
@@ -548,7 +590,7 @@ export default class Dashboard extends Component {
                 onPress={() => this.addItem()}
               />
               <Button
-                backgroundColor={GLOBAL.COLOR.GRAY}
+                backgroundColor={GLOBAL.COLOR.DARKBLUE}
                 label={"cancel"}
                 height={64}
                 marginTop={16}
@@ -651,6 +693,22 @@ const styles = StyleSheet.create({
     zIndex: 0,
     width: '100%',
     height: 250,
+  },
+  no_items:{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    padding: 32,
+    width: "100%",
+    height: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 0,
+    opacity: 1,
+  },
+  placeholder: {
+    width: 100,
+    height: 100,
   },
   card: {
     width: '100%',

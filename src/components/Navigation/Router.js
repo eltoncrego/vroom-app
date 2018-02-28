@@ -76,7 +76,7 @@ export const SignedIn = TabNavigator({
   tabBarComponent: props => {
     const backgroundColor = props.position.interpolate({
       inputRange: [0,1],
-      outputRange: [GLOBAL.COLOR.DARKGRAY,GLOBAL.COLOR.DARKBLUE],
+      outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.DARKBLUE],
     })
     return (
       <TabView.TabBarBottom
@@ -96,7 +96,6 @@ export const SignedIn = TabNavigator({
         backgroundColor: GLOBAL.COLOR.WHITE,
     },
   },
-  animationEnabled: true,
 });
 
 /*
