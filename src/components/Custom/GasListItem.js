@@ -15,7 +15,8 @@ import {
   StyleSheet,
   Animated,
   Dimensions,
-  PanResponder
+  PanResponder,
+  TouchableOpacity
 } from 'react-native';
 
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -139,7 +140,9 @@ export default class Gas extends PureComponent {
 
     return monthNames[monthIndex] + ' ' + day + ', ' + year;
   }
-
+  _onPress(){
+    console.log("pressed a GasListItem");
+  }
   render() {
 
     var shift = this.state._animated.interpolate({
@@ -159,20 +162,18 @@ export default class Gas extends PureComponent {
           backgroundColor: colorShift,
         }
       ]}>
-      <Animated.View
-        style={[
-          this.state.position.getLayout(),
-          {
-            transform: [
-              { translateX: shift },
-            ],
-          },
-        ]}
-        {...this.panResponder.panHandlers}
-      >
-        <TouchableOpacity
-        onPress={this.props.onPress}
+        <Animated.View
+          style={[
+            this.state.position.getLayout(),
+            {
+              transform: [
+                { translateX: shift },
+              ],
+            },
+          ]}
+          {...this.panResponder.panHandlers}
         >
+        <TouchableOpacity onPress={this._onPress}>
           <View style={styles.innerCell}>
             <View style={styles.change}>
               <Animated.Text
@@ -210,8 +211,8 @@ export default class Gas extends PureComponent {
               opacity: this.state.bgAnimated, paddingLeft: 16,
             }]}>DELETE</Animated.Text>
           </View>
-        </Animated.View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </Animated.View>
     </Animated.View>
     );
   }
