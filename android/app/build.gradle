@@ -108,14 +108,17 @@ android {
         }
     }
     signingConfigs {
+        debug {
+            storeFile file("vroom-debug.keystore")
+            storePassword "debugandroid"
+            keyAlias "vroom-debug-key"
+            keyPassword "debugandroid"
+        }
         release {
             storeFile file(System.getenv("VROOMFASTLANE_RELEASE_STORE_FILE"))
             storePassword System.getenv("VROOMFASTLANE_RELEASE_STORE_PASSWORD")
             keyAlias System.getenv("VROOMFASTLANE_RELEASE_KEY_ALIAS")
             keyPassword System.getenv("VROOMFASTLANE_RELEASE_KEY_PASSWORD")
-        }
-        debug{
-
         }
     }
     splits {
@@ -127,15 +130,16 @@ android {
         }
     }
     buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
-        debug {
-            debuggable true
-            signingConfig signingConfigs.debug
-        }
+
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->

@@ -18,9 +18,10 @@ import {
   TouchableOpacity,
   Animated,
   ScrollView,
-  KeyboardAvoidingView,
+  Image,
   Platform,
-  Keyboard
+  Keyboard,
+  SafeAreaView,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
@@ -38,7 +39,6 @@ import {
 
 // Custom components
 import GasList from '../Custom/GasList';
-import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import VAlert from './../Custom/VAlert';
@@ -65,12 +65,12 @@ export default class Dashboard extends Component {
       // Animation Values
       translation: new Animated.Value(0),
       transactionShift: new Animated.Value(0),
-      settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
       keyboardHeight: new Animated.Value(32),
       pageTextSize: new Animated.Value(25),
       topMargin: new Animated.Value(24),
+      placeholderVisible: new Animated.Value(0),
 
       // item toggles for expected behavior
       scrollEnable: true,
@@ -172,7 +172,7 @@ export default class Dashboard extends Component {
 
   keyboardWillShow = (event) => {
     if(Platform.OS === 'ios'){
-      var end = (event.endCoordinates.height-128)/2+32;
+      var end = (event.endCoordinates.height-64)/2+32;
       Animated.parallel([
         Animated.timing(this.state.keyboardHeight, {
           duration: event.duration,
@@ -188,7 +188,7 @@ export default class Dashboard extends Component {
         }),
       ]).start();
     } else {
-      var end = (event.endCoordinates.height-128)/2+32;
+      var end = (event.endCoordinates.height-64)/2+32;
       Animated.parallel([
         Animated.timing(this.state.keyboardHeight, {
           duration: 200,
@@ -306,14 +306,22 @@ export default class Dashboard extends Component {
       distanceSinceLast: distance
     };
 
-    this.setState({
-      averageMPG: average,
-      updatedODO: this.state.user_ODO,
-      textDataArr: [newFillup, ...this.state.textDataArr],
-      user_paid: 0,
-      user_filled: 0,
-      user_ODO: 0,
-      list_i: this.state.list_i + 1,
+    Animated.timing(
+      this.state.placeholderVisible,
+      {
+        toValue: 0,
+        duration: 250,
+      }
+    ).start(() => {
+      this.setState({
+        averageMPG: average,
+        updatedODO: this.state.user_ODO,
+        textDataArr: [newFillup, ...this.state.textDataArr],
+        user_paid: "",
+        user_filled: "",
+        user_ODO: "",
+        list_i: this.state.list_i + 1,
+      });
     });
 
     // TODO: Push to Firebase
@@ -354,6 +362,15 @@ export default class Dashboard extends Component {
     updateODO(ODO);
 
     this.state.textDataArr.pop(itemToRemove);
+    if(this.state.textDataArr.length == 0){
+      Animated.timing(
+        this.state.placeholderVisible,
+        {
+          toValue: 1,
+          duration: 250,
+        }
+      ).start();
+    }
     for (var i = indexOf; i < this.state.textDataArr.length; i++){
       this.state.textDataArr[i].list_i -= 1;
     }
@@ -363,38 +380,6 @@ export default class Dashboard extends Component {
       updatedODO: ODO,
     });
 
-  }
-
-  /*
-   * Function: openSettings()
-   * Author: Elton C. Rego
-   * Purpose: Opens the settings Panel
-   *
-   */
-  openSettings(){
-    Animated.timing(
-      this.state.settingsShift,
-      {
-        toValue: 0,
-        duration: 150,
-      }
-    ).start();
-  }
-
-  /*
-   * Function: closeSettings()
-   * Author: Elton C. Rego
-   * Purpose: Closes the settings Panel
-   *
-   */
-  closeSettings(){
-    Animated.timing(
-      this.state.settingsShift,
-      {
-        toValue: 1,
-        duration: 150,
-      }
-    ).start();
   }
 
   /*
@@ -462,7 +447,17 @@ export default class Dashboard extends Component {
           toValue: 1,
           duration: 250,
         }
-      ).start();
+      ).start(() => {
+        if(that.state.textDataArr.length == 0){
+          Animated.timing(
+            that.state.placeholderVisible,
+            {
+              toValue: 1,
+              duration: 250,
+            }
+          ).start();
+        }
+      });
     }).catch(function(error) {
       console.log('Failed to load user permiission data into state:', error);
     });
@@ -485,11 +480,6 @@ export default class Dashboard extends Component {
       outputRange: [-250, 0]
     });
 
-    var settingsTranslation = this.state.settingsShift.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, width],
-    });
-
     var modalBG = this.state.modalFade.interpolate({
       inputRange: [0, 1],
       outputRange: [1, 0.1],
@@ -502,16 +492,15 @@ export default class Dashboard extends Component {
 
     // Calculate the x and y transform from the pan value
     var [translateY] = [cardTranslation];
-    var [translateX] = [settingsTranslation];
 
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
-    var settingsList = {transform: [{translateX}]};
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
     console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
+
     return(
-      <View style={
+      <SafeAreaView style={
         [styleguide.container,
         {
           backgroundColor: GLOBAL.COLOR.DARKGRAY,
@@ -520,25 +509,24 @@ export default class Dashboard extends Component {
       <StatusBar barStyle="light-content"/>
 
         <VAlert ref="valert"/>
-
-        <Animated.View style={[styles.settings, settingsList]}>
-          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.valert}/>
-        </Animated.View>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
-            vroom
+            dashboard
             <Text style={styleguide.dark_title2_accent}>
               .
             </Text>
           </Text>
-          <TouchableOpacity onPress={() => this.openSettings()} disabled={!this.state.settingAvailable}>
-            <Animated.View style={{opacity: modalBG}}>
-                <Text style={styleguide.dark_title}>
-                  <FontAwesome>{Icons.gear}</FontAwesome>
-                </Text>
-            </Animated.View>
-          </TouchableOpacity>
         </View>
+
+        <Animated.View style={[styles.no_items, {opacity: this.state.placeholderVisible}]}>
+          <Image
+            style={styles.placeholder}
+            resizeMethod="scale"
+            source={require('../../../assets/images/placeholder.png')}
+          />
+        <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
+        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
+        </Animated.View>
 
         <Animated.View style={[styles.transaction, transformTransaction]}>
           <View style={styles.modalContainer}>
@@ -547,6 +535,7 @@ export default class Dashboard extends Component {
                 <Animated.Text style={[styleguide.light_title2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
               </Animated.Text>
               <InputField
+                ref="paid"
                 icon={Icons.dollar}
                 label={"total amount paid for fillup"}
                 labelColor={"rgba(37,50,55,0.5)"}
@@ -557,8 +546,11 @@ export default class Dashboard extends Component {
                 topMargin={this.state.topMargin}
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_paid: text})}}
+                onSubmitEditing={() => {this.refs.gas.focus();}}
+                value={this.state.user_paid}
               />
               <InputField
+                ref="gas"
                 icon={Icons.tint}
                 label={"gallons filled"}
                 labelColor={"rgba(37,50,55,0.5)"}
@@ -569,8 +561,11 @@ export default class Dashboard extends Component {
                 topMargin={24}
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
+                onSubmitEditing={() => {this.refs.odo.focus();}}
+                value={this.state.user_filled}
               />
               <InputField
+                ref="odo"
                 icon={Icons.automobile}
                 label={"odometer reading in miles"}
                 labelColor={"rgba(37,50,55,0.5)"}
@@ -581,6 +576,8 @@ export default class Dashboard extends Component {
                 topMargin={24}
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_ODO: text})}}
+                onSubmitEditing={() => {this.addItem()}}
+                value={this.state.user_ODO}
               />
               <Button
                 ref="submitButton"
@@ -588,12 +585,12 @@ export default class Dashboard extends Component {
                 label={"add item"}
                 height={64}
                 width={"100%"}
-                shadow={true}
+                shadow={false}
                 marginTop={this.state.keyboardHeight}
                 onPress={() => this.addItem()}
               />
               <Button
-                backgroundColor={GLOBAL.COLOR.GRAY}
+                backgroundColor={GLOBAL.COLOR.DARKBLUE}
                 label={"cancel"}
                 height={64}
                 marginTop={16}
@@ -638,8 +635,8 @@ export default class Dashboard extends Component {
 
         <TouchableOpacity style={
             {
-              width: 64,
-              height: 64,
+              width: 56,
+              height: 56,
               borderRadius: 32,
               backgroundColor: GLOBAL.COLOR.GREEN,
               shadowColor: GLOBAL.COLOR.DARKGRAY,
@@ -649,31 +646,23 @@ export default class Dashboard extends Component {
 
               position: 'absolute',
               zIndex: 1,
-              bottom: 32,
-              right: 32,
+              bottom: 16,
+              right: 16,
             }
           } onPress={() => this.openTransaction()}>
           <View style={styles.floating_button}>
-              <Text style={styleguide.dark_title}>
+              <Text style={styleguide.dark_subheader}>
                 <FontAwesome>{Icons.plus}</FontAwesome>
               </Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   }
 
 }
 
 const styles = StyleSheet.create({
-  settings: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 3,
-  },
   transaction: {
     position: 'absolute',
     bottom: 0,
@@ -685,7 +674,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingHorizontal: 24,
-    paddingTop: 32,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -705,6 +693,22 @@ const styles = StyleSheet.create({
     zIndex: 0,
     width: '100%',
     height: 250,
+  },
+  no_items:{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    padding: 32,
+    width: "100%",
+    height: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 0,
+    opacity: 1,
+  },
+  placeholder: {
+    width: 100,
+    height: 100,
   },
   card: {
     width: '100%',

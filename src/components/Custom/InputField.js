@@ -114,6 +114,7 @@ export class InputField extends Component {
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
           autoCorrect={this.props.autoCorrect}
+          value={this.props.value}
         />
       </Animated.View>
     );
