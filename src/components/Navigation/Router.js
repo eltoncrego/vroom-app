@@ -96,6 +96,7 @@ export const SignedIn = TabNavigator({
         backgroundColor: GLOBAL.COLOR.WHITE,
     },
   },
+  animationEnabled: true,
 });
 
 /*

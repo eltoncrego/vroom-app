@@ -181,7 +181,8 @@ export default class Toolbox extends Component {
           </ScrollView>
         </View>
         <View style={styles.footer}>
-          <Text style={styleguide.dark_caption_secondary}>Made with <FontAwesome>{Icons.heart}</FontAwesome> by Revi Technologies LLC in Santa Cruz</Text>
+          <Text style={styleguide.dark_caption_secondary}>Made with <FontAwesome>{Icons.heart}</FontAwesome> by Revi</Text>
+          <Text style={styleguide.dark_caption_secondary}>in Santa Cruz, California</Text>
         </View>
       </SafeAreaView>
     );
