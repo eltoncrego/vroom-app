@@ -15,7 +15,8 @@ import {
   StyleSheet,
   Animated,
   Dimensions,
-  PanResponder
+  PanResponder,
+  TouchableOpacity
 } from 'react-native';
 
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -144,6 +145,11 @@ export default class Gas extends PureComponent {
 
     return monthNames[monthIndex] + ' ' + day + ', ' + year;
   }
+  
+  _onPress(){
+    console.log("pressed a GasListItem");
+  }
+
 
   _setMaxHeight(event){
       this.setState({
@@ -194,6 +200,7 @@ export default class Gas extends PureComponent {
           backgroundColor: colorShift,
         }
       ]}>
+
       <Animated.View
         style={[
           this.state.position.getLayout(),
@@ -205,6 +212,9 @@ export default class Gas extends PureComponent {
         ]}
         {...this.panResponder.panHandlers}
       >
+        
+       <TouchableOpacity onPress={this._onPress}>
+         
         <View style={styles.innerCell}>
           <Animated.View style={styles.topCell} onLayout={this._setMinHeight.bind(this)}>
             <View style={styles.change}>
@@ -265,6 +275,7 @@ export default class Gas extends PureComponent {
             </View>
           </Animated.View>
         </View>
+       </TouchableOpacity>
         <View style={styles.absoluteCell}>
           <Animated.Text style={[styleguide.dark_body, {
             opacity: this.state.bgAnimated, paddingLeft: 16,
