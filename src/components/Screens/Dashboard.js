@@ -42,6 +42,7 @@ import GasList from '../Custom/GasList';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import VAlert from './../Custom/VAlert';
+import Settings from '../Screens/Settings';
 
 /*
  * Class: Dashboard
@@ -65,6 +66,7 @@ export default class Dashboard extends Component {
       // Animation Values
       translation: new Animated.Value(0),
       transactionShift: new Animated.Value(0),
+      settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
       keyboardHeight: new Animated.Value(32),
@@ -154,6 +156,38 @@ export default class Dashboard extends Component {
       }
     ).start();
     this.setState({modalVisible:false});
+  }
+
+  /*
+   * Function: openSettings()
+   * Author: Elton C. Rego
+   * Purpose: Opens the settings Panel
+   *
+   */
+  openSettings(){
+    Animated.timing(
+      this.state.settingsShift,
+      {
+        toValue: 0,
+        duration: 150,
+      }
+    ).start();
+  }
+
+  /*
+   * Function: closeSettings()
+   * Author: Elton C. Rego
+   * Purpose: Closes the settings Panel
+   *
+   */
+  closeSettings(){
+    Animated.timing(
+      this.state.settingsShift,
+      {
+        toValue: 1,
+        duration: 150,
+      }
+    ).start();
   }
 
   /*
@@ -490,17 +524,24 @@ export default class Dashboard extends Component {
       outputRange: [812, 0],
     });
 
+    var settingsTranslation = this.state.settingsShift.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, width],
+    });
+
     // Calculate the x and y transform from the pan value
     var [translateY] = [cardTranslation];
+    var [translateX] = [settingsTranslation];
 
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
+    var settingsList = {transform: [{translateX}]};
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
     console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     return(
-      <SafeAreaView style={
+      <View style={
         [styleguide.container,
         {
           backgroundColor: GLOBAL.COLOR.DARKGRAY,
@@ -509,6 +550,10 @@ export default class Dashboard extends Component {
       <StatusBar barStyle="light-content"/>
 
         <VAlert ref="valert"/>
+        <Animated.View style={[styles.settings, settingsList]}>
+          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.valert}/>
+        </Animated.View>
+
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
             dashboard
@@ -516,6 +561,13 @@ export default class Dashboard extends Component {
               .
             </Text>
           </Text>
+          <TouchableOpacity onPress={() => {this.openSettings();}} disabled={!this.state.settingAvailable}>
+            <Animated.View style={{opacity: modalBG}}>
+                <Text style={styleguide.dark_title}>
+                  <FontAwesome>{Icons.gear}</FontAwesome>
+                </Text>
+            </Animated.View>
+          </TouchableOpacity>
         </View>
 
         <Animated.View style={[styles.no_items, {opacity: this.state.placeholderVisible}]}>
@@ -525,7 +577,7 @@ export default class Dashboard extends Component {
             source={require('../../../assets/images/placeholder.png')}
           />
         <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
-        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
+        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet.<Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
         </Animated.View>
 
         <Animated.View style={[styles.transaction, transformTransaction]}>
@@ -656,7 +708,7 @@ export default class Dashboard extends Component {
               </Text>
           </View>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -670,7 +722,16 @@ const styles = StyleSheet.create({
     width: '100%',
     zIndex: 2,
   },
+  settings: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 3,
+  },
   navbar: {
+    paddingTop: 32,
     flex: 1,
     width: '100%',
     paddingHorizontal: 24,
@@ -703,7 +764,7 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 0,
+    zIndex: -1,
     opacity: 1,
   },
   placeholder: {

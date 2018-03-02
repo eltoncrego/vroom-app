@@ -9,7 +9,7 @@ GLOBAL = require('../../Globals');
 
 // Components
 import {Animated, Platform} from "react-native";
-import TabView, {StackNavigator, TabNavigator} from "react-navigation";
+import {StackNavigator} from "react-navigation";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Necessary Files
@@ -17,7 +17,6 @@ import Login from '../Screens/Login';
 import Dashboard from '../Screens/Dashboard';
 import Onboarding from '../Screens/Onboarding';
 import ForgotPassword from '../Screens/ForgotPassword';
-import Toolbox from '../Screens/Toolbox';
 
 /*
  * Constant: SignedOut
@@ -54,49 +53,14 @@ export const SignedOut = StackNavigator ({
  *   should not have a drawer menu here.
  * @return: SignedIn(Dashboard)
  */
-export const SignedIn = TabNavigator({
+export const SignedIn = StackNavigator({
   Dashboard: {
     screen: Dashboard,
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => (
-        <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.tachometer}</FontAwesome></Animated.Text>
-      ),
-    },
+      header: null,
+      title: "Dashboard",
+    }
   },
-  Toolbox: {
-    screen: Toolbox,
-    navigationOptions: {
-      tabBarIcon: ({ tintColor }) => (
-        <Animated.Text style={[styleguide.light_title ,{color: tintColor }]}><FontAwesome>{Icons.gear}</FontAwesome></Animated.Text>
-      ),
-    },
-  }
-},
-{
-  tabBarComponent: props => {
-    const backgroundColor = props.position.interpolate({
-      inputRange: [0,1],
-      outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.DARKBLUE],
-    })
-    return (
-      <TabView.TabBarBottom
-        {...props}
-        style={{ backgroundColor }}
-      />
-    );
-  },
-  tabBarOptions: {
-    showLabel: Platform.OS === 'ios'? false : true,
-    activeTintColor: GLOBAL.COLOR.WHITE,
-    inactiveTintColor: 'rgba(255,255,255,0.5)',
-    style: {
-      backgroundColor: GLOBAL.COLOR.DARKGRAY,
-    },
-    indicatorStyle: {
-        backgroundColor: GLOBAL.COLOR.WHITE,
-    },
-  },
-  animationEnabled: true,
 });
 
 /*
