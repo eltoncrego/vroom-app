@@ -22,6 +22,7 @@ import {
   Keyboard,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 // Our Components
 import Auth from '../Authentication/Auth';
@@ -62,6 +63,11 @@ export default class Onboarding extends Component {
        pageDescriptionSize: new Animated.Value(20),
        topMargin: new Animated.Value(24),
      };
+   }
+
+   componentDidMount() {
+     console.log("onboarding mounted");
+     FCM.requestPermissions().then(()=>console.log('granted')).catch(()=>console.log('notification permission rejected'));
    }
 
    /*

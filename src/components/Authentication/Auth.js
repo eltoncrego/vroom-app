@@ -13,11 +13,20 @@ import {
   SignedIn,
   SignedUp
 } from "../Navigation/Router";
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 // Necessary Files
 import Loading from '../Screens/Loading.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
+
+// this shall be called regardless of app state: running, background or not running. Won't be called when app is killed by user in iOS
+FCM.on(FCMEvent.Notification, async (notif) => {
+    console.log(notif);
+});
+FCM.on(FCMEvent.RefreshToken, (token) => {
+    console.log(token);
+});
 
 /*
  * Class: Auth
