@@ -36,6 +36,7 @@ import {
   pullUserPermissions,
   pullOGODOReading,
 } from '../Database/Database.js';
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -416,6 +417,38 @@ export default class Dashboard extends Component {
 
   }
 
+  // Call this to test an immediate notification.
+  showLocalNotification() {
+    FCM.presentLocalNotification({
+      id: 'testnotif',
+      vibrate: 500,
+      sound: "default",
+      title: 'Hello',
+      body: 'This is a test',
+      sub_text: 'sub text',
+      priority: "high",
+      show_in_foreground: true,
+      group: 'test',
+    });
+  }
+
+  // Call this to test a scheduled notification
+  scheduleLocalNotification() {
+    FCM.scheduleLocalNotification({
+      id: 'testnotif-scheduled',
+      fire_date: new Date().getTime()+5000,
+      vibrate: 500,
+      sound: "default",
+      title: 'Whats up?',
+      body: 'Test Scheduled Notification',
+      sub_text: 'sub text',
+      priority: "high",
+      show_in_foreground: true,
+      wake_screen: true,
+      group: 'test',
+    });
+  }
+
   /*
    * Function: componentDidMount()
    * Author: Elton C. Rego
@@ -423,6 +456,11 @@ export default class Dashboard extends Component {
    *
    */
   componentDidMount() {
+
+    FCM.removeAllDeliveredNotifications();
+    FCM.setBadgeNumber(0);
+    // this.showLocalNotification(); DEBUG
+    // this.scheduleLocalNotification(); DEBUG
 
     var that = this;
     pullAverageMPG().then(function(fData){
