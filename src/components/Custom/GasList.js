@@ -76,6 +76,7 @@ export default class GasList extends Component {
         totalPrice={item.totalPrice}
         gallonsFilled={item.gallonsFilled}
         distanceSinceLast={item.distanceSinceLast}
+        odometer={item.odometer}
         success={this.success}
         average={this.props.average}
         allowDeleteOn={this.props.data.length}

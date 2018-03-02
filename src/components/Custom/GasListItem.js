@@ -31,11 +31,6 @@ export default class Gas extends PureComponent {
     this.gestureDelay = 35;
     this.scrollViewEnabled = true;
 
-    this.state = {
-      expanded    : false,
-      animation   : new Animated.Value(),
-    }
-
     const position = new Animated.ValueXY();
     const panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => false,
@@ -91,6 +86,9 @@ export default class Gas extends PureComponent {
       position,
       _animated: new Animated.Value(0),
       bgAnimated: new Animated.Value(0),
+      expanded: true,
+      animation: new Animated.Value(),
+      expandedTitle: "Average Fillup"
     };
   }
 
@@ -102,21 +100,30 @@ export default class Gas extends PureComponent {
   }
 
   componentWillMount() {
-    var mpg = (this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2);
+    var mpg = parseFloat((this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2));
+    this.setState({
+      diff: mpg - this.props.average,
+    });
+
     if (mpg == this.props.average){
+      console.log("EQUAL " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.minus,
         color: GLOBAL.COLOR.YELLOW,
       });
     } else if (mpg < this.props.average){
+      console.log("LESS THAN " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.chevronDown,
         color: GLOBAL.COLOR.RED,
+        expandedTitle: "Below Average Fillup",
       });
     } else {
+      console.log("MORE THAN " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.chevronUp,
         color: GLOBAL.COLOR.GREEN,
+        expandedTitle: "Above Average Fillup",
       });
     }
   }
@@ -145,7 +152,7 @@ export default class Gas extends PureComponent {
 
     return monthNames[monthIndex] + ' ' + day + ', ' + year;
   }
-  
+
   _onPress(){
     console.log("pressed a GasListItem");
   }
@@ -212,9 +219,9 @@ export default class Gas extends PureComponent {
         ]}
         {...this.panResponder.panHandlers}
       >
-        
+
        <TouchableOpacity onPress={this._onPress}>
-         
+
         <View style={styles.innerCell}>
           <Animated.View style={styles.topCell} onLayout={this._setMinHeight.bind(this)}>
             <View style={styles.change}>
@@ -249,29 +256,34 @@ export default class Gas extends PureComponent {
             </View>
           </Animated.View>
           <Animated.View style={styles.expandedCell} onLayout={this._setMaxHeight.bind(this)}>
-            <View style={styles.gasItem}>
-              <Text style={styleguide.light_body2}>
-                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
-              </Text>
-              <Text style={styleguide.light_caption_secondary}>
-                Efficiency
-              </Text>
-            </View>
-            <View style={styles.gasItem}>
-              <Text style={styleguide.light_body2}>
-                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
-              </Text>
-              <Text style={styleguide.light_caption_secondary}>
-                Efficiency
-              </Text>
-            </View>
-            <View style={styles.gasItem}>
-              <Text style={styleguide.light_body2}>
-                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
-              </Text>
-              <Text style={styleguide.light_caption_secondary}>
-                Efficiency
-              </Text>
+            <Text style={[styleguide.light_subheader2]}>
+              {this.state.expandedTitle}<Text style={{color: this.state.color}}>.</Text>
+            </Text>
+            <View style={styles.expandedItems}>
+              <View style={styles.gasItem}>
+                <Text style={styleguide.light_body2}>
+                  {this.state.diff.toFixed(2)}mpg
+                </Text>
+                <Text style={styleguide.light_caption_secondary}>
+                  Difference From Average
+                </Text>
+              </View>
+              <View style={styles.gasItem}>
+                <Text style={styleguide.light_body2}>
+                  {this.props.distanceSinceLast}mi
+                </Text>
+                <Text style={styleguide.light_caption_secondary}>
+                  Distance Since Last
+                </Text>
+              </View>
+              <View style={styles.gasItem}>
+                <Text style={styleguide.light_body2}>
+                  {this.props.odometer}mi
+                </Text>
+                <Text style={styleguide.light_caption_secondary}>
+                  Snapshot odometer
+                </Text>
+              </View>
             </View>
           </Animated.View>
         </View>
@@ -303,13 +315,24 @@ const styles = StyleSheet.create({
   },
 
   expandedCell: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginTop: 8,
     paddingTop: 8,
     borderTopWidth: 1,
-    borderColor: 'rgba(37,50,55,0.50)'
+    borderColor: GLOBAL.COLOR.LIGHTGRAY,
+  },
+
+  gasItem: {
+    flexDirection: 'column',
+  },
+
+  expandedItems: {
+    width: '100%',
+    paddingTop: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 
   listItem: {
@@ -326,12 +349,6 @@ const styles = StyleSheet.create({
   ico: {
     fontSize: 16,
   },
-
-  gasItem: {
-    flexDirection: 'column',
-    marginHorizontal: 8,
-  },
-
   absoluteCell: {
     position: 'absolute',
     top: 0,
