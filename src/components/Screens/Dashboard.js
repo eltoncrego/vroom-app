@@ -703,7 +703,7 @@ export default class Dashboard extends Component {
             }
           } onPress={() => this.openTransaction()}>
           <View style={styles.floating_button}>
-              <Text style={styleguide.dark_subheader}>
+              <Text style={styleguide.dark_title}>
                 <FontAwesome>{Icons.plus}</FontAwesome>
               </Text>
           </View>
