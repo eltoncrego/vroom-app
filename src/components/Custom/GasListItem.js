@@ -91,6 +91,8 @@ export default class Gas extends PureComponent {
       // Expansion items
       expanded: false,
       expansion: new Animated.Value(0),
+      _spin: new Animated.Value(0),
+      pressable: true,
       expansionDisplay: 'none',
     };
   }
@@ -168,33 +170,51 @@ export default class Gas extends PureComponent {
   }
 
   toggle(){
+    this.setState({
+      pressable: false,
+    })
     const that = this;
     if(this.state.expanded){
-      Animated.timing(
-        this.state.expansion,
+      Animated.parallel([
+        Animated.timing(
+        that.state.expansion,
         {
           toValue: 0,
           duration: 300,
-        }
-      ).start(function() {
+        }),
+        Animated.spring(
+        that.state._spin,
+        {
+          toValue: 0,
+          duration: 300,
+        })
+      ]).start();
+      setTimeout(function() {
         that.setState({
           expanded: false,
           expansionDisplay: 'none',
+          pressable: true,
         });
-      });
+      }, 300);
     } else {
       that.setState({
         expansionDisplay: 'flex',
       })
-      Animated.timing(
-        this.state.expansion,
-        {
+      Animated.parallel([
+        Animated.timing(
+        that.state.expansion, {
           toValue: 1,
           duration: 300,
-        }
-      ).start(function() {
+        }),
+        Animated.spring(
+        that.state._spin, {
+          toValue: 1,
+          duration: 300,
+        }),
+      ]).start(function() {
         that.setState({
           expanded: true,
+          pressable: true,
         });
       });
     }
@@ -217,6 +237,11 @@ export default class Gas extends PureComponent {
       outputRange: [0, 400],
     });
 
+    var _spinRotation = this.state._spin.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    });
+
     return (
       <Animated.View style={[,
         styles.listItem,
@@ -236,14 +261,14 @@ export default class Gas extends PureComponent {
         {...this.panResponder.panHandlers}
       >
         <View style={styles.innerCell}>
-          <TouchableOpacity onPress={() => this.toggle()}>
+          <TouchableOpacity onPress={() => this.toggle()} disabled={!this.state.pressable}>
           <Animated.View style={styles.topCell} onLayout={this._setMinHeight.bind(this)}>
-            <View style={styles.change}>
+            <Animated.View style={[styles.change, {transform: [{rotateZ: _spinRotation}]}]}>
               <Animated.Text
                 style={[styles.ico,{color: this.state.color,}]}>
                 <FontAwesome>{this.state.icon}</FontAwesome>
               </Animated.Text>
-            </View>
+            </Animated.View>
             <View style={[styles.gasItem, {flex: 1}]}>
               <Text style={styleguide.light_body2}>
                 ${this.props.totalPrice.toFixed(2)}
@@ -320,7 +345,8 @@ const styles = StyleSheet.create({
     width: width,
     marginRight: 100,
     backgroundColor: GLOBAL.COLOR.WHITE,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 
   topCell: {
