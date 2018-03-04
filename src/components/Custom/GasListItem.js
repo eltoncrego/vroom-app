@@ -16,7 +16,7 @@ import {
   Animated,
   Dimensions,
   PanResponder,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -30,11 +30,6 @@ export default class Gas extends PureComponent {
 
     this.gestureDelay = 35;
     this.scrollViewEnabled = true;
-
-    this.state = {
-      expanded    : false,
-      animation   : new Animated.Value(),
-    }
 
     const position = new Animated.ValueXY();
     const panResponder = PanResponder.create({
@@ -91,6 +86,14 @@ export default class Gas extends PureComponent {
       position,
       _animated: new Animated.Value(0),
       bgAnimated: new Animated.Value(0),
+      expandedTitle: "Average Fillup",
+
+      // Expansion items
+      expanded: false,
+      expansion: new Animated.Value(0),
+      _spin: new Animated.Value(0),
+      pressable: true,
+      expansionDisplay: 'none',
     };
   }
 
@@ -102,21 +105,30 @@ export default class Gas extends PureComponent {
   }
 
   componentWillMount() {
-    var mpg = (this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2);
+    var mpg = parseFloat((this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2));
+    this.setState({
+      diff: mpg - this.props.average,
+    });
+
     if (mpg == this.props.average){
+      console.log("EQUAL " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.minus,
         color: GLOBAL.COLOR.YELLOW,
       });
     } else if (mpg < this.props.average){
+      console.log("LESS THAN " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.chevronDown,
         color: GLOBAL.COLOR.RED,
+        expandedTitle: "Below Average Fillup",
       });
     } else {
+      console.log("MORE THAN " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.chevronUp,
         color: GLOBAL.COLOR.GREEN,
+        expandedTitle: "Above Average Fillup",
       });
     }
   }
@@ -126,7 +138,6 @@ export default class Gas extends PureComponent {
       Animated.timing(this.state._animated, {
         toValue: 1,
         duration: 250 + 1/this.props.index * 250,
-        friction: 6,
       }),
     ]).start();
   }
@@ -145,11 +156,6 @@ export default class Gas extends PureComponent {
 
     return monthNames[monthIndex] + ' ' + day + ', ' + year;
   }
-  
-  _onPress(){
-    console.log("pressed a GasListItem");
-  }
-
 
   _setMaxHeight(event){
       this.setState({
@@ -164,21 +170,54 @@ export default class Gas extends PureComponent {
   }
 
   toggle(){
-      //Step 1
-      let initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
-          finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
-
-      this.setState({
-          expanded : !this.state.expanded  //Step 2
+    this.setState({
+      pressable: false,
+    })
+    const that = this;
+    if(this.state.expanded){
+      Animated.parallel([
+        Animated.timing(
+        that.state.expansion,
+        {
+          toValue: 0,
+          duration: 300,
+        }),
+        Animated.spring(
+        that.state._spin,
+        {
+          toValue: 0,
+          duration: 300,
+        })
+      ]).start();
+      setTimeout(function() {
+        that.setState({
+          expanded: false,
+          expansionDisplay: 'none',
+          pressable: true,
+        });
+      }, 300);
+    } else {
+      that.setState({
+        expansionDisplay: 'flex',
+      })
+      Animated.parallel([
+        Animated.timing(
+        that.state.expansion, {
+          toValue: 1,
+          duration: 300,
+        }),
+        Animated.spring(
+        that.state._spin, {
+          toValue: 1,
+          duration: 300,
+        }),
+      ]).start(function() {
+        that.setState({
+          expanded: true,
+          pressable: true,
+        });
       });
-
-      this.state.animation.setValue(initialValue);  //Step 3
-      Animated.spring(     //Step 4
-          this.state.animation,
-          {
-              toValue: finalValue
-          }
-      ).start();  //Step 5
+    }
   }
 
   render() {
@@ -193,6 +232,16 @@ export default class Gas extends PureComponent {
       outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.RED],
     });
 
+    var expand = this.state.expansion.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 400],
+    });
+
+    var _spinRotation = this.state._spin.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    });
+
     return (
       <Animated.View style={[,
         styles.listItem,
@@ -200,7 +249,6 @@ export default class Gas extends PureComponent {
           backgroundColor: colorShift,
         }
       ]}>
-
       <Animated.View
         style={[
           this.state.position.getLayout(),
@@ -212,17 +260,15 @@ export default class Gas extends PureComponent {
         ]}
         {...this.panResponder.panHandlers}
       >
-        
-       <TouchableOpacity onPress={this._onPress}>
-         
         <View style={styles.innerCell}>
+          <TouchableOpacity onPress={() => this.toggle()} disabled={!this.state.pressable}>
           <Animated.View style={styles.topCell} onLayout={this._setMinHeight.bind(this)}>
-            <View style={styles.change}>
+            <Animated.View style={[styles.change, {transform: [{rotateZ: _spinRotation}]}]}>
               <Animated.Text
                 style={[styles.ico,{color: this.state.color,}]}>
                 <FontAwesome>{this.state.icon}</FontAwesome>
               </Animated.Text>
-            </View>
+            </Animated.View>
             <View style={[styles.gasItem, {flex: 1}]}>
               <Text style={styleguide.light_body2}>
                 ${this.props.totalPrice.toFixed(2)}
@@ -248,38 +294,44 @@ export default class Gas extends PureComponent {
               </Text>
             </View>
           </Animated.View>
-          <Animated.View style={styles.expandedCell} onLayout={this._setMaxHeight.bind(this)}>
-            <View style={styles.gasItem}>
-              <Text style={styleguide.light_body2}>
-                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
-              </Text>
-              <Text style={styleguide.light_caption_secondary}>
-                Efficiency
-              </Text>
-            </View>
-            <View style={styles.gasItem}>
-              <Text style={styleguide.light_body2}>
-                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
-              </Text>
-              <Text style={styleguide.light_caption_secondary}>
-                Efficiency
-              </Text>
-            </View>
-            <View style={styles.gasItem}>
-              <Text style={styleguide.light_body2}>
-                {(this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2)}mpg
-              </Text>
-              <Text style={styleguide.light_caption_secondary}>
-                Efficiency
-              </Text>
-            </View>
-          </Animated.View>
+        </TouchableOpacity>
+         <Animated.View style={[styles.expandedCell, {maxHeight: expand, opacity: this.state.expansion, display: this.state.expansionDisplay}]} onLayout={this._setMaxHeight.bind(this)}>
+           <Text style={[styleguide.light_subheader2]}>
+             {this.state.expandedTitle}<Text style={{color: this.state.color}}>.</Text>
+           </Text>
+           <View style={styles.expandedItems}>
+             <View style={styles.gasItem}>
+               <Text style={styleguide.light_body2}>
+                 {this.state.diff.toFixed(2)}mpg
+               </Text>
+               <Text style={styleguide.light_caption_secondary}>
+                 Difference From Average
+               </Text>
+             </View>
+             <View style={styles.gasItem}>
+               <Text style={styleguide.light_body2}>
+                 {this.props.distanceSinceLast}mi
+               </Text>
+               <Text style={styleguide.light_caption_secondary}>
+                 Distance Since Last
+               </Text>
+             </View>
+             <View style={styles.gasItem}>
+               <Text style={styleguide.light_body2}>
+                 {this.props.odometer}mi
+               </Text>
+               <Text style={styleguide.light_caption_secondary}>
+                 Snapshot Odometer
+               </Text>
+             </View>
+           </View>
+         </Animated.View>
         </View>
-       </TouchableOpacity>
+
         <View style={styles.absoluteCell}>
-          <Animated.Text style={[styleguide.dark_body, {
+          <Animated.Text style={[styleguide.dark_title, {
             opacity: this.state.bgAnimated, paddingLeft: 16,
-          }]}>DELETE</Animated.Text>
+          }]}><FontAwesome>{Icons.trash}</FontAwesome></Animated.Text>
         </View>
       </Animated.View>
     </Animated.View>
@@ -293,7 +345,8 @@ const styles = StyleSheet.create({
     width: width,
     marginRight: 100,
     backgroundColor: GLOBAL.COLOR.WHITE,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 
   topCell: {
@@ -303,13 +356,24 @@ const styles = StyleSheet.create({
   },
 
   expandedCell: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginTop: 8,
     paddingTop: 8,
     borderTopWidth: 1,
-    borderColor: 'rgba(37,50,55,0.50)'
+    borderColor: GLOBAL.COLOR.LIGHTGRAY,
+  },
+
+  gasItem: {
+    flexDirection: 'column',
+  },
+
+  expandedItems: {
+    width: '100%',
+    paddingTop: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 
   listItem: {
@@ -323,15 +387,14 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
 
+  gasItem:{
+    flexDirection: 'column',
+    margin: 8,
+  },
+
   ico: {
     fontSize: 16,
   },
-
-  gasItem: {
-    flexDirection: 'column',
-    marginHorizontal: 8,
-  },
-
   absoluteCell: {
     position: 'absolute',
     top: 0,
