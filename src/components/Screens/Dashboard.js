@@ -37,6 +37,8 @@ import {
   pullOGODOReading,
 } from '../Database/Database.js';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
+import { AreaChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -578,6 +580,8 @@ export default class Dashboard extends Component {
     console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
+    const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+
     return(
       <View style={
         [styleguide.container,
@@ -707,6 +711,16 @@ export default class Dashboard extends Component {
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
                 <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
+                <AreaChart
+                  style={ { height: 200,
+                            width: 300} }
+                  data={ this.state.textDataArr }
+                  curve={shape.curveNatural}
+                  showGrid={ false }
+                  yAccessor={({item})=>{item.totalPrice}}
+                  //xAccessor={({index})=>{index.date}}
+                  svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
+                />
               </View>
               <View style={{alignItems:'flex-end'}}>
                 <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
