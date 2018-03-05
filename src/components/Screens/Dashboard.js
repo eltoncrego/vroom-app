@@ -713,12 +713,12 @@ export default class Dashboard extends Component {
                 <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
                 <AreaChart
                   style={ { height: 200,
-                            width: 300} }
+                            width: 200} }
                   data={ this.state.textDataArr }
                   curve={shape.curveNatural}
                   showGrid={ false }
-                  yAccessor={({item})=>{item.totalPrice}}
-                  //xAccessor={({index})=>{index.date}}
+                  yAccessor={({ item }) => item.totalPrice}
+                  yAccessor={({ item }) => item.list_i}
                   svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
                 />
               </View>
