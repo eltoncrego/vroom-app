@@ -67,7 +67,7 @@ export default class Dashboard extends Component {
 
     this.state = {
       // Animation Values
-      translation: new Animated.Value(0),
+      translation: new Animated.Value(1),
       transactionShift: new Animated.Value(0),
       settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
@@ -700,6 +700,16 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <View style={styles.graph}>
+            <AreaChart
+              style={ { height: 200,
+                        width: 200} }
+              data={ this.state.textDataArr }
+              curve={shape.curveNatural}
+              showGrid={ false }
+              yAccessor={({ item }) => item.totalPrice}
+              yAccessor={({ item }) => item.list_i}
+              svg={{ fill: 'rgba(184, 233, 134, 0.9)' }}
+            />
           </View>
           <Animated.View
             style={[
@@ -711,16 +721,6 @@ export default class Dashboard extends Component {
               <View>
                 <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
                 <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
-                <AreaChart
-                  style={ { height: 200,
-                            width: 200} }
-                  data={ this.state.textDataArr }
-                  curve={shape.curveNatural}
-                  showGrid={ false }
-                  yAccessor={({ item }) => item.totalPrice}
-                  yAccessor={({ item }) => item.list_i}
-                  svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
-                />
               </View>
               <View style={{alignItems:'flex-end'}}>
                 <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
