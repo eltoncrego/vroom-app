@@ -700,12 +700,12 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <View style={styles.graph}>
             <AreaChart
-              style={ { height: 300} }
+              style={ { height: 250} }
               data={ this.state.textDataArr }
               curve={shape.curveNatural}
               showGrid={ false }
               yAccessor={({ item }) => item.mpg}
-              xAccessor={({ item }) => item.distanceSinceLast}
+              xAccessor={({ item }) => item.list_i}
               svg={{ fill: 'rgba(184, 233, 134, 0.9)' }}
             />
           </View>
