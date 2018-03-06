@@ -700,13 +700,18 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <View style={styles.graph}>
             <AreaChart
-              style={ { height: 250} }
+              style={ styles.areaGraph}
               data={ this.state.textDataArr }
               curve={shape.curveNatural}
+              contentInset={ { top: 8} }
               showGrid={ false }
               yAccessor={({ item }) => item.mpg}
               xAccessor={({ item }) => item.list_i}
-              svg={{ fill: 'rgba(184, 233, 134, 0.9)' }}
+              svg={{
+                stroke: GLOBAL.COLOR.GREEN,
+                strokeWidth: 4,
+                fill: 'rgba(184, 233, 134, 0.1)',
+              }}
             />
           </View>
           <Animated.View
@@ -803,6 +808,9 @@ const styles = StyleSheet.create({
   graph:{
     zIndex: 0,
     width: '100%',
+    height: 250,
+  },
+  areaGraph: {
     height: 250,
   },
   no_items:{
