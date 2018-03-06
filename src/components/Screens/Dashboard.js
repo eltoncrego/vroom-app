@@ -340,7 +340,8 @@ export default class Dashboard extends Component {
       date: creationDate,
       gallonsFilled: this.state.user_filled,
       odometer: this.state.user_ODO,
-      distanceSinceLast: distance
+      distanceSinceLast: distance,
+      mpg: parseInt(distance / this.state.user_filled)
     };
 
     Animated.timing(
@@ -361,7 +362,7 @@ export default class Dashboard extends Component {
       });
     });
 
-    // TODO: Push to Firebase
+    // Push to Firebase
 
     pushFillup(newFillup);
     updateMPG(average);
@@ -580,8 +581,6 @@ export default class Dashboard extends Component {
     console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
-    const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
     return(
       <View style={
         [styleguide.container,
@@ -701,13 +700,12 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <View style={styles.graph}>
             <AreaChart
-              style={ { height: 200,
-                        width: 200} }
+              style={ { height: 300} }
               data={ this.state.textDataArr }
               curve={shape.curveNatural}
               showGrid={ false }
-              yAccessor={({ item }) => item.totalPrice}
-              yAccessor={({ item }) => item.list_i}
+              yAccessor={({ item }) => item.mpg}
+              xAccessor={({ item }) => item.distanceSinceLast}
               svg={{ fill: 'rgba(184, 233, 134, 0.9)' }}
             />
           </View>
