@@ -67,7 +67,7 @@ export default class Dashboard extends Component {
 
     this.state = {
       // Animation Values
-      translation: new Animated.Value(1),
+      translation: new Animated.Value(0),
       transactionShift: new Animated.Value(0),
       settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
@@ -80,6 +80,8 @@ export default class Dashboard extends Component {
       // item toggles for expected behavior
       scrollEnable: true,
       settingAvailable: true,
+      graphShown: false,
+      graphToggleable: true,
 
       // Input state variables
       user_paid: 0,
@@ -539,6 +541,48 @@ export default class Dashboard extends Component {
   }
 
   /*
+  * Function: toggleGraph()
+  * Author: Elton C. Rego
+  * Purpose: animates a shift of the gas items up and down
+  */
+  toggleGraph(){
+    const that = this;
+    if (this.state.graphShown){
+      this.setState({
+        graphToggleable: false,
+      });
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 0,
+          duration: 150,
+        }
+      ).start(() => {
+        that.setState({
+          graphToggleable: true,
+          graphShown: false,
+        });
+      });
+    } else {
+      this.setState({
+        graphToggleable: false,
+      });
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 1,
+          duration: 150,
+        }
+      ).start(() => {
+        that.setState({
+          graphToggleable: true,
+          graphShown: true,
+        });
+      });
+    }
+  }
+
+  /*
    * Function: render()
    * Author: Elton C. Rego
    * Purpose: renders the component
@@ -698,45 +742,48 @@ export default class Dashboard extends Component {
         </Animated.View>
 
         <View style={styles.content}>
-          <View style={styles.graph}>
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
             <AreaChart
-              style={ styles.areaGraph}
-              data={ this.state.textDataArr }
+              style={styles.areaGraph}
+              start={0}
+              data={this.state.textDataArr}
+              yAccessor={({item}) => item.mpg}
+              xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
               contentInset={ { top: 8} }
               showGrid={ false }
-              yAccessor={({ item }) => item.mpg}
-              xAccessor={({ item }) => item.list_i}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 4,
                 fill: 'rgba(184, 233, 134, 0.1)',
               }}
             />
-          </View>
-          <Animated.View
-            style={[
-              styles.card,
-              transformList,
-              {opacity: this.state.fadeIn}]
-            }>
-            <View  style={styles.statistics}>
-              <View>
-                <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
-                <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
-              </View>
-              <View style={{alignItems:'flex-end'}}>
-                <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
-                <Text style={styleguide.light_body_secondary}>Odometer</Text>
-              </View>
-            </View>
-            <GasList
-              onRef={ref => (this.gaslist = ref)}
-              enable={this.state.scrollEnable}
-              data={this.state.textDataArr}
-              average={this.state.averageMPG.toFixed(2)}
-              removeItem={key => this.removeItem(key)}/>
-          </Animated.View>
+        </Animated.View>
+            <Animated.View
+              style={[
+                styles.card,
+                transformList,
+                {opacity: this.state.fadeIn}]
+              }>
+              <TouchableOpacity onPress={() => this.toggleGraph()} disabled={!this.state.graphToggleable}>
+                <View  style={styles.statistics}>
+                  <View>
+                    <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
+                    <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
+                  </View>
+                  <View style={{alignItems:'flex-end'}}>
+                    <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
+                    <Text style={styleguide.light_body_secondary}>Odometer</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <GasList
+                onRef={ref => (this.gaslist = ref)}
+                enable={this.state.scrollEnable}
+                data={this.state.textDataArr}
+                average={this.state.averageMPG.toFixed(2)}
+                removeItem={key => this.removeItem(key)}/>
+            </Animated.View>
         </View>
 
 
@@ -811,7 +858,7 @@ const styles = StyleSheet.create({
     height: 250,
   },
   areaGraph: {
-    height: 250,
+    height: '100%',
   },
   no_items:{
     position: 'absolute',
