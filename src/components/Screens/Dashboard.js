@@ -547,7 +547,7 @@ export default class Dashboard extends Component {
   */
   toggleGraph(){
     const that = this;
-    if (this.state.graphShown){
+    if (this.state.graphShown && this.textDataArr.length >= 5){
       this.setState({
         graphToggleable: false,
       });
