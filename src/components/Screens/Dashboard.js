@@ -343,7 +343,6 @@ export default class Dashboard extends Component {
       gallonsFilled: this.state.user_filled,
       odometer: this.state.user_ODO,
       distanceSinceLast: distance,
-      mpg: parseInt(distance / this.state.user_filled)
     };
 
     Animated.timing(
@@ -747,7 +746,7 @@ export default class Dashboard extends Component {
               style={styles.areaGraph}
               start={0}
               data={this.state.textDataArr}
-              yAccessor={({item}) => item.mpg}
+              yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
               contentInset={ { top: 8, bottom: 50, right: -2, left: -2} }
