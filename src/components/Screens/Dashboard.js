@@ -596,7 +596,7 @@ export default class Dashboard extends Component {
 
     var cardTranslation = this.state.translation.interpolate({
       inputRange: [0, 1],
-      outputRange: [-250, 0]
+      outputRange: [-200, 0]
     });
 
     var modalBG = this.state.modalFade.interpolate({
