@@ -703,13 +703,13 @@ export default class Dashboard extends Component {
               style={ styles.areaGraph}
               data={ this.state.textDataArr }
               curve={shape.curveNatural}
-              contentInset={ { top: 8} }
+              contentInset={ { top: 8, bottom: 50, right: -2, left: -2} }
               showGrid={ false }
               yAccessor={({ item }) => item.mpg}
               xAccessor={({ item }) => item.list_i}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
-                strokeWidth: 4,
+                strokeWidth: 3,
                 fill: 'rgba(184, 233, 134, 0.1)',
               }}
             />
@@ -808,10 +808,10 @@ const styles = StyleSheet.create({
   graph:{
     zIndex: 0,
     width: '100%',
-    height: 250,
+    height: 200,
   },
   areaGraph: {
-    height: 250,
+    height: 200,
   },
   no_items:{
     position: 'absolute',
