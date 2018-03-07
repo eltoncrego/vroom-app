@@ -1,12 +1,21 @@
-/* Import all the necessary components for this page. Please delete components that aren't used. */
+/*
+ * Import all the necessary components for this page.
+ * Please delete components that aren't used.
+ */
 
 // Global Requirements
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
 styleguide = require('../../global-styles');
 
 // Components
-import {View, StyleSheet, StatusBar, TouchableOpacity, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import Animation from 'lottie-react-native';
 import loader_icon from '../../../assets/animations/loading.json';
 
@@ -39,7 +48,7 @@ export default class Loading extends Component {
    */
   static navigationOptions = ({navigation, screenProps}) => ({
 
-    /*
+      /*
        * navigationOptions: headerStyle, headerRight
        * Author: Elton C. Rego, Alec Felt
        *
@@ -47,8 +56,9 @@ export default class Loading extends Component {
        *          Add button on headerRight for navigation
        *          options in the future
        */
-    header: null
+      header: null,
   });
+
 
   /*
    * Method: render
@@ -58,24 +68,29 @@ export default class Loading extends Component {
    *
    */
   render() {
-    return (<View style={styles.container}>
-      <StatusBar barStyle="light-content"/>
-      <View style={styles.animations}>
-        <Animation ref={animation => {
-            this.animation = animation;
-          }
-} style={{
-            width: "100%",
-            height: "100%"
-          }} loop={true} source={loader_icon}/>
+    return (
+      <View style={styles.container}>
+        <StatusBar
+           barStyle="light-content"
+         />
+        <View style={styles.animations}>
+          <Animation
+            ref={
+              animation => {
+                this.animation = animation;
+              }
+            }
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+            loop={true}
+            source={loader_icon}
+          />
+        </View>
+        <Text style={[styleguide.dark_body_secondary, {width: '85%', textAlign: 'center'}]}>{this.props.label}</Text>
       </View>
-      <Text style={[
-          styleguide.dark_body_secondary, {
-            width: '85%',
-            textAlign: 'center'
-          }
-        ]}>{this.props.label}</Text>
-    </View>);
+    );
   }
 }
 
@@ -87,28 +102,29 @@ const styles = StyleSheet.create({
     * Purpose: Add style to the navbar button
     *          to stay consistent with project theme
     */
-  container: {
-    flex: 1,
-    backgroundColor: GLOBAL.COLOR.DARKGRAY,
-    padding: 32,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  loading: {
-    fontFamily: 'Nunito',
-    fontSize: 20,
-    fontWeight: '900',
-    color: GLOBAL.COLOR.GREEN,
-    alignSelf: 'center'
-  },
-  /*
+    container: {
+      flex: 1,
+      backgroundColor: GLOBAL.COLOR.DARKGRAY,
+      padding: 32,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    loading: {
+      fontFamily: 'Nunito',
+      fontSize: 20,
+      fontWeight: '900',
+      color: GLOBAL.COLOR.GREEN,
+      alignSelf: 'center',
+    },
+    /*
      * Style: Revi Animations
      * Author: Elton C. Rego
      * Purpose: This styles the Revis on each card
      */
-  animations: {
-    alignSelf: 'center',
-    height: 128,
-    width: 128
-  }
+    animations: {
+      alignSelf: 'center',
+      height: 128,
+      width: 128,
+    },
+
 });

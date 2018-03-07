@@ -1,7 +1,10 @@
-/* Import all the necessary components for this page. Please delete components that aren't used. */
+/*
+ * Import all the necessary components for this page.
+ * Please delete components that aren't used.
+ */
 
 // Global Requirements
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
 styleguide = require('../../global-styles');
 
@@ -17,13 +20,13 @@ import {
   TextInput,
   Linking,
   Platform,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
-import FontAwesome, {Icons} from 'react-native-fontawesome';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Our Components
 import Auth from '../Authentication/Auth';
-import {goTo, clearNavStack} from '../Navigation/Navigation';
+import { goTo, clearNavStack } from '../Navigation/Navigation';
 
 /*
  * Class: Settings
@@ -55,6 +58,7 @@ export default class Settings extends Component {
     console.log("Settings component mounted");
   }
 
+
   /*
    * Method: render
    * Author: Elton C. Rego
@@ -66,115 +70,105 @@ export default class Settings extends Component {
    */
   render() {
 
-    return (<View style={[
-        styleguide.container, {
-          backgroundColor: GLOBAL.COLOR.DARKBLUE
-        }
-      ]}>
-      <View style={styles.navbar}>
-        <Text style={styleguide.dark_title2}>
-          settings<Text style={styleguide.dark_title2_accent}>.</Text>
-        </Text>
-        <TouchableOpacity onPress={() => this.props.closeCallBack()}>
-          <View>
-            <Text style={styleguide.dark_title}>
-              <FontAwesome>{Icons.times}</FontAwesome>
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.content}>
-        <ScrollView style={{
-            width: '100%'
-          }} showVerticalScrollIndicator={false}>
-          <View style={styles.content_wrapper}>
-            <TouchableOpacity onPress={() => {
-                Linking.canOpenURL('mailto:contact@revi.tech?subject=Vroom Feedback').then(supported => {
-                  supported && Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback');
-                }, (err) => console.log(err));
-              }}>
-              <View style={styles.setting_item}>
-                <Text style={styleguide.dark_body}>
-                  Contact Us
-                </Text>
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
+    return (
+      <View style={[styleguide.container,{
+        backgroundColor: GLOBAL.COLOR.DARKBLUE,
+      }]}>
+        <View style={styles.navbar}>
+          <Text style={styleguide.dark_title2}>
+            settings<Text style={styleguide.dark_title2_accent}>.</Text>
+          </Text>
+          <TouchableOpacity onPress={() => this.props.closeCallBack()}>
+            <View>
+               <Text style={styleguide.dark_title}>
+                 <FontAwesome>{Icons.times}</FontAwesome>
+               </Text>
+             </View>
+           </TouchableOpacity>
+        </View>
+        <View style={styles.content}>
+          <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
+            <View style={styles.content_wrapper}>
+              <TouchableOpacity onPress={() => {Linking.canOpenURL('mailto:contact@revi.tech?subject=Vroom Feedback').then(supported => {
+                supported && Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback');
+              }, (err) => console.log(err));}}>
+                <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
-                    <FontAwesome>{Icons.paperPlane}</FontAwesome>
+                    Contact Us
                   </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.paperPlane}</FontAwesome></Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
                 Linking.canOpenURL('https://revi.tech/privacy').then(supported => {
                   supported && Linking.openURL('https://revi.tech/privacy');
                 }, (err) => console.log(err));
               }}>
-              <View style={styles.setting_item}>
-                <Text style={styleguide.dark_body}>
-                  Our Privacy Policy
-                </Text>
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
+                <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
-                    <FontAwesome>{Icons.clipboard}</FontAwesome>
+                    Our Privacy Policy
                   </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
                 Linking.canOpenURL('https://revi.tech/vroom/eula').then(supported => {
                   supported && Linking.openURL('https://revi.tech/vroom/eula');
                 }, (err) => console.log(err));
               }}>
-              <View style={styles.setting_item}>
-                <Text style={styleguide.dark_body}>
-                  Vroom End User License Agreement
-                </Text>
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
+                <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
-                    <FontAwesome>{Icons.clipboard}</FontAwesome>
+                    Vroom End User License Agreement
                   </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-                var that = this;
-                Auth.logOut().then(function() {}).catch(function(error) {
-                  this.props.alert.showAlert("Alert", error.message, "Ok");
-                })
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                  var that = this;
+                  Auth.logOut().then(function(){}).catch(
+                    function(error){
+                      this.props.alert.showAlert("Alert",
+                      error.message,
+                      "Ok");
+                    }
+                  )
               }}>
-              <View style={styles.setting_item}>
-                <Text style={styleguide.dark_body}>
-                  Sign Out
-                </Text>
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
+                <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
-                    <FontAwesome>{Icons.unlockAlt}</FontAwesome>
+                    Sign Out
                   </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.unlockAlt}</FontAwesome></Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+        <View style={styles.footer}>
+          <Text style={styleguide.dark_caption_secondary}>Made with <FontAwesome>{Icons.heart}</FontAwesome> by Revi</Text>
+          <Text style={styleguide.dark_caption_secondary}>in Santa Cruz, California</Text>
+        </View>
       </View>
-      <View style={styles.footer}>
-        <Text style={styleguide.dark_caption_secondary}>Made with
-          <FontAwesome>{Icons.heart}</FontAwesome>
-          by Revi</Text>
-        <Text style={styleguide.dark_caption_secondary}>in Santa Cruz, California</Text>
-      </View>
-    </View>);
+    );
   }
 }
 
@@ -189,19 +183,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderColor: 'rgba(255,255,255,0.50)'
+    borderColor: 'rgba(255,255,255,0.50)',
   },
 
   content: {
     flex: 9,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
 
   content_wrapper: {
     flex: 1,
-    width: '100%'
+    width: '100%',
   },
 
   setting_item: {
@@ -212,12 +206,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderTopWidth: 1,
     borderColor: 'rgba(255,255,255,0.50)',
-    backgroundColor: 'rgba(255,255,255,0.10)'
+    backgroundColor: 'rgba(255,255,255,0.10)',
   },
 
   footer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
+
 });
