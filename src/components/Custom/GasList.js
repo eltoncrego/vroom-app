@@ -1,11 +1,18 @@
-/* Import all the necessary components for this page. Please delete components that aren't used. */
+/*
+ * Import all the necessary components for this page.
+ * Please delete components that aren't used.
+ */
 
 // Global Requirements
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 GLOBAL = require('../../Globals');
 STYLE = require('../../global-styles');
 
-import {FlatList, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  View
+} from 'react-native';
 import GasListItem from './GasListItem';
 
 export default class GasList extends Component {
@@ -30,9 +37,10 @@ export default class GasList extends Component {
     this.setScrollEnabled = this.setScrollEnabled.bind(this);
 
     this.state = {
-      enable: this.props.enable
+      enable: this.props.enable,
     };
   }
+
 
   componentDidMount() {
     this.props.onRef(this)
@@ -42,13 +50,11 @@ export default class GasList extends Component {
   }
 
   renderSeparator() {
-    return (<View style={styles.separatorViewStyle}>
-      <View style={[
-          styles.separatorStyle, {
-            backgroundColor: 'rgba(37,50,55,0.20)'
-          }
-        ]}/>
-    </View>);
+    return (
+      <View style={styles.separatorViewStyle}>
+        <View style={[styles.separatorStyle, {backgroundColor: 'rgba(37,50,55,0.20)',}]} />
+      </View>
+    );
   }
 
   success(key) {
@@ -57,24 +63,50 @@ export default class GasList extends Component {
   }
 
   setScrollEnabled(enable) {
-    this.setState({enable});
+    this.setState({
+      enable,
+    });
   }
 
   renderItem(item) {
-    return (<GasListItem index={item.list_i} date={item.date} totalPrice={item.totalPrice} gallonsFilled={item.gallonsFilled} distanceSinceLast={item.distanceSinceLast} odometer={item.odometer} success={this.success} average={this.props.average} allowDeleteOn={this.props.data.length} setScrollEnabled={enable => this.setScrollEnabled(enable)}/>);
+    return (
+      <GasListItem
+        index={item.list_i}
+        date={item.date}
+        totalPrice={item.totalPrice}
+        gallonsFilled={item.gallonsFilled}
+        distanceSinceLast={item.distanceSinceLast}
+        odometer={item.odometer}
+        success={this.success}
+        average={this.props.average}
+        allowDeleteOn={this.props.data.length}
+        setScrollEnabled={enable => this.setScrollEnabled(enable)}
+      />
+    );
   }
 
   render() {
-    return (<FlatList style={this.props.style} data={this.props.data} keyExtractor={(item) => item.list_i.toString()} ItemSeparatorComponent={this.renderSeparator} renderItem={({item}) => this.renderItem(item)} scrollEnabled={this.state.enable} showsVerticalScrollIndicator={false} bounces={false}/>);
+    return (
+      <FlatList
+        style={this.props.style}
+        data={this.props.data}
+        keyExtractor={(item) => item.list_i.toString()}
+        ItemSeparatorComponent={this.renderSeparator}
+        renderItem={({item}) => this.renderItem(item)}
+        scrollEnabled={this.state.enable}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+      />
+    );
   }
 }
 
 const styles = StyleSheet.create({
   separatorViewStyle: {
     flex: 1,
-    backgroundColor: '#FFF'
+    backgroundColor: '#FFF',
   },
   separatorStyle: {
-    height: 1
-  }
+    height: 1,
+  },
 });

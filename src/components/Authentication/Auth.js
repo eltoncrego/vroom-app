@@ -1,11 +1,18 @@
-/* Import all the necessary components for this page. Please delete components that aren't used. */
+/*
+ * Import all the necessary components for this page.
+ * Please delete components that aren't used.
+ */
 
 // Global Requirements
 import React, {Component} from 'react';
 GLOBAL = require('../../Globals');
 
 // Components
-import {SignedOut, SignedIn, SignedUp} from "../Navigation/Router";
+import {
+  SignedOut,
+  SignedIn,
+  SignedUp
+} from "../Navigation/Router";
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 // Necessary Files
@@ -15,10 +22,10 @@ import * as firebase from 'firebase';
 
 // this shall be called regardless of app state: running, background or not running. Won't be called when app is killed by user in iOS
 FCM.on(FCMEvent.Notification, async (notif) => {
-  console.log(notif);
+    console.log(notif);
 });
 FCM.on(FCMEvent.RefreshToken, (token) => {
-  console.log(token);
+    console.log(token);
 });
 
 /*
@@ -53,7 +60,7 @@ export default class Auth extends Component {
    *
    * @return: FirebaseUser
    */
-  static getAuth() {
+  static getAuth(){
     return Auth.auth;
   }
 
@@ -65,7 +72,7 @@ export default class Auth extends Component {
    *
    * @return: boolean
    */
-  static checkAuth() {
+  static checkAuth(){
     return (Auth.auth != null);
   }
 
@@ -82,7 +89,7 @@ export default class Auth extends Component {
       signedIn: false,
       checkedSignIn: false,
       onboardingNeeded: true,
-      authenticating: false
+      authenticating: false,
     };
   }
 
@@ -98,11 +105,11 @@ export default class Auth extends Component {
   */
   static firebaseLogin = (e, p) => {
     return firebase.auth().signInWithEmailAndPassword(e, p).then((user) => {
-      if (user) {
+      if(user){
         console.log("signed user in");
       }
       return;
-    }).catch(function(error) {
+    }).catch(function(error){
       throw new Error(error);
     });
   }
@@ -122,12 +129,13 @@ export default class Auth extends Component {
         console.log("user reset password");
       }
       return;
-    }, error => {
+    }, error =>{
       throw new Error(error);
     });
   }
 
-  /*
+
+ /*
   * Database function: databaseSignup
   * Author: Alec Felt, Connick Shields, and Elton C. Rego
   *
@@ -138,17 +146,18 @@ export default class Auth extends Component {
   * @return: Promise.prototype();
   */
   static firebaseSignup = (e, p) => {
-    return firebase.auth().createUserWithEmailAndPassword(e, p).then((user) => {
-      if (user && user.emailVerified === false) {
-        console.log("signed user up");
-        user.sendEmailVerification().then(() => {
-          console.log("sent verification email to user");
-        });
-      }
-      return;
-    }, error => {
-      throw new Error(error);
-    });
+    return firebase.auth().createUserWithEmailAndPassword(e, p)
+      .then((user) => {
+        if(user && user.emailVerified === false){
+          console.log("signed user up");
+          user.sendEmailVerification().then(() => {
+            console.log("sent verification email to user");
+          });
+        }
+        return;
+      }, error => {
+        throw new Error(error);
+      });
   }
 
   /*
@@ -163,7 +172,7 @@ export default class Auth extends Component {
   static logOut = () => {
     // if signOut() returns void, then go back to login
     return firebase.auth().signOut().then((vo) => {
-      if (!vo) {
+      if(!vo){
         console.log("signed user out");
       }
       return;
@@ -181,13 +190,19 @@ export default class Auth extends Component {
   * @retun: Promise.prototype();
   */
   static deleteUser = () => {
-    if (Auth.checkAuth()) {
-      Auth.getAuth().delete().then(function(returnvalue) {
-        return firebaseRef.database().ref("users").child(Auth.getAuth().uid).remove().then(function() {
-          Auth.logOut();
-          return "Poof you're gone";
+      if (Auth.checkAuth()) {
+        Auth.getAuth().delete().then(function(returnvalue) {
+          return firebaseRef.database().ref("users").child(Auth.getAuth().uid).remove()
+          .then(function(){
+            Auth.logOut();
+            return "Poof you're gone";
+          }).catch(function(error){
+            console.log("ERROR: serious logic bug in Auth: deleteUser()");
+            throw new Error(error);
+          })
+          return returnvalue;
         }).catch(function(error) {
-          console.log("ERROR: serious logic bug in Auth: deleteUser()");
+          console.log(error.message);
           throw new Error(error);
         })
       }).catch(function(error) {
@@ -212,13 +227,14 @@ export default class Auth extends Component {
   * @return: Promise.prototype();
   */
   static reAuth = (e, p) => {
-    var credential = firebase.auth.EmailAuthProvider.credential(e, p);
-    Auth.getAuth().reauthenticateWithCredential(credential).then(() => {
-      Auth.deleteUser();
-      return;
-    }).catch((error) => {
-      throw new Error(error);
-    });
+      var credential = firebase.auth.EmailAuthProvider.credential(e, p);
+      Auth.getAuth().reauthenticateWithCredential(credential)
+      .then(() => {
+        Auth.deleteUser();
+        return;
+      }).catch((error) => {
+        throw new Error(error);
+      });
   }
 
   /*
@@ -233,27 +249,27 @@ export default class Auth extends Component {
     var that = this;
     firebaseRef.auth().onAuthStateChanged(function(user) {
       console.log("onAuthStateChanged()");
-      if (user) {
-        Auth.auth = user;
-        console.log("user is signed in");
-        firebaseRef.database().ref("users").child(Auth.auth.uid).child("originalODO").once('value').then(function(snapshot) {
-          if (snapshot.val() !== null) {
-            console.log("Database init for this user! going to Dashboard");
-            that.setState({signedIn: true, checkedSignIn: true, onboardingNeeded: false});
-          } else {
-            console.log("No database value for this user! going to Onboarding");
-            that.setState({signedIn: true, checkedSignIn: true, onboardingNeeded: true});
-          }
-        }).catch(function(error) {
-          console.log("Error getting document:", error.message);
-        });
-      } else {
-        // No user is signed in.
-        Auth.auth = null;
-        console.log("user is signed out");
-        that.setState({signedIn: false, checkedSignIn: true});
-      }
-    });
+       if (user) {
+         Auth.auth = user;
+         console.log("user is signed in");
+         firebaseRef.database().ref("users").child(Auth.auth.uid).child("originalODO").once('value').then(function(snapshot) {
+           if(snapshot.val() !== null) {
+             console.log("Database init for this user! going to Dashboard");
+             that.setState({signedIn: true, checkedSignIn: true, onboardingNeeded: false});
+           } else {
+             console.log("No database value for this user! going to Onboarding");
+             that.setState({signedIn: true, checkedSignIn: true, onboardingNeeded: true});
+           }
+         }).catch(function(error) {
+           console.log("Error getting document:", error.message);
+         });
+     } else {
+       // No user is signed in.
+       Auth.auth = null;
+       console.log("user is signed out");
+       that.setState({signedIn: false, checkedSignIn: true});
+     }
+   });
   }
 
   /*
@@ -288,16 +304,16 @@ export default class Auth extends Component {
     // While the application is verifying if the user is signed in,
     // shows the loading component
     if (!this.state.checkedSignIn) {
-      return (<Loading label={"someone dropped screws in here"}/>);
+      return(<Loading label={"someone dropped screws in here"}/>);
     }
 
     // Shows signedin or signedup depending on the user's status
-    if (this.state.signedIn && this.state.onboardingNeeded) {
-      return (<SignedUp/>);
-    } else if (this.state.signedIn && !this.state.onboardingNeeded) {
-      return (<SignedIn/>);
+    if(this.state.signedIn && this.state.onboardingNeeded){
+       return(<SignedUp/>);
+    } else if (this.state.signedIn && !this.state.onboardingNeeded){
+      return(<SignedIn/>);
     } else {
-      return (<SignedOut/>);
+       return(<SignedOut/>);
     }
 
   }

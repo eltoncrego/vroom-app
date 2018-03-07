@@ -2,10 +2,12 @@
 'use strict';
 var React = require('react-native');
 var {
-  StyleSheet
+  StyleSheet,
 } = React;
 
-import {Platform} from 'react-native';
+import {
+  Platform,
+} from 'react-native';
 
 // Create Global Colors
 module.exports = {
@@ -19,6 +21,6 @@ module.exports = {
     YELLOW: '#F8E778',
     BRAND: '#9FD356',
     DARKBLUE: '#4F6E7C',
-    BLUE: '#C2DFE3'
-  }
+    BLUE: '#C2DFE3',
+  },
 };
