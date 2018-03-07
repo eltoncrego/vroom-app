@@ -609,6 +609,11 @@ export default class Dashboard extends Component {
       outputRange: [-200, 0]
     });
 
+    var cardHeight = this.state.translation.interpolate({
+      inputRange: [0,1],
+      outputRange: ['100%', '65.5%'],
+    })
+
     var modalBG = this.state.modalFade.interpolate({
       inputRange: [0, 1],
       outputRange: [1, 0.1],
@@ -693,7 +698,6 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_paid: text})}}
                 onSubmitEditing={() => {this.refs.gas.focus();}}
-                value={this.state.user_paid}
               />
               <InputField
                 ref="gas"
@@ -708,7 +712,6 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
                 onSubmitEditing={() => {this.refs.odo.focus();}}
-                value={this.state.user_filled}
               />
               <InputField
                 ref="odo"
@@ -723,7 +726,6 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_ODO: text})}}
                 onSubmitEditing={() => {this.addItem()}}
-                value={this.state.user_ODO}
               />
               <Button
                 ref="submitButton"
@@ -772,7 +774,10 @@ export default class Dashboard extends Component {
               style={[
                 styles.card,
                 transformList,
-                {opacity: this.state.fadeIn}]
+                {
+                  opacity: this.state.fadeIn,
+                  maxHeight: cardHeight,
+                }]
               }>
               <TouchableOpacity onPress={() => this.toggleGraph()} disabled={!this.state.graphToggleable}>
                 <View  style={styles.statistics}>
@@ -887,7 +892,6 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    maxHeight: '100%',
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 1,
   },
@@ -906,7 +910,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: 'rgba(37,50,55,0.50)',
   },
-
 
   // FOR PROTOTYPING
   modalContainer: {
