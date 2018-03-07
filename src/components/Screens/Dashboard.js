@@ -327,8 +327,8 @@ export default class Dashboard extends Component {
       return;
     }
 
-    const distance = this.state.user_ODO - this.state.updatedODO;
-    const mpg = distance/this.state.user_filled;
+    const distance = parseFloat(this.state.user_ODO) - this.state.updatedODO;
+    const mpg = distance/parseFloat(this.state.user_filled);
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
     const creationDate = moment().toArray();
@@ -340,8 +340,8 @@ export default class Dashboard extends Component {
       list_i: this.state.list_i + 1,
       totalPrice: parseFloat(this.state.user_paid),
       date: creationDate,
-      gallonsFilled: this.state.user_filled,
-      odometer: this.state.user_ODO,
+      gallonsFilled: parseFloat(this.state.user_filled),
+      odometer: parseFloat(this.state.user_ODO),
       distanceSinceLast: distance,
     };
 
@@ -368,7 +368,7 @@ export default class Dashboard extends Component {
 
     pushFillup(newFillup);
     updateMPG(average);
-    updateODO(this.state.user_ODO);
+    updateODO(parseFloat(this.state.user_ODO));
   }
 
   /*
@@ -395,7 +395,7 @@ export default class Dashboard extends Component {
       /(this.state.textDataArr.length - 1);
 
     const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO :
-      this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
+      this.state.textDataArr[0].odometer;
 
     removeFillup(key);
     updateMPG(averageMPG);
@@ -420,7 +420,15 @@ export default class Dashboard extends Component {
       averageMPG: averageMPG,
       updatedODO: ODO,
     });
-
+    if(key == 5){
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 0,
+          duration: 150,
+        }
+      ).start();
+    }
   }
 
   // Call this to test an immediate notification.
@@ -624,7 +632,6 @@ export default class Dashboard extends Component {
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
-    console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     return(
