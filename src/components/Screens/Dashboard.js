@@ -361,6 +361,7 @@ export default class Dashboard extends Component {
         user_filled: "",
         user_ODO: "",
         list_i: this.state.list_i + 1,
+        graphToggleable: this.state.list_i + 1 >= 5 ? true : false,
       });
     });
 
@@ -416,6 +417,7 @@ export default class Dashboard extends Component {
     }
     this.setState({
       list_i: this.state.list_i - 1,
+      graphToggleable: this.state.list_i - 1 >= 5 ? true : false,
       averageMPG: averageMPG,
       updatedODO: ODO,
     });
@@ -506,6 +508,7 @@ export default class Dashboard extends Component {
         that.setState({
           textDataArr: fData,
           list_i: fData.length,
+          graphToggleable: fData.length >= 5 ? true : false,
         });
       }
     }).catch(function(error) {
@@ -547,7 +550,7 @@ export default class Dashboard extends Component {
   */
   toggleGraph(){
     const that = this;
-    if (this.state.graphShown && this.textDataArr.length >= 5){
+    if (this.state.graphShown){
       this.setState({
         graphToggleable: false,
       });
