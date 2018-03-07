@@ -20,20 +20,13 @@ import {
   TextInput,
   Linking,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Our Components
 import Auth from '../Authentication/Auth';
 import { goTo, clearNavStack } from '../Navigation/Navigation';
-
-
-// Files Needed
-// import {firebaseRef} from "../Database/Database";
-// import Auth from "../Authentication/Auth";
-// import {goTo, clearNavStack} from "../Navigation/Navigation";
-// import * as firebase from 'firebase';
-
 
 /*
  * Class: Settings
@@ -79,7 +72,7 @@ export default class Settings extends Component {
 
     return (
       <View style={[styleguide.container,{
-        backgroundColor: GLOBAL.COLOR.GRAY,
+        backgroundColor: GLOBAL.COLOR.DARKBLUE,
       }]}>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
@@ -87,11 +80,11 @@ export default class Settings extends Component {
           </Text>
           <TouchableOpacity onPress={() => this.props.closeCallBack()}>
             <View>
-              <Text style={styleguide.dark_title}>
-                <FontAwesome>{Icons.times}</FontAwesome>
-              </Text>
-            </View>
-          </TouchableOpacity>
+               <Text style={styleguide.dark_title}>
+                 <FontAwesome>{Icons.times}</FontAwesome>
+               </Text>
+             </View>
+           </TouchableOpacity>
         </View>
         <View style={styles.content}>
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
@@ -111,30 +104,6 @@ export default class Settings extends Component {
                   </View>
                 </View>
               </TouchableOpacity>
-              {/*}<TouchableOpacity onPress={() => {
-                if(Platform.OS === 'android'){
-                  Linking.canOpenURL('market://details?id=myandroidappid').then(supported => {
-                    supported && Linking.openURL('market://details?id=myandroidappid');
-                  }, (err) => console.log(err));
-                } else {
-                  Linking.canOpenURL('itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8').then(supported => {
-                    supported && Linking.openURL('itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8');
-                  }, (err) => console.log(err));
-                }
-
-              }}>
-                <View style={styles.setting_item}>
-                  <Text style={styleguide.dark_body}>
-                    Rate Us on App Store!
-                  </Text>
-                  <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.star}</FontAwesome></Text>
-                  </View>
-                </View>
-              </TouchableOpacity>*/}
               <TouchableOpacity onPress={() => {
                 Linking.canOpenURL('https://revi.tech/privacy').then(supported => {
                   supported && Linking.openURL('https://revi.tech/privacy');
@@ -196,6 +165,7 @@ export default class Settings extends Component {
         </View>
         <View style={styles.footer}>
           <Text style={styleguide.dark_caption_secondary}>Made with <FontAwesome>{Icons.heart}</FontAwesome> by Revi</Text>
+          <Text style={styleguide.dark_caption_secondary}>in Santa Cruz, California</Text>
         </View>
       </View>
     );
@@ -203,6 +173,7 @@ export default class Settings extends Component {
 }
 
 const styles = StyleSheet.create({
+
   navbar: {
     flex: 1,
     width: '100%',
@@ -214,28 +185,34 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: 'rgba(255,255,255,0.50)',
   },
+
   content: {
     flex: 9,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+
   content_wrapper: {
     flex: 1,
     width: '100%',
   },
+
   setting_item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 24,
+    padding: 16,
+    paddingHorizontal: 24,
     borderBottomWidth: 1,
     borderTopWidth: 1,
     borderColor: 'rgba(255,255,255,0.50)',
     backgroundColor: 'rgba(255,255,255,0.10)',
   },
+
   footer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
+
 });

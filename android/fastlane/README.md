@@ -16,26 +16,26 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
-### android test
+### android build
 ```
-fastlane android test
+fastlane android build
 ```
-Runs all the tests
-### android alpha
+Build a debug version of the app locally
+### android test_internal
 ```
-fastlane android alpha
+fastlane android test_internal
 ```
-Deploy a new version to Google Play Store
-### android beta
+Deploy a new internal testing build to Google Play Store
+### android test_external
 ```
-fastlane android beta
+fastlane android test_external
 ```
-Submit a new Beta Build to Crashlytics Beta
+Deploy a new external testing build to Google Play Store
 ### android deploy
 ```
 fastlane android deploy
 ```
-Deploy a new version to the Google Play
+Deploy a new production build to Google Play Store
 
 ----
 

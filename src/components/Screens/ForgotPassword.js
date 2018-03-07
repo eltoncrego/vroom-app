@@ -15,6 +15,7 @@ import {
   Alert,
   Animated,
   Platform,
+  Keyboard,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -47,11 +48,113 @@ export default class ForgotPassword extends Component {
    constructor(props) {
      super(props);
      this.state = {
-       button_color: new Animated.Value(0),
-       shake_animation: new Animated.Value(0),
        email: "",
+       keyboardHeight: new Animated.Value(0),
+       pageTextSize: new Animated.Value(25),
+       pageDescriptionSize: new Animated.Value(20),
+       topMargin: new Animated.Value(24),
      };
    }
+
+   /*
+    * Author: Elton C. Rego
+    * Purpose: sets event listeners for the keyboard
+    */
+    componentWillMount () {
+      this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+      this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
+    }
+
+    componentWillUnmount() {
+      this.keyboardWillShowSub.remove();
+      this.keyboardWillHideSub.remove();
+   }
+
+   keyboardWillShow = (event) => {
+     if(Platform.OS === 'ios'){
+       var end = (event.endCoordinates.height-128)/2;
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: event.duration,
+           toValue: end,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: event.duration,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: event.duration,
+           toValue: 15,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 8,
+         }),
+       ]).start();
+     } else {
+       var end = (event.endCoordinates.height-128)/2;
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: 200,
+           toValue: end,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: 200,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: 200,
+           toValue: 15,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 8,
+         }),
+       ]).start();
+     }
+   };
+
+   keyboardWillHide = (event) => {
+     if(Platform.OS === 'ios'){
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: event.duration,
+           toValue: 0,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: event.duration,
+           toValue: 25,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: event.duration,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 24,
+         }),
+       ]).start();
+     } else {
+       Animated.parallel([
+         Animated.timing(this.state.keyboardHeight, {
+           duration: 200,
+           toValue: 0,
+         }),
+         Animated.timing(this.state.pageTextSize, {
+           duration: 200,
+           toValue: 25,
+         }),
+         Animated.timing(this.state.pageDescriptionSize, {
+           duration: 200,
+           toValue: 20,
+         }),
+         Animated.timing(this.state.topMargin, {
+           duration: 200,
+           toValue: 24,
+         }),
+       ]).start();
+     }
+   };
 
    /*
     * Author: Payam Katoozian
@@ -59,17 +162,19 @@ export default class ForgotPassword extends Component {
     */
     passwordReset = () => {
       if(!this.state.email){
-        this.shakeButton();
+        this.refs.linkButton.indicateError();
         this.refs.valert.showAlert('No email entered',
         'Simply enter your email address and try again!',
         'Ok');
       } else {
         var that = this;
         Auth.firebasePasswordReset(this.state.email).then(function(){
+          that.refs.linkButton.indicateError();
           that.refs.valert.showAlert('Password Reset Request Received',
           'Please check your email',
           'I\'ll go check!', GLOBAL.COLOR.GREEN);
         }).catch(function(error){
+          that.refs.linkButton.indicateError();
           that.refs.valert.showAlert("Alert",
           error.message,
           'Ok');
@@ -77,51 +182,9 @@ export default class ForgotPassword extends Component {
       }
     }
 
-   /*
-    * Author: Elton C. Rego
-    * Purpose: When called, shakes the button
-    */
-    shakeButton(){
-      Animated.sequence([
-        Animated.timing(this.state.button_color, {
-          toValue: 1,
-          duration: 150,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: -8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: -8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 8,
-          duration: 50,
-        }),
-        Animated.timing(this.state.shake_animation, {
-          toValue: 0,
-          duration: 50,
-        }),
-        Animated.timing(this.state.button_color, {
-          toValue: 0,
-          duration: 150,
-        })
-      ]).start();
-    }
-
    render() {
 
      var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
-
-     var buttonColor = this.state.button_color.interpolate({
-       inputRange: [0, 1],
-       outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
-     });
 
      return(
        <SafeAreaView style={[
@@ -139,45 +202,37 @@ export default class ForgotPassword extends Component {
              </Animated.View>
            </TouchableOpacity>
          </View>
-         <KeyboardAvoidingView
-           style={styles.content}
-           behavior={"padding"}
-         >
-           <Text style={styleguide.light_headline2}>
-             Forgot Password
-             <Text style={styleguide.light_headline2_accent}>.</Text>
-           </Text>
-           <Text
-             style={styleguide.light_title_secondary}>
+         <Animated.View style={[styles.content, {paddingBottom: this.state.keyboardHeight}]}>
+           <Animated.Text style={[styleguide.light_title2, {fontSize: this.state.pageTextSize}]}>
+             Password Reset
+             <Animated.Text style={[styleguide.light_title2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
+           </Animated.Text>
+           <Animated.Text
+             style={[styleguide.light_subheader_secondary, {fontSize: this.state.pageDescriptionSize}]}>
              To reset your password, please enter the email address associated with your account.
-           </Text>
+           </Animated.Text>
            <InputField
              icon={Icons.inbox}
              label={"email"}
              labelColor={"rgba(37,50,55,0.5)"}
              inactiveColor={GLOBAL.COLOR.DARKGRAY}
              activeColor={GLOBAL.COLOR.GREEN}
-             topMargin={32}
+             topMargin={this.state.topMargin}
              autoCapitalize={"none"}
              keyboardType={"email-address"}
              autoCorrect={false}
              onChangeText={(text) => {this.setState({email: text})}}
            />
-         <Animated.View
-           style={
-           {
-             width: '100%',
-             transform: [{translateX: this.state.shake_animation}]
-           }}>
-           <Button
-              backgroundColor={buttonColor}
-              label={"send me a link"}
-              height={64}
-              marginTop={40}
-              shadowColor={buttonColor}
-              onPress={() => {this.passwordReset();}}/>
-         </Animated.View>
-         </KeyboardAvoidingView>
+         <Button
+            ref="linkButton"
+            backgroundColor={GLOBAL.COLOR.GREEN}
+            label={"send me a link"}
+            height={64}
+            marginTop={40}
+            width={'100%'}
+            shadow={true}
+            onPress={() => {this.passwordReset();}}/>
+        </Animated.View>
        </SafeAreaView>
      );
    }
@@ -197,9 +252,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 10,
-    margin: 32,
+    marginHorizontal: 32,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
-
 });

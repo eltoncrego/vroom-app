@@ -14,15 +14,14 @@ import {
   StyleSheet,
   StatusBar,
   Dimensions,
-  SafeAreaView,
   Text,
   TouchableOpacity,
-  PanResponder,
   Animated,
   ScrollView,
-  Modal,
-  KeyboardAvoidingView,
+  Image,
   Platform,
+  Keyboard,
+  SafeAreaView,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
@@ -37,21 +36,22 @@ import {
   pullUserPermissions,
   pullOGODOReading,
 } from '../Database/Database.js';
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
+import { AreaChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
 
 // Custom components
 import GasList from '../Custom/GasList';
-import Settings from '../Screens/Settings.js'
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import VAlert from './../Custom/VAlert';
+import Settings from '../Screens/Settings';
 
 /*
  * Class: Dashboard
  * Author: Elton C.  Rego
  *
  * Purpose: Be the main screen on the application
- * TODO: Add items to list
- * TODO: Remove items from list properly
  */
 export default class Dashboard extends Component {
 
@@ -66,30 +66,33 @@ export default class Dashboard extends Component {
     super(props);
 
     this.state = {
+      // Animation Values
       translation: new Animated.Value(0),
+      transactionShift: new Animated.Value(0),
       settingsShift: new Animated.Value(1),
       fadeIn: new Animated.Value(0),
       modalFade: new Animated.Value(0),
-      button_color: new Animated.Value(0),
-      shake_animation: new Animated.Value(0),
-      directionToSwipe: "down here to show",
-      cardState: 1,
-      scrollEnable: true,
+      keyboardHeight: new Animated.Value(32),
+      pageTextSize: new Animated.Value(25),
+      topMargin: new Animated.Value(24),
+      placeholderVisible: new Animated.Value(0),
 
-      // Values for the add-gas modal
-      modalVisible: false,
+      // item toggles for expected behavior
+      scrollEnable: true,
+      settingAvailable: true,
+      graphShown: false,
+      graphToggleable: true,
 
       // Input state variables
       user_paid: 0,
       user_filled: 0,
       user_ODO: 0,
 
-      // Below are some dummy objects of stuff
-      // we will sync with firebase
+      // Vars that sync with firebase
       updatedODO: 0,
       originalODO: 0,
-      averageMPG: 0, // update this calculation as user enters
-      list_i: 0, // index should update with initial pull and increment
+      averageMPG: 0,
+      list_i: 0,
       textDataArr: [],
       isPremium: false,
     };
@@ -100,11 +103,14 @@ export default class Dashboard extends Component {
   * Author: Elton C. Rego
   * Purpose: Opens the modal to add a gas item
   */
-  openModal() {
-
-    this.setState({
-      modalVisible:true
-    });
+  openTransaction() {
+    Animated.spring(
+      this.state.transactionShift,
+      {
+        toValue: 1,
+        friction: 8,
+      }
+    ).start();
     Animated.timing(
       this.state.modalFade,
       {
@@ -119,6 +125,9 @@ export default class Dashboard extends Component {
         duration: 400,
       }
     ).start();
+    this.setState({
+      settingAvailable: false,
+    });
   }
 
  /*
@@ -126,8 +135,17 @@ export default class Dashboard extends Component {
   * Author: Elton C. Rego
   * Purpose: Closes the modal to add a gas item
   */
-  closeModal() {
-
+  closeTransaction() {
+    this.setState({
+      settingAvailable: true,
+    });
+    Animated.spring(
+      this.state.transactionShift,
+      {
+        toValue: 0,
+        friction: 8,
+      }
+    ).start();
     Animated.timing(
       this.state.modalFade,
       {
@@ -145,93 +163,222 @@ export default class Dashboard extends Component {
     this.setState({modalVisible:false});
   }
 
+  /*
+   * Function: openSettings()
+   * Author: Elton C. Rego
+   * Purpose: Opens the settings Panel
+   *
+   */
+  openSettings(){
+    Animated.timing(
+      this.state.settingsShift,
+      {
+        toValue: 0,
+        duration: 150,
+      }
+    ).start();
+  }
+
+  /*
+   * Function: closeSettings()
+   * Author: Elton C. Rego
+   * Purpose: Closes the settings Panel
+   *
+   */
+  closeSettings(){
+    Animated.timing(
+      this.state.settingsShift,
+      {
+        toValue: 1,
+        duration: 150,
+      }
+    ).start();
+  }
+
+  /*
+   * Author: Elton C. Rego
+   * Purpose: sets event listeners for the keyboard
+   */
+   componentWillMount () {
+     this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+     this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
+   }
+
+   componentWillUnmount() {
+     this.keyboardWillShowSub.remove();
+     this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = (event) => {
+    if(Platform.OS === 'ios'){
+      var end = (event.endCoordinates.height-64)/2+32;
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: event.duration,
+          toValue: end,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: event.duration,
+          toValue: 20,
+        }),
+        Animated.timing(this.state.topMargin, {
+          duration: 200,
+          toValue: 8,
+        }),
+      ]).start();
+    } else {
+      var end = (event.endCoordinates.height-64)/2+32;
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: 200,
+          toValue: end,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: 200,
+          toValue: 20,
+        }),
+        Animated.timing(this.state.topMargin, {
+          duration: 200,
+          toValue: 8,
+        }),
+      ]).start();
+    }
+  };
+
+  keyboardWillHide = (event) => {
+    if(Platform.OS === 'ios'){
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: event.duration,
+          toValue: 32,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: event.duration,
+          toValue: 25,
+        }),
+        Animated.timing(this.state.topMargin, {
+          duration: 200,
+          toValue: 24,
+        }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: 200,
+          toValue: 32,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: 200,
+          toValue: 25,
+        }),
+        Animated.timing(this.state.topMargin, {
+          duration: 200,
+          toValue: 24,
+        }),
+      ]).start();
+    }
+  };
+
  /*
   * Function: addItem()
   * Author: Elton C. Rego
   * Purpose: Adds an object to the GasList item used for gas
   *
-  * //TODO actually calculate the math
   */
   addItem() {
 
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
-      '', null, 5000);
+      'Ok');
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid gallon amount!',
-      '',null,5000);
+      'Ok');
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
-      '', null,5000);
+      'Ok');
       return;
     }
 
     // throw alert if user leaves any fields blank
     if (this.state.user_ODO <= this.state.updatedODO) {
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
-      '', null,5000);
+      'Ok');
       return;
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
-      '', null,5000);
+      'Ok');
       return;
     }
 
-    const distance = this.state.user_ODO - this.state.updatedODO;
-    const mpg = distance/this.state.user_filled;
+    const distance = parseFloat(this.state.user_ODO) - this.state.updatedODO;
+    const mpg = distance/parseFloat(this.state.user_filled);
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
     const creationDate = moment().toArray();
 
-    this.closeModal();
+    this.closeTransaction();
 
 
     var newFillup = {
       list_i: this.state.list_i + 1,
       totalPrice: parseFloat(this.state.user_paid),
       date: creationDate,
-      gallonsFilled: this.state.user_filled,
-      odometer: this.state.user_ODO,
-      distanceSinceLast: distance
+      gallonsFilled: parseFloat(this.state.user_filled),
+      odometer: parseFloat(this.state.user_ODO),
+      distanceSinceLast: distance,
     };
 
-    this.setState({
-      averageMPG: average,
-      updatedODO: this.state.user_ODO,
-      textDataArr: [newFillup, ...this.state.textDataArr],
-      user_paid: 0,
-      user_filled: 0,
-      user_ODO: 0,
-      list_i: this.state.list_i + 1,
+    Animated.timing(
+      this.state.placeholderVisible,
+      {
+        toValue: 0,
+        duration: 250,
+      }
+    ).start(() => {
+      this.setState({
+        averageMPG: average,
+        updatedODO: this.state.user_ODO,
+        textDataArr: [newFillup, ...this.state.textDataArr],
+        user_paid: "",
+        user_filled: "",
+        user_ODO: "",
+        list_i: this.state.list_i + 1,
+        graphToggleable: this.state.list_i + 1 >= 5 ? true : false,
+      });
     });
 
-    // TODO: Push to Firebase
+    // Push to Firebase
 
     pushFillup(newFillup);
     updateMPG(average);
-    updateODO(this.state.user_ODO);
+    updateODO(parseFloat(this.state.user_ODO));
   }
 
+  /*
+   * Function: removeItem()
+   * Author: Elton C. Rego
+   * Purpose: Removes an object to the GasList item used for gas
+   *
+   */
   removeItem(key){
 
-    // TODO: Push to firebase
     // We want to delete a specific Fillup from the user, based
     // on these variables
     const itemToRemove =
@@ -248,89 +395,86 @@ export default class Dashboard extends Component {
       /(this.state.textDataArr.length - 1);
 
     const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO :
-      this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
+      this.state.textDataArr[0].odometer;
 
     removeFillup(key);
     updateMPG(averageMPG);
     updateODO(ODO);
 
     this.state.textDataArr.pop(itemToRemove);
+    if(this.state.textDataArr.length == 0){
+      Animated.timing(
+        this.state.placeholderVisible,
+        {
+          toValue: 1,
+          duration: 250,
+        }
+      ).start();
+    }
     for (var i = indexOf; i < this.state.textDataArr.length; i++){
       this.state.textDataArr[i].list_i -= 1;
     }
     this.setState({
       list_i: this.state.list_i - 1,
+      graphToggleable: this.state.list_i - 1 >= 5 ? true : false,
       averageMPG: averageMPG,
       updatedODO: ODO,
     });
+    if(key == 5){
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 0,
+          duration: 150,
+        }
+      ).start();
+    }
+  }
 
+  // Call this to test an immediate notification.
+  showLocalNotification() {
+    FCM.presentLocalNotification({
+      id: 'testnotif',
+      vibrate: 500,
+      sound: "default",
+      title: 'Hello',
+      body: 'This is a test',
+      sub_text: 'sub text',
+      priority: "high",
+      show_in_foreground: true,
+      group: 'test',
+    });
+  }
+
+  // Call this to test a scheduled notification
+  scheduleLocalNotification() {
+    FCM.scheduleLocalNotification({
+      id: 'testnotif-scheduled',
+      fire_date: new Date().getTime()+5000,
+      vibrate: 500,
+      sound: "default",
+      title: 'Whats up?',
+      body: 'Test Scheduled Notification',
+      sub_text: 'sub text',
+      priority: "high",
+      show_in_foreground: true,
+      wake_screen: true,
+      group: 'test',
+    });
   }
 
   /*
-   * Function: componentWillMount()
+   * Function: componentDidMount()
    * Author: Elton C. Rego
-   * Purpose: Called when the component is called from the stack
-   *    - sets up the pan responder for the GasList transition
+   * Purpose: Pulls all the data from firebase and loads it into the view
+   *
    */
-  // componentWillMount() {
-  //
-  //   this._panResponder = PanResponder.create({
-  //     onMoveShouldSetResponderCapture: () => true,
-  //     onMoveShouldSetPanResponderCapture: () => true,
-  //
-  //     onPanResponderMove: (e, {dy}) => {
-  //       // put animation code here
-  //       this.setState({scrollEnable: false});
-  //       if((dy < -8) && this.state.cardState == 1){
-  //         Animated.spring(
-  //           this.state.translation,
-  //           { toValue: 0, friction: 5}
-  //         ).start();
-  //         this.setState({
-  //           directionToSwipe: "down here to show",
-  //         });
-  //       } else if ((dy >= 8) && this.state.cardState == 0) {
-  //         Animated.spring(
-  //           this.state.translation,
-  //           { toValue: 1, friction: 5}
-  //         ).start();
-  //         this.setState({
-  //           directionToSwipe: "up here to hide",
-  //         });
-  //       }
-  //     },
-  //
-  //     onPanResponderRelease: (evt, gestureState) => {
-  //       this.setState({
-  //         cardState: !this.state.cardState,
-  //         scrollEnable: !this.state.scrollEnable,
-  //       });
-  //     },
-  //   });
-  // }
-
-  openSettings(){
-
-    Animated.timing(
-      this.state.settingsShift,
-      {
-        toValue: 0,
-        duration: 150,
-      }
-    ).start();
-  }
-
-  closeSettings(){
-    Animated.timing(
-      this.state.settingsShift,
-      {
-        toValue: 1,
-        duration: 150,
-      }
-    ).start();
-  }
-
   componentDidMount() {
+
+    FCM.removeAllDeliveredNotifications();
+    FCM.setBadgeNumber(0);
+    // this.showLocalNotification(); DEBUG
+    // this.scheduleLocalNotification(); DEBUG
 
     var that = this;
     pullAverageMPG().then(function(fData){
@@ -371,6 +515,7 @@ export default class Dashboard extends Component {
         that.setState({
           textDataArr: fData,
           list_i: fData.length,
+          graphToggleable: fData.length >= 5 ? true : false,
         });
       }
     }).catch(function(error) {
@@ -389,48 +534,63 @@ export default class Dashboard extends Component {
           toValue: 1,
           duration: 250,
         }
-      ).start();
+      ).start(() => {
+        if(that.state.textDataArr.length == 0){
+          Animated.timing(
+            that.state.placeholderVisible,
+            {
+              toValue: 1,
+              duration: 250,
+            }
+          ).start();
+        }
+      });
     }).catch(function(error) {
       console.log('Failed to load user permiission data into state:', error);
     });
   }
 
   /*
-   * Author: Elton C. Rego
-   * Purpose: When called, shakes the button
-   */
-   shakeButton(){
-     Animated.sequence([
-       Animated.timing(this.state.button_color, {
-         toValue: 1,
-         duration: 150,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: -8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: -8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 0,
-         duration: 50,
-       }),
-       Animated.timing(this.state.button_color, {
-         toValue: 0,
-         duration: 150,
-       }),
-     ]).start();
-   }
+  * Function: toggleGraph()
+  * Author: Elton C. Rego
+  * Purpose: animates a shift of the gas items up and down
+  */
+  toggleGraph(){
+    const that = this;
+    if (this.state.graphShown){
+      this.setState({
+        graphToggleable: false,
+      });
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 0,
+          duration: 150,
+        }
+      ).start(() => {
+        that.setState({
+          graphToggleable: true,
+          graphShown: false,
+        });
+      });
+    } else {
+      this.setState({
+        graphToggleable: false,
+      });
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 1,
+          duration: 150,
+        }
+      ).start(() => {
+        that.setState({
+          graphToggleable: true,
+          graphShown: true,
+        });
+      });
+    }
+  }
 
   /*
    * Function: render()
@@ -446,17 +606,27 @@ export default class Dashboard extends Component {
 
     var cardTranslation = this.state.translation.interpolate({
       inputRange: [0, 1],
-      outputRange: [-250, 0]
+      outputRange: [-200, 0]
+    });
+
+    var cardHeight = this.state.translation.interpolate({
+      inputRange: [0,1],
+      outputRange: ['100%', '65.5%'],
+    })
+
+    var modalBG = this.state.modalFade.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 0.1],
+    });
+
+    var transactionTranslation = this.state.transactionShift.interpolate({
+      inputRange: [0, 1],
+      outputRange: [812, 0],
     });
 
     var settingsTranslation = this.state.settingsShift.interpolate({
       inputRange: [0, 1],
       outputRange: [0, width],
-    });
-
-    var modalBG = this.state.modalFade.interpolate({
-      inputRange: [0, 1],
-      outputRange: [1, 0.1],
     });
 
     // Calculate the x and y transform from the pan value
@@ -466,13 +636,8 @@ export default class Dashboard extends Component {
     // Calculate the transform property and set it as a value for our style which we add below to the Animated.View component
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
-
-    var modalBehavior = Platform.OS === 'ios' ? "position" : null;
-
-    var buttonColor = this.state.button_color.interpolate({
-      inputRange: [0, 1],
-      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
-    });
+    // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
+    var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     return(
       <View style={
@@ -484,18 +649,18 @@ export default class Dashboard extends Component {
       <StatusBar barStyle="light-content"/>
 
         <VAlert ref="valert"/>
-
         <Animated.View style={[styles.settings, settingsList]}>
           <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.valert}/>
         </Animated.View>
+
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
-            vroom
+            dashboard
             <Text style={styleguide.dark_title2_accent}>
               .
             </Text>
           </Text>
-          <TouchableOpacity onPress={() => this.openSettings()}>
+          <TouchableOpacity onPress={() => {this.openSettings();}} disabled={!this.state.settingAvailable}>
             <Animated.View style={{opacity: modalBG}}>
                 <Text style={styleguide.dark_title}>
                   <FontAwesome>{Icons.gear}</FontAwesome>
@@ -504,125 +669,142 @@ export default class Dashboard extends Component {
           </TouchableOpacity>
         </View>
 
-        <Modal
-          visible={this.state.modalVisible}
-          transparent={true}
-          animationType={'slide'}
-          onRequestClose={() => this.closeModal()}
-        >
+        <Animated.View style={[styles.no_items, {opacity: this.state.placeholderVisible}]}>
+          <Image
+            style={styles.placeholder}
+            resizeMethod="scale"
+            source={require('../../../assets/images/placeholder.png')}
+          />
+        <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
+        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet.<Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
+        </Animated.View>
+
+        <Animated.View style={[styles.transaction, transformTransaction]}>
           <View style={styles.modalContainer}>
-            <KeyboardAvoidingView behavior={modalBehavior}>
-              <View style={[styles.innerContainer]}>
-                <Text style={[styleguide.light_title2, {width: '100%'}]}>Add Transaction
-                  <Text style={styleguide.light_title2_accent}>.</Text>
-                </Text>
-                <InputField
-                  icon={Icons.dollar}
-                  label={"total amount paid for fillup"}
-                  labelColor={"rgba(37,50,55,0.5)"}
-                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
-                  activeColor={GLOBAL.COLOR.GREEN}
-                  autoCapitalize={"none"}
-                  type={"numeric"}
-                  topMargin={24}
-                  returnKeyType={'done'}
-                  onChangeText={(text) => {this.setState({user_paid: text})}}
-                />
-                <InputField
-                  icon={Icons.tint}
-                  label={"gallons filled"}
-                  labelColor={"rgba(37,50,55,0.5)"}
-                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
-                  activeColor={GLOBAL.COLOR.GREEN}
-                  autoCapitalize={"none"}
-                  type={"numeric"}
-                  topMargin={24}
-                  returnKeyType={'done'}
-                  onChangeText={(text) => {this.setState({user_filled: text})}}
-                />
-                <InputField
-                  icon={Icons.automobile}
-                  label={"odometer reading in miles"}
-                  labelColor={"rgba(37,50,55,0.5)"}
-                  inactiveColor={GLOBAL.COLOR.DARKGRAY}
-                  activeColor={GLOBAL.COLOR.GREEN}
-                  autoCapitalize={"none"}
-                  type={"numeric"}
-                  topMargin={24}
-                  returnKeyType={'done'}
-                  onChangeText={(text) => {this.setState({user_ODO: text})}}
-                />
-              </View>
-            </KeyboardAvoidingView>
-              <View style={styles.modal_buttons}>
-              <Animated.View
-                style={
-                {
-                  width: '100%',
-                  transform: [{translateX: this.state.shake_animation}]
-                }}>
-                <Button
-                  backgroundColor={buttonColor}
-                  label={"add item"}
-                  height={64}
-                  shadowColor={'rgba(0,0,0,0)'}
-                  width={"100%"}
-                  onPress={() => this.addItem()}
-                >
-                </Button>
-              </Animated.View>
-                <Button
-                  backgroundColor={GLOBAL.COLOR.GRAY}
-                  label={"cancel"}
-                  height={64}
-                  marginTop={16}
-                  shadowColor={'rgba(0,0,0,0)'}
-                  width={"100%"}
-                  onPress={() => {
-                    this.closeModal();
-                  }}
-                  title="Close modal"
-                >
-                </Button>
-              </View>
+            <View style={[styles.innerContainer]}>
+              <Animated.Text style={[styleguide.light_title2, {width: '100%', fontSize: this.state.pageTextSize}]}>Add Transaction
+                <Animated.Text style={[styleguide.light_title2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
+              </Animated.Text>
+              <InputField
+                ref="paid"
+                icon={Icons.dollar}
+                label={"total amount paid for fillup"}
+                labelColor={"rgba(37,50,55,0.5)"}
+                inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                activeColor={GLOBAL.COLOR.GREEN}
+                autoCapitalize={"none"}
+                type={"numeric"}
+                topMargin={this.state.topMargin}
+                returnKeyType={'done'}
+                onChangeText={(text) => {this.setState({user_paid: text})}}
+                onSubmitEditing={() => {this.refs.gas.focus();}}
+              />
+              <InputField
+                ref="gas"
+                icon={Icons.tint}
+                label={"gallons filled"}
+                labelColor={"rgba(37,50,55,0.5)"}
+                inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                activeColor={GLOBAL.COLOR.GREEN}
+                autoCapitalize={"none"}
+                type={"numeric"}
+                topMargin={24}
+                returnKeyType={'done'}
+                onChangeText={(text) => {this.setState({user_filled: text})}}
+                onSubmitEditing={() => {this.refs.odo.focus();}}
+              />
+              <InputField
+                ref="odo"
+                icon={Icons.automobile}
+                label={"odometer reading in miles"}
+                labelColor={"rgba(37,50,55,0.5)"}
+                inactiveColor={GLOBAL.COLOR.DARKGRAY}
+                activeColor={GLOBAL.COLOR.GREEN}
+                autoCapitalize={"none"}
+                type={"numeric"}
+                topMargin={24}
+                returnKeyType={'done'}
+                onChangeText={(text) => {this.setState({user_ODO: text})}}
+                onSubmitEditing={() => {this.addItem()}}
+              />
+              <Button
+                ref="submitButton"
+                backgroundColor={GLOBAL.COLOR.GREEN}
+                label={"add item"}
+                height={64}
+                width={"100%"}
+                shadow={false}
+                marginTop={this.state.keyboardHeight}
+                onPress={() => this.addItem()}
+              />
+              <Button
+                backgroundColor={GLOBAL.COLOR.DARKBLUE}
+                label={"cancel"}
+                height={64}
+                marginTop={16}
+                width={"100%"}
+                onPress={() => {
+                  this.closeTransaction();
+                }}
+                title="Close modal"
+              />
+            </View>
           </View>
-        </Modal>
+        </Animated.View>
 
         <View style={styles.content}>
-          <View style={styles.graph}>
-          </View>
-          <Animated.View
-            style={[
-              styles.card,
-              transformList,
-              {opacity: this.state.fadeIn}]
-            }>
-            {/*<Text style={[styleguide.light_caption_secondary, {alignSelf: 'center', paddingTop: 8}]}>swipe {this.state.directionToSwipe} graph</Text>
-            ...this._panResponder.panHandlers*/}
-            <View  style={styles.statistics}>
-              <View>
-                <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
-                <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
-              </View>
-              <View style={{alignItems:'flex-end'}}>
-                <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
-                <Text style={styleguide.light_body_secondary}>Odometer</Text>
-              </View>
-            </View>
-            <GasList
-              onRef={ref => (this.gaslist = ref)}
-              enable={this.state.scrollEnable}
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
+            <AreaChart
+              style={styles.areaGraph}
+              start={0}
               data={this.state.textDataArr}
-              average={this.state.averageMPG.toFixed(2)}
-              removeItem={key => this.removeItem(key)}/>
-          </Animated.View>
+              yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
+              xAccessor={({item}) => item.list_i}
+              curve={shape.curveNatural}
+              contentInset={ { top: 32, bottom: 50, right: -2, left: -2} }
+              showGrid={false}
+              svg={{
+                stroke: GLOBAL.COLOR.GREEN,
+                strokeWidth: 3,
+                fill: 'rgba(184, 233, 134, 0.2)',
+              }}
+            />
+        </Animated.View>
+            <Animated.View
+              style={[
+                styles.card,
+                transformList,
+                {
+                  opacity: this.state.fadeIn,
+                  maxHeight: cardHeight,
+                }]
+              }>
+              <TouchableOpacity onPress={() => this.toggleGraph()} disabled={!this.state.graphToggleable}>
+                <View  style={styles.statistics}>
+                  <View>
+                    <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
+                    <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
+                  </View>
+                  <View style={{alignItems:'flex-end'}}>
+                    <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
+                    <Text style={styleguide.light_body_secondary}>Odometer</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <GasList
+                onRef={ref => (this.gaslist = ref)}
+                enable={this.state.scrollEnable}
+                data={this.state.textDataArr}
+                average={this.state.averageMPG.toFixed(2)}
+                removeItem={key => this.removeItem(key)}/>
+            </Animated.View>
         </View>
 
 
         <TouchableOpacity style={
             {
-              width: 64,
-              height: 64,
+              width: 56,
+              height: 56,
               borderRadius: 32,
               backgroundColor: GLOBAL.COLOR.GREEN,
               shadowColor: GLOBAL.COLOR.DARKGRAY,
@@ -631,11 +813,11 @@ export default class Dashboard extends Component {
               shadowRadius: 30,
 
               position: 'absolute',
-              zIndex: 2,
-              bottom: 32,
-              right: 32,
+              zIndex: 1,
+              bottom: 16,
+              right: 16,
             }
-          } onPress={() => this.openModal()}>
+          } onPress={() => this.openTransaction()}>
           <View style={styles.floating_button}>
               <Text style={styleguide.dark_title}>
                 <FontAwesome>{Icons.plus}</FontAwesome>
@@ -649,6 +831,13 @@ export default class Dashboard extends Component {
 }
 
 const styles = StyleSheet.create({
+  transaction: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    zIndex: 2,
+  },
   settings: {
     position: 'absolute',
     top: 0,
@@ -658,10 +847,10 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
   navbar: {
+    paddingTop: 32,
     flex: 1,
     width: '100%',
     paddingHorizontal: 24,
-    paddingTop: 32,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -680,11 +869,29 @@ const styles = StyleSheet.create({
   graph:{
     zIndex: 0,
     width: '100%',
-    height: 250,
+    height: 200,
+  },
+  areaGraph: {
+    height: 200,
+  },
+  no_items:{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    padding: 32,
+    width: "100%",
+    height: "100%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: -1,
+    opacity: 1,
+  },
+  placeholder: {
+    width: 100,
+    height: 100,
   },
   card: {
     width: '100%',
-    maxHeight: '100%',
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 1,
   },
@@ -704,7 +911,6 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(37,50,55,0.50)',
   },
 
-
   // FOR PROTOTYPING
   modalContainer: {
     flex: 1,
@@ -713,17 +919,9 @@ const styles = StyleSheet.create({
   innerContainer: {
     alignItems: 'center',
     padding: 32,
-    paddingBottom: 20,
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 2,
     overflow: 'visible',
-  },
-  modal_buttons: {
-    alignItems: 'center',
-    padding: 32,
-    paddingTop: 20,
-    zIndex: 1,
-    backgroundColor: GLOBAL.COLOR.WHITE,
   },
 
 });
