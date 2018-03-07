@@ -189,7 +189,7 @@ export default class Auth extends Component {
         }).catch(function(error) {
           console.log("ERROR: serious logic bug in Auth: deleteUser()");
           throw new Error(error);
-        })return returnvalue;
+        })
       }).catch(function(error) {
         console.log(error.message);
         throw new Error(error);
