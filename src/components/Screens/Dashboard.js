@@ -638,7 +638,7 @@ export default class Dashboard extends Component {
             }
           ]}>Looks like you haven't added any fill-ups yet.<Text style={{
         color: GLOBAL.COLOR.GREEN
-      }}>Tap the green plus button</Text>
+      }}> Tap the green plus button </Text>
           to add your first!</Text>
       </Animated.View>
 
