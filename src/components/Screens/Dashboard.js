@@ -761,12 +761,12 @@ export default class Dashboard extends Component {
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
-              contentInset={ { top: 8, bottom: 50, right: -2, left: -2} }
-              showGrid={ false }
+              contentInset={ { top: 32, bottom: 50, right: -2, left: -2} }
+              showGrid={false}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
-                fill: 'rgba(184, 233, 134, 0.1)',
+                fill: 'rgba(184, 233, 134, 0.2)',
               }}
             />
         </Animated.View>
