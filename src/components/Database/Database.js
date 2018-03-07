@@ -3,25 +3,20 @@ import {goTo, clearNavStack} from '../Navigation/Navigation';
 import * as firebase from 'firebase';
 import Auth from '../Authentication/Auth';
 
-/*
- * Congfiguration: firebase.initializeApp
- * Author: Alec Felt
- *   Purpose: Attach our app to our database
- */
- // Initialize Firebase
+/* Congfiguration: firebase.initializeApp Author: Alec Felt   Purpose: Attach our app to our database */
+// Initialize Firebase
 const config = {
-   apiKey: "AIzaSyAmJxDUilgKOlQDyji9qmMNh2Bb73WcP7U",
-   authDomain: "vroom-d5c0e.firebaseapp.com",
-   databaseURL: "https://vroom-d5c0e.firebaseio.com",
-   projectId: "vroom-d5c0e",
-   storageBucket: "vroom-d5c0e.appspot.com",
-   messagingSenderId: "52629805323"
+  apiKey: "AIzaSyAmJxDUilgKOlQDyji9qmMNh2Bb73WcP7U",
+  authDomain: "vroom-d5c0e.firebaseapp.com",
+  databaseURL: "https://vroom-d5c0e.firebaseio.com",
+  projectId: "vroom-d5c0e",
+  storageBucket: "vroom-d5c0e.appspot.com",
+  messagingSenderId: "52629805323"
 };
 
 export const firebaseRef = firebase.initializeApp(config);
 
-/*
-* Database function: pushTask()
+/* * Database function: pushTask()
 * Author: Alec Felt and Connick Shields
 *
 * Purpose: push Task object to database,
@@ -30,43 +25,40 @@ export const firebaseRef = firebase.initializeApp(config);
 * @param: (ttr) = task type reference
 *         (d) = date string (yyyy-mm-dd)
 * @return: void
-* TODO create error message, update task object fields, add notifications?
-*/
+* TODO create error message, update task object fields, add notifications? */
 export function pushTask(ttr, d) {
-  if(Auth.checkAuth()) {
+  if (Auth.checkAuth()) {
     var taskObject = {
-        ttRef: ttr,
-        date: d,
-        uid: Auth.getAuth().uid,
+      ttRef: ttr,
+      date: d,
+      uid: Auth.getAuth().uid
     };
     firebaseRef.database().ref('tasks').push(taskObject);
   }
 }
 
-/*
-* Database function: pushFillup()
+/* * Database function: pushFillup()
 * Author: Will Coates
 *
 * Purpose: push a fillup to a user in the database
 *
 * @param: (fillupData) = the newest fillup (textDataArr[0])
 * @return: void
-* TODO create error message, update task object fields, add notifications?
-*/
+* TODO create error message, update task object fields, add notifications? */
 export function pushFillup(fillupData) {
   console.log("pushFillup");
   console.log("Here's fillupData:");
   console.log(fillupData);
 
-  if(Auth.checkAuth()) {
+  if (Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("fillups").push(fillupData);
   }
 }
 
-export function initUser(originalODO){
+export function initUser(originalODO) {
   console.log("initUser");
-  if(Auth.checkAuth()) {
+  if (Auth.checkAuth()) {
     console.log("AUTH")
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
@@ -76,7 +68,7 @@ export function initUser(originalODO){
 
 export function updateMPG(average) {
   console.log("updateMPG");
-  if(Auth.checkAuth()) {
+  if (Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("average").set(average);
   }
@@ -84,24 +76,22 @@ export function updateMPG(average) {
 
 export function updateODO(newODO) {
   console.log("updateODO");
-  if(Auth.checkAuth()) {
+  if (Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("odometer").set(newODO);
   }
 }
 
-/*
-* Database function: pullFillups()
-*/
+/* * Database function: pullFillups() */
 export function pullFillups() {
   console.log("pullFillups");
 
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("fillups");
 
-  return query.once('value').then(function(snapshot){
+  return query.once('value').then(function(snapshot) {
     var returnArr = [];
-    snapshot.forEach(function(listItem){
+    snapshot.forEach(function(listItem) {
       var item = listItem.val();
       console.log(item);
       returnArr.unshift(item);
@@ -113,16 +103,14 @@ export function pullFillups() {
 
 }
 
-/*
-* Database function: pullFillups()
-*/
+/* * Database function: pullFillups() */
 export function pullAverageMPG() {
   console.log("pullAverageMPG");
 
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("average");
 
-  return query.once('value').then(function(snapshot){
+  return query.once('value').then(function(snapshot) {
     return snapshot.val();
   }).catch(function(error) {
     console.log('Failed to pull average MPG data from firebase:', error);
@@ -130,16 +118,14 @@ export function pullAverageMPG() {
 
 }
 
-/*
-* Database function: pullFillups()
-*/
+/* * Database function: pullFillups() */
 export function pullODOReading() {
   console.log("pullODOReading");
 
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("odometer");
 
-  return query.once('value').then(function(snapshot){
+  return query.once('value').then(function(snapshot) {
     return snapshot.val();
   }).catch(function(error) {
     console.log('Failed to pull Original Odometer data from firebase:', error);
@@ -147,16 +133,14 @@ export function pullODOReading() {
 
 }
 
-/*
-* Database function: pullFillups()
-*/
+/* * Database function: pullFillups() */
 export function pullOGODOReading() {
   console.log("pullOGDOReading");
 
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("originalODO");
 
-  return query.once('value').then(function(snapshot){
+  return query.once('value').then(function(snapshot) {
     return snapshot.val();
   }).catch(function(error) {
     console.log('Failed to pull Odometer data from firebase:', error);
@@ -164,37 +148,35 @@ export function pullOGODOReading() {
 
 }
 
-export function pullUserPermissions(){
+export function pullUserPermissions() {
   console.log("Pulling user permissions.");
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("premiumUser");
-  return query.once('value').then(function(snapshot){
+  return query.once('value').then(function(snapshot) {
     return snapshot.val();
   }).catch(function(error) {
     console.log('Failed to pull user permission data from firebase:', error);
   });
 }
 
-/*
-* Database function: removeFillup()
+/* * Database function: removeFillup()
 * Author: Will Coates
 *
 * Purpose: remove a fillup from a user in the database
 *
 * @param: i: the index of the particular fillup we're removing
 * @return: void
-* TODO create error message, update task object fields, add notifications?
-*/
+* TODO create error message, update task object fields, add notifications? */
 export function removeFillup(i) {
   console.log("removing fillup");
   console.log(i)
 
   var user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("fillups");
-  query.once('value').then(function(snapshot){
+  query.once('value').then(function(snapshot) {
     snapshot.forEach(function(child) {
       if (child.val().list_i == i) {
-        console.log('Removing child '+child.key);
+        console.log('Removing child ' + child.key);
         child.ref.remove();
       }
     });
@@ -214,24 +196,22 @@ export function removeFillup(i) {
  * @return: a promise which resolves to an array
  * TODO: none
  */
-export function queryCars(path){
-    return new Promise((resolve, reject) => {
-        firebaseRef.database().ref(path).once("value")
-        .then(function(snapshot){
-            var arr = [];
-            snapshot.forEach(function(snap){
-                arr[arr.length] = snap.key;
-            });
-            resolve(arr);
-        }).catch( (error) => {
-            console.log("queryCars(): Firebase query error: "+error.message);
-            reject(error);
-        });
+export function queryCars(path) {
+  return new Promise((resolve, reject) => {
+    firebaseRef.database().ref(path).once("value").then(function(snapshot) {
+      var arr = [];
+      snapshot.forEach(function(snap) {
+        arr[arr.length] = snap.key;
+      });
+      resolve(arr);
+    }).catch((error) => {
+      console.log("queryCars(): Firebase query error: " + error.message);
+      reject(error);
     });
+  });
 }
 
-/*
-* Database function: writeToPath()
+/* * Database function: writeToPath()
 * Author: Will Coates and Payam Katoozian
 *
 * Purpose: write a JSON to a specified path in the database
@@ -239,8 +219,7 @@ export function queryCars(path){
 * @param: (path) = string: path to location in database
 *         (ob)   = JSON object to be pushed
 * @return: void
-* TODO create error message, update task object fields, add notifications?
-*/
+* TODO create error message, update task object fields, add notifications? */
 export function pushJSONTask(path, ob) {
   console.log("writing to path = " + path);
   console.log("JSON: ");
