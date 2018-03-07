@@ -13,14 +13,20 @@ import {
   SignedIn,
   SignedUp
 } from "../Navigation/Router";
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 // Necessary Files
 import Loading from '../Screens/Loading.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
 
-//Testing
-import Onboarding from '../Screens/Onboarding'
+// this shall be called regardless of app state: running, background or not running. Won't be called when app is killed by user in iOS
+FCM.on(FCMEvent.Notification, async (notif) => {
+    console.log(notif);
+});
+FCM.on(FCMEvent.RefreshToken, (token) => {
+    console.log(token);
+});
 
 /*
  * Class: Auth
@@ -29,8 +35,11 @@ import Onboarding from '../Screens/Onboarding'
  * Purpose: Checks whether the user is already logged in or not
  *   and routes them to the correct state of the applciation
  *   SignedIn if they are; SignedOut if they arent
+ * Exported Function Purpose: Provide firebase auth actions to all
+ *   parts of the application
  *
  * @return: View
+ * @return: Promise.prototype()
  */
 export default class Auth extends Component {
 
@@ -86,13 +95,13 @@ export default class Auth extends Component {
 
   /*
   * Database function: databaseLogin()
-  * Author: Alec Felt and Connick Shields
+  * Author: Alec Felt, Connick Shields, and Elton C. Rego
   *
   * Purpose: login the user
   *
   * @param: (e) = email
   *         (p) = password
-  * @return: boolean
+  * @return: Promise.prototype()
   */
   static firebaseLogin = (e, p) => {
     return firebase.auth().signInWithEmailAndPassword(e, p).then((user) => {
@@ -107,12 +116,12 @@ export default class Auth extends Component {
 
   /*
    * Database function: firebasePasswordReset()
-   * Author: Payam Katoozian
+   * Author: Payam Katoozian and Elton C. Rego
    *
    * Purpose: Reset the user's password
    *
    * @param: (e) = email
-   * @return: boolean
+   * @return: Promise.prototype();
    */
   static firebasePasswordReset = (e) => {
     return firebase.auth().sendPasswordResetEmail(e).then((user) => {
@@ -128,13 +137,13 @@ export default class Auth extends Component {
 
  /*
   * Database function: databaseSignup
-  * Author: Alec Felt and Connick Shields
+  * Author: Alec Felt, Connick Shields, and Elton C. Rego
   *
   * Purpose: signup a user with email/password
   *
   * @param: (e) = email
   *         (p) = password
-  * @return: boolean
+  * @return: Promise.prototype();
   */
   static firebaseSignup = (e, p) => {
     return firebase.auth().createUserWithEmailAndPassword(e, p)
@@ -153,12 +162,12 @@ export default class Auth extends Component {
 
   /*
   * Database function: logOut()
-  * Author: Alec Felt and Connick Shields
+  * Author: Alec Felt, Connick Shields, and Elton C. Rego
   *
   * Purpose: log the current user out
   *
   * @param: void
-  * @return: boolean
+  * @return: Promise.prototype();
   */
   static logOut = () => {
     // if signOut() returns void, then go back to login
@@ -178,6 +187,7 @@ export default class Auth extends Component {
   * Author: Elton C. Rego and Connick Shields
   *
   * Purpose: Deletes the current user account
+  * @retun: Promise.prototype();
   */
   static deleteUser = () => {
       if (Auth.checkAuth()) {
@@ -194,15 +204,15 @@ export default class Auth extends Component {
         }).catch(function(error) {
           console.log(error.message);
           throw new Error(error);
-        });
-      } else {
-        return "user is null";
-      }
+        })
+    } else {
+      return "user is null";
+    }
   }
 
   /*
   * Auth function: reAuth()
-  * Author: Alec Felt
+  * Author: Alec Felt and Elton C. Rego
   *
   * Purpose: creates a new credential,
   *       attempts to reauthenticate user,
@@ -210,6 +220,7 @@ export default class Auth extends Component {
   *
   * @params: (e) = email user provides
   *          (p) = password user provides
+  * @return: Promise.prototype();
   */
   static reAuth = (e, p) => {
       var credential = firebase.auth.EmailAuthProvider.credential(e, p);
@@ -272,6 +283,7 @@ export default class Auth extends Component {
 
     // this.render();
   }
+
   /*
    * Method: render()
    * Author: Elton C. Rego
@@ -285,12 +297,13 @@ export default class Auth extends Component {
    */
   render() {
 
-    // return(<Onboarding/>);
-
+    // While the application is verifying if the user is signed in,
+    // shows the loading component
     if (!this.state.checkedSignIn) {
       return(<Loading label={"someone dropped screws in here"}/>);
     }
 
+    // Shows signedin or signedup depending on the user's status
     if(this.state.signedIn && this.state.onboardingNeeded){
        return(<SignedUp/>);
     } else if (this.state.signedIn && !this.state.onboardingNeeded){

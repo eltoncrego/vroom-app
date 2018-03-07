@@ -21,6 +21,12 @@ public class MainActivity extends ReactActivity {
         return "vroom";
     }
 
+    @Override
+    public void onNewIntent (Intent intent) {
+      super.onNewIntent(intent);
+        setIntent(intent);
+    }   
+
     protected List<ReactPackage> getPackages() {
         ReactPackage packages[] = new ReactPackage[]{
                 new MainReactPackage(),

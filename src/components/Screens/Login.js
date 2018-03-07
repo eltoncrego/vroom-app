@@ -7,7 +7,6 @@ styleguide = require('../../global-styles');
 import {
   SafeAreaView,
   View,
-  KeyboardAvoidingView,
   StatusBar,
   StyleSheet,
   Text,
@@ -15,10 +14,12 @@ import {
   Animated,
   Modal,
   Platform,
+  Keyboard,
 } from 'react-native';
 import {Icons} from 'react-native-fontawesome';
 import Animation from 'lottie-react-native';
 
+// Our Custom Components
 import Auth from '../Authentication/Auth';
 import { goTo } from '../Navigation/Navigation';
 import {initUser} from '../Database/Database';
@@ -29,6 +30,23 @@ import Loading from './../Screens/Loading';
 
 import loader_icon from '../../../assets/animations/loading.json';
 
+/*
+* Class: Button
+* Author: Elton C. Rego
+* Purpose: Renders a styled button with the given properties
+*
+* @function: componentDidMount() - sets up the component
+* @function: toggleSignUp() - call when you want to switch the state from
+*   sign up to sign in and vice versa
+* @function: signin() - asynchronous call to firebase sign in, verifies if
+*   the data is inputted correctly
+* @function: - asynchronous call to firebase sign up, verifies if
+*   the data is inputted correctly
+* @function: openModal() - opens the modal for indicating Loading
+* @function: closeModal() - closes the modal for indicating loaded
+*
+* @return Login: the view for sign up and sign in screens
+*/
 export default class Login extends Component {
 
  /*
@@ -42,8 +60,7 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      button_color: new Animated.Value(0),
-
+      // State Variable
       sign_up: true,
       page_text: "Sign up",
       button_text: "sign up!",
@@ -51,10 +68,14 @@ export default class Login extends Component {
       password: null,
       password_verification: null,
 
+      // Modal toggle
       modalVisible: false,
 
+      // Animation Values
       fade_animation: new Animated.Value(0),
-      shake_animation: new Animated.Value(0),
+      keyboardHeight: new Animated.Value(0),
+      pageTextSize: new Animated.Value(50),
+      formMargin: new Animated.Value(24),
     };
   }
 
@@ -73,6 +94,90 @@ export default class Login extends Component {
       }
     ).start();
   }
+
+  /*
+   * Author: Elton C. Rego
+   * Purpose: sets event listeners for the keyboard
+   */
+   componentWillMount () {
+     this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+     this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
+   }
+
+   componentWillUnmount() {
+     this.keyboardWillShowSub.remove();
+     this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = (event) => {
+    if(Platform.OS === 'ios'){
+      var end = (event.endCoordinates.height-128)/2;
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: event.duration,
+          toValue: end,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: event.duration,
+          toValue: 35,
+        }),
+        Animated.timing(this.state.formMargin, {
+          duration: event.duration,
+          toValue: 8,
+        }),
+      ]).start();
+    } else {
+      var end = (event.endCoordinates.height-128)/2;
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: 200,
+          toValue: end,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: 200,
+          toValue: 35,
+        }),
+        Animated.timing(this.state.formMargin, {
+          duration: 200,
+          toValue: 8,
+        }),
+      ]).start();
+    }
+  };
+
+  keyboardWillHide = (event) => {
+    if(Platform.OS === 'ios'){
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: event.duration,
+          toValue: 0,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: event.duration,
+          toValue: 50,
+        }),
+        Animated.timing(this.state.formMargin, {
+          duration: event.duration,
+          toValue: 24,
+        }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(this.state.keyboardHeight, {
+          duration: 200,
+          toValue: 0,
+        }),
+        Animated.timing(this.state.pageTextSize, {
+          duration: 200,
+          toValue: 50,
+        }),
+        Animated.timing(this.state.formMargin, {
+          duration: 200,
+          toValue: 24,
+        }),
+      ]).start();
+    }
+  };
 
  /*
   * Author: Elton C. Rego
@@ -113,43 +218,6 @@ export default class Login extends Component {
     });
   }
 
-  /*
-   * Author: Elton C. Rego
-   * Purpose: When called, shakes the button
-   */
-   shakeButton(){
-     Animated.sequence([
-       Animated.timing(this.state.button_color, {
-         toValue: 1,
-         duration: 150,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: -8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: -8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 8,
-         duration: 50,
-       }),
-       Animated.timing(this.state.shake_animation, {
-         toValue: 0,
-         duration: 50,
-       }),
-       Animated.timing(this.state.button_color, {
-         toValue: 0,
-         duration: 150,
-       }),
-     ]).start();
-   }
-
  /*
   * Author: Alec Felt, Connick Shields
   * Purpose: Checks state.email and state.password and
@@ -157,14 +225,14 @@ export default class Login extends Component {
   */
   signin = () => {
     if((!this.state.email)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Woah there!',
       'You can\'t log in with an empty email!',
       'I understand');
       return;
     }
     if((!this.state.password)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Hey there, friendo!',
       'You can\'t log in with an empty password!',
       'I understand');
@@ -188,21 +256,21 @@ export default class Login extends Component {
   */
   signup = () => {
     if((!this.state.email)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Now wait just a second!',
       'You can\'t sign up with an empty email!',
       'I understand');
       return;
     }
     if((!this.state.password)){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Hold up!',
       'You can\'t sign up with an empty password!',
       'I understand');
       return;
     }
     if(this.state.password != this.state.password_verification){
-      this.shakeButton();
+      this.refs.submitButton.indicateError();
       this.refs.valert.showAlert('Our OCD is going off...',
       'your passwords don\'t match',
       'I understand');
@@ -265,6 +333,7 @@ export default class Login extends Component {
     */
     var pw_confirm_field = this.state.sign_up ?
         <InputField
+          ref="password2"
           icon={Icons.check}
           label={"re-enter password"}
           labelColor={"rgba(37,50,55,0.5)"}
@@ -278,7 +347,7 @@ export default class Login extends Component {
           onChangeText={
             (text) => {this.setState({password_verification: text})}
           }
-          onSubmitEditing={ () => {() => this.signup()}}
+          onSubmitEditing={() => this.signup()}
         />: null ;
 
    /*
@@ -287,8 +356,8 @@ export default class Login extends Component {
     *   and toggles the sign up link text as such
     */
     var signup_link_text = this.state.sign_up ?
-      "Have an account with us? Sign in!"
-      : "Don't have an account? Sign up!" ;
+      "have an account with us? sign in!"
+      : "don't have an account? sign up!" ;
 
    /*
     * Author: Elton C. Rego
@@ -297,13 +366,6 @@ export default class Login extends Component {
     */
     var signup_button_text = this.state.sign_up ?
       "sign up!" : "sign in!" ;
-
-    var keyboardBehavior = Platform.OS === 'ios' ? "padding" : null;
-
-    var buttonColor = this.state.button_color.interpolate({
-      inputRange: [0, 1],
-      outputRange: [GLOBAL.COLOR.GREEN, GLOBAL.COLOR.RED]
-    });
 
     return (
       <SafeAreaView style={[
@@ -326,29 +388,29 @@ export default class Login extends Component {
 
       <VAlert ref="valert"/>
 
-        <Animated.View style={{opacity: this.state.fade_animation,}}>
-          <KeyboardAvoidingView
-            style={styles.sign_in_form}
-            behavior={keyboardBehavior}
-          >
-            <Text style={styleguide.light_display2}>
-              {this.state.page_text}
-              <Text style={styleguide.light_display2_accent}>.</Text>
-            </Text>
+        <Animated.View style={[styles.sign_in_form, {opacity: this.state.fade_animation, paddingBottom: this.state.keyboardHeight}]}>
+          <Animated.Text style={[styleguide.light_display2, {fontSize: this.state.pageTextSize}]}>
+            {this.state.page_text}
+            <Animated.Text style={[styleguide.light_display2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
+          </Animated.Text>
             <InputField
               icon={Icons.inbox}
               label={"email"}
               labelColor={"rgba(37,50,55,0.5)"}
               inactiveColor={GLOBAL.COLOR.DARKGRAY}
               activeColor={GLOBAL.COLOR.GREEN}
-              topMargin={32}
+              topMargin={this.state.formMargin}
               autoCapitalize={"none"}
               keyboardType={"email-address"}
               autoCorrect={false}
-              returnKeyType={'done'}
+              returnKeyType={'next'}
               onChangeText={(text) => {this.setState({email: text})}}
+              onSubmitEditing={ () => {
+                this.refs.password1.focus();
+              }}
             />
             <InputField
+              ref="password1"
               icon={Icons.lock}
               label={"password"}
               labelColor={"rgba(37,50,55,0.5)"}
@@ -358,58 +420,52 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               secureTextEntry={true}
               autoCorrect={false}
-              returnKeyType={'go'}
+              returnKeyType={this.state.sign_up? 'next' : 'go'}
               onChangeText={(text) => {this.setState({password: text})}}
               onSubmitEditing={ () => {
                 if(!this.state.sign_up){
                   this.signin();
+                } else {
+                  this.refs.password2.focus();
                 }
               }}
             />
             {pw_confirm_field}
-          <TouchableOpacity onPress={() => {
-              goTo(this.props.navigation, 'ForgotPassword');
-            }}>
-              <Text
-                style={[
-                  styleguide.light_body_secondary,
-                  styles.forgot_password_text
-                ]}
-              >forgot password?</Text>
-          </TouchableOpacity>
-            <Animated.View
-              style={
-                {
-                  transform: [{translateX: this.state.shake_animation}]
-                }
-              }>
-               <Button
-                backgroundColor={buttonColor}
-                label={this.state.button_text}
-                height={64}
-                marginTop={40}
-                shadowColor={buttonColor}
-                onPress={()=>{
-                  if(this.state.sign_up){
-                    this.signup();
-                  } else {
-                    this.signin();
-                  }
-                }}
-              />
-            </Animated.View>
-            <TouchableOpacity onPress={() => this.toggleSignUp()}>
-              <Text style={[
-                styleguide.light_body,
-                {
-                  alignSelf: 'center',
-                  marginTop: 32,
-                }
-              ]}>
-                {signup_link_text}
-              </Text>
+            <TouchableOpacity onPress={() => {
+                goTo(this.props.navigation, 'ForgotPassword');
+              }}>
+                <Text
+                  style={[
+                    styleguide.light_body,
+                    styles.forgot_password_text
+                  ]}
+                >forgot password?</Text>
             </TouchableOpacity>
-          </KeyboardAvoidingView>
+         <Button
+          ref="submitButton"
+          backgroundColor={GLOBAL.COLOR.GREEN}
+          label={this.state.button_text}
+          height={64}
+          marginTop={40}
+          shadow={true}
+          onPress={()=>{
+            if(this.state.sign_up){
+              this.signup();
+            } else {
+              this.signin();
+            }
+          }}/>
+          <TouchableOpacity onPress={() => this.toggleSignUp()}>
+            <Text style={[
+              styleguide.light_body,
+              {
+                alignSelf: 'center',
+                marginTop: 32,
+              }
+            ]}>
+              {signup_link_text}
+            </Text>
+          </TouchableOpacity>
         </Animated.View>
       </SafeAreaView>
     );
