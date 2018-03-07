@@ -205,10 +205,6 @@ export default class Auth extends Component {
           console.log(error.message);
           throw new Error(error);
         })
-      }).catch(function(error) {
-        console.log(error.message);
-        throw new Error(error);
-      });
     } else {
       return "user is null";
     }
