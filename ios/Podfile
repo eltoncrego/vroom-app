@@ -11,6 +11,14 @@ target 'vroom' do
   # use_frameworks!
 
   # Pods for vroom
+  pod "yoga", :path => "../node_modules/react-native/ReactCommon/yoga"
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'BatchedBridge', # Required For React Native 0.45.0+
+    'Core',
+    # Add any other subspecs you want to use in your project
+    'DevSupport',
+  ]
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
   target 'vroomTests' do
     inherit! :search_paths

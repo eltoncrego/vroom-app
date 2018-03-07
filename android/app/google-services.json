@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "52629805323",
+    "firebase_url": "https://vroom-d5c0e.firebaseio.com",
+    "project_id": "vroom-d5c0e",
+    "storage_bucket": "vroom-d5c0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52629805323:android:cbe4cdd63f96b561",
+        "android_client_info": {
+          "package_name": "tech.revi.vroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52629805323-lk5gjb8bkbthiucbtb12nrn91bfcui3g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.revi.vroom",
+            "certificate_hash": "7e1cbe8bab1596fc4b07c3e6845a1a8b9b505197"
+          }
+        },
+        {
+          "client_id": "52629805323-heut9p7befdksuf3o62aqr3dc8nvb21h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.revi.vroom",
+            "certificate_hash": "2e6a34c6243af928e1d63a3b7cc6d9a4d9844384"
+          }
+        },
+        {
+          "client_id": "52629805323-tp961t2b4120isoctbcbcnft52mttp9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmJxDUilgKOlQDyji9qmMNh2Bb73WcP7U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52629805323-ihqr5m1etqq6m71g7cekvf4udlhsu6gf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tech.revi.vroom",
+                "app_store_id": "1350281936"
+              }
+            },
+            {
+              "client_id": "52629805323-tp961t2b4120isoctbcbcnft52mttp9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

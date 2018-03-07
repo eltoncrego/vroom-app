@@ -108,6 +108,12 @@ android {
         }
     }
     signingConfigs {
+        debug {
+            storeFile file("vroom-debug.keystore")
+            storePassword "debugandroid"
+            keyAlias "vroom-debug-key"
+            keyPassword "debugandroid"
+        }
         release {
             storeFile file(System.getenv("VROOMFASTLANE_RELEASE_STORE_FILE"))
             storePassword System.getenv("VROOMFASTLANE_RELEASE_STORE_PASSWORD")
@@ -124,11 +130,16 @@ android {
         }
     }
     buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
+
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -146,6 +157,10 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-svg')
+    compile project(':react-native-fcm')
+    compile 'com.google.firebase:firebase-core:10.0.1' //this decides your firebase SDK version
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile project(':lottie-react-native')
     compile fileTree(dir: "libs", include: ["*.jar"])
 //    compile "com.android.support:appcompat-v7:26.1.0"
@@ -158,3 +173,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

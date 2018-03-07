@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: '100%',
-    zIndex: 50,
+    zIndex: 500,
     padding: 16,
     paddingTop: 48+32,
     shadowOpacity: 0.5,
