@@ -1,16 +1,13 @@
-/*
- * Import all the necessary components for this page.
- * Please delete components that aren't used.
- */
+/* Import all the necessary components for this page. Please delete components that aren't used. */
 
 // Global Requirements
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 GLOBAL = require('../../Globals');
 
 // Components
 import {Animated, Platform} from "react-native";
 import {StackNavigator} from "react-navigation";
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, {Icons} from 'react-native-fontawesome';
 
 // Necessary Files
 import Login from '../Screens/Login';
@@ -26,21 +23,21 @@ import ForgotPassword from '../Screens/ForgotPassword';
  *   for when a user is logged out.
  * @return: SignedOut(Login)
  */
-export const SignedOut = StackNavigator ({
+export const SignedOut = StackNavigator({
   Login: {
     screen: Login,
     navigationOptions: {
       title: 'Login',
-      header: null,
-    },
+      header: null
+    }
   },
   ForgotPassword: {
     screen: ForgotPassword,
     navigationOptions: {
       title: 'ForgotPassword',
-      header: null,
-    },
-  },
+      header: null
+    }
+  }
 });
 
 /*
@@ -58,9 +55,9 @@ export const SignedIn = StackNavigator({
     screen: Dashboard,
     navigationOptions: {
       header: null,
-      title: "Dashboard",
+      title: "Dashboard"
     }
-  },
+  }
 });
 
 /*
@@ -78,15 +75,15 @@ export const SignedUp = StackNavigator({
     screen: Onboarding,
     navigationOptions: {
       title: 'Onboarding',
-      header: null,
-    },
+      header: null
+    }
   },
   Dashboard: {
     screen: SignedIn,
     navigationOptions: {
       title: 'Dashboard',
       header: null,
-      gesturesEnabled: false,
-    },
+      gesturesEnabled: false
+    }
   }
 });
