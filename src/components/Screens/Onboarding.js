@@ -265,12 +265,14 @@ export default class Onboarding extends Component {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     backgroundColor: GLOBAL.COLOR.WHITE,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
+
   navbar: {
     flex: 1,
     width: '100%',
@@ -280,10 +282,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+
   content: {
     flex: 10,
     marginHorizontal: 32,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  
 });
