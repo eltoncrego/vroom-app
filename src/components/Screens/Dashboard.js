@@ -37,6 +37,8 @@ import {
   pullOGODOReading,
 } from '../Database/Database.js';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
+import { AreaChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -78,6 +80,8 @@ export default class Dashboard extends Component {
       // item toggles for expected behavior
       scrollEnable: true,
       settingAvailable: true,
+      graphShown: false,
+      graphToggleable: true,
 
       // Input state variables
       user_paid: 0,
@@ -323,8 +327,8 @@ export default class Dashboard extends Component {
       return;
     }
 
-    const distance = this.state.user_ODO - this.state.updatedODO;
-    const mpg = distance/this.state.user_filled;
+    const distance = parseFloat(this.state.user_ODO) - this.state.updatedODO;
+    const mpg = distance/parseFloat(this.state.user_filled);
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
     const creationDate = moment().toArray();
@@ -336,9 +340,9 @@ export default class Dashboard extends Component {
       list_i: this.state.list_i + 1,
       totalPrice: parseFloat(this.state.user_paid),
       date: creationDate,
-      gallonsFilled: this.state.user_filled,
-      odometer: this.state.user_ODO,
-      distanceSinceLast: distance
+      gallonsFilled: parseFloat(this.state.user_filled),
+      odometer: parseFloat(this.state.user_ODO),
+      distanceSinceLast: distance,
     };
 
     Animated.timing(
@@ -356,14 +360,15 @@ export default class Dashboard extends Component {
         user_filled: "",
         user_ODO: "",
         list_i: this.state.list_i + 1,
+        graphToggleable: this.state.list_i + 1 >= 5 ? true : false,
       });
     });
 
-    // TODO: Push to Firebase
+    // Push to Firebase
 
     pushFillup(newFillup);
     updateMPG(average);
-    updateODO(this.state.user_ODO);
+    updateODO(parseFloat(this.state.user_ODO));
   }
 
   /*
@@ -390,7 +395,7 @@ export default class Dashboard extends Component {
       /(this.state.textDataArr.length - 1);
 
     const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO :
-      this.state.textDataArr[this.state.textDataArr.length - 1].odometer;
+      this.state.textDataArr[0].odometer;
 
     removeFillup(key);
     updateMPG(averageMPG);
@@ -411,10 +416,19 @@ export default class Dashboard extends Component {
     }
     this.setState({
       list_i: this.state.list_i - 1,
+      graphToggleable: this.state.list_i - 1 >= 5 ? true : false,
       averageMPG: averageMPG,
       updatedODO: ODO,
     });
-
+    if(key == 5){
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 0,
+          duration: 150,
+        }
+      ).start();
+    }
   }
 
   // Call this to test an immediate notification.
@@ -501,6 +515,7 @@ export default class Dashboard extends Component {
         that.setState({
           textDataArr: fData,
           list_i: fData.length,
+          graphToggleable: fData.length >= 5 ? true : false,
         });
       }
     }).catch(function(error) {
@@ -536,6 +551,48 @@ export default class Dashboard extends Component {
   }
 
   /*
+  * Function: toggleGraph()
+  * Author: Elton C. Rego
+  * Purpose: animates a shift of the gas items up and down
+  */
+  toggleGraph(){
+    const that = this;
+    if (this.state.graphShown){
+      this.setState({
+        graphToggleable: false,
+      });
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 0,
+          duration: 150,
+        }
+      ).start(() => {
+        that.setState({
+          graphToggleable: true,
+          graphShown: false,
+        });
+      });
+    } else {
+      this.setState({
+        graphToggleable: false,
+      });
+      Animated.spring(
+        this.state.translation,
+        {
+          toValue: 1,
+          duration: 150,
+        }
+      ).start(() => {
+        that.setState({
+          graphToggleable: true,
+          graphShown: true,
+        });
+      });
+    }
+  }
+
+  /*
    * Function: render()
    * Author: Elton C. Rego
    * Purpose: renders the component
@@ -549,8 +606,13 @@ export default class Dashboard extends Component {
 
     var cardTranslation = this.state.translation.interpolate({
       inputRange: [0, 1],
-      outputRange: [-250, 0]
+      outputRange: [-200, 0]
     });
+
+    var cardHeight = this.state.translation.interpolate({
+      inputRange: [0,1],
+      outputRange: ['100%', '65.5%'],
+    })
 
     var modalBG = this.state.modalFade.interpolate({
       inputRange: [0, 1],
@@ -575,7 +637,6 @@ export default class Dashboard extends Component {
     var transformList = {transform: [{translateY}]};
     var settingsList = {transform: [{translateX}]};
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
-    console.log(transactionTranslation);
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     return(
@@ -637,7 +698,6 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_paid: text})}}
                 onSubmitEditing={() => {this.refs.gas.focus();}}
-                value={this.state.user_paid}
               />
               <InputField
                 ref="gas"
@@ -652,7 +712,6 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
                 onSubmitEditing={() => {this.refs.odo.focus();}}
-                value={this.state.user_filled}
               />
               <InputField
                 ref="odo"
@@ -667,7 +726,6 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_ODO: text})}}
                 onSubmitEditing={() => {this.addItem()}}
-                value={this.state.user_ODO}
               />
               <Button
                 ref="submitButton"
@@ -695,31 +753,51 @@ export default class Dashboard extends Component {
         </Animated.View>
 
         <View style={styles.content}>
-          <View style={styles.graph}>
-          </View>
-          <Animated.View
-            style={[
-              styles.card,
-              transformList,
-              {opacity: this.state.fadeIn}]
-            }>
-            <View  style={styles.statistics}>
-              <View>
-                <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
-                <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
-              </View>
-              <View style={{alignItems:'flex-end'}}>
-                <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
-                <Text style={styleguide.light_body_secondary}>Odometer</Text>
-              </View>
-            </View>
-            <GasList
-              onRef={ref => (this.gaslist = ref)}
-              enable={this.state.scrollEnable}
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
+            <AreaChart
+              style={styles.areaGraph}
+              start={0}
               data={this.state.textDataArr}
-              average={this.state.averageMPG.toFixed(2)}
-              removeItem={key => this.removeItem(key)}/>
-          </Animated.View>
+              yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
+              xAccessor={({item}) => item.list_i}
+              curve={shape.curveNatural}
+              contentInset={ { top: 32, bottom: 50, right: -2, left: -2} }
+              showGrid={false}
+              svg={{
+                stroke: GLOBAL.COLOR.GREEN,
+                strokeWidth: 3,
+                fill: 'rgba(184, 233, 134, 0.2)',
+              }}
+            />
+        </Animated.View>
+            <Animated.View
+              style={[
+                styles.card,
+                transformList,
+                {
+                  opacity: this.state.fadeIn,
+                  maxHeight: cardHeight,
+                }]
+              }>
+              <TouchableOpacity onPress={() => this.toggleGraph()} disabled={!this.state.graphToggleable}>
+                <View  style={styles.statistics}>
+                  <View>
+                    <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
+                    <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
+                  </View>
+                  <View style={{alignItems:'flex-end'}}>
+                    <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
+                    <Text style={styleguide.light_body_secondary}>Odometer</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <GasList
+                onRef={ref => (this.gaslist = ref)}
+                enable={this.state.scrollEnable}
+                data={this.state.textDataArr}
+                average={this.state.averageMPG.toFixed(2)}
+                removeItem={key => this.removeItem(key)}/>
+            </Animated.View>
         </View>
 
 
@@ -791,7 +869,10 @@ const styles = StyleSheet.create({
   graph:{
     zIndex: 0,
     width: '100%',
-    height: 250,
+    height: 200,
+  },
+  areaGraph: {
+    height: 200,
   },
   no_items:{
     position: 'absolute',
@@ -811,7 +892,6 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    maxHeight: '100%',
     backgroundColor: GLOBAL.COLOR.WHITE,
     zIndex: 1,
   },
@@ -830,7 +910,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: 'rgba(37,50,55,0.50)',
   },
-
 
   // FOR PROTOTYPING
   modalContainer: {
