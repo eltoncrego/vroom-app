@@ -5,7 +5,7 @@ import React, {PureComponent} from 'react';
 GLOBAL = require('../../Globals');
 styleguide = require('../../global-styles');
 
-// Components
+// External Components
 import {
   View,
   Text,
@@ -15,11 +15,18 @@ import {
   PanResponder,
   TouchableOpacity
 } from 'react-native';
-
 import FontAwesome, {Icons} from 'react-native-fontawesome';
 
+// Defining the width macro
 const {width} = Dimensions.get('window');
 
+/*
+* Class: Gas
+* Author: Elton C. Rego
+* Purpose: Renders a singular gas fill-up item with the given properties
+*
+* 
+*/
 export default class Gas extends PureComponent {
 
   constructor(props) {
