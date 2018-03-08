@@ -99,9 +99,9 @@ export default class Dashboard extends Component {
   }
 
  /*
-  * Function: openModal()
+  * Function: openTransaction()
   * Author: Elton C. Rego
-  * Purpose: Opens the modal to add a gas item
+  * Purpose: Opens the transaction panel to add a gas item
   */
   openTransaction() {
     Animated.spring(
@@ -131,9 +131,9 @@ export default class Dashboard extends Component {
   }
 
  /*
-  * Function: closeModal()
+  * Function: closeTransaction()
   * Author: Elton C. Rego
-  * Purpose: Closes the modal to add a gas item
+  * Purpose: Closes the transaction panel to add a gas item
   */
   closeTransaction() {
     this.setState({
@@ -196,19 +196,31 @@ export default class Dashboard extends Component {
   }
 
   /*
-   * Author: Elton C. Rego
-   * Purpose: sets event listeners for the keyboard
-   */
-   componentWillMount () {
-     this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
-     this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
-   }
-
-   componentWillUnmount() {
-     this.keyboardWillShowSub.remove();
-     this.keyboardWillHideSub.remove();
+  * Function: componentWillMount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillMount () {
+    this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
   }
 
+  /*
+  * Function: componentWillUnmount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  /*
+  * Event Listener: keyboardWillShow
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard shows and scales the elements on
+  *   the page in order to account for the new keyboard
+  */
   keyboardWillShow = (event) => {
     if(Platform.OS === 'ios'){
       var end = (event.endCoordinates.height-64)/2+32;
@@ -245,6 +257,12 @@ export default class Dashboard extends Component {
     }
   };
 
+  /*
+  * Event Listener: keyboardWillHide
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard hides and scales the elements on
+  *   the page in order to account for the lack of keyboard
+  */
   keyboardWillHide = (event) => {
     if(Platform.OS === 'ios'){
       Animated.parallel([
@@ -473,8 +491,8 @@ export default class Dashboard extends Component {
 
     FCM.removeAllDeliveredNotifications();
     FCM.setBadgeNumber(0);
-    // this.showLocalNotification(); DEBUG
-    // this.scheduleLocalNotification(); DEBUG
+    // this.showLocalNotification(); //DEBUG: remove comment
+    // this.scheduleLocalNotification(); //DEBUG: remove comment
 
     var that = this;
     pullAverageMPG().then(function(fData){
