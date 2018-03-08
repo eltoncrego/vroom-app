@@ -34,7 +34,6 @@ import VroomAlert from './../Custom/VroomAlert';
  *    password.
  *
  */
-
 export default class ForgotPassword extends Component {
 
   /*
