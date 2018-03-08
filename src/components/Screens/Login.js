@@ -25,7 +25,7 @@ import { goTo } from '../Navigation/Navigation';
 import {initUser} from '../Database/Database';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
-import VAlert from './../Custom/VAlert';
+import VroomAlert from './../Custom/VroomAlert';
 import Loading from './../Screens/Loading';
 
 import loader_icon from '../../../assets/animations/loading.json';
@@ -226,14 +226,14 @@ export default class Login extends Component {
   signin = () => {
     if((!this.state.email)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Woah there!',
+      this.refs.vroomAlert.showAlert('Woah there!',
       'You can\'t log in with an empty email!',
       'I understand');
       return;
     }
     if((!this.state.password)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Hey there, friendo!',
+      this.refs.vroomAlert.showAlert('Hey there, friendo!',
       'You can\'t log in with an empty password!',
       'I understand');
       return;
@@ -244,7 +244,7 @@ export default class Login extends Component {
       that.closeModal();
     }).catch(function(error){
       that.closeModal();
-      that.refs.valert.showAlert('Alert',
+      that.refs.vroomAlert.showAlert('Alert',
       error.message,
       'Ok');
     })
@@ -257,21 +257,21 @@ export default class Login extends Component {
   signup = () => {
     if((!this.state.email)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Now wait just a second!',
+      this.refs.vroomAlert.showAlert('Now wait just a second!',
       'You can\'t sign up with an empty email!',
       'I understand');
       return;
     }
     if((!this.state.password)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Hold up!',
+      this.refs.vroomAlert.showAlert('Hold up!',
       'You can\'t sign up with an empty password!',
       'I understand');
       return;
     }
     if(this.state.password != this.state.password_verification){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Our OCD is going off...',
+      this.refs.vroomAlert.showAlert('Our OCD is going off...',
       'your passwords don\'t match',
       'I understand');
       return;
@@ -282,7 +282,7 @@ export default class Login extends Component {
       that.closeModal();
     }).catch(function(error) {
       that.closeModal();
-      that.refs.valert.showAlert('Alert',
+      that.refs.vroomAlert.showAlert('Alert',
       error.message,
       'Ok');
     });
@@ -386,7 +386,7 @@ export default class Login extends Component {
         </View>
       </Modal>
 
-      <VAlert ref="valert"/>
+      <VroomAlert ref="vroomAlert"/>
 
         <Animated.View style={[styles.sign_in_form, {opacity: this.state.fade_animation, paddingBottom: this.state.keyboardHeight}]}>
           <Animated.Text style={[styleguide.light_display2, {fontSize: this.state.pageTextSize}]}>

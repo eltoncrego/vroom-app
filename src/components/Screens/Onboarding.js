@@ -29,7 +29,7 @@ import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
 import { goTo } from '../Navigation/Navigation';
-import VAlert from './../Custom/VAlert';
+import VroomAlert from './../Custom/VroomAlert';
 
 import {
   initUser,
@@ -186,12 +186,12 @@ export default class Onboarding extends Component {
        goTo(this.props.navigation, 'Dashboard');
      } else if (this.state.userODO < 0){
        this.refs.submitButton.indicateError();
-       this.refs.valert.showAlert('Where did you get your car?',
+       this.refs.vroomAlert.showAlert('Where did you get your car?',
        'An odometer cannot read negative miles unless it is damaged.',
        'Ok');
      } else {
        this.refs.submitButton.indicateError();
-       this.refs.valert.showAlert('Hold up!',
+       this.refs.vroomAlert.showAlert('Hold up!',
        'You didn\'t enter anything!',
        'Let me try again');
      }
@@ -215,7 +215,7 @@ export default class Onboarding extends Component {
         styleguide.container,
         styles.container,
       ]}>
-      <VAlert ref="valert"/>
+      <VroomAlert ref="vroomAlert"/>
       <View style={styles.navbar}>
         <TouchableOpacity onPress={() => {Auth.logOut();}}>
           <Animated.View>
@@ -289,5 +289,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
-  
+
 });

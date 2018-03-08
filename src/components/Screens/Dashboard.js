@@ -44,7 +44,7 @@ import * as shape from 'd3-shape'
 import GasList from '../Custom/GasList';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
-import VAlert from './../Custom/VAlert';
+import VroomAlert from './../Custom/VroomAlert';
 import Settings from '../Screens/Settings';
 
 /*
@@ -289,21 +289,21 @@ export default class Dashboard extends Component {
 
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
       'Ok');
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'Please enter a valid gallon amount!',
       'Ok');
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
       'Ok');
       return;
@@ -312,7 +312,7 @@ export default class Dashboard extends Component {
     // throw alert if user leaves any fields blank
     if (this.state.user_ODO <= this.state.updatedODO) {
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
       'Ok');
@@ -320,7 +320,7 @@ export default class Dashboard extends Component {
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
       'Ok');
@@ -648,9 +648,9 @@ export default class Dashboard extends Component {
       }>
       <StatusBar barStyle="light-content"/>
 
-        <VAlert ref="valert"/>
+        <VroomAlert ref="vroomAlert"/>
         <Animated.View style={[styles.settings, settingsList]}>
-          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.valert}/>
+          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.vroomAlert}/>
         </Animated.View>
 
         <View style={styles.navbar}>

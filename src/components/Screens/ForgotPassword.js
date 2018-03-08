@@ -24,7 +24,7 @@ import Auth from '../Authentication/Auth';
 import { goTo, goBack } from '../Navigation/Navigation';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
-import VAlert from './../Custom/VAlert';
+import VroomAlert from './../Custom/VroomAlert';
 
 /*
  * Class: ForgotPassword
@@ -163,19 +163,19 @@ export default class ForgotPassword extends Component {
     passwordReset = () => {
       if(!this.state.email){
         this.refs.linkButton.indicateError();
-        this.refs.valert.showAlert('No email entered',
+        this.refs.vroomAlert.showAlert('No email entered',
         'Simply enter your email address and try again!',
         'Ok');
       } else {
         var that = this;
         Auth.firebasePasswordReset(this.state.email).then(function(){
           that.refs.linkButton.indicateError();
-          that.refs.valert.showAlert('Password Reset Request Received',
+          that.refs.vroomAlert.showAlert('Password Reset Request Received',
           'Please check your email',
           'I\'ll go check!', GLOBAL.COLOR.GREEN);
         }).catch(function(error){
           that.refs.linkButton.indicateError();
-          that.refs.valert.showAlert("Alert",
+          that.refs.vroomAlert.showAlert("Alert",
           error.message,
           'Ok');
         });
@@ -192,7 +192,7 @@ export default class ForgotPassword extends Component {
          {
            backgroundColor: GLOBAL.COLOR.WHITE,
          }]}>
-         <VAlert ref="valert"/>
+         <VroomAlert ref="vroomAlert"/>
          <View style={styles.navbar}>
            <TouchableOpacity onPress={() => {goBack(this.props.navigation)}}>
              <Animated.View>
