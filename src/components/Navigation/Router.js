@@ -24,6 +24,7 @@ import ForgotPassword from '../Screens/ForgotPassword';
  *
  * Purpose: Impliments a Stack Navigator that holds the screen
  *   for when a user is logged out.
+ *
  * @return: SignedOut(Login)
  */
 export const SignedOut = StackNavigator ({
