@@ -22,11 +22,8 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 /*
 * Class: VroomAlert
 * Author: Elton C. Rego
-* Purspoe: Creates and styles a custom alert for our app that fits the
+* Purpose: Creates and styles a custom alert for our app that fits the
 *   feel of the rest of the app
-*
-* Props:
-*
 */
 export default class VroomAlert extends Component {
 
