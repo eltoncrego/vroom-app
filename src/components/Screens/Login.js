@@ -96,19 +96,31 @@ export default class Login extends Component {
   }
 
   /*
-   * Author: Elton C. Rego
-   * Purpose: sets event listeners for the keyboard
-   */
-   componentWillMount () {
-     this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
-     this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
-   }
-
-   componentWillUnmount() {
-     this.keyboardWillShowSub.remove();
-     this.keyboardWillHideSub.remove();
+  * Function: componentWillMount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillMount () {
+    this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
   }
 
+  /*
+  * Function: componentWillUnmount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  /*
+  * Event Listener: keyboardWillShow
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard shows and scales the elements on
+  *   the page in order to account for the new keyboard
+  */
   keyboardWillShow = (event) => {
     if(Platform.OS === 'ios'){
       var end = (event.endCoordinates.height-128)/2;
@@ -145,6 +157,12 @@ export default class Login extends Component {
     }
   };
 
+  /*
+  * Event Listener: keyboardWillHide
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard hides and scales the elements on
+  *   the page in order to account for the lack of keyboard
+  */
   keyboardWillHide = (event) => {
     if(Platform.OS === 'ios'){
       Animated.parallel([
@@ -180,6 +198,7 @@ export default class Login extends Component {
   };
 
  /*
+  * Function: toggleSignUp()
   * Author: Elton C. Rego
   * Purpose: When called, the page will toggle the visibility of the
   *   verify password field, the text in the submit button, and the
@@ -219,6 +238,7 @@ export default class Login extends Component {
   }
 
  /*
+  * anon Function: signin()
   * Author: Alec Felt, Connick Shields
   * Purpose: Checks state.email and state.password and
   *          authenticates the user with Firebase
@@ -251,6 +271,7 @@ export default class Login extends Component {
   }
 
  /*
+  * anon Function signup
   * Author: Connick Shields
   * Purpose: navigates to a signup component
   */
@@ -504,7 +525,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
 
-  // FOR PROTOTYPING
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
