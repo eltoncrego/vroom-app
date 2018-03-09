@@ -37,7 +37,11 @@ import {
   pullOGODOReading,
 } from '../Database/Database.js';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
+<<<<<<< HEAD
 import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
+=======
+import { AreaChart, YAxis } from 'react-native-svg-charts'
+>>>>>>> added broken YAxis
 import * as shape from 'd3-shape'
 
 // Custom components
