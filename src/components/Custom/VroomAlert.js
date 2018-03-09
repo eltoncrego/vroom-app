@@ -72,6 +72,9 @@ export default class VroomAlert extends Component {
     if (timeoutValue != null){
       var that = this;
       setTimeout(function(){ that.dismissAlert(); }, timeoutValue);
+    } else {
+      var that = this;
+      setTimeout(function(){ that.dismissAlert(); }, 3000);
     }
   }
 
@@ -106,7 +109,7 @@ export default class VroomAlert extends Component {
         }]}>
         <Text style={styleguide.dark_subheader2}>{this.state.alertTitle}</Text>
         <Text style={styleguide.dark_body}>{this.state.alertText}</Text>
-        <TouchableOpacity onPress={() => this.dismissAlert()}>
+        <TouchableOpacity onPress={() => this.dismissAlert()} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}} >
           <View style={styles.button}>
             <Text style={styleguide.dark_body2}>{this.state.buttonText}</Text>
           </View>
