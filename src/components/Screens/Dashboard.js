@@ -715,7 +715,6 @@ export default class Dashboard extends Component {
                 topMargin={this.state.topMargin}
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_paid: text})}}
-                onSubmitEditing={() => {this.refs.gas.focus();}}
               />
               <InputField
                 ref="gas"
@@ -729,7 +728,6 @@ export default class Dashboard extends Component {
                 topMargin={24}
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
-                onSubmitEditing={() => {this.refs.odo.focus();}}
               />
               <InputField
                 ref="odo"
@@ -743,7 +741,6 @@ export default class Dashboard extends Component {
                 topMargin={24}
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_ODO: text})}}
-                onSubmitEditing={() => {this.addItem()}}
               />
               <Button
                 ref="submitButton"

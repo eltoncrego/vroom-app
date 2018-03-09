@@ -364,11 +364,10 @@ export default class Login extends Component {
           autoCapitalize={"none"}
           secureTextEntry={true}
           autoCorrect={false}
-          returnKeyType={'go'}
+          returnKeyType={'done'}
           onChangeText={
             (text) => {this.setState({password_verification: text})}
           }
-          onSubmitEditing={() => this.signup()}
         />: null ;
 
    /*
@@ -424,11 +423,8 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               keyboardType={"email-address"}
               autoCorrect={false}
-              returnKeyType={'next'}
+              returnKeyType={'done'}
               onChangeText={(text) => {this.setState({email: text})}}
-              onSubmitEditing={ () => {
-                this.refs.password1.focus();
-              }}
             />
             <InputField
               ref="password1"
@@ -441,15 +437,8 @@ export default class Login extends Component {
               autoCapitalize={"none"}
               secureTextEntry={true}
               autoCorrect={false}
-              returnKeyType={this.state.sign_up? 'next' : 'go'}
+              returnKeyType={'done'}
               onChangeText={(text) => {this.setState({password: text})}}
-              onSubmitEditing={ () => {
-                if(!this.state.sign_up){
-                  this.signin();
-                } else {
-                  this.refs.password2.focus();
-                }
-              }}
             />
             {pw_confirm_field}
             <TouchableOpacity onPress={() => {
