@@ -465,7 +465,7 @@ export default class Login extends Component {
               this.signin();
             }
           }}/>
-          <TouchableOpacity onPress={() => this.toggleSignUp()}>
+          <TouchableOpacity onPress={() => this.toggleSignUp() } hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}>
             <Text style={[
               styleguide.light_body,
               {
