@@ -37,7 +37,7 @@ import {
   pullOGODOReading,
 } from '../Database/Database.js';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
-import { AreaChart } from 'react-native-svg-charts'
+import { AreaChart, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 // Custom components
@@ -754,6 +754,16 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
+            <YAxis
+              data={this.state.textDataArr}
+              yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
+              contentInset={ {top: 32, bottom: 50, } }
+              svg={{
+                      fill: 'grey',
+                      fontSize: 10,
+                  }}
+              formatLabel={ value => `${value} MPG` }
+            />
             <AreaChart
               style={styles.areaGraph}
               start={0}
@@ -870,6 +880,7 @@ const styles = StyleSheet.create({
     zIndex: 0,
     width: '100%',
     height: 200,
+    //flexDirection: 'row',
   },
   areaGraph: {
     height: 200,
