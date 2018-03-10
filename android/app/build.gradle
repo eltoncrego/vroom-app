@@ -111,7 +111,7 @@ android {
         debug {
             storeFile file("vroom-debug.keystore")
             storePassword "debugandroid"
-            keyAlias "vroom-debug-key"
+            keyAlias "vroom-debug-alias"
             keyPassword "debugandroid"
         }
         release {
