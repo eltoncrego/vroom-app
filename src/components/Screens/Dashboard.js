@@ -782,7 +782,7 @@ export default class Dashboard extends Component {
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               contentInset={ contentInset }
-              numberOfTicks={3}
+              numberOfTicks={5}
               svg={{
                       fill: GLOBAL.COLOR.WHITE,
                       fontSize: 15,
@@ -797,7 +797,7 @@ export default class Dashboard extends Component {
               xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
               contentInset={ contentInset }
-              numberOfTicks={3}
+              numberOfTicks={5}
               showGrid={true}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
