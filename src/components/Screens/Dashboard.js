@@ -680,7 +680,12 @@ export default class Dashboard extends Component {
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     // adding contentInset prop to ensure consistency between chart and yAxis
+<<<<<<< HEAD
     var contentInset = { top: 32, bottom: 100, right: -2, left: -2};
+=======
+    //var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
+    var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
+>>>>>>> fixed aapt build issues and added tick lines to graph
 
     return(
 
