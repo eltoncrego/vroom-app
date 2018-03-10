@@ -657,7 +657,12 @@ export default class Dashboard extends Component {
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
+    // adding contentInset prop to ensure consistency between chart and yAxis
+    //var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
+    var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
+
     return(
+
       <View style={
         [styleguide.container,
         {
@@ -775,7 +780,8 @@ export default class Dashboard extends Component {
             <YAxis
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-              contentInset={ {top: 32, bottom: 50, } }
+              contentInset={ contentInset } 
+              numberOfTicks={5}
               svg={{
                       fill: 'grey',
                       fontSize: 10,
@@ -789,8 +795,9 @@ export default class Dashboard extends Component {
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
-              contentInset={ { top: 32, bottom: 50, right: -2, left: -2} }
-              showGrid={false}
+              contentInset={ contentInset }
+              numberOfTicks={5}
+              showGrid={true}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
