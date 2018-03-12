@@ -37,7 +37,7 @@ import {
   pullOGODOReading,
 } from '../Database/Database.js';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
-import { AreaChart } from 'react-native-svg-charts'
+import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 // Custom components
@@ -629,6 +629,44 @@ export default class Dashboard extends Component {
   }
 
   /*
+  * Function: formatDate()
+  * Author: Elton C. Rego
+  * Purpose: Returns a formatted date based on the given date object
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
+  formatDate(date) {
+    var monthNames = [
+      "jan", "feb", "mar",
+      "apr", "may", "jun", "jul",
+      "aug", "sep", "oct",
+      "nov", "dec"
+    ];
+
+    var day = date[2];
+    var monthIndex = date[1];
+
+    return monthNames[monthIndex] + ' ' + day;
+  }
+
+  /*
+  * Function: createDateObject()
+  * Author: Elton C. Rego
+  * Purpose: Returns a date objecy based on the given date json
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
+  createDateObject(date){
+    var year = date[0];
+    var month = date[1];
+    var day = date[2];
+    const returnValue = new Date(year, month, day);
+    return returnValue;
+  }
+
+  /*
    * Function: render()
    * Author: Elton C. Rego
    * Purpose: renders the component
@@ -676,6 +714,7 @@ export default class Dashboard extends Component {
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     return(
+
       <View style={
         [styleguide.container,
         {
@@ -794,12 +833,27 @@ export default class Dashboard extends Component {
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
-              contentInset={ { top: 32, bottom: 50, right: -2, left: -2} }
+              contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
+              numberOfTicks={3}
               showGrid={false}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
                 fill: 'rgba(184, 233, 134, 0.2)',
+              }}
+            />
+            <XAxis
+              style={{marginTop: -16, marginHorizontal: 8}}
+              contentInset={{right: 16, left: 16}}
+              data={this.state.textDataArr}
+              xAccessor={({item}) => item.list_i}
+              formatLabel={value => `Fillup ${value}`}
+              svg={{
+                fill: GLOBAL.COLOR.WHITE,
+                fontSize: 10,
+                fontFamily: 'Nunito-Light',
+                color: 'rgba(255,255,255,0.5)',
+                backgroundColor: 'transparent',
               }}
             />
         </Animated.View>
@@ -903,6 +957,7 @@ const styles = StyleSheet.create({
     zIndex: 0,
     width: '100%',
     height: 200,
+    //flexDirection: 'row',
   },
   areaGraph: {
     height: 200,
