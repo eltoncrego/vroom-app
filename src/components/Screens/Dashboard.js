@@ -387,6 +387,10 @@ export default class Dashboard extends Component {
     pushFillup(newFillup);
     updateMPG(average);
     updateODO(parseFloat(this.state.user_ODO));
+
+    this.refs.paid.clear();
+    this.refs.gas.clear();
+    this.refs.odo.clear();
   }
 
   /*
