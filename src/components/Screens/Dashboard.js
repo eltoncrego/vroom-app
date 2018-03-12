@@ -38,6 +38,7 @@ import {
 } from '../Database/Database.js';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
+import { Line } from 'react-native-svg'
 import * as shape from 'd3-shape'
 import dateFns from 'date-fns'
 
@@ -717,6 +718,19 @@ export default class Dashboard extends Component {
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
+    const HorizontalLine = (({ y }) => (
+      <Line
+        key={this.state.averageMPG}
+        x1={ '0%' }
+        x2={ '100%' }
+        y1={ y(50) }
+        y2={ y(50) }
+        stroke={GLOBAL.COLOR.LIGHTGRAY}
+        strokeDasharray={ [ 4, 4 ] }
+        strokeWidth={ 2 }
+      />
+    ))
+
     return(
 
       <View style={
@@ -845,6 +859,7 @@ export default class Dashboard extends Component {
                 strokeWidth: 3,
                 fill: 'rgba(184, 233, 134, 0.2)',
               }}
+              extras={ [ HorizontalLine] }
             />
             <XAxis
               style={{marginTop: -16, marginHorizontal: 8}}
