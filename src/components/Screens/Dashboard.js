@@ -658,8 +658,7 @@ export default class Dashboard extends Component {
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     // adding contentInset prop to ensure consistency between chart and yAxis
-    //var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
-    var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
+    var contentInset = { top: 32, bottom: 100, right: -2, left: -2};
 
     return(
 
@@ -806,16 +805,15 @@ export default class Dashboard extends Component {
               }}
             />
             <XAxis
-                    style={[styles.areaGraph, {zIndex: 1, position: "absolute", }]}
-                    data={this.state.textDataArr}
-                    xAccessor={({item}) => item.list_i}
-                    formatLabel={ value => `Fillup ${value}` }
-                    contentInset={ contentInset }
-                    svg={{
-                            fill: GLOBAL.COLOR.WHITE,
-                            fontSize: 15,
-                        }}
-                />
+              style={[styles.areaGraph, {zIndex: 1,}]}
+              data={this.state.textDataArr}
+              xAccessor={({item}) => item.list_i}
+              formatLabel={value => `${value}`}
+              svg={{
+                fill: GLOBAL.COLOR.WHITE,
+                fontSize: 15,
+              }}
+            />
         </Animated.View>
             <Animated.View
               style={[
