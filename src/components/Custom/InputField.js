@@ -99,6 +99,15 @@ export class InputField extends Component {
     this.refs.input.focus();
   }
 
+  /*
+  * function: clear()
+  * Author: Elton C. Rego
+  * Purpose: When called, clears the input field
+  */
+  clear(){
+    this.refs.input.clear();
+  }
+
   render({
     autoFocus,
     icon,
