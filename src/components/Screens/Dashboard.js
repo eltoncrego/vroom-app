@@ -675,9 +675,6 @@ export default class Dashboard extends Component {
     // var totalTransactionTransform = transactionTranslation - this.state.keyboardHeight;
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
-    // adding contentInset prop to ensure consistency between chart and yAxis
-    var contentInset = { top: 32, bottom: 100, right: -2, left: -2};
-
     return(
 
       <View style={
@@ -791,22 +788,6 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
-            {/*<YAxis
-              style={[styles.areaGraph, {zIndex: 1, position: "absolute"}]}
-              data={this.state.textDataArr}
-              yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-              contentInset={ contentInset }
-<<<<<<< HEAD
-              numberOfTicks={5}
-=======
-              numberOfTicks={3}
->>>>>>> 6c7edeea1118705f511e7ad4fd73ce8acd448e24
-              svg={{
-                      fill: GLOBAL.COLOR.WHITE,
-                      fontSize: 15,
-                  }}
-              formatLabel={ value => `${value} MPG` }
-            />*/}
             <AreaChart
               style={styles.areaGraph}
               start={0}
@@ -814,23 +795,27 @@ export default class Dashboard extends Component {
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
-              contentInset={ contentInset }
+              contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
               numberOfTicks={3}
               showGrid={false}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
-                fill: 'rgba(184, 233, 134, 0.2)',g
+                fill: 'rgba(184, 233, 134, 0.2)',
               }}
             />
             <XAxis
-              style={[styles.areaGraph, {zIndex: 1,}]}
+              style={{marginTop: -16, marginHorizontal: 8}}
+              contentInset={{right: 16, left: 16}}
               data={this.state.textDataArr}
               xAccessor={({item}) => item.list_i}
               formatLabel={value => `${value}`}
               svg={{
                 fill: GLOBAL.COLOR.WHITE,
-                fontSize: 15,
+                fontSize: 10,
+                fontFamily: 'Nunito-Light',
+                color: 'rgba(255,255,255,0.5)',
+                backgroundColor: 'transparent',
               }}
             />
         </Animated.View>
