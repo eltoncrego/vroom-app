@@ -160,7 +160,12 @@ export default class Dashboard extends Component {
         duration: 400,
       }
     ).start();
-    this.setState({modalVisible:false});
+    this.setState({
+      modalVisible:false,
+      user_paid: "",
+      user_filled: "",
+      user_ODO: "",
+    });
     this.refs.paid.clear();
     this.refs.gas.clear();
     this.refs.odo.clear();
