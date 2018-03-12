@@ -777,18 +777,18 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
-            <YAxis
+            {/*<YAxis
               style={[styles.areaGraph, {zIndex: 1, position: "absolute"}]}
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-              contentInset={ contentInset } 
+              contentInset={ contentInset }
               numberOfTicks={3}
               svg={{
                       fill: GLOBAL.COLOR.WHITE,
                       fontSize: 15,
                   }}
               formatLabel={ value => `${value} MPG` }
-            />
+            />*/}
             <AreaChart
               style={styles.areaGraph}
               start={0}
@@ -811,9 +811,9 @@ export default class Dashboard extends Component {
                     xAccessor={({item}) => item.list_i}
                     formatLabel={ value => `Fillup ${value}` }
                     contentInset={ contentInset }
-                    svg={{ 
+                    svg={{
                             fill: GLOBAL.COLOR.WHITE,
-                            fontSize: 15, 
+                            fontSize: 15,
                         }}
                 />
         </Animated.View>
