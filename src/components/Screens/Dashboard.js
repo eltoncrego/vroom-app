@@ -781,7 +781,7 @@ export default class Dashboard extends Component {
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               contentInset={ contentInset }
-              numberOfTicks={5}
+              numberOfTicks={3}
               svg={{
                       fill: GLOBAL.COLOR.WHITE,
                       fontSize: 15,
@@ -802,6 +802,16 @@ export default class Dashboard extends Component {
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
                 fill: 'rgba(184, 233, 134, 0.2)',g
+              }}
+            />
+            <XAxis
+              style={[styles.areaGraph, {zIndex: 1,}]}
+              data={this.state.textDataArr}
+              xAccessor={({item}) => item.list_i}
+              formatLabel={value => `${value}`}
+              svg={{
+                fill: GLOBAL.COLOR.WHITE,
+                fontSize: 15,
               }}
             />
             <XAxis
