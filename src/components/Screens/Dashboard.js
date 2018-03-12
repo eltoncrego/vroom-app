@@ -666,7 +666,9 @@ export default class Dashboard extends Component {
     var month = date[1];
     var day = date[2];
     var hours = date[3];
-    const returnValue = dateFns.setHours(new Date(year, month, day), hours);
+    var mins = date[4];
+    var seconds = date[5];
+    const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
     console.log(returnValue);
     return returnValue;
   }
