@@ -796,7 +796,11 @@ export default class Dashboard extends Component {
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               contentInset={ contentInset }
+<<<<<<< HEAD
               numberOfTicks={5}
+=======
+              numberOfTicks={3}
+>>>>>>> 6c7edeea1118705f511e7ad4fd73ce8acd448e24
               svg={{
                       fill: GLOBAL.COLOR.WHITE,
                       fontSize: 15,
