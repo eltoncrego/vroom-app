@@ -793,13 +793,14 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
             <YAxis
+              style={[styles.areaGraph, {zIndex: 1, position: "absolute"}]}
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               contentInset={ contentInset } 
-              numberOfTicks={5}
+              numberOfTicks={3}
               svg={{
-                      fill: 'grey',
-                      fontSize: 10,
+                      fill: GLOBAL.COLOR.WHITE,
+                      fontSize: 15,
                   }}
               formatLabel={ value => `${value} MPG` }
             />
@@ -811,8 +812,8 @@ export default class Dashboard extends Component {
               xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
               contentInset={ contentInset }
-              numberOfTicks={5}
-              showGrid={true}
+              numberOfTicks={3}
+              showGrid={false}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
