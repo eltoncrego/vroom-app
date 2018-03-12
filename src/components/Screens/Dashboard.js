@@ -629,6 +629,44 @@ export default class Dashboard extends Component {
   }
 
   /*
+  * Function: formatDate()
+  * Author: Elton C. Rego
+  * Purpose: Returns a formatted date based on the given date object
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
+  formatDate(date) {
+    var monthNames = [
+      "jan", "feb", "mar",
+      "apr", "may", "jun", "jul",
+      "aug", "sep", "oct",
+      "nov", "dec"
+    ];
+
+    var day = date[2];
+    var monthIndex = date[1];
+
+    return monthNames[monthIndex] + ' ' + day;
+  }
+
+  /*
+  * Function: createDateObject()
+  * Author: Elton C. Rego
+  * Purpose: Returns a date objecy based on the given date json
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
+  createDateObject(date){
+    var year = date[0];
+    var month = date[1];
+    var day = date[2];
+    const returnValue = new Date(year, month, day);
+    return returnValue;
+  }
+
+  /*
    * Function: render()
    * Author: Elton C. Rego
    * Purpose: renders the component
@@ -809,7 +847,7 @@ export default class Dashboard extends Component {
               contentInset={{right: 16, left: 16}}
               data={this.state.textDataArr}
               xAccessor={({item}) => item.list_i}
-              formatLabel={value => `${value}`}
+              formatLabel={value => `Fillup ${value}`}
               svg={{
                 fill: GLOBAL.COLOR.WHITE,
                 fontSize: 10,
