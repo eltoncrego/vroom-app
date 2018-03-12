@@ -15,8 +15,7 @@ import {
   StyleSheet,
   Animated,
   Dimensions,
-  PanResponder,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import FontAwesome, {Icons} from 'react-native-fontawesome';
 
@@ -54,61 +53,7 @@ export default class Gas extends PureComponent {
   */
   constructor(props) {
     super(props);
-
-    this.gestureDelay = 35;
-    this.scrollViewEnabled = true;
-
     const position = new Animated.ValueXY();
-    const panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => false,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onPanResponderTerminationRequest: (evt, gestureState) => false,
-      onPanResponderMove: (evt, gestureState) => {
-        if(this.props.allowDeleteOn == this.props.index){
-          if (gestureState.dx < -35) {
-            this.setScrollViewEnabled(false);
-            let newX = gestureState.dx + this.gestureDelay;
-            position.setValue({x: newX, y: 0});
-          }
-          if (gestureState.dx < -150) {
-            Animated.sequence([
-              Animated.timing(this.state.bgAnimated, {
-                toValue: 1,
-                duration: 25,
-              }),
-            ]).start();
-          } else {
-            Animated.timing(this.state.bgAnimated, {
-              toValue: 0,
-              duration: 25,
-            }).start();
-          }
-        }
-      },
-      onPanResponderRelease: (evt, gestureState) => {
-        if(this.props.allowDeleteOn == this.props.index){
-          if (gestureState.dx > -150) {
-            Animated.timing(this.state.position, {
-              toValue: {x: 0, y: 0},
-              duration: 150,
-            }).start(() => {
-              this.setScrollViewEnabled(true);
-            });
-          } else {
-            Animated.timing(this.state.position, {
-              toValue: {x: -width, y: 0},
-              duration: 300,
-            }).start(() => {
-              this.props.deleted(this.props.index);
-              position.setValue({x: 0, y: 0});
-              this.setScrollViewEnabled(true);
-            });
-          }
-        }
-      },
-    });
-
-    this.panResponder = panResponder;
     this.state = {
       position,
       _animated: new Animated.Value(0),
@@ -132,12 +77,12 @@ export default class Gas extends PureComponent {
   *
   * @param: enabled: a boolean value of what the property should be for the list
   */
-  setScrollViewEnabled(enabled) {
-    if (this.scrollViewEnabled !== enabled) {
-      this.props.setScrollEnabled(enabled);
-      this.scrollViewEnabled = enabled;
-    }
-  }
+  // setScrollViewEnabled(enabled) {
+  //   if (this.scrollViewEnabled !== enabled) {
+  //     this.props.setScrollEnabled(enabled);
+  //     this.scrollViewEnabled = enabled;
+  //   }
+  // }
 
   /*
   * Function: componentWillMount()
@@ -210,6 +155,33 @@ export default class Gas extends PureComponent {
     var year = date[0];
 
     return monthNames[monthIndex] + ' ' + day + ', ' + year;
+  }
+
+  /*
+  * Function: delete()
+  * Author: Elton C. Rego
+  * Purpose: Creates an animation for deletion
+  */
+  delete(){
+    const that = this;
+    Animated.sequence([
+      Animated.timing(
+        that.state.expansion,
+        {
+          toValue: 0,
+          duration: 300,
+        }
+      ),
+      Animated.timing(
+        that.state.position,
+        {
+          toValue: {x: -width, y: 0},
+          duration: 300,
+        }
+      )
+    ]).start(() => {
+      that.props.deleted(that.props.index);
+    });
   }
 
   /*
@@ -293,6 +265,16 @@ export default class Gas extends PureComponent {
       outputRange: ['0deg', '360deg'],
     });
 
+    var deleteButton = this.props.allowDeleteOn == this.props.index ?
+    <TouchableOpacity onPress={() => this.delete()} style={[styles.smallButton, {backgroundColor: GLOBAL.COLOR.RED,}]} disabled={!this.state.expanded}>
+      <Text style={styleguide.dark_body}><FontAwesome>{Icons.trash}</FontAwesome></Text>
+      <Text style={[styleguide.dark_body2, {paddingLeft: 8}]}>delete</Text>
+    </TouchableOpacity> :
+    <TouchableOpacity style={[styles.smallButton, {backgroundColor: "transparent",}]} disabled={true}>
+      <Text style={styleguide.dark_body}><FontAwesome>{Icons.trash}</FontAwesome></Text>
+      <Text style={[styleguide.dark_body2, {paddingLeft: 8}]}>delete</Text>
+    </TouchableOpacity>;
+
     return (
       <Animated.View style={[,
         styles.listItem,
@@ -309,10 +291,9 @@ export default class Gas extends PureComponent {
             ],
           },
         ]}
-        {...this.panResponder.panHandlers}
       >
         <View style={styles.innerCell}>
-          <TouchableWithoutFeedback onPress={() => this.toggleExpandedView()} disabled={!this.state.pressable}>
+          <TouchableOpacity onPress={() => this.toggleExpandedView()} disabled={!this.state.pressable}>
           <Animated.View style={styles.topCell}>
             <Animated.View style={[styles.change, {transform: [{rotateZ: _spinRotation}]}]}>
               <Animated.Text
@@ -345,7 +326,7 @@ export default class Gas extends PureComponent {
               </Text>
             </View>
           </Animated.View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
          <Animated.View style={[styles.expandedCell, {maxHeight: expand, opacity: this.state.expansion, display: this.state.expansionDisplay}]}>
            <Text style={[styleguide.light_subheader2]}>
              {this.state.expandedTitle}<Text style={{color: this.state.color}}>.</Text>
@@ -376,13 +357,18 @@ export default class Gas extends PureComponent {
                </Text>
              </View>
            </View>
+           <View style={styles.expandedButtons}>
+             {deleteButton}
+             <TouchableOpacity style={[styles.smallButton, {backgroundColor: GLOBAL.COLOR.YELLOW,}]} disabled={!this.state.expanded}>
+               <Text style={styleguide.light_body}><FontAwesome>{Icons.edit}</FontAwesome></Text>
+               <Text style={[styleguide.light_body2, {paddingLeft: 8}]}>edit</Text>
+             </TouchableOpacity>
+             <TouchableOpacity style={[styles.smallButton, {backgroundColor: GLOBAL.COLOR.GRAY,}]} onPress={() => this.toggleExpandedView()} disabled={!this.state.expanded}>
+               <Text style={styleguide.dark_body}><FontAwesome>{Icons.times}</FontAwesome></Text>
+               <Text style={[styleguide.dark_body2, {paddingLeft: 8}]}>close</Text>
+             </TouchableOpacity>
+           </View>
          </Animated.View>
-        </View>
-
-        <View style={styles.absoluteCell}>
-          <Animated.Text style={[styleguide.dark_title, {
-            opacity: this.state.bgAnimated, paddingLeft: 16,
-          }]}><FontAwesome>{Icons.trash}</FontAwesome></Animated.Text>
         </View>
       </Animated.View>
     </Animated.View>
@@ -425,6 +411,22 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  expandedButtons: {
+    width: '100%',
+    paddingTop: 16,
+    paddingBottom: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  smallButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: width/4,
   },
 
   listItem: {
