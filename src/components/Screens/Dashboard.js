@@ -44,7 +44,7 @@ import * as shape from 'd3-shape'
 import GasList from '../Custom/GasList';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
-import VAlert from './../Custom/VAlert';
+import VroomAlert from './../Custom/VroomAlert';
 import Settings from '../Screens/Settings';
 
 /*
@@ -99,9 +99,9 @@ export default class Dashboard extends Component {
   }
 
  /*
-  * Function: openModal()
+  * Function: openTransaction()
   * Author: Elton C. Rego
-  * Purpose: Opens the modal to add a gas item
+  * Purpose: Opens the transaction panel to add a gas item
   */
   openTransaction() {
     Animated.spring(
@@ -131,9 +131,9 @@ export default class Dashboard extends Component {
   }
 
  /*
-  * Function: closeModal()
+  * Function: closeTransaction()
   * Author: Elton C. Rego
-  * Purpose: Closes the modal to add a gas item
+  * Purpose: Closes the transaction panel to add a gas item
   */
   closeTransaction() {
     this.setState({
@@ -196,19 +196,31 @@ export default class Dashboard extends Component {
   }
 
   /*
-   * Author: Elton C. Rego
-   * Purpose: sets event listeners for the keyboard
-   */
-   componentWillMount () {
-     this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
-     this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
-   }
-
-   componentWillUnmount() {
-     this.keyboardWillShowSub.remove();
-     this.keyboardWillHideSub.remove();
+  * Function: componentWillMount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillMount () {
+    this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
   }
 
+  /*
+  * Function: componentWillUnmount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  /*
+  * Event Listener: keyboardWillShow
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard shows and scales the elements on
+  *   the page in order to account for the new keyboard
+  */
   keyboardWillShow = (event) => {
     if(Platform.OS === 'ios'){
       var end = (event.endCoordinates.height-64)/2+32;
@@ -245,6 +257,12 @@ export default class Dashboard extends Component {
     }
   };
 
+  /*
+  * Event Listener: keyboardWillHide
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard hides and scales the elements on
+  *   the page in order to account for the lack of keyboard
+  */
   keyboardWillHide = (event) => {
     if(Platform.OS === 'ios'){
       Animated.parallel([
@@ -289,21 +307,21 @@ export default class Dashboard extends Component {
 
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'Please enter a valid total dollar amount!',
       'Ok');
       return;
     }
     if (isNaN(this.state.user_filled) || this.state.user_filled == ""){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'Please enter a valid gallon amount!',
       'Ok');
       return;
     }
     if (isNaN(this.state.user_ODO) || this.state.user_ODO == ""){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'Please enter a valid odometer reading!',
       'Ok');
       return;
@@ -312,7 +330,7 @@ export default class Dashboard extends Component {
     // throw alert if user leaves any fields blank
     if (this.state.user_ODO <= this.state.updatedODO) {
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'Your odometer reading cannot go backwards or stay constant between fillups!'
       +"\nPlease verify it is correct.",
       'Ok');
@@ -320,7 +338,7 @@ export default class Dashboard extends Component {
     }
     else if (this.state.user_filled >= (this.state.user_ODO - this.state.updatedODO)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Somethings not right...',
+      this.refs.vroomAlert.showAlert('Somethings not right...',
       'You shouldn\'t be getting under 1 mile per gallon!'
       +"\nPlease verify your input (or buy different gas).",
       'Ok');
@@ -473,8 +491,8 @@ export default class Dashboard extends Component {
 
     FCM.removeAllDeliveredNotifications();
     FCM.setBadgeNumber(0);
-    // this.showLocalNotification(); DEBUG
-    // this.scheduleLocalNotification(); DEBUG
+    // this.showLocalNotification(); //DEBUG: remove comment
+    // this.scheduleLocalNotification(); //DEBUG: remove comment
 
     var that = this;
     pullAverageMPG().then(function(fData){
@@ -648,9 +666,9 @@ export default class Dashboard extends Component {
       }>
       <StatusBar barStyle="light-content"/>
 
-        <VAlert ref="valert"/>
+        <VroomAlert ref="vroomAlert"/>
         <Animated.View style={[styles.settings, settingsList]}>
-          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.valert}/>
+          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.vroomAlert}/>
         </Animated.View>
 
         <View style={styles.navbar}>

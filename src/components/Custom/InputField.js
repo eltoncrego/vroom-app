@@ -11,7 +11,6 @@ stylesheet = require('../../global-styles');
 // Components
 import {
   View,
-  Text,
   Image,
   TextInput,
   StyleSheet,
@@ -20,9 +19,35 @@ import {
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
+/*
+* Class: InputField
+* Author: Elton C. Rego
+* Purpose: Creates and styles an input field that we can use throughout
+*   the rest of our application.
+*
+* Props:
+* autoFocus, a boolean value of whether or not the keyboard should open
+*   on this field by default
+* icon, the Icon from react-native-fontawesome that we'd like to show in
+*   the left side of this input field
+* label, the text that we'd like to show as a label for the input
+* labelColor, the color of the label
+* activeColor, the color that the field will turn when in focus
+* inactiveColor, the color that the field will turn when blurred
+* topMargin, the margin that separates this field from the items above
+* autoCapitalize, wether or not the keyboard should autoCapitalize
+* secureTextEntry, wether or not the phone should obscure the text inputted
+* onChangeText, calls when the text value changes
+* onSubmitEditing, calls when the user submits the text via the keyboard
+* type, sets the keyboardType
+* returnKeyType, sets the behaviour of the done button on the keyboard
+* autoCorrect, whether or not the device should autocorrect the input
+* value, what the value of the inputted text is
+*/
 export class InputField extends Component {
 
  /*
+  * function: Constructor
   * Author: Elton C. Rego
   * Purpose: Set up state for this specific component
   */
@@ -32,8 +57,10 @@ export class InputField extends Component {
   }
 
   /*
+  * function: setActive()
   * Author: Elton C. Rego
-  * Purpose: When called, shakes the button
+  * Purpose: When called, sets the current color of the input to the active
+  * color described by the props
   */
   setActive(){
     Animated.timing(
@@ -45,6 +72,13 @@ export class InputField extends Component {
       }
     ).start();
   }
+
+  /*
+  * function: setInactive()
+  * Author: Elton C. Rego
+  * Purpose: When called, sets the current color of the input to the insactiveColor
+  * color described by the props
+  */
   setInactive(){
     Animated.timing(
       this.borderColor,
@@ -56,6 +90,11 @@ export class InputField extends Component {
     ).start();
   }
 
+  /*
+  * function: focus()
+  * Author: Elton C. Rego
+  * Purpose: When called, sets the focus on the current field
+  */
   focus(){
     this.refs.input.focus();
   }
@@ -73,6 +112,9 @@ export class InputField extends Component {
     onChangeText,
     onSubmitEditing,
     type,
+    returnKeyType,
+    autoCorrect,
+    value,
   } = this.props) {
     var a_color = this.borderColor.interpolate({
       inputRange: [0, 1],
@@ -110,11 +152,11 @@ export class InputField extends Component {
           underlineColorAndroid={'transparent'}
           autoCapitalize={autoCapitalize}
           secureTextEntry={secureTextEntry}
-          returnKeyType={ this.props.returnKeyType }
+          returnKeyType={returnKeyType}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
-          autoCorrect={this.props.autoCorrect}
-          value={this.props.value}
+          autoCorrect={autoCorrect}
+          value={value}
         />
       </Animated.View>
     );

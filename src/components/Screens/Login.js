@@ -25,7 +25,7 @@ import { goTo } from '../Navigation/Navigation';
 import {initUser} from '../Database/Database';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
-import VAlert from './../Custom/VAlert';
+import VroomAlert from './../Custom/VroomAlert';
 import Loading from './../Screens/Loading';
 
 import loader_icon from '../../../assets/animations/loading.json';
@@ -96,19 +96,31 @@ export default class Login extends Component {
   }
 
   /*
-   * Author: Elton C. Rego
-   * Purpose: sets event listeners for the keyboard
-   */
-   componentWillMount () {
-     this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
-     this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
-   }
-
-   componentWillUnmount() {
-     this.keyboardWillShowSub.remove();
-     this.keyboardWillHideSub.remove();
+  * Function: componentWillMount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillMount () {
+    this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
   }
 
+  /*
+  * Function: componentWillUnmount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  /*
+  * Event Listener: keyboardWillShow
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard shows and scales the elements on
+  *   the page in order to account for the new keyboard
+  */
   keyboardWillShow = (event) => {
     if(Platform.OS === 'ios'){
       var end = (event.endCoordinates.height-128)/2;
@@ -145,6 +157,12 @@ export default class Login extends Component {
     }
   };
 
+  /*
+  * Event Listener: keyboardWillHide
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard hides and scales the elements on
+  *   the page in order to account for the lack of keyboard
+  */
   keyboardWillHide = (event) => {
     if(Platform.OS === 'ios'){
       Animated.parallel([
@@ -180,6 +198,7 @@ export default class Login extends Component {
   };
 
  /*
+  * Function: toggleSignUp()
   * Author: Elton C. Rego
   * Purpose: When called, the page will toggle the visibility of the
   *   verify password field, the text in the submit button, and the
@@ -219,6 +238,7 @@ export default class Login extends Component {
   }
 
  /*
+  * anon Function: signin()
   * Author: Alec Felt, Connick Shields
   * Purpose: Checks state.email and state.password and
   *          authenticates the user with Firebase
@@ -226,14 +246,14 @@ export default class Login extends Component {
   signin = () => {
     if((!this.state.email)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Woah there!',
+      this.refs.vroomAlert.showAlert('Woah there!',
       'You can\'t log in with an empty email!',
       'I understand');
       return;
     }
     if((!this.state.password)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Hey there, friendo!',
+      this.refs.vroomAlert.showAlert('Hey there, friendo!',
       'You can\'t log in with an empty password!',
       'I understand');
       return;
@@ -244,34 +264,35 @@ export default class Login extends Component {
       that.closeModal();
     }).catch(function(error){
       that.closeModal();
-      that.refs.valert.showAlert('Alert',
+      that.refs.vroomAlert.showAlert('Alert',
       error.message,
       'Ok');
     })
   }
 
  /*
+  * anon Function signup
   * Author: Connick Shields
   * Purpose: navigates to a signup component
   */
   signup = () => {
     if((!this.state.email)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Now wait just a second!',
+      this.refs.vroomAlert.showAlert('Now wait just a second!',
       'You can\'t sign up with an empty email!',
       'I understand');
       return;
     }
     if((!this.state.password)){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Hold up!',
+      this.refs.vroomAlert.showAlert('Hold up!',
       'You can\'t sign up with an empty password!',
       'I understand');
       return;
     }
     if(this.state.password != this.state.password_verification){
       this.refs.submitButton.indicateError();
-      this.refs.valert.showAlert('Our OCD is going off...',
+      this.refs.vroomAlert.showAlert('Our OCD is going off...',
       'your passwords don\'t match',
       'I understand');
       return;
@@ -282,7 +303,7 @@ export default class Login extends Component {
       that.closeModal();
     }).catch(function(error) {
       that.closeModal();
-      that.refs.valert.showAlert('Alert',
+      that.refs.vroomAlert.showAlert('Alert',
       error.message,
       'Ok');
     });
@@ -386,7 +407,7 @@ export default class Login extends Component {
         </View>
       </Modal>
 
-      <VAlert ref="valert"/>
+      <VroomAlert ref="vroomAlert"/>
 
         <Animated.View style={[styles.sign_in_form, {opacity: this.state.fade_animation, paddingBottom: this.state.keyboardHeight}]}>
           <Animated.Text style={[styleguide.light_display2, {fontSize: this.state.pageTextSize}]}>
@@ -504,7 +525,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
 
-  // FOR PROTOTYPING
   modalContainer: {
     flex: 1,
     justifyContent: 'center',

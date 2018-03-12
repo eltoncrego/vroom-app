@@ -15,6 +15,18 @@ import {
 } from 'react-native';
 import GasListItem from './GasListItem';
 
+/*
+* Class: GasList
+* Author: Elton C. Rego
+* Purpose: renders a list of the gas fill-ups entered in by the user
+*
+* Props:
+* enable, whether or not scrolling is enabled
+* removeItem, takes a key as well and removes the item at that index
+* average, the average MPG of this gaslist (used to render the correct ticker)
+* data, the data array that needs to be passed into the flatlist items
+* style, the style of the list specifically
+*/
 export default class GasList extends Component {
 
   /*
@@ -22,10 +34,10 @@ export default class GasList extends Component {
   * Author: Elton C. Rego
   * Purpose: Sets up the component for use
   *   - sets renderSeparator to it's own name
-  *   - sets success to it's own name
+  *   - sets delete to it's own name
   *   - sets setScrollEnabled to it's own name
   *   - sets state variables
-  *       > enable : whether or not the scholling is enabled
+  *       > enable : whether or not the scrolling is enabled
   *       > data : the list data passed in as a prop
   *
   * @param props - the props passed in from the parent component
@@ -33,7 +45,7 @@ export default class GasList extends Component {
   constructor(props) {
     super(props);
     this.renderSeparator = this.renderSeparator.bind(this);
-    this.success = this.success.bind(this);
+    this.deleted = this.deleted.bind(this);
     this.setScrollEnabled = this.setScrollEnabled.bind(this);
 
     this.state = {
@@ -41,14 +53,11 @@ export default class GasList extends Component {
     };
   }
 
-
-  componentDidMount() {
-    this.props.onRef(this)
-  }
-  componentWillUnmount() {
-    this.props.onRef(undefined)
-  }
-
+  /*
+  * Function: renderSeparator()
+  * Author: Elton C. Rego
+  * Purpose: renders a separator for each item of the gaslist
+  */
   renderSeparator() {
     return (
       <View style={styles.separatorViewStyle}>
@@ -57,17 +66,36 @@ export default class GasList extends Component {
     );
   }
 
-  success(key) {
+  /*
+  * Function: deleted()
+  * Author: Elton C. Rego
+  * Purpose: renders a separator for each item of the gaslist
+  */
+  deleted(key) {
     console.log("Removing value at key: " + key);
     this.props.removeItem(key);
   }
 
+  /*
+  * function: setScrollEnabled()
+  * Author: Elton C. Rego
+  * Purpose: toggles the availability of the scroll function of this list
+  *
+  * @param: enable: a boolean value for the toggle
+  */
   setScrollEnabled(enable) {
     this.setState({
       enable,
     });
   }
 
+  /*
+  * Function: renderItem()
+  * Author: Elton C. Rego
+  * Purpose: renders a specfic item from the list of fill-ups
+  *
+  * @param item: a element from the dataArray property
+  */
   renderItem(item) {
     return (
       <GasListItem
@@ -77,7 +105,7 @@ export default class GasList extends Component {
         gallonsFilled={item.gallonsFilled}
         distanceSinceLast={item.distanceSinceLast}
         odometer={item.odometer}
-        success={this.success}
+        deleted={this.deleted}
         average={this.props.average}
         allowDeleteOn={this.props.data.length}
         setScrollEnabled={enable => this.setScrollEnabled(enable)}

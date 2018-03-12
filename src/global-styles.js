@@ -1,14 +1,21 @@
+// Necessary imports and declarations
 'use strict';
 var React = require('react-native');
-var {
-  StyleSheet,
-} = React;
+var {StyleSheet,} = React;
 
-import {
-  Platform,
-} from 'react-native';
+// Allows for cross-platform functionality
+import {Platform,} from 'react-native';
 
+/*
+* Stylesheet: Styleguide
+* Author: Elton C. Rego
+* Purspose: Provide global stylings to the entire application,
+*   please import as styleguide from this file's path. Light
+*   and dark modifiers refer to the color of the background,
+*   not the color of the text itself
+*/
 module.exports = StyleSheet.create({
+  
  /*
   * Styles
   * Author: Elton
@@ -17,26 +24,6 @@ module.exports = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-   /*
-  * Author: Elton C. Rego
-  * Purpose: Styles a card
-  */
-  card_focused: {
-    backgroundColor: GLOBAL.COLOR.WHITE,
-    // width: 260,
-    // height: 260,
-    borderRadius: 4,
-    shadowColor: '#000000',
-    shadowOpacity: 0.5,
-    shadowOffset: {
-      width: 4,
-      height: 8,
-    },
-    shadowRadius: 2,
-    zIndex: 1,
-  },
-
 
  /*
   * GROUP * Font Styles

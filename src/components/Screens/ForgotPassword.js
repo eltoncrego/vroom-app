@@ -24,7 +24,7 @@ import Auth from '../Authentication/Auth';
 import { goTo, goBack } from '../Navigation/Navigation';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
-import VAlert from './../Custom/VAlert';
+import VroomAlert from './../Custom/VroomAlert';
 
 /*
  * Class: ForgotPassword
@@ -34,7 +34,6 @@ import VAlert from './../Custom/VAlert';
  *    password.
  *
  */
-
 export default class ForgotPassword extends Component {
 
   /*
@@ -45,32 +44,44 @@ export default class ForgotPassword extends Component {
    *
    * @param: properties
    */
-   constructor(props) {
-     super(props);
-     this.state = {
-       email: "",
-       keyboardHeight: new Animated.Value(0),
-       pageTextSize: new Animated.Value(25),
-       pageDescriptionSize: new Animated.Value(20),
-       topMargin: new Animated.Value(24),
-     };
-   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      keyboardHeight: new Animated.Value(0),
+      pageTextSize: new Animated.Value(25),
+      pageDescriptionSize: new Animated.Value(20),
+      topMargin: new Animated.Value(24),
+    };
+  }
 
-   /*
-    * Author: Elton C. Rego
-    * Purpose: sets event listeners for the keyboard
-    */
-    componentWillMount () {
-      this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
-      this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
-    }
+  /*
+  * Function: componentWillMount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillMount () {
+    this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
+  }
 
-    componentWillUnmount() {
-      this.keyboardWillShowSub.remove();
-      this.keyboardWillHideSub.remove();
-   }
+  /*
+  * Function: componentWillUnmount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
 
-   keyboardWillShow = (event) => {
+  /*
+  * Event Listener: keyboardWillShow
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard shows and scales the elements on
+  *   the page in order to account for the new keyboard
+  */
+  keyboardWillShow = (event) => {
      if(Platform.OS === 'ios'){
        var end = (event.endCoordinates.height-128)/2;
        Animated.parallel([
@@ -112,9 +123,15 @@ export default class ForgotPassword extends Component {
          }),
        ]).start();
      }
-   };
+  };
 
-   keyboardWillHide = (event) => {
+  /*
+  * Event Listener: keyboardWillHide
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard hides and scales the elements on
+  *   the page in order to account for the lack of keyboard
+  */
+  keyboardWillHide = (event) => {
      if(Platform.OS === 'ios'){
        Animated.parallel([
          Animated.timing(this.state.keyboardHeight, {
@@ -154,45 +171,43 @@ export default class ForgotPassword extends Component {
          }),
        ]).start();
      }
-   };
+  };
 
-   /*
-    * Author: Payam Katoozian
-    * Purpose: allow resetting of password
-    */
-    passwordReset = () => {
-      if(!this.state.email){
-        this.refs.linkButton.indicateError();
-        this.refs.valert.showAlert('No email entered',
-        'Simply enter your email address and try again!',
+  /*
+  * Author: Payam Katoozian
+  * Purpose: allow resetting of password
+  */
+  passwordReset = () => {
+    if(!this.state.email){
+      this.refs.linkButton.indicateError();
+      this.refs.vroomAlert.showAlert('No email entered',
+      'Simply enter your email address and try again!',
+      'Ok');
+    } else {
+      var that = this;
+      Auth.firebasePasswordReset(this.state.email).then(function(){
+        that.refs.linkButton.indicateError();
+        that.refs.vroomAlert.showAlert('Password Reset Request Received',
+        'Please check your email',
+        'I\'ll go check!', GLOBAL.COLOR.GREEN);
+      }).catch(function(error){
+        that.refs.linkButton.indicateError();
+        that.refs.vroomAlert.showAlert("Alert",
+        error.message,
         'Ok');
-      } else {
-        var that = this;
-        Auth.firebasePasswordReset(this.state.email).then(function(){
-          that.refs.linkButton.indicateError();
-          that.refs.valert.showAlert('Password Reset Request Received',
-          'Please check your email',
-          'I\'ll go check!', GLOBAL.COLOR.GREEN);
-        }).catch(function(error){
-          that.refs.linkButton.indicateError();
-          that.refs.valert.showAlert("Alert",
-          error.message,
-          'Ok');
-        });
-      }
+      });
     }
+  }
 
-   render() {
-
-     var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
-
-     return(
+  render() {
+    var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
+    return(
        <SafeAreaView style={[
            styleguide.container,
          {
            backgroundColor: GLOBAL.COLOR.WHITE,
          }]}>
-         <VAlert ref="valert"/>
+         <VroomAlert ref="vroomAlert"/>
          <View style={styles.navbar}>
            <TouchableOpacity onPress={() => {goBack(this.props.navigation)}}>
              <Animated.View>
@@ -234,8 +249,8 @@ export default class ForgotPassword extends Component {
             onPress={() => {this.passwordReset();}}/>
         </Animated.View>
        </SafeAreaView>
-     );
-   }
+    );
+  }
 
 }
 

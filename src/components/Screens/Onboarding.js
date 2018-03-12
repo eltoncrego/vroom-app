@@ -29,7 +29,7 @@ import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
 import { goTo } from '../Navigation/Navigation';
-import VAlert from './../Custom/VAlert';
+import VroomAlert from './../Custom/VroomAlert';
 
 import {
   initUser,
@@ -54,37 +54,55 @@ export default class Onboarding extends Component {
    *
    * @param: properties
    */
-   constructor(props) {
-     super(props);
-     this.state = {
-       userODO: null,
-       keyboardHeight: new Animated.Value(0),
-       pageTextSize: new Animated.Value(25),
-       pageDescriptionSize: new Animated.Value(20),
-       topMargin: new Animated.Value(24),
-     };
-   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      userODO: null,
+      keyboardHeight: new Animated.Value(0),
+      pageTextSize: new Animated.Value(25),
+      pageDescriptionSize: new Animated.Value(20),
+      topMargin: new Animated.Value(24),
+    };
+  }
 
-   componentDidMount() {
-     console.log("onboarding mounted");
-     FCM.requestPermissions().then(()=>console.log('granted')).catch(()=>console.log('notification permission rejected'));
-   }
+  /*
+  * Function: componentDidMount()
+  * Author: Elton C. Rego
+  * Purpose: logs to the console that the user has entered onboarding and
+  *   requests permissions to show notifications
+  */
+  componentDidMount() {
+    console.log("onboarding mounted");
+    FCM.requestPermissions().then(()=>console.log('granted')).catch(()=>console.log('notification permission rejected'));
+  }
 
-   /*
-    * Author: Elton C. Rego
-    * Purpose: sets event listeners for the keyboard
-    */
-    componentWillMount () {
-      this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
-      this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
-    }
+ /*
+  * Function: componentWillMount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillMount () {
+    this.keyboardWillShowSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', this.keyboardWillHide);
+  }
 
-    componentWillUnmount() {
-      this.keyboardWillShowSub.remove();
-      this.keyboardWillHideSub.remove();
-   }
+  /*
+  * Function: componentWillUnmount
+  * Author: Elton C. Rego
+  * Purpose: sets event listeners for the keyboard
+  */
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
 
-   keyboardWillShow = (event) => {
+  /*
+  * Event Listener: keyboardWillShow
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard shows and scales the elements on
+  *   the page in order to account for the new keyboard
+  */
+  keyboardWillShow = (event) => {
      if(Platform.OS === 'ios'){
        var end = (event.endCoordinates.height-128)/2;
        Animated.parallel([
@@ -126,9 +144,15 @@ export default class Onboarding extends Component {
          }),
        ]).start();
      }
-   };
+  };
 
-   keyboardWillHide = (event) => {
+  /*
+  * Event Listener: keyboardWillHide
+  * Author: Elton C. Rego
+  * Purpose: called when the keyboard hides and scales the elements on
+  *   the page in order to account for the lack of keyboard
+  */
+  keyboardWillHide = (event) => {
      if(Platform.OS === 'ios'){
        Animated.parallel([
          Animated.timing(this.state.keyboardHeight, {
@@ -168,7 +192,7 @@ export default class Onboarding extends Component {
          }),
        ]).start();
      }
-   };
+  };
 
    /*
     * Method: submitOnboardingODO
@@ -186,12 +210,12 @@ export default class Onboarding extends Component {
        goTo(this.props.navigation, 'Dashboard');
      } else if (this.state.userODO < 0){
        this.refs.submitButton.indicateError();
-       this.refs.valert.showAlert('Where did you get your car?',
+       this.refs.vroomAlert.showAlert('Where did you get your car?',
        'An odometer cannot read negative miles unless it is damaged.',
        'Ok');
      } else {
        this.refs.submitButton.indicateError();
-       this.refs.valert.showAlert('Hold up!',
+       this.refs.vroomAlert.showAlert('Hold up!',
        'You didn\'t enter anything!',
        'Let me try again');
      }
@@ -215,7 +239,7 @@ export default class Onboarding extends Component {
         styleguide.container,
         styles.container,
       ]}>
-      <VAlert ref="valert"/>
+      <VroomAlert ref="vroomAlert"/>
       <View style={styles.navbar}>
         <TouchableOpacity onPress={() => {Auth.logOut();}}>
           <Animated.View>
@@ -289,5 +313,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
-  
+
 });

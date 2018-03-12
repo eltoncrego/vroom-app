@@ -20,12 +20,19 @@ import Loading from '../Screens/Loading.js';
 import {firebaseRef} from '../Database/Database';
 import * as firebase from 'firebase';
 
-// this shall be called regardless of app state: running, background or not running. Won't be called when app is killed by user in iOS
+/*
+* Listener: Firebase Cloud Messaging
+* Author: Elton C. Rego
+* Purpose: Sets up a cloud messaging listener so that the user can recieve
+*   notifications from our application. Logs the params on the console.
+*
+* @asynchronousParam: notif - the notification object recieved from the system
+*/
 FCM.on(FCMEvent.Notification, async (notif) => {
-    console.log(notif);
+  console.log("Firebase Notification recieved: " + notif);
 });
 FCM.on(FCMEvent.RefreshToken, (token) => {
-    console.log(token);
+  console.log("Firebase token refreshed: " + token);
 });
 
 /*
@@ -147,17 +154,17 @@ export default class Auth extends Component {
   */
   static firebaseSignup = (e, p) => {
     return firebase.auth().createUserWithEmailAndPassword(e, p)
-      .then((user) => {
-        if(user && user.emailVerified === false){
-          console.log("signed user up");
-          user.sendEmailVerification().then(() => {
-            console.log("sent verification email to user");
-          });
-        }
-        return;
-      }, error => {
-        throw new Error(error);
-      });
+    .then((user) => {
+      if(user && user.emailVerified === false){
+        console.log("signed user up");
+        user.sendEmailVerification().then(() => {
+          console.log("sent verification email to user");
+        });
+      }
+      return;
+    }, error => {
+      throw new Error(error);
+    });
   }
 
   /*
@@ -170,14 +177,12 @@ export default class Auth extends Component {
   * @return: Promise.prototype();
   */
   static logOut = () => {
-    // if signOut() returns void, then go back to login
     return firebase.auth().signOut().then((vo) => {
       if(!vo){
         console.log("signed user out");
       }
       return;
     }, error => {
-      console.log(error.message);
       throw new Error(error);
     });
   }
@@ -195,18 +200,16 @@ export default class Auth extends Component {
           return firebaseRef.database().ref("users").child(Auth.getAuth().uid).remove()
           .then(function(){
             Auth.logOut();
-            return "Poof you're gone";
+            return "User deleted";
           }).catch(function(error){
-            console.log("ERROR: serious logic bug in Auth: deleteUser()");
             throw new Error(error);
           })
           return returnvalue;
         }).catch(function(error) {
-          console.log(error.message);
           throw new Error(error);
         })
     } else {
-      return "user is null";
+      return "User is null";
     }
   }
 
@@ -241,16 +244,14 @@ export default class Auth extends Component {
    *    updates global FirebaseAuth variable auth
    */
   setAuthListener = () => {
-    console.log("setListener()");
     var that = this;
     firebaseRef.auth().onAuthStateChanged(function(user) {
-      console.log("onAuthStateChanged()");
        if (user) {
          Auth.auth = user;
          console.log("user is signed in");
          firebaseRef.database().ref("users").child(Auth.auth.uid).child("originalODO").once('value').then(function(snapshot) {
            if(snapshot.val() !== null) {
-             console.log("Database init for this user! going to Dashboard");
+             console.log("Database has already been initialized for this user! going to Dashboard");
              that.setState({signedIn: true, checkedSignIn: true, onboardingNeeded: false});
            } else {
              console.log("No database value for this user! going to Onboarding");
@@ -260,7 +261,6 @@ export default class Auth extends Component {
            console.log("Error getting document:", error.message);
          });
      } else {
-       // No user is signed in.
        Auth.auth = null;
        console.log("user is signed out");
        that.setState({signedIn: false, checkedSignIn: true});
@@ -278,10 +278,7 @@ export default class Auth extends Component {
    */
   componentDidMount() {
     console.log("Auth component mounted");
-
     this.setAuthListener();
-
-    // this.render();
   }
 
   /*
@@ -300,7 +297,7 @@ export default class Auth extends Component {
     // While the application is verifying if the user is signed in,
     // shows the loading component
     if (!this.state.checkedSignIn) {
-      return(<Loading label={"someone dropped screws in here"}/>);
+      return(<Loading label={"just cleaning a few things up"}/>);
     }
 
     // Shows signedin or signedup depending on the user's status

@@ -30,7 +30,6 @@ export const firebaseRef = firebase.initializeApp(config);
 * @param: (ttr) = task type reference
 *         (d) = date string (yyyy-mm-dd)
 * @return: void
-* TODO create error message, update task object fields, add notifications?
 */
 export function pushTask(ttr, d) {
   if(Auth.checkAuth()) {
@@ -51,29 +50,38 @@ export function pushTask(ttr, d) {
 *
 * @param: (fillupData) = the newest fillup (textDataArr[0])
 * @return: void
-* TODO create error message, update task object fields, add notifications?
 */
 export function pushFillup(fillupData) {
   console.log("pushFillup");
-  console.log("Here's fillupData:");
-  console.log(fillupData);
-
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("fillups").push(fillupData);
   }
 }
 
+/*
+* Database function: initUser()
+* Author: Elton C. Rego
+*
+* Purpose: push the initial data for a user to firebase
+*/
 export function initUser(originalODO){
   console.log("initUser");
   if(Auth.checkAuth()) {
-    console.log("AUTH")
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
     firebaseRef.database().ref("users").child(user).child("originalODO").set(originalODO);
   }
 }
 
+/*
+* Database function: updateMPG()
+* Author: Elton C. Rego
+*
+* Purpose: push an update to the average MPG value to firebase
+*
+* @param: average - the new MPG average we want to push to firebase
+*/
 export function updateMPG(average) {
   console.log("updateMPG");
   if(Auth.checkAuth()) {
@@ -82,6 +90,14 @@ export function updateMPG(average) {
   }
 }
 
+/*
+* Database function: updateODO()
+* Author: Elton C. Rego
+*
+* Purpose: push the new odometer reading to firebase
+*
+* @param: the new odometer reading to push to firebase
+*/
 export function updateODO(newODO) {
   console.log("updateODO");
   if(Auth.checkAuth()) {
@@ -90,8 +106,14 @@ export function updateODO(newODO) {
   }
 }
 
+
 /*
 * Database function: pullFillups()
+* Author: Elton C. Rego
+*
+* Purpose: pulls the fillups stored in the user's database area
+*
+* @return returnArr: an array of the fillup data in the filestore
 */
 export function pullFillups() {
   console.log("pullFillups");
@@ -114,7 +136,12 @@ export function pullFillups() {
 }
 
 /*
-* Database function: pullFillups()
+* Database function: pullAverageMPG()
+* Author: Elton C. Rego
+*
+* Purpose: pulls the latest averageMPG stored in the user's database area
+*
+* @return mpg: a numeric value of the current average MPG of the user
 */
 export function pullAverageMPG() {
   console.log("pullAverageMPG");
@@ -131,7 +158,12 @@ export function pullAverageMPG() {
 }
 
 /*
-* Database function: pullFillups()
+* Database function: pullODOReading()
+* Author: Elton C. Rego
+*
+* Purpose: pulls the latest ODO reading for the user
+*
+* @return odo: a numeric value of the latest ODO reading for the user
 */
 export function pullODOReading() {
   console.log("pullODOReading");
@@ -148,7 +180,13 @@ export function pullODOReading() {
 }
 
 /*
-* Database function: pullFillups()
+* Database function: pullOGDOReading()
+* Author: Elton C. Rego
+*
+* Purpose: pulls the ORIGINAL ODO reading for the user
+*
+* @return originalODO: the original odometer reading entered by the user
+*   during onboarding
 */
 export function pullOGODOReading() {
   console.log("pullOGDOReading");
@@ -164,6 +202,15 @@ export function pullOGODOReading() {
 
 }
 
+/*
+* Database function: pullUserPermissions()
+* Author: Elton C. Rego
+*
+* Purpose: pulls the user permissions to validate if the user is a premium
+*   user or not
+*
+* @return bool - is the user a premium user? t/f
+*/
 export function pullUserPermissions(){
   console.log("Pulling user permissions.");
   const user = Auth.getAuth().uid;
@@ -183,7 +230,6 @@ export function pullUserPermissions(){
 *
 * @param: i: the index of the particular fillup we're removing
 * @return: void
-* TODO create error message, update task object fields, add notifications?
 */
 export function removeFillup(i) {
   console.log("removing fillup");
@@ -212,7 +258,6 @@ export function removeFillup(i) {
  * @param: (path) = string: path to query in database
  *
  * @return: a promise which resolves to an array
- * TODO: none
  */
 export function queryCars(path){
     return new Promise((resolve, reject) => {
@@ -239,7 +284,6 @@ export function queryCars(path){
 * @param: (path) = string: path to location in database
 *         (ob)   = JSON object to be pushed
 * @return: void
-* TODO create error message, update task object fields, add notifications?
 */
 export function pushJSONTask(path, ob) {
   console.log("writing to path = " + path);

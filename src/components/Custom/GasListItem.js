@@ -16,7 +16,7 @@ import {
   Animated,
   Dimensions,
   PanResponder,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import FontAwesome, {Icons} from 'react-native-fontawesome';
 
@@ -28,10 +28,30 @@ const {width} = Dimensions.get('window');
 * Author: Elton C. Rego
 * Purpose: Renders a singular gas fill-up item with the given properties
 *
-*
+* Props:
+* allowDeleteOn(index): allows the deletion of only an item with the given index
+* index: the index of the currently rendered item
+* deleted(index): the callback function that is called when an item needs
+*   to be deleted
+* setScrollEnabled: the callback function for whether or not the swiping of
+*   this specific element needs to stop scrolling in the main list component
+* distanceSinceLast: the distance since the last fillup in the fill-up data
+* gallonsFilled: the gallons filled for this item of fill-up data
+* average: the average MPG for this user
+* totalPrice: the total price paid for this fill-up
+* date: the date, as an array, of when this fillup took place
+* odometer: the odometer reading of the car at the time of this fill-up
 */
 export default class Gas extends PureComponent {
 
+  /*
+  * Function: constructor
+  * Author: Elton C. Rego
+  * Purpose: Sets up the gesture delay, pan responder, and state variables
+  *   for this specific gas list itme. Allowing us to enable swipe functions.
+  *
+  * @param props: the prop variables passed from the calling component
+  */
   constructor(props) {
     super(props);
 
@@ -79,7 +99,7 @@ export default class Gas extends PureComponent {
               toValue: {x: -width, y: 0},
               duration: 300,
             }).start(() => {
-              this.props.success(this.props.index);
+              this.props.deleted(this.props.index);
               position.setValue({x: 0, y: 0});
               this.setScrollViewEnabled(true);
             });
@@ -104,6 +124,14 @@ export default class Gas extends PureComponent {
     };
   }
 
+  /*
+  * Function: setScrollViewEnabled
+  * Author: Elton C. Rego
+  * Purpose: sets the availability of the scroll functionality in the overall
+  *   gas list based on whether or not the item in question is being swiped
+  *
+  * @param: enabled: a boolean value of what the property should be for the list
+  */
   setScrollViewEnabled(enabled) {
     if (this.scrollViewEnabled !== enabled) {
       this.props.setScrollEnabled(enabled);
@@ -111,6 +139,12 @@ export default class Gas extends PureComponent {
     }
   }
 
+  /*
+  * Function: componentWillMount()
+  * Author: Elton C. Rego
+  * Purpose: sets the state variables and does the nesessary calculations
+  *   gas item before rendering the component
+  */
   componentWillMount() {
     var mpg = parseFloat((this.props.distanceSinceLast/this.props.gallonsFilled).toFixed(2));
     this.setState({
@@ -140,6 +174,12 @@ export default class Gas extends PureComponent {
     }
   }
 
+  /*
+  * Function: componentDidMount
+  * Author: Elton C. Rego
+  * Purpose: starts the animation for this element when it's mounted on
+  *   the DOM
+  */
   componentDidMount(){
     Animated.sequence([
       Animated.timing(this.state._animated, {
@@ -149,6 +189,14 @@ export default class Gas extends PureComponent {
     ]).start();
   }
 
+  /*
+  * Function: formatDate()
+  * Author: Elton C. Rego
+  * Purpose: Returns a formatted date based on the given date object
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
   formatDate(date) {
     var monthNames = [
       "January", "February", "March",
@@ -164,19 +212,15 @@ export default class Gas extends PureComponent {
     return monthNames[monthIndex] + ' ' + day + ', ' + year;
   }
 
-  _setMaxHeight(event){
-      this.setState({
-          maxHeight   : event.nativeEvent.layout.height
-      });
-  }
-
-  _setMinHeight(event){
-      this.setState({
-          minHeight   : event.nativeEvent.layout.height
-      });
-  }
-
-  toggle(){
+  /*
+  * Function: toggleExpandedView()
+  * Author: Elton C. Rego
+  * Purpose: toggles the display of the expanded view of this gas list
+  *   item
+  *
+  * @param: date - a date object formatted in array scope
+  */
+  toggleExpandedView(){
     this.setState({
       pressable: false,
     })
@@ -268,8 +312,8 @@ export default class Gas extends PureComponent {
         {...this.panResponder.panHandlers}
       >
         <View style={styles.innerCell}>
-          <TouchableOpacity onPress={() => this.toggle()} disabled={!this.state.pressable}>
-          <Animated.View style={styles.topCell} onLayout={this._setMinHeight.bind(this)}>
+          <TouchableWithoutFeedback onPress={() => this.toggleExpandedView()} disabled={!this.state.pressable}>
+          <Animated.View style={styles.topCell}>
             <Animated.View style={[styles.change, {transform: [{rotateZ: _spinRotation}]}]}>
               <Animated.Text
                 style={[styles.ico,{color: this.state.color,}]}>
@@ -301,8 +345,8 @@ export default class Gas extends PureComponent {
               </Text>
             </View>
           </Animated.View>
-        </TouchableOpacity>
-         <Animated.View style={[styles.expandedCell, {maxHeight: expand, opacity: this.state.expansion, display: this.state.expansionDisplay}]} onLayout={this._setMaxHeight.bind(this)}>
+        </TouchableWithoutFeedback>
+         <Animated.View style={[styles.expandedCell, {maxHeight: expand, opacity: this.state.expansion, display: this.state.expansionDisplay}]}>
            <Text style={[styleguide.light_subheader2]}>
              {this.state.expandedTitle}<Text style={{color: this.state.color}}>.</Text>
            </Text>
