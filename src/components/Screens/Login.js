@@ -68,8 +68,9 @@ export default class Login extends Component {
       password: null,
       password_verification: null,
 
-      // Modal toggle
+      //toggles
       modalVisible: false,
+      switchAvailable: true,
 
       // Animation Values
       fade_animation: new Animated.Value(0),
@@ -206,6 +207,9 @@ export default class Login extends Component {
   */
   toggleSignUp(){
     var that = this;
+    that.setState({
+      switchAvailable: false,
+    });
     Animated.timing(
       this.state.fade_animation,
       {
@@ -233,7 +237,11 @@ export default class Login extends Component {
           toValue: 1,
           duration: 500,
         }
-      ).start();
+      ).start(() => {
+        that.setState({
+          switchAvailable: true,
+        });
+      });
     });
   }
 
@@ -464,8 +472,9 @@ export default class Login extends Component {
             } else {
               this.signin();
             }
-          }}/>
-          <TouchableOpacity onPress={() => this.toggleSignUp() }  hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}>
+          }}
+          enabled={this.state.switchAvailable}/>
+        <TouchableOpacity disabled={!this.state.switchAvailable} onPress={() => this.toggleSignUp() }  hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}>
             <Text style={[
               styleguide.light_body,
               {
