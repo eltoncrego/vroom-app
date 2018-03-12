@@ -39,6 +39,7 @@ import {
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
+import dateFns from 'date-fns'
 
 // Custom components
 import GasList from '../Custom/GasList';
@@ -646,8 +647,9 @@ export default class Dashboard extends Component {
 
     var day = date[2];
     var monthIndex = date[1];
-
-    return monthNames[monthIndex] + ' ' + day;
+    const returnValue = monthNames[monthIndex] + ' ' + day;
+    console.log(returnValue);
+    return returnValue
   }
 
   /*
@@ -662,7 +664,9 @@ export default class Dashboard extends Component {
     var year = date[0];
     var month = date[1];
     var day = date[2];
-    const returnValue = new Date(year, month, day);
+    var hours = date[3];
+    const returnValue = dateFns.setHours(new Date(year, month, day), hours);
+    console.log(returnValue);
     return returnValue;
   }
 
@@ -831,10 +835,10 @@ export default class Dashboard extends Component {
               start={0}
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-              xAccessor={({item}) => item.list_i}
+              xAccessor={({item}) => this.createDateObject(item.date)}
               curve={shape.curveNatural}
               contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
-              numberOfTicks={3}
+              numberOfTicks={5}
               showGrid={false}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
@@ -847,7 +851,7 @@ export default class Dashboard extends Component {
               contentInset={{right: 16, left: 16}}
               data={this.state.textDataArr}
               xAccessor={({item}) => item.list_i}
-              formatLabel={value => `Fillup ${value}`}
+              formatLabel={(value) => `fillup ${value}`}
               svg={{
                 fill: GLOBAL.COLOR.WHITE,
                 fontSize: 10,
