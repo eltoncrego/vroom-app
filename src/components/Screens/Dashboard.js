@@ -161,6 +161,9 @@ export default class Dashboard extends Component {
       }
     ).start();
     this.setState({modalVisible:false});
+    this.refs.paid.clear();
+    this.refs.gas.clear();
+    this.refs.odo.clear();
   }
 
   /*
