@@ -777,7 +777,7 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
-            <YAxis
+            {/*<YAxis
               style={[styles.areaGraph, {zIndex: 1, position: "absolute"}]}
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
@@ -788,7 +788,7 @@ export default class Dashboard extends Component {
                       fontSize: 15,
                   }}
               formatLabel={ value => `${value} MPG` }
-            />
+            />*/}
             <AreaChart
               style={styles.areaGraph}
               start={0}
