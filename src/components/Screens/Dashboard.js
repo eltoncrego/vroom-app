@@ -162,9 +162,6 @@ export default class Dashboard extends Component {
     ).start();
     this.setState({
       modalVisible:false,
-      user_paid: "",
-      user_filled: "",
-      user_ODO: "",
     });
     this.refs.paid.clear();
     this.refs.gas.clear();
@@ -313,6 +310,12 @@ export default class Dashboard extends Component {
   */
   addItem() {
 
+    this.setState({
+      user_paid: parseFloat(this.state.user_paid),
+      user_filled: parseFloat(this.state.user_filled),
+      user_ODO: parseFloat(this.state.user_ODO),
+    });
+
     if (isNaN(this.state.user_paid) || this.state.user_paid == ""){
       this.refs.submitButton.indicateError();
       this.refs.vroomAlert.showAlert('Somethings not right...',
@@ -371,6 +374,10 @@ export default class Dashboard extends Component {
       distanceSinceLast: distance,
     };
 
+    this.refs.paid.clear();
+    this.refs.gas.clear();
+    this.refs.odo.clear();
+
     Animated.timing(
       this.state.placeholderVisible,
       {
@@ -395,10 +402,6 @@ export default class Dashboard extends Component {
     pushFillup(newFillup);
     updateMPG(average);
     updateODO(parseFloat(this.state.user_ODO));
-
-    this.refs.paid.clear();
-    this.refs.gas.clear();
-    this.refs.odo.clear();
   }
 
   /*
@@ -412,10 +415,12 @@ export default class Dashboard extends Component {
     // We want to delete a specific Fillup from the user, based
     // on these variables
     const itemToRemove =
-    this.state.textDataArr.find(function (obj){
-      return obj.list_i === key;
+      this.state.textDataArr.find(function (obj){
+        return obj.list_i === key;
     });
     const indexOf = this.state.textDataArr.indexOf(itemToRemove);
+    console.log(indexOf);
+    console.log(itemToRemove);
 
     const mpgRemoved = itemToRemove.distanceSinceLast
       /itemToRemove.gallonsFilled;
@@ -425,7 +430,7 @@ export default class Dashboard extends Component {
       /(this.state.textDataArr.length - 1);
 
     const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO :
-      this.state.textDataArr[0].odometer;
+      this.state.textDataArr[1].odometer;
 
     removeFillup(key);
     updateMPG(averageMPG);

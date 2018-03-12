@@ -262,11 +262,7 @@ export default class Gas extends PureComponent {
     <TouchableOpacity onPress={() => this.delete()} style={[styles.smallButton, {backgroundColor: GLOBAL.COLOR.RED,}]} disabled={!this.state.expanded}>
       <Text style={styleguide.dark_body}><FontAwesome>{Icons.trash}</FontAwesome></Text>
       <Text style={[styleguide.dark_body2, {paddingLeft: 8}]}>delete</Text>
-    </TouchableOpacity> :
-    <TouchableOpacity style={[styles.smallButton, {backgroundColor: "transparent",}]} disabled={true}>
-      <Text style={styleguide.dark_body}><FontAwesome>{Icons.trash}</FontAwesome></Text>
-      <Text style={[styleguide.dark_body2, {paddingLeft: 8}]}>delete</Text>
-    </TouchableOpacity>;
+    </TouchableOpacity> : null;
 
     return (
       <Animated.View
@@ -347,10 +343,6 @@ export default class Gas extends PureComponent {
            </View>
            <View style={styles.expandedButtons}>
              {deleteButton}
-             <TouchableOpacity style={[styles.smallButton, {backgroundColor: GLOBAL.COLOR.YELLOW,}]} disabled={!this.state.expanded}>
-               <Text style={styleguide.light_body}><FontAwesome>{Icons.edit}</FontAwesome></Text>
-               <Text style={[styleguide.light_body2, {paddingLeft: 8}]}>edit</Text>
-             </TouchableOpacity>
              <TouchableOpacity style={[styles.smallButton, {backgroundColor: GLOBAL.COLOR.GRAY,}]} onPress={() => this.toggleExpandedView()} disabled={!this.state.expanded}>
                <Text style={styleguide.dark_body}><FontAwesome>{Icons.times}</FontAwesome></Text>
                <Text style={[styleguide.dark_body2, {paddingLeft: 8}]}>close</Text>
@@ -404,7 +396,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 8,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   smallButton: {
     paddingVertical: 8,
@@ -414,6 +406,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: width/4,
+    marginHorizontal: 8,
   },
 
   change: {
