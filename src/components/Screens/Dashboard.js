@@ -848,7 +848,7 @@ export default class Dashboard extends Component {
             />
             <XAxis
               style={{marginTop: -16, marginHorizontal: 8}}
-              contentInset={{right: 16, left: 16}}
+              contentInset={{right: -2, left: -2}}
               data={this.state.textDataArr}
               xAccessor={({item}) => item.list_i}
               formatLabel={(value) => `fillup ${value}`}
