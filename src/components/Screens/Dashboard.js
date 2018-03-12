@@ -797,8 +797,8 @@ export default class Dashboard extends Component {
               xAccessor={({item}) => item.list_i}
               curve={shape.curveNatural}
               contentInset={ contentInset }
-              numberOfTicks={5}
-              showGrid={true}
+              numberOfTicks={3}
+              showGrid={false}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
