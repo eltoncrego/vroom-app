@@ -37,11 +37,7 @@ import {
   pullOGODOReading,
 } from '../Database/Database.js';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
-<<<<<<< HEAD
 import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
-=======
-import { AreaChart, YAxis } from 'react-native-svg-charts'
->>>>>>> added broken YAxis
 import * as shape from 'd3-shape'
 
 // Custom components
@@ -680,12 +676,8 @@ export default class Dashboard extends Component {
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     // adding contentInset prop to ensure consistency between chart and yAxis
-<<<<<<< HEAD
-    var contentInset = { top: 32, bottom: 100, right: -2, left: -2};
-=======
     //var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
     var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
->>>>>>> fixed aapt build issues and added tick lines to graph
 
     return(
 
