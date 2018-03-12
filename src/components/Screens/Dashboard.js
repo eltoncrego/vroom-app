@@ -676,8 +676,7 @@ export default class Dashboard extends Component {
     var transformTransaction = {transform: [{translateY: transactionTranslation}]};
 
     // adding contentInset prop to ensure consistency between chart and yAxis
-    //var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
-    var contentInset = { top: 32, bottom: 50, right: -2, left: -2};
+    var contentInset = { top: 32, bottom: 100, right: -2, left: -2};
 
     return(
 
