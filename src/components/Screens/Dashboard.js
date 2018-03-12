@@ -37,7 +37,7 @@ import {
   pullOGODOReading,
 } from '../Database/Database.js';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
-import { AreaChart, YAxis } from 'react-native-svg-charts'
+import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 // Custom components
@@ -798,13 +798,24 @@ export default class Dashboard extends Component {
               curve={shape.curveNatural}
               contentInset={ contentInset }
               numberOfTicks={3}
-              showGrid={false}
+              showGrid={true}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
                 fill: 'rgba(184, 233, 134, 0.2)',
               }}
             />
+            <XAxis
+                    style={[styles.areaGraph, {zIndex: 1, position: "absolute", }]}
+                    data={this.state.textDataArr}
+                    xAccessor={({item}) => item.list_i}
+                    formatLabel={ value => `Fillup ${value}` }
+                    contentInset={ contentInset }
+                    svg={{ 
+                            fill: GLOBAL.COLOR.WHITE,
+                            fontSize: 15, 
+                        }}
+                />
         </Animated.View>
             <Animated.View
               style={[
