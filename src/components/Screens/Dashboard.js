@@ -817,7 +817,7 @@ export default class Dashboard extends Component {
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
-                fill: 'rgba(184, 233, 134, 0.2)',
+                fill: 'rgba(184, 233, 134, 0.2)',g
               }}
             />
             <XAxis
