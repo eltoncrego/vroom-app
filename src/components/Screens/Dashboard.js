@@ -437,6 +437,7 @@ export default class Dashboard extends Component {
     updateODO(ODO);
 
     this.state.textDataArr.pop(itemToRemove);
+    console.log(this.state.textDataArr);
     if(this.state.textDataArr.length == 0){
       Animated.timing(
         this.state.placeholderVisible,
