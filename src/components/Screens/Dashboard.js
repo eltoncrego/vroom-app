@@ -457,11 +457,11 @@ export default class Dashboard extends Component {
       updatedODO: ODO,
     });
     if(key == 5){
-      Animated.spring(
+      Animated.timing(
         this.state.translation,
         {
           toValue: 0,
-          duration: 150,
+          duration: 200,
         }
       ).start();
     }
@@ -597,11 +597,11 @@ export default class Dashboard extends Component {
       this.setState({
         graphToggleable: false,
       });
-      Animated.spring(
+      Animated.timing(
         this.state.translation,
         {
           toValue: 0,
-          duration: 150,
+          duration: 200,
         }
       ).start(() => {
         that.setState({
@@ -613,11 +613,11 @@ export default class Dashboard extends Component {
       this.setState({
         graphToggleable: false,
       });
-      Animated.spring(
+      Animated.timing(
         this.state.translation,
         {
           toValue: 1,
-          duration: 150,
+          duration: 200,
         }
       ).start(() => {
         that.setState({
@@ -686,7 +686,7 @@ export default class Dashboard extends Component {
     var cardHeight = this.state.translation.interpolate({
       inputRange: [0,1],
       outputRange: ['100%', '65.5%'],
-    })
+    });
 
     var modalBG = this.state.modalFade.interpolate({
       inputRange: [0, 1],
