@@ -53,11 +53,9 @@ export default class Gas extends PureComponent {
   */
   constructor(props) {
     super(props);
-    const position = new Animated.ValueXY();
     this.state = {
-      position,
+      position: new Animated.ValueXY(),
       _animated: new Animated.Value(0),
-      bgAnimated: new Animated.Value(0),
       expandedTitle: "Average Fillup",
 
       // Expansion items
@@ -129,7 +127,7 @@ export default class Gas extends PureComponent {
     Animated.sequence([
       Animated.timing(this.state._animated, {
         toValue: 1,
-        duration: 250 + 1/this.props.index * 250,
+        duration: 300 + 1/this.props.index * 250,
       }),
     ]).start();
   }
@@ -247,12 +245,7 @@ export default class Gas extends PureComponent {
 
     var shift = this.state._animated.interpolate({
       inputRange: [0, 1],
-      outputRange: [width, 0],
-    });
-
-    var colorShift = this.state.bgAnimated.interpolate({
-      inputRange: [0, 1],
-      outputRange: [GLOBAL.COLOR.DARKGRAY, GLOBAL.COLOR.RED],
+      outputRange: [32, 0],
     });
 
     var expand = this.state.expansion.interpolate({
@@ -276,19 +269,14 @@ export default class Gas extends PureComponent {
     </TouchableOpacity>;
 
     return (
-      <Animated.View style={[,
-        styles.listItem,
-        {
-          backgroundColor: colorShift,
-        }
-      ]}>
       <Animated.View
         style={[
           this.state.position.getLayout(),
           {
             transform: [
-              { translateX: shift },
+              { translateY: shift },
             ],
+            opacity: this.state._animated,
           },
         ]}
       >
@@ -371,7 +359,6 @@ export default class Gas extends PureComponent {
          </Animated.View>
         </View>
       </Animated.View>
-    </Animated.View>
     );
   }
 }
@@ -427,11 +414,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: width/4,
-  },
-
-  listItem: {
-    marginRight: -100,
-    justifyContent: 'center',
   },
 
   change: {
