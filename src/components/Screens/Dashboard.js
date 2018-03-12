@@ -813,7 +813,7 @@ export default class Dashboard extends Component {
               curve={shape.curveNatural}
               contentInset={ contentInset }
               numberOfTicks={3}
-              showGrid={true}
+              showGrid={false}
               svg={{
                 stroke: GLOBAL.COLOR.GREEN,
                 strokeWidth: 3,
