@@ -105,7 +105,7 @@ export class Button extends Component {
         marginTop: marginTop,
       }
     }>
-    <TouchableOpacity disabled={!this.props.enabled} style={styleguide.button_container} onPress={onPress}>
+    <TouchableOpacity disabled={false} style={styleguide.button_container} onPress={onPress}>
         <Animated.View style={
           [
             {
