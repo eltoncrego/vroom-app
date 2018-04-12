@@ -845,7 +845,8 @@ export default class Dashboard extends Component {
         </Animated.View>
 
         <View style={styles.content}>
-          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+            {/*is this a comment?*/}
             <AreaChart
               style={styles.areaGraph}
               start={0}
@@ -891,7 +892,7 @@ export default class Dashboard extends Component {
                 <View  style={styles.statistics}>
                   <View>
                     <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
-                    <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
+                    <Text style={styleguide.light_body_secondary}>Testing Reloading</Text>
                   </View>
                   <View style={{alignItems:'flex-end'}}>
                     <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
