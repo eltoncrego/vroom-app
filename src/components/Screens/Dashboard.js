@@ -892,7 +892,7 @@ export default class Dashboard extends Component {
                 <View  style={styles.statistics}>
                   <View>
                     <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
-                    <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
+                    <Text style={styleguide.light_body_secondary}>Not Average Efficiency :)</Text>
                   </View>
                   <View style={{alignItems:'flex-end'}}>
                     <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
