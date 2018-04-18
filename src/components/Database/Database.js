@@ -75,6 +75,49 @@ export function initUser(originalODO){
 }
 
 /*
+* Database function: requestOCR()
+* Author: Connick Shields
+*
+* Purpose: requests OCR on the specified URL
+*/
+export function requestOCR(URL){
+  console.log("requestOCR");
+  if(Auth.checkAuth()) {
+    fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDsnMVXpLDnYpPB3xT11sFSP6HfmPJDzig', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(
+        {
+          "requests": [
+            {
+              "image": {
+                "source": {
+                  "imageUri": URL
+                }
+              },
+              "features": [
+                {
+                  "type": "TEXT_DETECTION"
+                }
+              ]
+            }
+          ]
+        }
+      ),
+    }).then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+}
+
+/*
 * Database function: updateMPG()
 * Author: Elton C. Rego
 *
