@@ -40,6 +40,7 @@ import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, 
 import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
 import { Line } from 'react-native-svg'
 import * as shape from 'd3-shape'
+import * as scale from 'd3-scale'
 import dateFns from 'date-fns'
 
 // Custom components
@@ -846,13 +847,15 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
-            {/*is this a comment?*/}
+            {/*This is the start of the graph code*/}
             <AreaChart
               style={styles.areaGraph}
               start={0}
               data={this.state.textDataArr}
               yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
               xAccessor={({item}) => this.createDateObject(item.date)}
+              // trying to add an even date scale
+              xScale={ scale.scaleTime }
               curve={shape.curveNatural}
               contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
               numberOfTicks={5}
@@ -864,12 +867,19 @@ export default class Dashboard extends Component {
               }}
               extras={ [ HorizontalLine] }
             />
+          {/* code to set attributes of graph's x axis */}
             <XAxis
               style={{marginTop: -16, marginHorizontal: 8}}
               contentInset={{right: -2, left: -2}}
               data={this.state.textDataArr}
-              xAccessor={({item}) => item.list_i}
-              formatLabel={(value) => `fillup ${value}`}
+              xAccessor={({item}) => this.createDateObject(item.date)}
+              scale={ scale.scaleTime }
+              // for some reason if 5 or higher there are a bunch of ticks,
+              // and if 4 or lower there are only 2
+              numberOfTicks={4}
+              // labels = name of month
+              // location on axis = 1st of the month 
+              formatLabel={ (value) => dateFns.format(value, 'MMMM')}
               svg={{
                 fill: GLOBAL.COLOR.WHITE,
                 fontSize: 10,
@@ -892,7 +902,7 @@ export default class Dashboard extends Component {
                 <View  style={styles.statistics}>
                   <View>
                     <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
-                    <Text style={styleguide.light_body_secondary}>Not Average Efficiency :)</Text>
+                    <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
                   </View>
                   <View style={{alignItems:'flex-end'}}>
                     <Text style={styleguide.light_subheader2}>{this.state.updatedODO}mi</Text>
