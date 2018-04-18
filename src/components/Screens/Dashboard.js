@@ -848,46 +848,65 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
             {/*This is the start of the graph code*/}
-            <AreaChart
-              style={styles.areaGraph}
-              start={0}
-              data={this.state.textDataArr}
-              yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-              xAccessor={({item}) => this.createDateObject(item.date)}
-              // trying to add an even date scale
-              xScale={ scale.scaleTime }
-              curve={shape.curveNatural}
-              contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
-              numberOfTicks={5}
-              showGrid={false}
-              svg={{
-                stroke: GLOBAL.COLOR.GREEN,
-                strokeWidth: 3,
-                fill: 'rgba(184, 233, 134, 0.2)',
-              }}
-              extras={ [ HorizontalLine] }
-            />
-          {/* code to set attributes of graph's x axis */}
-            <XAxis
-              style={{marginTop: -16, marginHorizontal: 8}}
-              contentInset={{right: -2, left: -2}}
-              data={this.state.textDataArr}
-              xAccessor={({item}) => this.createDateObject(item.date)}
-              scale={ scale.scaleTime }
-              // for some reason if 5 or higher there are a bunch of ticks,
-              // and if 4 or lower there are only 2
-              numberOfTicks={4}
-              // labels = name of month
-              // location on axis = 1st of the month 
-              formatLabel={ (value) => dateFns.format(value, 'MMMM')}
-              svg={{
-                fill: GLOBAL.COLOR.WHITE,
-                fontSize: 10,
-                fontFamily: 'Nunito-Light',
-                color: 'rgba(255,255,255,0.5)',
-                backgroundColor: 'transparent',
-              }}
-            />
+            {/* encapsulate the axes and graph in a flex
+              thing */}
+              {/* code to set attributes of graph's y axis */}
+              {<YAxis
+                style={{marginBottom: -16, position: "absolute"}}
+                contentInset={{top: 32, bottom: 40}}
+                data={this.state.textDataArr}
+                yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
+                numberOfTicks={8}
+                formatLabel={ (value) => `${value} MPG`}
+                svg={{
+                  fill: GLOBAL.COLOR.WHITE,
+                  fontSize: 10,
+                  fontFamily: 'Nunito-Light',
+                   color: 'rgba(255,255,255,0.5)',
+                  backgroundColor: 'transparent',
+                }} 
+              /> }
+              <AreaChart
+                style={styles.areaGraph}
+                start={0}
+                data={this.state.textDataArr}
+                yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
+                xAccessor={({item}) => this.createDateObject(item.date)}
+                // trying to add an even date scale
+                xScale={ scale.scaleTime }
+                curve={shape.curveNatural}
+                contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
+                numberOfTicks={5}
+                showGrid={false}
+                svg={{
+                  stroke: GLOBAL.COLOR.GREEN,
+                  strokeWidth: 3,
+                  fill: 'rgba(184, 233, 134, 0.2)',
+                }}
+                extras={ [ HorizontalLine] }
+              /> 
+            {/* code to set attributes of graph's x axis */}
+              <XAxis
+                //style={{marginTop: -16, marginHorizontal: 8}}
+                style={{marginTop: -16}}
+                contentInset={{right: -2, left: -2}}
+                data={this.state.textDataArr}
+                xAccessor={({item}) => this.createDateObject(item.date)}
+                scale={ scale.scaleTime }
+                // for some reason if 5 or higher there are a bunch of ticks,
+                // and if 4 or lower there are only 2
+                numberOfTicks={4}
+                // labels = name of month
+                // location on axis = 1st of the month 
+                formatLabel={ (value) => dateFns.format(value, 'MMMM')}
+                svg={{
+                  fill: GLOBAL.COLOR.WHITE,
+                  fontSize: 10,
+                  fontFamily: 'Nunito-Light',
+                  color: 'rgba(255,255,255,0.5)',
+                  backgroundColor: 'transparent',
+                }}
+              />
         </Animated.View>
             <Animated.View
               style={[
