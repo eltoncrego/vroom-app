@@ -485,15 +485,15 @@ export default class Dashboard extends Component {
   }
 
   // Call this to test a scheduled notification
-  scheduleLocalNotification() {
+  scheduleLocalNotification(timeFromNow, title, body, sub_text, id) {
     FCM.scheduleLocalNotification({
-      id: 'testnotif-scheduled',
-      fire_date: new Date().getTime()+5000,
+      id: id,
+      fire_date: new Date().getTime()+timeFromNow,
       vibrate: 500,
       sound: "default",
-      title: 'Whats up?',
-      body: 'Test Scheduled Notification',
-      sub_text: 'sub text',
+      title: title,
+      body: body,
+      sub_text: sub_text,
       priority: "high",
       show_in_foreground: true,
       wake_screen: true,
@@ -509,10 +509,12 @@ export default class Dashboard extends Component {
    */
   componentDidMount() {
 
+    FCM.requestPermissions({badge: false, sound: true, alert: true});
     FCM.removeAllDeliveredNotifications();
     FCM.setBadgeNumber(0);
     // this.showLocalNotification(); //DEBUG: remove comment
-    // this.scheduleLocalNotification(); //DEBUG: remove comment
+
+    this.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
 
     var that = this;
     pullAverageMPG().then(function(fData){
