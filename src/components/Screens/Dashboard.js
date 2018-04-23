@@ -50,6 +50,7 @@ import VroomAlert from './../Custom/VroomAlert';
 import Settings from '../Screens/Settings';
 import {goTo} from '../Navigation/Navigation';
 
+
 /*
  * Class: Dashboard
  * Author: Elton C.  Rego
@@ -925,7 +926,7 @@ export default class Dashboard extends Component {
               bottom: 16,
               right: 80,
             }
-          } onPress={() => {goTo(this.props.navigation, 'Map');}}>
+          } onPress={() => {goTo(this.props.navigation, 'MapScreen');}}>
           <View style={styles.floating_button}>
             <Text style={styleguide.dark_title}>
               <FontAwesome>{Icons.map}</FontAwesome>

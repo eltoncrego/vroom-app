@@ -17,6 +17,7 @@ import Login from '../Screens/Login';
 import Dashboard from '../Screens/Dashboard';
 import Onboarding from '../Screens/Onboarding';
 import ForgotPassword from '../Screens/ForgotPassword';
+import MapScreen from '../Screens/MapScreen';
 
 /*
  * Constant: SignedOut
@@ -62,6 +63,13 @@ export const SignedIn = StackNavigator({
       title: "Dashboard",
     }
   },
+  MapScreen: {
+    screen: MapScreen,
+    navigationOptions: {
+      header: null,
+      title: "Map Screen",
+    }
+  },
 });
 
 /*
@@ -89,5 +97,12 @@ export const SignedUp = StackNavigator({
       header: null,
       gesturesEnabled: false,
     },
-  }
+  },
+  MapScreen: {
+    screen: MapScreen,
+    navigationOptions: {
+      header: null,
+      title: "Map Screen",
+    }
+  },
 });

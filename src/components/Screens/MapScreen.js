@@ -38,7 +38,7 @@ import VroomAlert from './../Custom/VroomAlert';
  * Purpose: Shows a map, for now.
  *
  */
-export default class Map extends Component {
+export default class MapScreen extends Component {
   /*
    * Method: Constructor
    * Author: Payam Katoozian
@@ -56,7 +56,7 @@ export default class Map extends Component {
       <MapView
         provider={ PROVIDER_GOOGLE }
         style={ styles.container }
-        initialRegion={{
+        initialRegion={{ // London
             latitude: 39.7392,
             longitude: -104.9903,
             latitudeDelta: 0.0922,
