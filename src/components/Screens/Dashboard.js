@@ -48,6 +48,7 @@ import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import VroomAlert from './../Custom/VroomAlert';
 import Settings from '../Screens/Settings';
+import {goTo} from '../Navigation/Navigation';
 
 /*
  * Class: Dashboard
@@ -908,6 +909,29 @@ export default class Dashboard extends Component {
             </Animated.View>
         </View>
 
+        <TouchableOpacity style={
+            {
+              width: 56,
+              height: 56,
+              borderRadius: 32,
+              backgroundColor: GLOBAL.COLOR.GREEN,
+              shadowColor: GLOBAL.COLOR.DARKGRAY,
+              shadowOpacity: 0.3,
+              shadowOffset: {x: 0, y: 0},
+              shadowRadius: 30,
+
+              position: 'absolute',
+              zIndex: 1,
+              bottom: 16,
+              right: 80,
+            }
+          } onPress={() => {goTo(this.props.navigation, 'Map');}}>
+          <View style={styles.floating_button}>
+            <Text style={styleguide.dark_title}>
+              <FontAwesome>{Icons.map}</FontAwesome>
+            </Text>
+          </View>
+        </TouchableOpacity>
 
         <TouchableOpacity style={
             {
