@@ -56,7 +56,7 @@ export default class MapScreen extends Component {
       <MapView
         provider={ PROVIDER_GOOGLE }
         style={ styles.container }
-        initialRegion={{ // London
+        initialRegion={{ // Denver
             latitude: 39.7392,
             longitude: -104.9903,
             latitudeDelta: 0.0922,
