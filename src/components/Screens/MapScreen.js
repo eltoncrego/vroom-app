@@ -56,9 +56,9 @@ export default class MapScreen extends Component {
       <MapView
         provider={ PROVIDER_GOOGLE }
         style={ styles.container }
-        initialRegion={{ // Denver
-            latitude: 39.7392,
-            longitude: -104.9903,
+        initialRegion={{ // Baskin
+            latitude: 37.000709,
+            longitude: -122.063049,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
         }}
@@ -69,6 +69,7 @@ export default class MapScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 9,
         height:'100%',
         width: '100%',
     }

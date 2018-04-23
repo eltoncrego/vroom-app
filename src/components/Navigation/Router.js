@@ -68,6 +68,7 @@ export const SignedIn = StackNavigator({
     navigationOptions: {
       header: null,
       title: "Map Screen",
+      gesturesEnabled: false,
     }
   },
 });
@@ -103,6 +104,7 @@ export const SignedUp = StackNavigator({
     navigationOptions: {
       header: null,
       title: "Map Screen",
+      gesturesEnabled: false,
     }
   },
 });
