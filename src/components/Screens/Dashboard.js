@@ -848,12 +848,12 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
             {/*This is the start of the graph code*/}
-            {/* encapsulate the axes and graph in a flex
-              thing */}
+          {/*Wrap the YAxis in a view to lay it out on the side */}
+            <View style={{width: 50, flexDirection: 'column'}}>
               {/* code to set attributes of graph's y axis */}
               {<YAxis
-                style={{marginBottom: -16, position: "absolute"}}
-                contentInset={{top: 32, bottom: 40}}
+                style={{marginBottom: -16, zIndex: 1, position: "absolute"}}
+                contentInset={{top: 32, bottom: 80}}
                 data={this.state.textDataArr}
                 yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
                 numberOfTicks={8}
@@ -866,6 +866,7 @@ export default class Dashboard extends Component {
                   backgroundColor: 'transparent',
                 }} 
               /> }
+            </View>
               <AreaChart
                 style={styles.areaGraph}
                 start={0}
@@ -1007,11 +1008,15 @@ const styles = StyleSheet.create({
   graph:{
     zIndex: 0,
     width: '100%',
+    /* try explicit width */
+    //width: 100,
     height: 200,
     //flexDirection: 'row',
   },
   areaGraph: {
     height: 200,
+    zIndex: -1,
+    flexDirection: 'column',
   },
   no_items:{
     position: 'absolute',
