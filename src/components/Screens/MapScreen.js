@@ -47,8 +47,30 @@ export default class MapScreen extends Component {
    *
    * @param: properties
    */
-   constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            latitude: null,
+            longitude: null,
+            error: null,
+        };
+    }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+       (position) => {
+         console.log("Position is:");
+         console.log(position);
+         this.setState({
+           latitude: position.coords.latitude,
+           longitude: position.coords.longitude,
+           error: null,
+         });
+       },
+       (error) => this.setState({ error: error.message }),
+       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+     );
    }
 
    render() {
@@ -56,13 +78,21 @@ export default class MapScreen extends Component {
       <MapView
         provider={ PROVIDER_GOOGLE }
         style={ styles.container }
-        initialRegion={{ // Baskin
+        initialRegion={{ 
             latitude: 37.000709,
             longitude: -122.063049,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-        }}
-      />
+        }}>
+
+        {!!this.state.latitude && !!this.state.longitude && 
+            <MapView.Marker
+                coordinate={{"latitude":this.state.latitude,"longitude":this.state.longitude}}
+                title={"Your Location"}
+            />
+        }     
+
+      </MapView>
     );
    }
 }
