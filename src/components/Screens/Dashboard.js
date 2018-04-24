@@ -734,6 +734,24 @@ export default class Dashboard extends Component {
       />
     ))
 
+    /* Average MPG Label to attach to horizontal line */
+    /* CAN'T GET IT TO MOVE POSITION! AAAGH */
+    const AverageLabel = (({ x, y }) => (
+      <Text
+        /* update with better values */
+        key={this.state.averageMPG}
+        x={x(50)}
+        y={y(50)}
+        //x={50}
+        //y={50}
+        style={styleguide.dark_body2_secondary} 
+
+
+      >
+        {"Average = " + Math.round(this.state.averageMPG) + " MPG"}
+      </Text>
+      ))
+
     return(
 
       <View style={
@@ -848,10 +866,9 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
             {/*This is the start of the graph code*/}
-          {/*Wrap the YAxis in a view to lay it out on the side */}
-            <View style={{width: 50, flexDirection: 'column'}}>
               {/* code to set attributes of graph's y axis */}
-              {<YAxis
+              {/*
+              <YAxis
                 style={{marginBottom: -16, zIndex: 1, position: "absolute"}}
                 contentInset={{top: 32, bottom: 80}}
                 data={this.state.textDataArr}
@@ -865,8 +882,7 @@ export default class Dashboard extends Component {
                    color: 'rgba(255,255,255,0.5)',
                   backgroundColor: 'transparent',
                 }} 
-              /> }
-            </View>
+              /> */}
               <AreaChart
                 style={styles.areaGraph}
                 start={0}
@@ -879,12 +895,13 @@ export default class Dashboard extends Component {
                 contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
                 numberOfTicks={5}
                 showGrid={false}
+                //renderDecorator={AverageLabel}
                 svg={{
                   stroke: GLOBAL.COLOR.GREEN,
                   strokeWidth: 3,
                   fill: 'rgba(184, 233, 134, 0.2)',
                 }}
-                extras={ [ HorizontalLine] }
+                extras={ [ HorizontalLine, AverageLabel] }
               /> 
             {/* code to set attributes of graph's x axis */}
               <XAxis
