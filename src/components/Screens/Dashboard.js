@@ -107,7 +107,7 @@ export default class Dashboard extends Component {
   * Purpose: Opens the transaction panel to add a gas item
   */
   openTransaction() {
-    requestOCR("https://firebasestorage.googleapis.com/v0/b/vroom-d5c0e.appspot.com/o/test_ocr.JPG?alt=media&token=bb5eb387-e1f9-4479-aa3e-8eafa9971642");
+    requestOCR("https://firebasestorage.googleapis.com/v0/b/vroom-d5c0e.appspot.com/o/test_ocr.png?alt=media&token=23793ace-856c-47f6-9bb3-6a16ada3046d");
     Animated.spring(
       this.state.transactionShift,
       {

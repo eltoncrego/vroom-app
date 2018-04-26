@@ -100,7 +100,7 @@ export function requestOCR(URL){
               },
               "features": [
                 {
-                  "type": "TEXT_DETECTION"
+                  "type": "DOCUMENT_TEXT_DETECTION"
                 }
               ]
             }
@@ -109,7 +109,10 @@ export function requestOCR(URL){
       ),
     }).then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
+      var n = responseJson.responses[0].fullTextAnnotation.text.search("$");
+      console.log(responseJson.responses[0].fullTextAnnotation.text);
+      console.log(n);
+      console.log(responseJson.responses[0].fullTextAnnotation.text.substring(n+1,n+5));
     })
     .catch((error) => {
       console.error(error);
