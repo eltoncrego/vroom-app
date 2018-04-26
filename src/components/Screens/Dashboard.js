@@ -735,18 +735,16 @@ export default class Dashboard extends Component {
     ))
 
     /* Average MPG Label to attach to horizontal line */
-    /* CAN'T GET IT TO MOVE POSITION! AAAGH */
-    const AverageLabel = (({ x, y }) => (
+      const AverageLabel = (({ x, y }) => (
       <Text
-        /* update with better values */
-        key={this.state.averageMPG}
-        x={x(50)}
-        y={y(50)}
-        //x={50}
-        //y={50}
-        style={styleguide.dark_body2_secondary} 
-
-
+        key={this.state.averageMPG}aa
+        /* Positioning isn't working */
+        //x={x(200)}
+        //y={y(50)}
+        dx={90}
+        dy={100}
+        style={[styleguide.dark_body_secondary, {zIndex: 1}]} 
+        textAnchor={'middle'}
       >
         {"Average = " + Math.round(this.state.averageMPG) + " MPG"}
       </Text>
@@ -866,54 +864,38 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
             {/*This is the start of the graph code*/}
-              {/* code to set attributes of graph's y axis */}
-              {/*
-              <YAxis
-                style={{marginBottom: -16, zIndex: 1, position: "absolute"}}
-                contentInset={{top: 32, bottom: 80}}
-                data={this.state.textDataArr}
-                yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-                numberOfTicks={8}
-                formatLabel={ (value) => `${value} MPG`}
-                svg={{
-                  fill: GLOBAL.COLOR.WHITE,
-                  fontSize: 10,
-                  fontFamily: 'Nunito-Light',
-                   color: 'rgba(255,255,255,0.5)',
-                  backgroundColor: 'transparent',
-                }} 
-              /> */}
               <AreaChart
                 style={styles.areaGraph}
                 start={0}
                 data={this.state.textDataArr}
                 yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
                 xAccessor={({item}) => this.createDateObject(item.date)}
-                // trying to add an even date scale
+                // adding a date scale based on month
                 xScale={ scale.scaleTime }
                 curve={shape.curveNatural}
                 contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
                 numberOfTicks={5}
                 showGrid={false}
-                //renderDecorator={AverageLabel}
                 svg={{
                   stroke: GLOBAL.COLOR.GREEN,
                   strokeWidth: 3,
                   fill: 'rgba(184, 233, 134, 0.2)',
                 }}
                 extras={ [ HorizontalLine, AverageLabel] }
-              /> 
+
+             /> 
+
             {/* code to set attributes of graph's x axis */}
               <XAxis
-                //style={{marginTop: -16, marginHorizontal: 8}}
                 style={{marginTop: -16}}
                 contentInset={{right: -2, left: -2}}
                 data={this.state.textDataArr}
+                // the x axis is "accessed" (or indexed) by the date of the datapoints
                 xAccessor={({item}) => this.createDateObject(item.date)}
                 scale={ scale.scaleTime }
                 // for some reason if 5 or higher there are a bunch of ticks,
                 // and if 4 or lower there are only 2
-                numberOfTicks={4}
+                numberOfTicks={3}
                 // labels = name of month
                 // location on axis = 1st of the month 
                 formatLabel={ (value) => dateFns.format(value, 'MMMM')}
