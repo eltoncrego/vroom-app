@@ -36,7 +36,6 @@ import {
   pullUserPermissions,
   pullOGODOReading,
 } from '../Database/Database.js';
-import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
 import { Line } from 'react-native-svg'
 import * as shape from 'd3-shape'
@@ -47,6 +46,7 @@ import GasList from '../Custom/GasList';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import VroomAlert from './../Custom/VroomAlert';
+import Notifications from './../Custom/Notifications';
 import Settings from '../Screens/Settings';
 
 /*
@@ -469,37 +469,7 @@ export default class Dashboard extends Component {
     }
   }
 
-  // Call this to test an immediate notification.
-  showLocalNotification() {
-    FCM.presentLocalNotification({
-      id: 'testnotif',
-      vibrate: 500,
-      sound: "default",
-      title: 'Hello',
-      body: 'This is a test',
-      sub_text: 'sub text',
-      priority: "high",
-      show_in_foreground: true,
-      group: 'test',
-    });
-  }
 
-  // Call this to test a scheduled notification
-  scheduleLocalNotification(timeFromNow, title, body, sub_text, id) {
-    FCM.scheduleLocalNotification({
-      id: id,
-      fire_date: new Date().getTime()+timeFromNow,
-      vibrate: 500,
-      sound: "default",
-      title: title,
-      body: body,
-      sub_text: sub_text,
-      priority: "high",
-      show_in_foreground: true,
-      wake_screen: true,
-      group: 'test',
-    });
-  }
 
   /*
    * Function: componentDidMount()
@@ -509,12 +479,11 @@ export default class Dashboard extends Component {
    */
   componentDidMount() {
 
-    FCM.requestPermissions({badge: false, sound: true, alert: true});
-    FCM.removeAllDeliveredNotifications();
-    FCM.setBadgeNumber(0);
-    // this.showLocalNotification(); //DEBUG: remove comment
+    const notif = new Notifications();
 
-    this.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
+    // Use this line in release
+    notif.requestPermission();
+    notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
 
     var that = this;
     pullAverageMPG().then(function(fData){
