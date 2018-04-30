@@ -67,4 +67,8 @@ export default class Notifications extends Component{
     FCM.setBadgeNumber(0);
   }
 
+  createSchedulerTiming(data){
+    
+  }
+
 }
