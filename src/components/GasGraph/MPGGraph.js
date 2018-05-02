@@ -138,7 +138,7 @@ export default class MPGGraph extends Component {
     const graphHeight = height - PaddingSize * 2;
 
     const lineGraph = graphUtils.createLineGraph({
-      data: [28, 36, 7],
+      data,
       xAccessor,
       yAccessor,
       width: graphWidth,
@@ -182,7 +182,7 @@ export default class MPGGraph extends Component {
           <Group x={0} y={0}>
             <Shape
               d={linePath}
-              stroke={Color.Orange}
+              stroke={GLOBAL.COLOR.GREEN}
               strokeWidth={1}
             />
           </Group>

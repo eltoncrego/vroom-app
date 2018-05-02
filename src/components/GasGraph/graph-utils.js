@@ -29,7 +29,9 @@ const d3 = {
  */
 function createScaleX(start, end, width) {
   return d3.scale.scaleTime()
-    .domain([new Date(start * 1000), new Date(end * 1000)])
+    //.domain([new Date(start * 1000), new Date(end * 1000)])
+    // make scale not hardcoded later!
+    .domain([new Date(2018, 0, 1), new Date(2018, 3, 1)])
     .range([0, width]);
 }
 
@@ -67,9 +69,13 @@ export function createLineGraph({
 }) {
   const lastDatum = data[data.length - 1];
 
+  // the x scale should be based on date
   const scaleX = createScaleX(
-    data[0].time,
-    lastDatum.time,
+    //data[0].time,
+    //lastDatum.time,
+    // use actual values when we un-hardcode createScale!
+    5,
+    6,
     width
   );
 

@@ -753,6 +753,12 @@ export default class Dashboard extends Component {
       </Text>
       ))
 
+    // props to hand to MPG Graph
+    const graphProps = {};
+    graphProps.data = this.state.textDataArr;
+    graphProps.xAccessor = (item) => this.createDateObject(item.date);
+    graphProps.yAccessor = (item) => (item.distanceSinceLast / item.gallonsFilled);
+
     return(
 
       <View style={
@@ -866,8 +872,8 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
-            {/*GRAPH CODE BELOW, REPLACE WITH:
-                <MPGGraph {...graphProps} />*/}
+              <MPGGraph {...graphProps} />
+              {/*
               <AreaChart
                 style={styles.areaGraph}
                 start={0}
@@ -888,8 +894,10 @@ export default class Dashboard extends Component {
                 extras={ [ HorizontalLine, AverageLabel] }
 
              /> 
+           */}
 
             {/* code to set attributes of graph's x axis */}
+            {/*
               <XAxis
                 style={{marginTop: -16}}
                 contentInset={{right: -2, left: -2}}
@@ -911,6 +919,7 @@ export default class Dashboard extends Component {
                   backgroundColor: 'transparent',
                 }}
               />
+            */}
         </Animated.View>
             <Animated.View
               style={[
