@@ -22,7 +22,7 @@ import {
   Animated,
   // adding ART and Dimensions for the graph, probably will remove
   // other imports later 
-  Dimensions
+  Dimensions,
   ART,
 } from 'react-native';
 
@@ -47,7 +47,7 @@ const {
 
 
 // import the graph functions
-import * as graphUtils from '.graph-utils';
+import * as graphUtils from './graph-utils';
 // Not sure if I need this, or if it's taken care of by 
 // Globals, or if the color is even necessary
 // import Color from '../services/color';
@@ -97,11 +97,13 @@ export default class MPGGraph extends Component {
 */
 
   static propTypes = {
+    /*
     data: PropTypes.array.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     xAccessor: PropTypes.func.isRequired,
     yAccessor: PropTypes.func.isRequired,
+    */
   }
 
   static defaultProps = {
@@ -136,7 +138,7 @@ export default class MPGGraph extends Component {
     const graphHeight = height - PaddingSize * 2;
 
     const lineGraph = graphUtils.createLineGraph({
-      data: [28, 36, 7];
+      data: [28, 36, 7],
       xAccessor,
       yAccessor,
       width: graphWidth,
@@ -147,6 +149,23 @@ export default class MPGGraph extends Component {
       graphWidth,
       graphHeight,
       linePath: lineGraph.path,
+    });
+  }
+
+
+  /*
+  * I'M KEEPING THIS AROUND BECAUSE WE'LL WANT TO SCROLL
+  * THE GRAPH AT SOME POINT
+  * function: setScrollEnabled()
+  * Author: Elton C. Rego
+  * Purpose: toggles the availability of the scroll function of this list
+  *
+  * @param: enable: a boolean value for the toggle
+  */
+  
+  setScrollEnabled(enable) {
+    this.setState({
+      enable,
     });
   }
 
@@ -177,22 +196,6 @@ const styles = StyleSheet.create({
   container: {
   },
 });
-
-  /*
-  * I'M KEEPING THIS AROUND BECAUSE WE'LL WANT TO SCROLL
-  * THE GRAPH AT SOME POINT
-  * function: setScrollEnabled()
-  * Author: Elton C. Rego
-  * Purpose: toggles the availability of the scroll function of this list
-  *
-  * @param: enable: a boolean value for the toggle
-  */
-  setScrollEnabled(enable) {
-    this.setState({
-      enable,
-    });
-  }
-
 /*
  *
  * render()
@@ -200,6 +203,7 @@ const styles = StyleSheet.create({
  * For now just copied from https://hswolff.com/blog/react-native-art-and-d3/
  *
  */
+ /*
   render() {
     return (
       <Surface width={200} height={100}>
@@ -217,3 +221,4 @@ const styles = StyleSheet.create({
 
 const styles = StyleSheet.create({
 });
+*/
