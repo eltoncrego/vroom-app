@@ -61,7 +61,7 @@ export function pushFillup(fillupData) {
 
 /*
 * Database function: initUser()
-* Author: Elton C. Rego
+* Authors: Elton C. Rego & Connick Shields
 *
 * Purpose: push the initial data for a user to firebase
 */
