@@ -74,6 +74,13 @@ export function initUser(originalODO){
     };
     firebaseRef.database().ref("users").child(user).child("cars").push(initCar);
     firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
+
+    firebaseRef.database().ref("users").child(user).child("cars").once('value').then(function(snapshot) {
+      console.log(Object.keys(snapshot.val())[0]);
+      firebaseRef.database().ref("users").child(user).child("currentCar").set(Object.keys(snapshot.val())[0]);
+    }).catch(function(error) {
+      console.log("Error getting document:", error.message);
+    });
   }
 }
 
