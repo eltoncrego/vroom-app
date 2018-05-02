@@ -69,8 +69,11 @@ export function initUser(originalODO){
   console.log("initUser");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
+    var initCar = {
+      originalODO: originalODO,
+    };
+    firebaseRef.database().ref("users").child(user).child("cars").push(initCar);
     firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
-    firebaseRef.database().ref("users").child(user).child("originalODO").set(originalODO);
   }
 }
 
