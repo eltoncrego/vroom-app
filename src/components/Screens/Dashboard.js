@@ -50,6 +50,9 @@ import {Button} from './../Custom/Button';
 import VroomAlert from './../Custom/VroomAlert';
 import Settings from '../Screens/Settings';
 
+// Graph components
+import MPGGraph from '../GasGraph/MPGGraph';
+
 /*
  * Class: Dashboard
  * Author: Elton C.  Rego
@@ -863,7 +866,8 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
-            {/*This is the start of the graph code*/}
+            {/*GRAPH CODE BELOW, REPLACE WITH:
+                <MPGGraph {...graphProps} />*/}
               <AreaChart
                 style={styles.areaGraph}
                 start={0}
