@@ -771,7 +771,7 @@ export default class Dashboard extends Component {
             source={require('../../../assets/images/placeholder.png')}
           />
         <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
-        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet.<Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
+        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
         </Animated.View>
 
         <Animated.View style={[styles.transaction, transformTransaction]}>

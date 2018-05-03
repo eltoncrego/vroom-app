@@ -20,6 +20,9 @@ const config = {
 
 export const firebaseRef = firebase.initializeApp(config);
 
+// stores a local copy of the current car ID
+var curCar;
+
 /*
 * Database function: pushTask()
 * Author: Alec Felt and Connick Shields
@@ -55,7 +58,7 @@ export function pushFillup(fillupData) {
   console.log("pushFillup");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
-    firebaseRef.database().ref("users").child(user).child("fillups").push(fillupData);
+    firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups").push(fillupData);
   }
 }
 
@@ -72,11 +75,15 @@ export function initUser(originalODO){
     var initCar = {
       originalODO: originalODO,
     };
+    // push the initial car
     firebaseRef.database().ref("users").child(user).child("cars").push(initCar);
     firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
 
+    // set the currentCar and curCar
+
     firebaseRef.database().ref("users").child(user).child("cars").once('value').then(function(snapshot) {
-      console.log(Object.keys(snapshot.val())[0]);
+      curCar = Object.keys(snapshot.val())[0];
+      console.log(curCar);
       firebaseRef.database().ref("users").child(user).child("currentCar").set(Object.keys(snapshot.val())[0]);
     }).catch(function(error) {
       console.log("Error getting document:", error.message);
@@ -96,7 +103,7 @@ export function updateMPG(average) {
   console.log("updateMPG");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
-    firebaseRef.database().ref("users").child(user).child("average").set(average);
+    firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("average").set(average);
   }
 }
 
@@ -112,7 +119,7 @@ export function updateODO(newODO) {
   console.log("updateODO");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
-    firebaseRef.database().ref("users").child(user).child("odometer").set(newODO);
+    firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("odometer").set(newODO);
   }
 }
 
@@ -129,7 +136,7 @@ export function pullFillups() {
   console.log("pullFillups");
 
   const user = Auth.getAuth().uid;
-  const query = firebaseRef.database().ref("users").child(user).child("fillups");
+  const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups");
 
   return query.once('value').then(function(snapshot){
     var returnArr = [];
@@ -157,7 +164,7 @@ export function pullAverageMPG() {
   console.log("pullAverageMPG");
 
   const user = Auth.getAuth().uid;
-  const query = firebaseRef.database().ref("users").child(user).child("average");
+  const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("average");
 
   return query.once('value').then(function(snapshot){
     return snapshot.val();
@@ -179,7 +186,7 @@ export function pullODOReading() {
   console.log("pullODOReading");
 
   const user = Auth.getAuth().uid;
-  const query = firebaseRef.database().ref("users").child(user).child("odometer");
+  const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("odometer");
 
   return query.once('value').then(function(snapshot){
     return snapshot.val();
@@ -202,7 +209,7 @@ export function pullOGODOReading() {
   console.log("pullOGDOReading");
 
   const user = Auth.getAuth().uid;
-  const query = firebaseRef.database().ref("users").child(user).child("originalODO");
+  const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("originalODO");
 
   return query.once('value').then(function(snapshot){
     return snapshot.val();
@@ -246,7 +253,7 @@ export function removeFillup(i) {
   console.log(i)
 
   var user = Auth.getAuth().uid;
-  const query = firebaseRef.database().ref("users").child(user).child("fillups");
+  const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups");
   query.once('value').then(function(snapshot){
     snapshot.forEach(function(child) {
       if (child.val().list_i == i) {
@@ -283,22 +290,4 @@ export function queryCars(path){
             reject(error);
         });
     });
-}
-
-/*
-* Database function: writeToPath()
-* Author: Will Coates and Payam Katoozian
-*
-* Purpose: write a JSON to a specified path in the database
-*
-* @param: (path) = string: path to location in database
-*         (ob)   = JSON object to be pushed
-* @return: void
-*/
-export function pushJSONTask(path, ob) {
-  console.log("writing to path = " + path);
-  console.log("JSON: ");
-  console.log(ob);
-  firebaseRef.database().ref(path).set(ob);
-
 }
