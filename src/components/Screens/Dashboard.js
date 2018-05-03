@@ -26,6 +26,7 @@ import {
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
 import {
+  getCurCar,
   pushFillup,
   removeFillup,
   pullFillups,
@@ -513,51 +514,52 @@ export default class Dashboard extends Component {
     FCM.setBadgeNumber(0);
     // this.showLocalNotification(); //DEBUG: remove comment
     // this.scheduleLocalNotification(); //DEBUG: remove comment
-
     var that = this;
-    pullAverageMPG().then(function(fData){
-      if(fData){
-        that.setState({
-          averageMPG: fData,
-        });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load average mpg data into state:', error);
-    });
-
-
-    pullOGODOReading().then(function(fData){
-      that.setState({
-        originalODO: fData,
+    getCurCar().then(function(){
+      pullAverageMPG().then(function(fData){
+        if(fData){
+          that.setState({
+            averageMPG: fData,
+          });
+        }
+      }).catch(function(error) {
+        console.log('Failed to load average mpg data into state:', error);
       });
-    }).catch(function(error) {
-      console.log('Failed to load original odometer data into state:', error);
-    });
 
-    pullODOReading().then(function(fData){
-      if(fData != null){
-        that.setState({
-          updatedODO: fData,
-        });
-      } else {
-        that.setState({
-          updatedODO: that.state.originalODO,
-        });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load odometer data into state:', error);
-    });
 
-    pullFillups().then(function(fData){
-      if(fData){
+      pullOGODOReading().then(function(fData){
         that.setState({
-          textDataArr: fData,
-          list_i: fData.length,
-          graphToggleable: fData.length >= 5 ? true : false,
+          originalODO: fData,
         });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load fill up data into state:', error);
+      }).catch(function(error) {
+        console.log('Failed to load original odometer data into state:', error);
+      });
+
+      pullODOReading().then(function(fData){
+        if(fData != null){
+          that.setState({
+            updatedODO: fData,
+          });
+        } else {
+          that.setState({
+            updatedODO: that.state.originalODO,
+          });
+        }
+      }).catch(function(error) {
+        console.log('Failed to load odometer data into state:', error);
+      });
+
+      pullFillups().then(function(fData){
+        if(fData){
+          that.setState({
+            textDataArr: fData,
+            list_i: fData.length,
+            graphToggleable: fData.length >= 5 ? true : false,
+          });
+        }
+      }).catch(function(error) {
+        console.log('Failed to load fill up data into state:', error);
+      });
     });
 
     pullUserPermissions().then(function(fData){

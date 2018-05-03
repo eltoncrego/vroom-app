@@ -46,6 +46,31 @@ export function pushTask(ttr, d) {
 }
 
 /*
+* Database function: getCurCar()
+* Author: Connick Shields
+*
+* Purpose: gets the current car of the user and stores in locally
+*
+* @return: promise
+*/
+export function getCurCar() {
+  console.log("getCurCar");
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    return new Promise((resolve, reject) => {
+        firebaseRef.database().ref("users").child(user).child("currentCar").once('value').then(function(snapshot) {
+          curCar = snapshot.val();
+          console.log(curCar);
+          resolve();
+        }).catch(function(error) {
+          console.log("Error getting document:", error.message);
+          reject();
+        });
+    });
+  }
+}
+
+/*
 * Database function: pushFillup()
 * Author: Will Coates
 *
