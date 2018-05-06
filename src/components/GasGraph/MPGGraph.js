@@ -53,7 +53,12 @@ import * as graphUtils from './graph-utils';
 // import Color from '../services/color';
 
 // set up padding around graph
-const PaddingSize = 20;
+const horizontalPadding = 20;
+const verticalPadding = 0;
+
+// tick width for axes
+const TickWidth = 100 ;
+
 
 const dimensionWindow = Dimensions.get('window');
 
@@ -107,8 +112,8 @@ export default class MPGGraph extends Component {
   }
 
   static defaultProps = {
-    width: Math.round(dimensionWindow.width * 0.9),
-    height: Math.round(dimensionWindow.height * 0.5),
+    width: Math.round(dimensionWindow.width * 1),
+    height: Math.round(dimensionWindow.height * 0.3),
   };
 
   state = {
@@ -134,8 +139,8 @@ export default class MPGGraph extends Component {
       yAccessor,
     } = nextProps;
 
-    const graphWidth = width - PaddingSize * 2;
-    const graphHeight = height - PaddingSize * 2;
+    const graphWidth = width - horizontalPadding * 2;
+    const graphHeight = height - verticalPadding * 2;
 
     const lineGraph = graphUtils.createLineGraph({
       data,
@@ -149,6 +154,9 @@ export default class MPGGraph extends Component {
       graphWidth,
       graphHeight,
       linePath: lineGraph.path,
+      // adding axes
+      ticks: lineGraph.ticks,
+      scale: lineGraph.scale,
     });
   }
 
@@ -174,7 +182,21 @@ export default class MPGGraph extends Component {
       graphWidth,
       graphHeight,
       linePath,
+      // adding axes
+      ticks,
+      scale,
     } = this.state;
+
+    // adding props and state for axes
+    const {
+      x: scaleX,
+    } = scale;
+    const {
+      yAccessor,
+    } = this.props;
+
+    const tickXFormat = scaleX.tickFormat(null, '%B');
+
 
     return (
       <View style={styles.container}>
@@ -187,6 +209,53 @@ export default class MPGGraph extends Component {
             />
           </Group>
         </Surface>
+      {/* X Axis */}
+        <View key={'ticksX'}>
+          {ticks.map((tick, index) => {
+            const tickStyles = {};
+            tickStyles.width = TickWidth;
+            tickStyles.left = tick.x - (TickWidth / 2);
+
+            return (
+              <Text key={index} style={[styles.tickLabelX, tickStyles]}>
+                {tickXFormat(new Date(tick.datum.date ))}
+              </Text>
+            );
+          })}
+        </View>
+
+        <View key={'ticksY'} style={styles.ticksYContainer}>
+          {ticks.map((tick, index) => {
+            const value = yAccessor(tick.datum);
+
+            const tickStyles = {};
+            tickStyles.width = TickWidth;
+            tickStyles.left = tick.x - Math.round(TickWidth * 0.5);
+
+            tickStyles.top = tick.y + 2 - Math.round(TickWidth * 0.65);
+
+            return (
+              <View key={index} style={[styles.tickLabelY, tickStyles]}>
+                <Text style={styles.tickLabelYText}>
+                  {value} mpg
+                </Text>
+              </View>
+            );
+          })}
+        </View>
+
+        <View key={'ticksYDot'} style={styles.ticksYContainer}>
+          {ticks.map((tick, index) => (
+            <View
+              key={index}
+              style={[styles.ticksYDot, {
+                left: tick.x,
+                top: tick.y,
+              }]}
+            />
+          ))}
+        </View>
+
       </View>
     );
   }
@@ -194,6 +263,45 @@ export default class MPGGraph extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    top: 15,
+    left: 15,
+  },
+  
+    tickLabelX: {
+    position: 'absolute',
+    bottom: 0,
+    fontSize: 12,
+    textAlign: 'center',
+  },
+
+  ticksYContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+
+  tickLabelY: {
+    position: 'absolute',
+    left: 0,
+    backgroundColor: 'transparent',
+  },
+
+  tickLabelYText: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: GLOBAL.COLOR.WHITE,
+    backgroundColor: 'transparent',
+    left: 15,
+    top: 3,
+
+  },
+  // styling for the dots on the line graph
+  ticksYDot: {
+    position: 'absolute',
+    width: 2,
+    height: 2,
+    backgroundColor: GLOBAL.COLOR.WHITE,
+    borderRadius: 100,
   },
 });
 /*

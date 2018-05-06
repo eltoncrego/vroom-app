@@ -873,6 +873,7 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
               <MPGGraph {...graphProps} />
+              
               {/*
               <AreaChart
                 style={styles.areaGraph}
