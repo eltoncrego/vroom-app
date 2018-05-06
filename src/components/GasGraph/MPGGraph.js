@@ -190,12 +190,14 @@ export default class MPGGraph extends Component {
     // adding props and state for axes
     const {
       x: scaleX,
+      y: scaleY,
     } = scale;
     const {
       yAccessor,
     } = this.props;
 
     const tickXFormat = scaleX.tickFormat(null, '%B');
+    const tickYFormat = scaleY.tickFormat(null, '.2f');
 
 
     return (
@@ -232,12 +234,12 @@ export default class MPGGraph extends Component {
             tickStyles.width = TickWidth;
             tickStyles.left = tick.x - Math.round(TickWidth * 0.5);
 
-            tickStyles.top = tick.y + 2 - Math.round(TickWidth * 0.65);
+            tickStyles.top = tick.y + 2 - Math.round(TickWidth * 0.65) + 40;
 
             return (
               <View key={index} style={[styles.tickLabelY, tickStyles]}>
                 <Text style={styles.tickLabelYText}>
-                  {value} mpg
+                  {tickYFormat(value)} mpg
                 </Text>
               </View>
             );
@@ -292,7 +294,7 @@ const styles = StyleSheet.create({
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
     left: 15,
-    top: 3,
+    //top: ,
 
   },
   // styling for the dots on the line graph
