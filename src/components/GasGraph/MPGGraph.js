@@ -39,6 +39,9 @@ import {
   pullOGODOReading,
 } from '../Database/Database.js';
 
+// For formatting dates
+import { format, setHours } from 'date-fns';
+
 const {
   Group,
   Shape,
@@ -196,9 +199,27 @@ export default class MPGGraph extends Component {
       yAccessor,
     } = this.props;
 
-    const tickXFormat = scaleX.tickFormat(null, '%B');
     const tickYFormat = scaleY.tickFormat(null, '.2f');
 
+  /* SHOULD REALLY IMPORT THIS BUT I COPIED IT FOR NOW
+  * Function: createDateObject()
+  * Author: Elton C. Rego
+  * Purpose: Returns a date objecy based on the given date json
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
+function createDateObject(date){
+        var year = date[0];
+        var month = date[1];
+        var day = date[2];
+        var hours = date[3];
+        var mins = date[4];
+        var seconds = date[5];
+        const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
+        console.log(returnValue);
+        return returnValue;
+      }
 
     return (
       <View style={styles.container}>
@@ -214,26 +235,33 @@ export default class MPGGraph extends Component {
       {/* X Axis */}
         <View key={'ticksX'}>
           {ticks.map((tick, index) => {
+          {/* Applies the same style and format across all X ticks */}
+            // position and style the ticks
             const tickStyles = {};
             tickStyles.width = TickWidth;
             tickStyles.left = tick.x - (TickWidth / 2);
+            // convert the date array for each tick to a Date object
+            let tickDate = createDateObject(tick.datum.date);
+            // convert to string in format: "Feb 12"
+            let formattedTickDate = format(tickDate, 'MMM DD');
 
             return (
               <Text key={index} style={[styles.tickLabelX, tickStyles]}>
-                {tickXFormat(new Date(tick.datum.date ))}
+              {formattedTickDate}
               </Text>
             );
           })}
         </View>
 
         <View key={'ticksY'} style={styles.ticksYContainer}>
+          {/* Applies the same style and format across all Y ticks */}
           {ticks.map((tick, index) => {
+            // use the yAccessor function to extract the mpg from datum
             const value = yAccessor(tick.datum);
-
+            // position and style the ticks
             const tickStyles = {};
             tickStyles.width = TickWidth;
             tickStyles.left = tick.x - Math.round(TickWidth * 0.5);
-
             tickStyles.top = tick.y + 2 - Math.round(TickWidth * 0.65) + 40;
 
             return (
@@ -245,7 +273,7 @@ export default class MPGGraph extends Component {
             );
           })}
         </View>
-
+      {/*Create a dot for each data point */}
         <View key={'ticksYDot'} style={styles.ticksYContainer}>
           {ticks.map((tick, index) => (
             <View
@@ -271,9 +299,10 @@ const styles = StyleSheet.create({
   
     tickLabelX: {
     position: 'absolute',
-    bottom: 0,
+    bottom: -12,
     fontSize: 12,
     textAlign: 'center',
+    color: GLOBAL.COLOR.WHITE,
   },
 
   ticksYContainer: {
