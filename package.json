@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@firebase/app-types": "^0.1.2",
+    "@mapbox/polyline": "^1.0.0",
     "fb-watchman": "2.0.0",
     "firebase": "^4.10.1",
     "lottie-react-native": "2.3.2",
