@@ -7,6 +7,8 @@
 import React, { Component } from 'react';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
+const title_bank = ["Running a little dry?", "Hey there!", "Glug glug glug", "Beep beep!", "Just a reminder!", "Whats up?"];
+const desc_bank = ["Dont forget to add your latest fillup!", "Keep on top of your tracking to improve over time!", "Don't forget to track your gas!", "Keep at it with your latest fillup!"];
 
 /*
 * Class: VroomAlert
@@ -41,6 +43,14 @@ export default class Notifications extends Component{
     });
   }
 
+  getTitle(){
+    return title_bank[Math.floor(Math.random()*title_bank.length)];
+  }
+
+  getDescription(){
+    return desc_bank[Math.floor(Math.random()*desc_bank.length)];
+  }
+
   // Call this to test a scheduled notification
   scheduleLocalNotification(timeFromNow, title, body, sub_text, id) {
     FCM.scheduleLocalNotification({
@@ -64,8 +74,8 @@ export default class Notifications extends Component{
       fire_date: new Date().getTime() + this.createSchedulerTiming(data),
       vibrate: 500,
       sound: "default",
-      title: 'Running a little dry?',
-      body: 'Dont forget to add your latest fillup!',
+      title: this.getTitle(),
+      body: this.getDescription(),
       sub_text: 'sub text',
       priority: "high",
       show_in_foreground: true,
