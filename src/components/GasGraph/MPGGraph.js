@@ -26,6 +26,8 @@ import {
   ART,
 } from 'react-native';
 
+import { Line } from 'react-native-svg'
+
 // Importing Database functions for graph
 import {
   pushFillup,
@@ -51,9 +53,8 @@ const {
 
 // import the graph functions
 import * as graphUtils from './graph-utils';
-// Not sure if I need this, or if it's taken care of by 
-// Globals, or if the color is even necessary
-// import Color from '../services/color';
+// allow pulling average MPG (although I thought Database would take care of this)
+import Auth from '../Authentication/Auth';
 
 // set up padding around graph
 const horizontalPadding = 40;
@@ -64,6 +65,9 @@ const TickWidth = 100 ;
 
 
 const dimensionWindow = Dimensions.get('window');
+
+// pull the average MPG for the average line
+//const averageMPG = Auth.pullAverageMPG();
 
 /*
 * Class: MPGGraph 
