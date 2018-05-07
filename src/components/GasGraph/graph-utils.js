@@ -140,7 +140,8 @@ export function createLineGraph({
     .y((d) => scaleY(yAccessor(d)))
 
     // smooth out the curve
-    //.curve(d3.curveBasis)
+    //.curve(d3.curveMonotoneX)
+    .curve(d3.shape.curveMonotoneX)
     ;
 
   return {

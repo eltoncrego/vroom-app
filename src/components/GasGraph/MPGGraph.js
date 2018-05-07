@@ -53,8 +53,8 @@ import * as graphUtils from './graph-utils';
 // import Color from '../services/color';
 
 // set up padding around graph
-const horizontalPadding = 20;
-const verticalPadding = 0;
+const horizontalPadding = 40;
+const verticalPadding = 10;
 
 // tick width for axes
 const TickWidth = 100 ;
@@ -266,7 +266,7 @@ export default class MPGGraph extends Component {
 const styles = StyleSheet.create({
   container: {
     top: 15,
-    left: 15,
+    left: 15 + (horizontalPadding / 2),
   },
   
     tickLabelX: {
