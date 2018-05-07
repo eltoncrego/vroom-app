@@ -58,6 +58,22 @@ export default class Notifications extends Component{
     });
   }
 
+  scheduleAveragedNotification(data) {
+    FCM.scheduleLocalNotification({
+      id: 'weekreminder-scheduled',
+      fire_date: new Date().getTime() + this.createSchedulerTiming(data),
+      vibrate: 500,
+      sound: "default",
+      title: 'Running a little dry?',
+      body: 'Dont forget to add your latest fillup!',
+      sub_text: 'sub text',
+      priority: "high",
+      show_in_foreground: true,
+      wake_screen: true,
+      group: 'test',
+    });
+  }
+
   requestPermission(){
     FCM.requestPermissions({badge: false, sound: true, alert: true});
   }
@@ -71,20 +87,25 @@ export default class Notifications extends Component{
     // time of one day in ms
     const one_day=1000*60*60*24;
     //average ms to return
+    var working_set = data.reverse();
+    var prev = working_set[0].date[0] * 365 * one_day + working_set[0].date[1] * 30 * one_day + working_set[0].date[2] * one_day;
     var ave_ms = 0;
     var i = 1;
 
     //calculate average ms
-    data.forEach(function(element){
+    working_set.forEach(function(element){
       var year = element.date[0] * 365 * one_day;
       var mon = element.date[1] * 30 * one_day;
       var day = element.date[2] * one_day;
+      var diff = (year + mon + day) - prev;
 
-      ave_ms = (ave_ms + year + mon + day) / i;
+      ave_ms = ((ave_ms*(i-1)) + diff) / i;
+      prev = year + mon + day;
       i++;
     });
 
-    console.log(ave_ms);
+    console.log("Time until next notification " + (ave_ms / one_day) + " days");
+    return(ave_ms);
   }
 
 }

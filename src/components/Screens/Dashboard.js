@@ -479,12 +479,6 @@ export default class Dashboard extends Component {
    */
   componentDidMount() {
 
-    const notif = new Notifications();
-
-    // Use this line in release
-    notif.requestPermission();
-    notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
-
     var that = this;
     pullAverageMPG().then(function(fData){
       if(fData){
@@ -526,6 +520,16 @@ export default class Dashboard extends Component {
           list_i: fData.length,
           graphToggleable: fData.length >= 5 ? true : false,
         });
+      }
+
+      // Use this line in release
+      const notif = new Notifications();
+      notif.requestPermission();
+      if (fData.length <= 1){
+        notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
+      } else {
+        console.log("HI " + fData);
+        notif.scheduleAveragedNotification(fData);
       }
     }).catch(function(error) {
       console.log('Failed to load fill up data into state:', error);
