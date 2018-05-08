@@ -39,6 +39,7 @@ import {
 import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
 import { Line } from 'react-native-svg'
 import * as shape from 'd3-shape'
+import * as scale from 'd3-scale'
 import dateFns from 'date-fns'
 
 // Custom components
@@ -48,6 +49,9 @@ import {Button} from './../Custom/Button';
 import VroomAlert from './../Custom/VroomAlert';
 import Notifications from './../Custom/Notifications';
 import Settings from '../Screens/Settings';
+
+// Graph components
+import MPGGraph from '../GasGraph/MPGGraph';
 
 /*
  * Class: Dashboard
@@ -709,6 +713,28 @@ export default class Dashboard extends Component {
       />
     ))
 
+    /* Average MPG Label to attach to horizontal line */
+      const AverageLabel = (({ x, y }) => (
+      <Text
+        key={this.state.averageMPG}aa
+        /* Positioning isn't working */
+        //x={x(200)}
+        //y={y(50)}
+        dx={90}
+        dy={100}
+        style={[styleguide.dark_body_secondary, {zIndex: 1}]} 
+        textAnchor={'middle'}
+      >
+        {"Average = " + Math.round(this.state.averageMPG) + " MPG"}
+      </Text>
+      ))
+
+    // props to hand to MPG Graph
+    const graphProps = {};
+    graphProps.data = this.state.textDataArr;
+    graphProps.xAccessor = (item) => this.createDateObject(item.date);
+    graphProps.yAccessor = (item) => (item.distanceSinceLast / item.gallonsFilled);
+
     return(
 
       <View style={
@@ -782,6 +808,7 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
               />
+            
               <InputField
                 ref="odo"
                 icon={Icons.automobile}
@@ -821,38 +848,56 @@ export default class Dashboard extends Component {
         </Animated.View>
 
         <View style={styles.content}>
-          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
-            <AreaChart
-              style={styles.areaGraph}
-              start={0}
-              data={this.state.textDataArr}
-              yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-              xAccessor={({item}) => this.createDateObject(item.date)}
-              curve={shape.curveNatural}
-              contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
-              numberOfTicks={5}
-              showGrid={false}
-              svg={{
-                stroke: GLOBAL.COLOR.GREEN,
-                strokeWidth: 3,
-                fill: 'rgba(184, 233, 134, 0.2)',
-              }}
-              extras={ [ HorizontalLine] }
-            />
-            <XAxis
-              style={{marginTop: -16, marginHorizontal: 8}}
-              contentInset={{right: -2, left: -2}}
-              data={this.state.textDataArr}
-              xAccessor={({item}) => item.list_i}
-              formatLabel={(value) => `fillup ${value}`}
-              svg={{
-                fill: GLOBAL.COLOR.WHITE,
-                fontSize: 10,
-                fontFamily: 'Nunito-Light',
-                color: 'rgba(255,255,255,0.5)',
-                backgroundColor: 'transparent',
-              }}
-            />
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+              <MPGGraph {...graphProps} />
+
+              {/*
+              <AreaChart
+                style={styles.areaGraph}
+                start={0}
+                data={this.state.textDataArr}
+                yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
+                xAccessor={({item}) => this.createDateObject(item.date)}
+                // adding a date scale based on month
+                xScale={ scale.scaleTime }
+                curve={shape.curveNatural}
+                contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
+                numberOfTicks={5}
+                showGrid={false}
+                svg={{
+                  stroke: GLOBAL.COLOR.GREEN,
+                  strokeWidth: 3,
+                  fill: 'rgba(184, 233, 134, 0.2)',
+                }}
+                extras={ [ HorizontalLine, AverageLabel] }
+
+             /> 
+           */}
+
+            {/* code to set attributes of graph's x axis */}
+            {/*
+              <XAxis
+                style={{marginTop: -16}}
+                contentInset={{right: -2, left: -2}}
+                data={this.state.textDataArr}
+                // the x axis is "accessed" (or indexed) by the date of the datapoints
+                xAccessor={({item}) => this.createDateObject(item.date)}
+                scale={ scale.scaleTime }
+                // for some reason if 5 or higher there are a bunch of ticks,
+                // and if 4 or lower there are only 2
+                numberOfTicks={3}
+                // labels = name of month
+                // location on axis = 1st of the month 
+                formatLabel={ (value) => dateFns.format(value, 'MMMM')}
+                svg={{
+                  fill: GLOBAL.COLOR.WHITE,
+                  fontSize: 10,
+                  fontFamily: 'Nunito-Light',
+                  color: 'rgba(255,255,255,0.5)',
+                  backgroundColor: 'transparent',
+                }}
+              />
+            */}
         </Animated.View>
             <Animated.View
               style={[
@@ -866,6 +911,7 @@ export default class Dashboard extends Component {
               <TouchableOpacity onPress={() => this.toggleGraph()} disabled={!this.state.graphToggleable}>
                 <View  style={styles.statistics}>
                   <View>
+                  
                     <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
                     <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
                   </View>
@@ -953,11 +999,15 @@ const styles = StyleSheet.create({
   graph:{
     zIndex: 0,
     width: '100%',
+    /* try explicit width */
+    //width: 100,
     height: 200,
     //flexDirection: 'row',
   },
   areaGraph: {
     height: 200,
+    zIndex: -1,
+    flexDirection: 'column',
   },
   no_items:{
     position: 'absolute',
