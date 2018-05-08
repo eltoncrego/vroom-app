@@ -295,11 +295,11 @@ function createDateObject(date){
 
 const styles = StyleSheet.create({
   container: {
-    top: 15,
+    top: 4,
     left: 15 + (horizontalPadding / 2),
   },
 
-    tickLabelX: {
+  tickLabelX: {
     position: 'absolute',
     bottom: -12,
     fontSize: 12,
