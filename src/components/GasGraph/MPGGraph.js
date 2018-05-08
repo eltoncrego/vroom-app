@@ -1,12 +1,12 @@
 /*
- * 
+ *
  * MPGGraph.js: Component that contains the graph of MPG over time
- * 
+ *
  * AUTHOR: Will Coates
- * (Modified from Harry Wolff's WeatherGraph example: 
+ * (Modified from Harry Wolff's WeatherGraph example:
  *  https://github.com/hswolff/BetterWeather
  *  )
- *  
+ *
  */
 
 // Global Requirements
@@ -21,12 +21,10 @@ import {
   Text,
   Animated,
   // adding ART and Dimensions for the graph, probably will remove
-  // other imports later 
+  // other imports later
   Dimensions,
   ART,
 } from 'react-native';
-
-import { Line } from 'react-native-svg'
 
 // Importing Database functions for graph
 import {
@@ -70,8 +68,8 @@ const dimensionWindow = Dimensions.get('window');
 //const averageMPG = Auth.pullAverageMPG();
 
 /*
-* Class: MPGGraph 
-* Author: Will Coates 
+* Class: MPGGraph
+* Author: Will Coates
 * Purpose: Displays the gas data for a user's car in a graph of MPG over time.
 *
 * Props:
@@ -177,7 +175,7 @@ export default class MPGGraph extends Component {
   *
   * @param: enable: a boolean value for the toggle
   */
-  
+
   setScrollEnabled(enable) {
     this.setState({
       enable,
@@ -300,7 +298,7 @@ const styles = StyleSheet.create({
     top: 15,
     left: 15 + (horizontalPadding / 2),
   },
-  
+
     tickLabelX: {
     position: 'absolute',
     bottom: -12,
@@ -357,7 +355,7 @@ const styles = StyleSheet.create({
             strokeWidth={1}
           />
         </Group>
-      </Surface> 
+      </Surface>
     );
   }
 }

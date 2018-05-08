@@ -37,11 +37,6 @@ import {
   pullUserPermissions,
   pullOGODOReading,
 } from '../Database/Database.js';
-import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
-import { Line } from 'react-native-svg'
-import * as shape from 'd3-shape'
-import * as scale from 'd3-scale'
-import dateFns from 'date-fns'
 
 // Custom components
 import GasList from '../Custom/GasList';
