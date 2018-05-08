@@ -26,6 +26,7 @@ import {
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
 import {
+  getCurCar,
   pushFillup,
   removeFillup,
   pullFillups,
@@ -486,62 +487,63 @@ export default class Dashboard extends Component {
   componentDidMount() {
 
     var that = this;
-    pullAverageMPG().then(function(fData){
-      if(fData){
-        that.setState({
-          averageMPG: fData,
-        });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load average mpg data into state:', error);
-    });
-
-
-    pullOGODOReading().then(function(fData){
-      that.setState({
-        originalODO: fData,
+    getCurCar().then(function(){
+      pullAverageMPG().then(function(fData){
+        if(fData){
+          that.setState({
+            averageMPG: fData,
+          });
+        }
+      }).catch(function(error) {
+        console.log('Failed to load average mpg data into state:', error);
       });
-    }).catch(function(error) {
-      console.log('Failed to load original odometer data into state:', error);
-    });
 
-    pullODOReading().then(function(fData){
-      if(fData != null){
+
+      pullOGODOReading().then(function(fData){
         that.setState({
-          updatedODO: fData,
+          originalODO: fData,
         });
-      } else {
-        that.setState({
-          updatedODO: that.state.originalODO,
-        });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load odometer data into state:', error);
-    });
+      }).catch(function(error) {
+        console.log('Failed to load original odometer data into state:', error);
+      });
 
-    pullFillups().then(function(fData){
-      if(fData){
-        that.setState({
-          textDataArr: fData,
-          list_i: fData.length,
-          graphToggleable: fData.length >= 5 ? true : false,
-        });
-      }
+      pullODOReading().then(function(fData){
+        if(fData != null){
+          that.setState({
+            updatedODO: fData,
+          });
+        } else {
+          that.setState({
+            updatedODO: that.state.originalODO,
+          });
+        }
+      }).catch(function(error) {
+        console.log('Failed to load odometer data into state:', error);
+      });
 
-      // Use this line in release
-      const notif = new Notifications();
-      notif.requestPermission();
+      pullFillups().then(function(fData){
+        if(fData){
+          that.setState({
+            textDataArr: fData,
+            list_i: fData.length,
+            graphToggleable: fData.length >= 5 ? true : false,
+          });
+        }
+        
+        // Use this line in release
+        const notif = new Notifications();
+        notif.requestPermission();
 
-      if (fData.length <= 1){
-        notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
-      } else {
-        console.log("HI " + fData);
-        notif.scheduleAveragedNotification(fData);
-      }
-    }).catch(function(error) {
-      console.log('Failed to load fill up data into state:', error);
-    });
-
+        if (fData.length <= 1){
+          notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
+        } else {
+          console.log("HI " + fData);
+          notif.scheduleAveragedNotification(fData);
+        }
+      }).catch(function(error) {
+        console.log('Failed to load fill up data into state:', error);
+      });
+      
     pullUserPermissions().then(function(fData){
       if(fData){
         that.setState({
@@ -775,7 +777,7 @@ export default class Dashboard extends Component {
             source={require('../../../assets/images/placeholder.png')}
           />
         <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
-        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet.<Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
+        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
         </Animated.View>
 
         <Animated.View style={[styles.transaction, transformTransaction]}>
