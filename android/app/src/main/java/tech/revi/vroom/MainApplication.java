@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.horcrux.svg.SvgPackage;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.react.ReactNativeHost;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
             new SvgPackage(),
+            new MapsPackage(),
         new FIRMessagingPackage(),
         new LottiePackage()
       );

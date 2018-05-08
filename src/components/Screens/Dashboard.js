@@ -529,7 +529,7 @@ export default class Dashboard extends Component {
             graphToggleable: fData.length >= 5 ? true : false,
           });
         }
-        
+
         // Use this line in release
         const notif = new Notifications();
         notif.requestPermission();
@@ -543,32 +543,33 @@ export default class Dashboard extends Component {
       }).catch(function(error) {
         console.log('Failed to load fill up data into state:', error);
       });
-      
-    pullUserPermissions().then(function(fData){
-      if(fData){
-        that.setState({
-          isPremium: fData,
+
+      pullUserPermissions().then(function(fData){
+        if(fData){
+          that.setState({
+            isPremium: fData,
+          });
+        }
+        Animated.timing(
+          that.state.fadeIn,
+          {
+            toValue: 1,
+            duration: 250,
+          }
+        ).start(() => {
+          if(that.state.textDataArr.length == 0){
+            Animated.timing(
+              that.state.placeholderVisible,
+              {
+                toValue: 1,
+                duration: 250,
+              }
+            ).start();
+          }
         });
-      }
-      Animated.timing(
-        that.state.fadeIn,
-        {
-          toValue: 1,
-          duration: 250,
-        }
-      ).start(() => {
-        if(that.state.textDataArr.length == 0){
-          Animated.timing(
-            that.state.placeholderVisible,
-            {
-              toValue: 1,
-              duration: 250,
-            }
-          ).start();
-        }
+      }).catch(function(error) {
+        console.log('Failed to load user permission data into state:', error);
       });
-    }).catch(function(error) {
-      console.log('Failed to load user permiission data into state:', error);
     });
   }
 
@@ -726,7 +727,7 @@ export default class Dashboard extends Component {
         //y={y(50)}
         dx={90}
         dy={100}
-        style={[styleguide.dark_body_secondary, {zIndex: 1}]} 
+        style={[styleguide.dark_body_secondary, {zIndex: 1}]}
         textAnchor={'middle'}
       >
         {"Average = " + Math.round(this.state.averageMPG) + " MPG"}
@@ -812,7 +813,7 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
               />
-            
+
               <InputField
                 ref="odo"
                 icon={Icons.automobile}
@@ -852,7 +853,7 @@ export default class Dashboard extends Component {
         </Animated.View>
 
         <View style={styles.content}>
-          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
               <MPGGraph {...graphProps} />
 
               {/*
@@ -875,7 +876,7 @@ export default class Dashboard extends Component {
                 }}
                 extras={ [ HorizontalLine, AverageLabel] }
 
-             /> 
+             />
            */}
 
             {/* code to set attributes of graph's x axis */}
@@ -891,7 +892,7 @@ export default class Dashboard extends Component {
                 // and if 4 or lower there are only 2
                 numberOfTicks={3}
                 // labels = name of month
-                // location on axis = 1st of the month 
+                // location on axis = 1st of the month
                 formatLabel={ (value) => dateFns.format(value, 'MMMM')}
                 svg={{
                   fill: GLOBAL.COLOR.WHITE,
@@ -915,7 +916,7 @@ export default class Dashboard extends Component {
               <TouchableOpacity onPress={() => this.toggleGraph()} disabled={!this.state.graphToggleable}>
                 <View  style={styles.statistics}>
                   <View>
-                  
+
                     <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
                     <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
                   </View>

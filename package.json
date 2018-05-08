@@ -9,6 +9,7 @@
   "dependencies": {
     "@firebase/app-types": "^0.1.2",
     "@mapbox/polyline": "^1.0.0",
+    "art": "^0.10.2",
     "fb-watchman": "2.0.0",
     "firebase": "^4.10.1",
     "lottie-react-native": "2.3.2",
@@ -20,7 +21,6 @@
     "react-native-fontawesome": "5.7.0",
     "react-native-maps": "^0.21.0",
     "react-native-svg": "^6.2.2",
-    "react-native-svg-charts": "^4.0.0",
     "react-navigation": "^1.1.2"
   },
   "devDependencies": {
