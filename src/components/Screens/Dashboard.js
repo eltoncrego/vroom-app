@@ -36,7 +36,6 @@ import {
   pullUserPermissions,
   pullOGODOReading,
 } from '../Database/Database.js';
-import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
 import { Line } from 'react-native-svg'
 import * as shape from 'd3-shape'
@@ -47,6 +46,7 @@ import GasList from '../Custom/GasList';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import VroomAlert from './../Custom/VroomAlert';
+import Notifications from './../Custom/Notifications';
 import Settings from '../Screens/Settings';
 
 /*
@@ -469,37 +469,7 @@ export default class Dashboard extends Component {
     }
   }
 
-  // Call this to test an immediate notification.
-  showLocalNotification() {
-    FCM.presentLocalNotification({
-      id: 'testnotif',
-      vibrate: 500,
-      sound: "default",
-      title: 'Hello',
-      body: 'This is a test',
-      sub_text: 'sub text',
-      priority: "high",
-      show_in_foreground: true,
-      group: 'test',
-    });
-  }
 
-  // Call this to test a scheduled notification
-  scheduleLocalNotification() {
-    FCM.scheduleLocalNotification({
-      id: 'testnotif-scheduled',
-      fire_date: new Date().getTime()+5000,
-      vibrate: 500,
-      sound: "default",
-      title: 'Whats up?',
-      body: 'Test Scheduled Notification',
-      sub_text: 'sub text',
-      priority: "high",
-      show_in_foreground: true,
-      wake_screen: true,
-      group: 'test',
-    });
-  }
 
   /*
    * Function: componentDidMount()
@@ -508,11 +478,6 @@ export default class Dashboard extends Component {
    *
    */
   componentDidMount() {
-
-    FCM.removeAllDeliveredNotifications();
-    FCM.setBadgeNumber(0);
-    // this.showLocalNotification(); //DEBUG: remove comment
-    // this.scheduleLocalNotification(); //DEBUG: remove comment
 
     var that = this;
     pullAverageMPG().then(function(fData){
@@ -555,6 +520,17 @@ export default class Dashboard extends Component {
           list_i: fData.length,
           graphToggleable: fData.length >= 5 ? true : false,
         });
+      }
+
+      // Use this line in release
+      const notif = new Notifications();
+      notif.requestPermission();
+
+      if (fData.length <= 1){
+        notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
+      } else {
+        console.log("HI " + fData);
+        notif.scheduleAveragedNotification(fData);
       }
     }).catch(function(error) {
       console.log('Failed to load fill up data into state:', error);
