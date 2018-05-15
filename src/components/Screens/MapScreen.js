@@ -62,6 +62,7 @@ export default class MapScreen extends Component {
             coords: [],
             destLatitude:36.961828,
             destLongitude:-122.055607,
+            distance: 0,
         };
         this.mergeLot = this.mergeLot.bind(this);
     }
@@ -91,7 +92,6 @@ export default class MapScreen extends Component {
       this.setState({
         concat: concated,
       }, () => {
-        //this.getDirections(concated, "36.961828,-122.055607");
         this.getDirections(concated, dest);
       });
     }
@@ -111,6 +111,12 @@ export default class MapScreen extends Component {
       });
       this.setState({coords: coords});
       this.setState({x: "true"});
+
+      // console.log("Num legs is: " + respJson.routes[0].legs.length);
+      let meters = respJson.routes[0].legs[0].distance.value;
+      console.log("Distance: " + meters + " meters");
+      this.setState({distance: meters});
+
       return coords;
     } catch (error) {
       console.log(error);
@@ -178,7 +184,7 @@ export default class MapScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 9,
+        flex: 10,
         height:'100%',
         width: '100%',
         flexDirection: 'column',
@@ -199,7 +205,6 @@ const styles = StyleSheet.create({
       backgroundColor: GLOBAL.COLOR.DARKBLUE,
     },
 });
-
 
 
 
