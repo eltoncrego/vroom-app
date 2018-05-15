@@ -25,13 +25,14 @@ import {
   Keyboard,
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Our Components
 import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
-import { goTo } from '../Navigation/Navigation';
 import VroomAlert from './../Custom/VroomAlert';
+import { goTo, clearNavStack, goBack } from '../Navigation/Navigation';
 
 /*
  * Class: Map
@@ -120,6 +121,19 @@ export default class MapScreen extends Component {
 
    render() {
     return(
+        <View style={styleguide.container}>
+        <View style={styles.navbar}>
+          <Text style={styleguide.dark_title2}>
+            Map
+          </Text>
+            <TouchableOpacity onPress={() => goBack(this.props.navigation)}>
+              <View>
+                 <Text style={styleguide.dark_title}>
+                   <FontAwesome>{Icons.times}</FontAwesome>
+                 </Text>
+               </View>
+           </TouchableOpacity>
+        </View>
       <MapView
         provider={ PROVIDER_GOOGLE }
         style={ styles.container }
@@ -156,10 +170,8 @@ export default class MapScreen extends Component {
           strokeWidth={5}
           strokeColor="blue"/>
          }
-
-
-
       </MapView>
+      </View>
     );
    }
 }
@@ -169,7 +181,23 @@ const styles = StyleSheet.create({
         flex: 9,
         height:'100%',
         width: '100%',
-    }
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
+
+    navbar: {
+      flex: 1,
+      width: '100%',
+      paddingHorizontal: 24,
+      paddingTop: 32,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderBottomWidth: 1,
+      borderColor: 'rgba(255,255,255,0.50)',
+      backgroundColor: GLOBAL.COLOR.DARKBLUE,
+    },
 });
 
 
