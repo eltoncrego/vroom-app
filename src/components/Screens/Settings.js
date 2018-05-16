@@ -26,7 +26,7 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Our Components
 import Auth from '../Authentication/Auth';
-import { goTo, clearNavStack } from '../Navigation/Navigation';
+import { goTo } from '../Navigation/Navigation';
 
 /*
  * Class: Settings
@@ -89,6 +89,22 @@ export default class Settings extends Component {
         <View style={styles.content}>
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
             <View style={styles.content_wrapper}>
+              <TouchableOpacity onPress={() => {
+                this.props.closeCallBack();
+                //goTo(this.props.navigation, 'AddCar');
+              }}>
+                <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Add a Car
+                  </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.plus}</FontAwesome></Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => {Linking.canOpenURL('mailto:contact@revi.tech?subject=Vroom Feedback').then(supported => {
                 supported && Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback');
               }, (err) => console.log(err));}}>
@@ -156,7 +172,7 @@ export default class Settings extends Component {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.unlockAlt}</FontAwesome></Text>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.lock}</FontAwesome></Text>
                   </View>
                 </View>
               </TouchableOpacity>

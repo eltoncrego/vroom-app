@@ -24,32 +24,10 @@ export const firebaseRef = firebase.initializeApp(config);
 var curCar;
 
 /*
-* Database function: pushTask()
-* Author: Alec Felt and Connick Shields
-*
-* Purpose: push Task object to database,
-*          link user with task
-*
-* @param: (ttr) = task type reference
-*         (d) = date string (yyyy-mm-dd)
-* @return: void
-*/
-export function pushTask(ttr, d) {
-  if(Auth.checkAuth()) {
-    var taskObject = {
-        ttRef: ttr,
-        date: d,
-        uid: Auth.getAuth().uid,
-    };
-    firebaseRef.database().ref('tasks').push(taskObject);
-  }
-}
-
-/*
 * Database function: getCurCar()
 * Author: Connick Shields
 *
-* Purpose: gets the current car of the user and stores in locally
+* Purpose: gets the id of the current car of the user and stores it locally
 *
 * @return: promise
 */
