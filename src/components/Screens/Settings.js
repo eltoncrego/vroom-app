@@ -90,8 +90,7 @@ export default class Settings extends Component {
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
             <View style={styles.content_wrapper}>
               <TouchableOpacity onPress={() => {
-                this.props.closeCallBack();
-                //goTo(this.props.navigation, 'AddCar');
+                this.props.addCallBack();
               }}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>

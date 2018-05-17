@@ -748,7 +748,15 @@ export default class Dashboard extends Component {
 
         <VroomAlert ref="vroomAlert"/>
         <Animated.View style={[styles.settings, settingsList]}>
-          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.vroomAlert}/>
+          <Settings
+            closeCallBack={() => {
+              this.closeSettings();
+            }}
+            addCallBack={() => {
+              //this.closeSettings();
+              goTo(this.props.navigation, 'AddCar');
+            }}
+            alert={this.refs.vroomAlert}/>
         </Animated.View>
 
         <View style={styles.navbar}>

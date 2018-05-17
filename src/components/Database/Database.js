@@ -78,18 +78,40 @@ export function initUser(originalODO){
     var initCar = {
       originalODO: originalODO,
     };
-    // push the initial car
-    firebaseRef.database().ref("users").child(user).child("cars").push(initCar);
-    firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
-
-    // set the currentCar and curCar
-
-    firebaseRef.database().ref("users").child(user).child("cars").once('value').then(function(snapshot) {
-      curCar = Object.keys(snapshot.val())[0];
-      console.log(curCar);
-      firebaseRef.database().ref("users").child(user).child("currentCar").set(Object.keys(snapshot.val())[0]);
+    // push the initial car, and set currentCar & curCar
+    firebaseRef.database().ref("users").child(user).child("cars").push(initCar).then(function(snapshot){
+      console.log("initUser car ID: "+snapshot.key);
+      curCar = snapshot.key;
+      firebaseRef.database().ref("users").child(user).child("currentCar").set(snapshot.key);
     }).catch(function(error) {
-      console.log("Error getting document:", error.message);
+      console.log("Error:", error.message);
+    });
+
+    //init as a non-premium user
+    firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
+  }
+}
+
+/*
+* Database function: addCar()
+* Authors: Connick Shields
+*
+* Purpose: push the initial data for a user to firebase
+*/
+export function addCar(originalODO){
+  console.log("addCar");
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    var initCar = {
+      originalODO: originalODO,
+    };
+    // push the initial car, and set currentCar & curCar
+    firebaseRef.database().ref("users").child(user).child("cars").push(initCar).then(function(snapshot){
+      console.log("addCar new ID: "+snapshot.key);
+      curCar = snapshot.key;
+      firebaseRef.database().ref("users").child(user).child("currentCar").set(snapshot.key);
+    }).catch(function(error) {
+      console.log("Error:", error.message);
     });
   }
 }

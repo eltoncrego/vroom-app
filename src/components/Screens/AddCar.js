@@ -27,12 +27,10 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
-import { goTo } from '../Navigation/Navigation';
+import { goTo, goBack } from '../Navigation/Navigation';
 import VroomAlert from './../Custom/VroomAlert';
 
-import {
-  initUser,
-} from '../Database/Database.js';
+import { initUser, addCar } from '../Database/Database.js';
 
 /*
  * Class: Onboarding
@@ -202,8 +200,8 @@ export default class AddCar extends Component {
        var finalODOInput = this.state.userODO;
        finalODOInput = finalODOInput.replace(/\,/g,'');
        finalODOInput = parseFloat(finalODOInput, 10);
-       initUser(finalODOInput);
-       goTo(this.props.navigation, 'Dashboard');
+       addCar(finalODOInput);
+       goBack(this.props.navigation);
      } else if (this.state.userODO < 0){
        this.refs.submitButton.indicateError();
        this.refs.vroomAlert.showAlert('Where did you get your car?',
@@ -237,10 +235,10 @@ export default class AddCar extends Component {
       ]}>
       <VroomAlert ref="vroomAlert"/>
       <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => {Auth.logOut();}}>
+        <TouchableOpacity onPress={() => {goBack(this.props.navigation);}}>
           <Animated.View>
               <Text style={styleguide.light_subheader}>
-                <FontAwesome>{Icons.signOut}</FontAwesome> Sign Out
+                <FontAwesome>{Icons.times}</FontAwesome> Cancel
               </Text>
           </Animated.View>
         </TouchableOpacity>
@@ -248,7 +246,7 @@ export default class AddCar extends Component {
       <View style={styles.content}>
         <Animated.View style={[styles.onboarding_form, {paddingBottom: this.state.keyboardHeight}]}>
           <Animated.Text style={[styleguide.light_headline2, {fontSize: this.state.pageTextSize}]}>
-            Add a new car!
+            Add a new car
             <Animated.Text style={[styleguide.light_headline2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
           </Animated.Text>
           <Animated.Text
