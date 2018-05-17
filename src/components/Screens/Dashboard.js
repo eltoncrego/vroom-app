@@ -472,16 +472,14 @@ export default class Dashboard extends Component {
     }
   }
 
-
-
   /*
-   * Function: componentDidMount()
-   * Author: Elton C. Rego
-   * Purpose: Pulls all the data from firebase and loads it into the view
+   * Function: refreshData()
+   * Author: Elton C. Rego & Connick Shields
+   * Purpose: loads all data from Firebase
    *
    */
-  componentDidMount() {
 
+  refreshData(){
     var that = this;
     getCurCar().then(function(){
       pullAverageMPG().then(function(fData){
@@ -567,6 +565,16 @@ export default class Dashboard extends Component {
         console.log('Failed to load user permission data into state:', error);
       });
     });
+  }
+
+  /*
+   * Function: componentDidMount()
+   * Author: Elton C. Rego
+   * Purpose: calls refreshData()
+   *
+   */
+  componentDidMount() {
+    this.refreshData();
   }
 
   /*
@@ -751,9 +759,9 @@ export default class Dashboard extends Component {
           <Settings
             closeCallBack={() => {
               this.closeSettings();
+              this.refreshData();
             }}
             addCallBack={() => {
-              //this.closeSettings();
               goTo(this.props.navigation, 'AddCar');
             }}
             alert={this.refs.vroomAlert}/>
