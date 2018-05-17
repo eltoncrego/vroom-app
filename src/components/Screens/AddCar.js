@@ -33,8 +33,8 @@ import VroomAlert from './../Custom/VroomAlert';
 import { initUser, addCar } from '../Database/Database.js';
 
 /*
- * Class: Onboarding
- * Author: Elton C.  Rego
+ * Class: AddCar
+ * Author: Elton C.  Rego & Connick Shields
  *
  * Purpose: Walks the user through naming their car and then
  *   takes in the make, model, and year of their vehicle.
@@ -196,11 +196,12 @@ export default class AddCar extends Component {
     *   firebase after a series of input checks
     */
    submitOnboardingODO(){
-     if(this.state.userODO != null || !isNaN(this.state.user_ODO)){
+     if(this.state.userODO != null || this.state.userNick != null || !isNaN(this.state.user_ODO)){
        var finalODOInput = this.state.userODO;
+       var finalNick = this.state.userNick;
        finalODOInput = finalODOInput.replace(/\,/g,'');
        finalODOInput = parseFloat(finalODOInput, 10);
-       addCar(finalODOInput);
+       addCar(finalODOInput, finalNick);
        goBack(this.props.navigation);
      } else if (this.state.userODO < 0){
        this.refs.submitButton.indicateError();
@@ -210,7 +211,7 @@ export default class AddCar extends Component {
      } else {
        this.refs.submitButton.indicateError();
        this.refs.vroomAlert.showAlert('Hold up!',
-       'You didn\'t enter anything!',
+       'You forgot to enter something!',
        'Let me try again');
      }
    }
@@ -250,7 +251,7 @@ export default class AddCar extends Component {
             <Animated.Text style={[styleguide.light_headline2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
           </Animated.Text>
           <Animated.Text
-            style={[styleguide.light_title_secondary, {fontSize: this.state.pageDescriptionSize}]}>We just need to know the mileage.</Animated.Text>
+            style={[styleguide.light_title_secondary, {fontSize: this.state.pageDescriptionSize}]}>We just need to know a couple things.</Animated.Text>
           <InputField
             icon={Icons.mapO}
             label={"Odometer Reading"}
@@ -265,6 +266,22 @@ export default class AddCar extends Component {
             returnKeyType={'done'}
             onChangeText={(text) => {this.setState({
               userODO: text,
+            })}}
+          />
+          <InputField
+            icon={Icons.mapO}
+            label={"Nickname"}
+            labelColor={"rgba(37,50,55,0.5)"}
+            inactiveColor={GLOBAL.COLOR.DARKGRAY}
+            activeColor={GLOBAL.COLOR.GREEN}
+            topMargin={this.state.topMargin}
+            autoCapitalize={"none"}
+            type={"default"}
+            secureTextEntry={false}
+            autoCorrect={false}
+            returnKeyType={'done'}
+            onChangeText={(text) => {this.setState({
+              userNick: text,
             })}}
           />
           <Button

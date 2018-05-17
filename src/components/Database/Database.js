@@ -98,12 +98,13 @@ export function initUser(originalODO){
 *
 * Purpose: push the initial data for a user to firebase
 */
-export function addCar(originalODO){
+export function addCar(originalODO, nick){
   console.log("addCar");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     var initCar = {
       originalODO: originalODO,
+      nickname: nick,
     };
     // push the initial car, and set currentCar & curCar
     firebaseRef.database().ref("users").child(user).child("cars").push(initCar).then(function(snapshot){
