@@ -183,6 +183,28 @@ export function setCar(carID) {
   }
 }
 
+/*
+* Database function: pullCars()
+* Author: Connick Shields
+*
+* Purpose: pulls all cars from firebase
+*
+* @return: JSON object of all cars
+*/
+export function pullCars() {
+  console.log("pullCars");
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    const query = firebaseRef.database().ref("users").child(user).child("cars"));
+
+    return query.once('value').then(function(snapshot){
+      return snapshot.val();
+    }).catch(function(error) {
+      console.log('Failed to pull cars from firebase:', error);
+    });
+  }
+}
+
 
 /*
 * Database function: pullFillups()
