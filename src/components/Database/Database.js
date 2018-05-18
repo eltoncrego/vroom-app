@@ -167,7 +167,7 @@ export function updateNick(newNick) {
 export function setCar(carID) {
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
-    firebaseRef.database().ref("users").child(user).child("currentCar").set(newODO);
+    firebaseRef.database().ref("users").child(user).child("currentCar").set(carID);
     curCar = carID;
   }
 }
@@ -190,7 +190,7 @@ export function pullCars() {
       snapshot.forEach(function(listItem){
         var item = {
           nickname: listItem.val().nickname,
-          id: listItem.key,
+          key: listItem.key,
         };
         returnArr.unshift(item);
       });
