@@ -888,54 +888,6 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
               <MPGGraph {...graphProps} />
-
-              {/*
-              <AreaChart
-                style={styles.areaGraph}
-                start={0}
-                data={this.state.textDataArr}
-                yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-                xAccessor={({item}) => this.createDateObject(item.date)}
-                // adding a date scale based on month
-                xScale={ scale.scaleTime }
-                curve={shape.curveNatural}
-                contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
-                numberOfTicks={5}
-                showGrid={false}
-                svg={{
-                  stroke: GLOBAL.COLOR.GREEN,
-                  strokeWidth: 3,
-                  fill: 'rgba(184, 233, 134, 0.2)',
-                }}
-                extras={ [ HorizontalLine, AverageLabel] }
-
-             />
-           */}
-
-            {/* code to set attributes of graph's x axis */}
-            {/*
-              <XAxis
-                style={{marginTop: -16}}
-                contentInset={{right: -2, left: -2}}
-                data={this.state.textDataArr}
-                // the x axis is "accessed" (or indexed) by the date of the datapoints
-                xAccessor={({item}) => this.createDateObject(item.date)}
-                scale={ scale.scaleTime }
-                // for some reason if 5 or higher there are a bunch of ticks,
-                // and if 4 or lower there are only 2
-                numberOfTicks={3}
-                // labels = name of month
-                // location on axis = 1st of the month
-                formatLabel={ (value) => dateFns.format(value, 'MMMM')}
-                svg={{
-                  fill: GLOBAL.COLOR.WHITE,
-                  fontSize: 10,
-                  fontFamily: 'Nunito-Light',
-                  color: 'rgba(255,255,255,0.5)',
-                  backgroundColor: 'transparent',
-                }}
-              />
-            */}
         </Animated.View>
             <Animated.View
               style={[
