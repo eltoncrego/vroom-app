@@ -189,13 +189,13 @@ export default class AddCar extends Component {
   };
 
    /*
-    * Method: submitOnboardingODO
-    * Author: Elton C. Rego
+    * Method: submitAddCar
+    * Author: Elton C. Rego & Connick Shields
     *
-    * Purpose: take the number from the InputField and pushes it to
+    * Purpose: take a couple of fields and pushes them to
     *   firebase after a series of input checks
     */
-   submitOnboardingODO(){
+   submitAddCar(){
      if(this.state.userODO != null || this.state.userNick != null || !isNaN(this.state.user_ODO)){
        var finalODOInput = this.state.userODO;
        var finalNick = this.state.userNick;
@@ -269,7 +269,7 @@ export default class AddCar extends Component {
             })}}
           />
           <InputField
-            icon={Icons.mapO}
+            icon={Icons.car}
             label={"Nickname"}
             labelColor={"rgba(37,50,55,0.5)"}
             inactiveColor={GLOBAL.COLOR.DARKGRAY}
@@ -291,7 +291,7 @@ export default class AddCar extends Component {
              height={64}
              marginTop={40}
              shadow={true}
-             onPress={() => {this.submitOnboardingODO()}}/>
+             onPress={() => {this.submitAddCar()}}/>
          </Animated.View>
       </View>
       </SafeAreaView>
