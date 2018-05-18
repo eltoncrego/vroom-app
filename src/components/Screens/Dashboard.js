@@ -36,6 +36,7 @@ import {
   pullODOReading,
   pullUserPermissions,
   pullOGODOReading,
+  pullNickname,
 } from '../Database/Database.js';
 import dateFns from 'date-fns';
 
@@ -100,6 +101,9 @@ export default class Dashboard extends Component {
       list_i: 0,
       textDataArr: [],
       isPremium: false,
+
+      // static text
+      header_text: "dashboard",
     };
   }
 
@@ -515,6 +519,14 @@ export default class Dashboard extends Component {
         console.log('Failed to load odometer data into state:', error);
       });
 
+      pullNickname().then(function(fData){
+        that.setState({
+          nickname: fData,
+        });
+      }).catch(function(error) {
+        console.log('Failed to load nickname data into state:', error);
+      });
+
       pullFillups().then(function(fData){
         if(fData){
           that.setState({
@@ -565,6 +577,12 @@ export default class Dashboard extends Component {
         console.log('Failed to load user permission data into state:', error);
       });
     });
+    // after 5 seconds, switch dashboard to the car nickname
+    setTimeout(function(){
+      that.setState({
+        header_text: that.state.nickname,
+      });
+    }, 5000);
   }
 
   /*
@@ -769,7 +787,7 @@ export default class Dashboard extends Component {
 
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
-            dashboard
+            {this.state.header_text}
             <Text style={styleguide.dark_title2_accent}>
               .
             </Text>
