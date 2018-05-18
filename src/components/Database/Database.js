@@ -97,7 +97,7 @@ export function initUser(originalODO, nick){
 * Database function: addCar()
 * Authors: Connick Shields
 *
-* Purpose: push the initial data for a user to firebase
+* Purpose: push a new car to firebase
 */
 export function addCar(originalODO, nick){
   console.log("addCar");
@@ -147,6 +147,39 @@ export function updateODO(newODO) {
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("odometer").set(newODO);
+  }
+}
+
+/*
+* Database function: updateNick()
+* Author: Connick Shields
+*
+* Purpose: push new nickname to firebase
+*
+* @param: the new nickname to push to firebase
+*/
+export function updateNick(newNick) {
+  console.log("newNick");
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("nickname").set(newNick);
+  }
+}
+
+/*
+* Database function: setCar()
+* Author: Connick Shields
+*
+* Purpose: sets (locally and in firebase) the current car
+*
+* @param: the ID of the newly selected car
+*/
+export function setCar(carID) {
+  console.log("carID");
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    firebaseRef.database().ref("users").child(user).child("currentCar").set(newODO);
+    curCar = carID;
   }
 }
 
@@ -205,9 +238,9 @@ export function pullAverageMPG() {
 * Database function: pullNickname()
 * Author: Connick Shields
 *
-* Purpose: pulls the latest averageMPG stored in the user's database area
+* Purpose: pulls the car nickname stored in the user's database area
 *
-* @return mpg: a numeric value of the current average MPG of the user
+* @return mpg: a string (the car nickname)
 */
 export function pullNickname() {
   console.log("pullNickname");
