@@ -127,6 +127,7 @@ export default class MPGGraph extends Component {
     graphWidth: 0,
     graphHeight: 0,
     linePath: '',
+    fillArea: '',
   };
 
   componentWillMount() {
@@ -161,6 +162,8 @@ export default class MPGGraph extends Component {
       graphWidth,
       graphHeight,
       linePath: lineGraph.path,
+      // adding fill
+      fillArea: lineGraph.fillArea,
       // adding axes
       ticks: lineGraph.ticks,
       scale: lineGraph.scale,
@@ -189,6 +192,8 @@ export default class MPGGraph extends Component {
       graphWidth,
       graphHeight,
       linePath,
+      area,
+      fillArea,
       // adding axes
       ticks,
       scale,
@@ -234,6 +239,10 @@ function createDateObject(date){
               stroke={GLOBAL.COLOR.GREEN}
               strokeWidth={1}
             />
+            <Shape
+              d={fillArea}
+              fill={GLOBAL.COLOR.GREEN}
+            /> 
           </Group>
         </Surface>
       {/* X Axis */}
@@ -256,7 +265,8 @@ function createDateObject(date){
             );
           })}
         </View>
-
+        
+      {/* The mpg labels for each point */}
         <View key={'ticksY'} style={styles.ticksYContainer}>
           {/* Applies the same style and format across all Y ticks */}
           {ticks.map((tick, index) => {
@@ -290,12 +300,29 @@ function createDateObject(date){
           ))}
         </View>
 
-      </View>
+      {/*Add the fill below the graph 
+
+        <View key={'area'} style={styles.area}>
+        <Surface width={graphWidth} height={graphHeight}>
+          <Group x={0} y={0}>
+            <Shape
+              //d={area}
+              d={fillArea}
+              fill={GLOBAL.COLOR.GREEN}
+            />
+          </Group>
+        </Surface> 
+        </View>
+      */}
+    </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  area:{
+    color: GLOBAL.COLOR.GREEN,
+  },
   container: {
     top: 15,
     left: 15 + (horizontalPadding / 2),
@@ -303,7 +330,7 @@ const styles = StyleSheet.create({
   
     tickLabelX: {
     position: 'absolute',
-    bottom: -12,
+    bottom: -15,
     fontSize: 12,
     textAlign: 'center',
     color: GLOBAL.COLOR.WHITE,

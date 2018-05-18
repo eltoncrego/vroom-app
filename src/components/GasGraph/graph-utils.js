@@ -140,9 +140,20 @@ export function createLineGraph({
     .y((d) => scaleY(yAccessor(d)))
 
     // smooth out the curve
-    //.curve(d3.curveMonotoneX)
-    .curve(d3.shape.curveMonotoneX)
-    ;
+    .curve(d3.shape.curveMonotoneX);
+
+   // fill in below the graph
+   
+   var fillArea = d3.shape.area()
+   				//.x(function(d) { return scaleX(d.date)})
+   				.x((d) => scaleX(xAccessor(d)))
+   				//.y1(function(d){ return scaleY(d.distanceSinceLast / d.gallonsFilled)})
+   				.y1((d) => scaleY(yAccessor(d)))
+   				.y0(scaleY(0))
+   				.curve(d3.shape.curveMonotoneX)
+   				;
+   				//.y0(height);
+
 
   return {
   	data,
@@ -152,6 +163,7 @@ export function createLineGraph({
   	},
 
     path: lineShape(data),
+    fillArea: fillArea(data),
 
     /* returning additional information for axes */
     ticks: data.map((datum) => {
