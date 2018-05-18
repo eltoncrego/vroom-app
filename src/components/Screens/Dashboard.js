@@ -37,6 +37,7 @@ import {
   pullUserPermissions,
   pullOGODOReading,
   pullNickname,
+  pullCars,
 } from '../Database/Database.js';
 import dateFns from 'date-fns';
 
@@ -428,8 +429,6 @@ export default class Dashboard extends Component {
         return obj.list_i === key;
     });
     const indexOf = this.state.textDataArr.indexOf(itemToRemove);
-    console.log(indexOf);
-    console.log(itemToRemove);
 
     const mpgRemoved = itemToRemove.distanceSinceLast
       /itemToRemove.gallonsFilled;
@@ -446,7 +445,6 @@ export default class Dashboard extends Component {
     updateODO(ODO);
 
     this.state.textDataArr.pop(itemToRemove);
-    console.log(this.state.textDataArr);
     if(this.state.textDataArr.length == 0){
       Animated.timing(
         this.state.placeholderVisible,
@@ -546,7 +544,6 @@ export default class Dashboard extends Component {
         if (fData.length <= 1){
           notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
         } else {
-          console.log("HI " + fData);
           notif.scheduleAveragedNotification(fData);
         }
       }).catch(function(error) {
@@ -580,7 +577,8 @@ export default class Dashboard extends Component {
         console.log('Failed to load user permission data into state:', error);
       });
     });
-    // after 5 seconds, switch dashboard to the car nickname
+
+    // after 5 seconds, switch dashboard to the car nickname TODO add animation
     setTimeout(function(){
       that.setState({
         header_text: that.state.nickname,
@@ -659,7 +657,6 @@ export default class Dashboard extends Component {
     var day = date[2];
     var monthIndex = date[1];
     const returnValue = monthNames[monthIndex] + ' ' + day;
-    console.log(returnValue);
     return returnValue
   }
 
@@ -679,7 +676,6 @@ export default class Dashboard extends Component {
     var mins = date[4];
     var seconds = date[5];
     const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
-    console.log(returnValue);
     return returnValue;
   }
 

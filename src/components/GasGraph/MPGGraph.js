@@ -219,7 +219,6 @@ function createDateObject(date){
         var mins = date[4];
         var seconds = date[5];
         const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
-        console.log(returnValue);
         return returnValue;
       }
 

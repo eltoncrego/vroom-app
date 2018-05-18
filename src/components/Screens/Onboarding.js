@@ -72,7 +72,6 @@ export default class Onboarding extends Component {
   *   requests permissions to show notifications
   */
   componentDidMount() {
-    console.log("onboarding mounted");
     FCM.requestPermissions().then(()=>console.log('granted')).catch(()=>console.log('notification permission rejected'));
   }
 

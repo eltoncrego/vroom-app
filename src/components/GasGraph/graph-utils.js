@@ -4,9 +4,9 @@
  * Several functions that use D3 to generate the graph,
  * including the path the line follows, the scales, and anything else
  * that should live in its own utils component.
- * 
+ *
  * AUTHOR: Will Coates
- * (Originally copied from Harry Wolff's WeatherGraph example: 
+ * (Originally copied from Harry Wolff's WeatherGraph example:
  *  https://github.com/hswolff/BetterWeather
  *  I have modified it to fit our needs. )
  *
@@ -39,7 +39,6 @@ function  createDateObject(date){
     var mins = date[4];
     var seconds = date[5];
     const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
-    console.log(returnValue);
     return returnValue;
   }
 /**
@@ -93,31 +92,21 @@ export function createLineGraph({
 }) {
   const lastDatum = data[data.length - 1];
 
-  console.log("createLineGraph");
-  console.log("data = " + data);
-  console.log("lastDatum = " + lastDatum);
-  
-  
-  if(lastDatum != null){
-
-  	console.log("lastDatum.date = " + lastDatum.date);
-  }
-
   // the x scale should be based on date
   // createLineGraph is sometimes called before
   // fillups are pulled, so have to null check
   // and start with dummy values
   let xScaleStart = new Date(2018, 0, 1);
   let xScaleEnd = new Date(2018, 0, 2);
-  
+
   if(data[0] != null){
   	// somehow it's backwards!
   	//xScaleStart = data[0].date;
   	//xScaleEnd = lastDatum.date;
   	xScaleStart = lastDatum.date;
   	xScaleEnd = data[0].date;
-  } 
-  
+  }
+
   const scaleX = createScaleX(
   	xScaleStart,
   	xScaleEnd,
@@ -125,12 +114,12 @@ export function createLineGraph({
   );
 
   // Collect all y values.
-  
+
   const allYValues = data.reduce((all, datum) => {
     all.push(yAccessor(datum))
     return all;
   }, []);
-  
+
   // Get the min and max y value.
   const extentY = d3Array.extent(allYValues);
   const scaleY = createScaleY(extentY[0], extentY[1], height);

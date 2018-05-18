@@ -32,13 +32,11 @@ var curCar;
 * @return: promise
 */
 export function getCurCar() {
-  console.log("getCurCar");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     return new Promise((resolve, reject) => {
         firebaseRef.database().ref("users").child(user).child("currentCar").once('value').then(function(snapshot) {
           curCar = snapshot.val();
-          console.log(curCar);
           resolve();
         }).catch(function(error) {
           console.log("Error getting document:", error.message);
@@ -58,7 +56,6 @@ export function getCurCar() {
 * @return: void
 */
 export function pushFillup(fillupData) {
-  console.log("pushFillup");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups").push(fillupData);
@@ -72,7 +69,6 @@ export function pushFillup(fillupData) {
 * Purpose: push the initial data for a user to firebase
 */
 export function initUser(originalODO, nick){
-  console.log("initUser");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     var initCar = {
@@ -81,7 +77,6 @@ export function initUser(originalODO, nick){
     };
     // push the initial car, and set currentCar & curCar
     firebaseRef.database().ref("users").child(user).child("cars").push(initCar).then(function(snapshot){
-      console.log("initUser car ID: "+snapshot.key);
       curCar = snapshot.key;
       firebaseRef.database().ref("users").child(user).child("currentCar").set(snapshot.key);
     }).catch(function(error) {
@@ -100,7 +95,6 @@ export function initUser(originalODO, nick){
 * Purpose: push a new car to firebase
 */
 export function addCar(originalODO, nick){
-  console.log("addCar");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     var initCar = {
@@ -109,7 +103,6 @@ export function addCar(originalODO, nick){
     };
     // push the initial car, and set currentCar & curCar
     firebaseRef.database().ref("users").child(user).child("cars").push(initCar).then(function(snapshot){
-      console.log("addCar new ID: "+snapshot.key);
       curCar = snapshot.key;
       firebaseRef.database().ref("users").child(user).child("currentCar").set(snapshot.key);
     }).catch(function(error) {
@@ -127,7 +120,6 @@ export function addCar(originalODO, nick){
 * @param: average - the new MPG average we want to push to firebase
 */
 export function updateMPG(average) {
-  console.log("updateMPG");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("average").set(average);
@@ -143,7 +135,6 @@ export function updateMPG(average) {
 * @param: the new odometer reading to push to firebase
 */
 export function updateODO(newODO) {
-  console.log("updateODO");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("odometer").set(newODO);
@@ -159,7 +150,6 @@ export function updateODO(newODO) {
 * @param: the new nickname to push to firebase
 */
 export function updateNick(newNick) {
-  console.log("newNick");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("nickname").set(newNick);
@@ -175,7 +165,6 @@ export function updateNick(newNick) {
 * @param: the ID of the newly selected car
 */
 export function setCar(carID) {
-  console.log("carID");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("currentCar").set(newODO);
@@ -189,16 +178,24 @@ export function setCar(carID) {
 *
 * Purpose: pulls all cars from firebase
 *
-* @return: JSON object of all cars
+* @return: array of all cars
 */
 export function pullCars() {
-  console.log("pullCars");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
-    const query = firebaseRef.database().ref("users").child(user).child("cars"));
+    const query = firebaseRef.database().ref("users").child(user).child("cars");
 
     return query.once('value').then(function(snapshot){
-      return snapshot.val();
+      var returnArr = [];
+      snapshot.forEach(function(listItem){
+        var item = {
+          nickname: listItem.val().nickname,
+          id: listItem.key,
+        };
+        returnArr.unshift(item);
+      });
+      return returnArr;
+
     }).catch(function(error) {
       console.log('Failed to pull cars from firebase:', error);
     });
@@ -215,8 +212,6 @@ export function pullCars() {
 * @return returnArr: an array of the fillup data in the filestore
 */
 export function pullFillups() {
-  console.log("pullFillups");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups");
 
@@ -224,7 +219,6 @@ export function pullFillups() {
     var returnArr = [];
     snapshot.forEach(function(listItem){
       var item = listItem.val();
-      console.log(item);
       returnArr.unshift(item);
     });
     return returnArr;
@@ -243,8 +237,6 @@ export function pullFillups() {
 * @return mpg: a numeric value of the current average MPG of the user
 */
 export function pullAverageMPG() {
-  console.log("pullAverageMPG");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("average");
 
@@ -265,8 +257,6 @@ export function pullAverageMPG() {
 * @return mpg: a string (the car nickname)
 */
 export function pullNickname() {
-  console.log("pullNickname");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("nickname");
 
@@ -287,8 +277,6 @@ export function pullNickname() {
 * @return odo: a numeric value of the latest ODO reading for the user
 */
 export function pullODOReading() {
-  console.log("pullODOReading");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("odometer");
 
@@ -310,8 +298,6 @@ export function pullODOReading() {
 *   during onboarding
 */
 export function pullOGODOReading() {
-  console.log("pullOGDOReading");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("originalODO");
 
@@ -333,7 +319,6 @@ export function pullOGODOReading() {
 * @return bool - is the user a premium user? t/f
 */
 export function pullUserPermissions(){
-  console.log("Pulling user permissions.");
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("premiumUser");
   return query.once('value').then(function(snapshot){
@@ -353,15 +338,11 @@ export function pullUserPermissions(){
 * @return: void
 */
 export function removeFillup(i) {
-  console.log("removing fillup");
-  console.log(i)
-
   var user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups");
   query.once('value').then(function(snapshot){
     snapshot.forEach(function(child) {
       if (child.val().list_i == i) {
-        console.log('Removing child '+child.key);
         child.ref.remove();
       }
     });

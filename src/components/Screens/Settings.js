@@ -21,12 +21,14 @@ import {
   Linking,
   Platform,
   SafeAreaView,
+  FlatList,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Our Components
 import Auth from '../Authentication/Auth';
 import { goTo } from '../Navigation/Navigation';
+import { pullCars, setCar } from '../Database/Database';
 
 /*
  * Class: Settings
@@ -45,6 +47,9 @@ export default class Settings extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      cars: [],
+    };
   }
 
   /*
@@ -54,8 +59,14 @@ export default class Settings extends Component {
    * Purpose: When a component specified sucessfully is rendered,
    *   it runs the action
    */
-  componentDidMount() {
-    console.log("Settings component mounted");
+  componentDidMount(){
+    pullCars().then(function(fd){
+      console.log(fd);
+      // var that = this;
+      // that.setState({
+      //   cars: fd,
+      // });
+    });
   }
 
 
@@ -89,6 +100,25 @@ export default class Settings extends Component {
         <View style={styles.content}>
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
             <View style={styles.content_wrapper}>
+              <TouchableOpacity onPress={() => {
+                // TODO hide / show list
+              }}>
+                <View style={styles.setting_item}>
+                  <Text style={styleguide.dark_body}>
+                    Switch Cars
+                  </Text>
+                  <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.refresh}</FontAwesome></Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+              <FlatList
+                data={this.state.cars}
+                renderItem={({item}) => <Text>{item.key}</Text>}
+              />
               <TouchableOpacity onPress={() => {
                 this.props.addCallBack();
               }}>
