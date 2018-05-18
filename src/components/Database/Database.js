@@ -71,12 +71,13 @@ export function pushFillup(fillupData) {
 *
 * Purpose: push the initial data for a user to firebase
 */
-export function initUser(originalODO){
+export function initUser(originalODO, nick){
   console.log("initUser");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     var initCar = {
       originalODO: originalODO,
+      nickname: nick,
     };
     // push the initial car, and set currentCar & curCar
     firebaseRef.database().ref("users").child(user).child("cars").push(initCar).then(function(snapshot){
@@ -196,6 +197,28 @@ export function pullAverageMPG() {
     return snapshot.val();
   }).catch(function(error) {
     console.log('Failed to pull average MPG data from firebase:', error);
+  });
+
+}
+
+/*
+* Database function: pullNickname()
+* Author: Connick Shields
+*
+* Purpose: pulls the latest averageMPG stored in the user's database area
+*
+* @return mpg: a numeric value of the current average MPG of the user
+*/
+export function pullNickname() {
+  console.log("pullNickname");
+
+  const user = Auth.getAuth().uid;
+  const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("nickname");
+
+  return query.once('value').then(function(snapshot){
+    return snapshot.val();
+  }).catch(function(error) {
+    console.log('Failed to pull nickname from firebase:', error);
   });
 
 }

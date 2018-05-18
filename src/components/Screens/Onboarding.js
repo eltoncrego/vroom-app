@@ -195,18 +195,19 @@ export default class Onboarding extends Component {
   };
 
    /*
-    * Method: submitOnboardingODO
-    * Author: Elton C. Rego
+    * Method: submitOnboarding
+    * Author: Elton C. Rego & Connick Shields
     *
     * Purpose: take the number from the InputField and pushes it to
     *   firebase after a series of input checks
     */
-   submitOnboardingODO(){
-     if(this.state.userODO != null || !isNaN(this.state.user_ODO)){
+   submitOnboarding(){
+     if(this.state.userODO != null || this.state.userNick != null || !isNaN(this.state.user_ODO)){
        var finalODOInput = this.state.userODO;
+       var finalNick = this.state.userNick;
        finalODOInput = finalODOInput.replace(/\,/g,'');
        finalODOInput = parseFloat(finalODOInput, 10);
-       initUser(finalODOInput);
+       initUser(finalODOInput, finalNick);
        goTo(this.props.navigation, 'Dashboard');
      } else if (this.state.userODO < 0){
        this.refs.submitButton.indicateError();
@@ -216,7 +217,7 @@ export default class Onboarding extends Component {
      } else {
        this.refs.submitButton.indicateError();
        this.refs.vroomAlert.showAlert('Hold up!',
-       'You didn\'t enter anything!',
+       'You forgot to enter something!',
        'Let me try again');
      }
    }
@@ -256,7 +257,7 @@ export default class Onboarding extends Component {
             <Animated.Text style={[styleguide.light_headline2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
           </Animated.Text>
           <Animated.Text
-            style={[styleguide.light_title_secondary, {fontSize: this.state.pageDescriptionSize}]}>To get started, let us know how many miles are on your car.</Animated.Text>
+            style={[styleguide.light_title_secondary, {fontSize: this.state.pageDescriptionSize}]}>We just need your mileage and a good nickname!</Animated.Text>
           <InputField
             icon={Icons.mapO}
             label={"Odometer Reading"}
@@ -273,6 +274,22 @@ export default class Onboarding extends Component {
               userODO: text,
             })}}
           />
+          <InputField
+            icon={Icons.car}
+            label={"Nickname"}
+            labelColor={"rgba(37,50,55,0.5)"}
+            inactiveColor={GLOBAL.COLOR.DARKGRAY}
+            activeColor={GLOBAL.COLOR.GREEN}
+            topMargin={this.state.topMargin}
+            autoCapitalize={"none"}
+            type={"default"}
+            secureTextEntry={false}
+            autoCorrect={false}
+            returnKeyType={'done'}
+            onChangeText={(text) => {this.setState({
+              userNick: text,
+            })}}
+          />
           <Button
              ref="submitButton"
              backgroundColor={GLOBAL.COLOR.GREEN}
@@ -280,7 +297,7 @@ export default class Onboarding extends Component {
              height={64}
              marginTop={40}
              shadow={true}
-             onPress={() => {this.submitOnboardingODO()}}/>
+             onPress={() => {this.submitOnboarding()}}/>
          </Animated.View>
       </View>
       </SafeAreaView>
