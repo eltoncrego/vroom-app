@@ -71,14 +71,14 @@ export const SignedIn = StackNavigator({
       gesturesEnabled: false,
     }
   },
-  LocationSelection: {
-    screen: LocationSelection,
-    navigationOptions: {
-      header: null,
-      title: "Location Selection",
-      gesturesEnabled: false,
-    }
-  },
+  // LocationSelection: {
+    // screen: LocationSelection,
+    // navigationOptions: {
+    //   header: null,
+    //   title: "Location Selection",
+    //   gesturesEnabled: false,
+    // }
+  // },
 });
 
 /*
@@ -115,12 +115,12 @@ export const SignedUp = StackNavigator({
       gesturesEnabled: false,
     }
   },
-  LocationSelection: {
-    screen: LocationSelection,
-    navigationOptions: {
-      header: null,
-      title: "Location Selection",
-      gesturesEnabled: false,
-    }
-  },
+  // LocationSelection: {
+  //   screen: LocationSelection,
+  //   navigationOptions: {
+  //     header: null,
+  //     title: "Location Selection",
+  //     gesturesEnabled: false,
+  //   }
+  // },
 });

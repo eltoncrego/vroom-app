@@ -141,6 +141,18 @@ export default class MapScreen extends Component {
                </View>
            </TouchableOpacity>
         </View>
+      
+        <InputField
+        ref="destination"
+        label="Enter your destination!"
+        labelColor={"rgba(37,50,55,0.5)"}
+        inactiveColor={GLOBAL.COLOR.DARKGRAY}
+        activeColor={GLOBAL.COLOR.GREEN}
+        autoCapitalize={"none"}
+        returnKeyType={'done'}
+        onChangeText={(text) => {this.setState({destination: text})}}
+       /> 
+
       <MapView
         provider={ PROVIDER_GOOGLE }
         style={ styles.container }
@@ -179,6 +191,7 @@ export default class MapScreen extends Component {
          }
       </MapView>
       
+      {/*
       <Button
         ref="locationPicker"
         backgroundColor={GLOBAL.COLOR.GREEN}
@@ -187,18 +200,8 @@ export default class MapScreen extends Component {
         marginTop={40}
         shadow={true}
         onPress={() => {goto(this.props.navigation, "LocationSelection")}}/>
-
-      {*/ <InputField
-        ref="destination"
-        label="Enter your destination!"
-        labelColor={"rgba(37,50,55,0.5)"}
-        inactiveColor={GLOBAL.COLOR.DARKGRAY}
-        activeColor={GLOBAL.COLOR.GREEN}
-        autoCapitalize={"none"}
-        returnKeyType={'done'}
-        onChangeText={(text) => {this.setState({destination: text})}}
-      /> 
       */}
+      
       </View>
     );
    }
