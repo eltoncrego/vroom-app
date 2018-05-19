@@ -17,6 +17,7 @@ STYLE = require('../../global-styles');
 import {
   TouchableOpacity,
   View,
+  ScrollView,
   StyleSheet,
   Text,
   Animated,
@@ -147,7 +148,8 @@ export default class MPGGraph extends Component {
       yAccessor,
     } = nextProps;
 
-    const graphWidth = width - horizontalPadding * 2;
+
+    const graphWidth = width * (data.length * 0.25);
     const graphHeight = height - verticalPadding * 2;
 
     const lineGraph = graphUtils.createLineGraph({
@@ -231,13 +233,14 @@ function createDateObject(date){
       }
 
     return (
+    <ScrollView horizontal={true}>
       <View style={styles.container}>
         <Surface width={graphWidth} height={graphHeight}>
           <Group x={0} y={0}>
             <Shape
               d={linePath}
-              stroke={GLOBAL.COLOR.GREEN}
-              strokeWidth={1}
+              stroke={GLOBAL.COLOR.WHITE}
+              strokeWidth={6}
             />
             <Shape
               d={fillArea}
@@ -294,27 +297,13 @@ function createDateObject(date){
               key={index}
               style={[styles.ticksYDot, {
                 left: tick.x,
-                top: tick.y,
+                top: tick.y - 3.8,
               }]}
             />
           ))}
         </View>
-
-      {/*Add the fill below the graph 
-
-        <View key={'area'} style={styles.area}>
-        <Surface width={graphWidth} height={graphHeight}>
-          <Group x={0} y={0}>
-            <Shape
-              //d={area}
-              d={fillArea}
-              fill={GLOBAL.COLOR.GREEN}
-            />
-          </Group>
-        </Surface> 
-        </View>
-      */}
     </View>
+  </ScrollView>
     );
   }
 }
@@ -326,6 +315,7 @@ const styles = StyleSheet.create({
   container: {
     top: 15,
     left: 15 + (horizontalPadding / 2),
+    //left: 0,
   },
   
     tickLabelX: {
@@ -360,9 +350,11 @@ const styles = StyleSheet.create({
   // styling for the dots on the line graph
   ticksYDot: {
     position: 'absolute',
-    width: 2,
-    height: 2,
-    backgroundColor: GLOBAL.COLOR.WHITE,
+    width: 5,
+    height: 5,
+    backgroundColor: GLOBAL.COLOR.YELLOW,
+    //backgroundColor: GLOBAL.COLOR.WHITE,
+    borderRadius: 100,
     borderRadius: 100,
   },
 });
