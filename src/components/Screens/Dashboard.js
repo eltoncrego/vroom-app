@@ -485,6 +485,7 @@ export default class Dashboard extends Component {
     var that = this;
     that.setState({
       header_text: "dashboard",
+      averageMPG: 0,
     });
     getCurCar().then(function(){
       pullAverageMPG().then(function(fData){

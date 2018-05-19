@@ -146,6 +146,11 @@ export default class Settings extends Component {
             <View style={styles.content_wrapper}>
               <TouchableOpacity onPress={() => {
                 this.toggleList();
+                pullCars().then(function(fd){
+                  this.setState({
+                    cars: fd,
+                  });
+                }.bind(this));
               }} disabled={!this.state.listToggleable}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
@@ -184,6 +189,7 @@ export default class Settings extends Component {
               </Animated.View>
               <Animated.View>
                 <TouchableOpacity onPress={() => {
+                  this.toggleList();
                   this.props.addCallBack();
                 }}>
                   <View style={styles.setting_item}>
