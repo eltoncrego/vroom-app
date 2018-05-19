@@ -178,7 +178,17 @@ export default class MapScreen extends Component {
           strokeColor="blue"/>
          }
       </MapView>
-      <InputField
+      
+      <Button
+        ref="locationPicker"
+        backgroundColor={GLOBAL.COLOR.GREEN}
+        label={"Pick your destination!"}
+        height={64}
+        marginTop={40}
+        shadow={true}
+        onPress={() => {goto(this.props.navigation, "LocationSelection")}}/>
+
+      {*/ <InputField
         ref="destination"
         label="Enter your destination!"
         labelColor={"rgba(37,50,55,0.5)"}
@@ -187,7 +197,8 @@ export default class MapScreen extends Component {
         autoCapitalize={"none"}
         returnKeyType={'done'}
         onChangeText={(text) => {this.setState({destination: text})}}
-      />
+      /> 
+      */}
       </View>
     );
    }
