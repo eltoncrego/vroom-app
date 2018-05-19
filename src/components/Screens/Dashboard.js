@@ -884,7 +884,7 @@ export default class Dashboard extends Component {
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
               <MPGGraph {...graphProps} />
-        </Animated.View>
+          </Animated.View>
             <Animated.View
               style={[
                 styles.card,
