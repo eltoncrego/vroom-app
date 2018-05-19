@@ -63,6 +63,7 @@ export default class MapScreen extends Component {
             destLatitude:36.961828,
             destLongitude:-122.055607,
             distance: 0,
+            destination: null,
         };
         this.mergeLot = this.mergeLot.bind(this);
     }
@@ -177,6 +178,16 @@ export default class MapScreen extends Component {
           strokeColor="blue"/>
          }
       </MapView>
+      <InputField
+        ref="destination"
+        label="Enter your destination!"
+        labelColor={"rgba(37,50,55,0.5)"}
+        inactiveColor={GLOBAL.COLOR.DARKGRAY}
+        activeColor={GLOBAL.COLOR.GREEN}
+        autoCapitalize={"none"}
+        returnKeyType={'done'}
+        onChangeText={(text) => {this.setState({destination: text})}}
+      />
       </View>
     );
    }
