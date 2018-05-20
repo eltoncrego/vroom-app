@@ -100,6 +100,10 @@ export default class Dashboard extends Component {
       list_i: 0,
       textDataArr: [],
       isPremium: false,
+
+      // Vars for trip planning
+      averageDistanceBtwnFillups: 0,
+      averageFillupCost: 0,
     };
   }
 
@@ -365,6 +369,10 @@ export default class Dashboard extends Component {
     const mpg = distance/parseFloat(this.state.user_filled);
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
+    const averageDistance = 
+      ((this.state.averageDistanceBtwnFillups * (this.state.textDataArr.length))+distance)/(this.state.textDataArr.length+1);
+    const averageCost =
+      ((this.state.averageFillupCost * (this.state.textDataArr.length))+totalPrice)/(this.state.textDataArr.length+1);
     const creationDate = moment().toArray();
 
     this.closeTransaction();
