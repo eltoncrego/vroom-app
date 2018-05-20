@@ -170,6 +170,8 @@ export default class MPGGraph extends Component {
       ticks: lineGraph.ticks,
       scale: lineGraph.scale,
     });
+
+  //  this.scrollToEnd();
   }
 
 
@@ -212,6 +214,8 @@ export default class MPGGraph extends Component {
 
     const tickYFormat = scaleY.tickFormat(null, '.2f');
 
+
+
   /* SHOULD REALLY IMPORT THIS BUT I COPIED IT FOR NOW
   * Function: createDateObject()
   * Author: Elton C. Rego
@@ -233,18 +237,19 @@ function createDateObject(date){
       }
 
     return (
-    <ScrollView horizontal={true}>
+    <ScrollView horizontal={true} ref="graphScroll">
       <View style={styles.container}>
         <Surface width={graphWidth} height={graphHeight}>
           <Group x={0} y={0}>
             <Shape
               d={linePath}
-              stroke={GLOBAL.COLOR.WHITE}
-              strokeWidth={6}
+              stroke={GLOBAL.COLOR.BRAND}
+              strokeWidth={3}
             />
             <Shape
               d={fillArea}
               fill={GLOBAL.COLOR.GREEN}
+              opacity={0.2}
             /> 
           </Group>
         </Surface>
@@ -279,7 +284,7 @@ function createDateObject(date){
             const tickStyles = {};
             tickStyles.width = TickWidth;
             tickStyles.left = tick.x - Math.round(TickWidth * 0.5);
-            tickStyles.top = tick.y + 2 - Math.round(TickWidth * 0.65) + 40;
+            tickStyles.top = tick.y + 40 - Math.round(TickWidth * 0.65);
 
             return (
               <View key={index} style={[styles.tickLabelY, tickStyles]}>
@@ -297,7 +302,7 @@ function createDateObject(date){
               key={index}
               style={[styles.ticksYDot, {
                 left: tick.x,
-                top: tick.y - 3.8,
+                top: tick.y - 3.2,
               }]}
             />
           ))}
@@ -310,12 +315,12 @@ function createDateObject(date){
 
 const styles = StyleSheet.create({
   area:{
-    color: GLOBAL.COLOR.GREEN,
+    // if styling does nothing in the stylesheet, do styling in
+    // the component itself
   },
   container: {
     top: 15,
     left: 15 + (horizontalPadding / 2),
-    //left: 0,
   },
   
     tickLabelX: {
@@ -352,8 +357,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 5,
     height: 5,
-    backgroundColor: GLOBAL.COLOR.YELLOW,
-    //backgroundColor: GLOBAL.COLOR.WHITE,
+    backgroundColor: GLOBAL.COLOR.WHITE,
     borderRadius: 100,
     borderRadius: 100,
   },

@@ -590,6 +590,7 @@ export default class Dashboard extends Component {
     }).catch(function(error) {
       console.log('Failed to load user permiission data into state:', error);
     });
+
   }
 
   /*
@@ -873,7 +874,7 @@ export default class Dashboard extends Component {
 
         <View style={styles.content}>
           <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
-              <MPGGraph {...graphProps} />
+              <MPGGraph ref="MPGGraph" {...graphProps} />
               {/*
               <AreaChart
                 style={styles.areaGraph}
