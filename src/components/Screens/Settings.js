@@ -86,7 +86,7 @@ export default class Settings extends Component {
         this.state.translation,
         {
           toValue: 0,
-          duration: 200,
+          duration: 250,
         }
       ).start(() => {
         that.setState({
@@ -97,17 +97,17 @@ export default class Settings extends Component {
     } else {
       this.setState({
         listToggleable: false,
+        carListShown: true,
       });
       Animated.timing(
         this.state.translation,
         {
           toValue: 1,
-          duration: 200,
+          duration: 250,
         }
       ).start(() => {
         that.setState({
           listToggleable: true,
-          carListShown: true,
         });
       });
     }
@@ -125,13 +125,31 @@ export default class Settings extends Component {
    */
   render() {
 
+    var car_list = this.state.carListShown ?
+    <FlatList
+      data={this.state.cars}
+      renderItem={({item}) =>
+      <TouchableOpacity onPress={() => {
+        setCar(item.key);
+        this.toggleList();
+        this.props.closeCallBack();
+      }}>
+        <View style={styles.carlist_item}>
+          <Text style={styleguide.dark_body}>
+            {item.nickname}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      }
+    /> : null;
+
     return (
       <View style={[styleguide.container,{
         backgroundColor: GLOBAL.COLOR.DARKBLUE,
       }]}>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
-            settings<Text style={styleguide.dark_title2_accent}>.</Text>
+            menu<Text style={styleguide.dark_title2_accent}>.</Text>
           </Text>
           <TouchableOpacity onPress={() => this.props.closeCallBack()}>
             <View>
@@ -164,32 +182,11 @@ export default class Settings extends Component {
                   </View>
                 </View>
               </TouchableOpacity>
-              <Animated.View style={[{opacity: this.state.translation}]}>
-                <FlatList
-                  data={this.state.cars}
-                  renderItem={({item}) =>
-                  <TouchableOpacity onPress={() => {
-                    setCar(item.key);
-                    this.toggleList();
-                  }}>
-                    <View style={styles.carlist_item}>
-                      <Text style={styleguide.dark_body}>
-                        {item.nickname}
-                      </Text>
-                      <View style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
-                        <Text style={styleguide.dark_body}><FontAwesome>{Icons.car}</FontAwesome></Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                  }
-                />
+              <Animated.View style={{opacity: this.state.translation}}>
+                {car_list}
               </Animated.View>
               <Animated.View>
                 <TouchableOpacity onPress={() => {
-                  this.toggleList();
                   this.props.addCallBack();
                 }}>
                   <View style={styles.setting_item}>

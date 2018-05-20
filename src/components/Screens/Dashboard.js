@@ -104,7 +104,7 @@ export default class Dashboard extends Component {
       isPremium: false,
 
       // static text
-      header_text: "dashboard",
+      header_text: "",
     };
   }
 
@@ -484,7 +484,6 @@ export default class Dashboard extends Component {
   refreshData(){
     var that = this;
     that.setState({
-      header_text: "dashboard",
       averageMPG: 0,
     });
     getCurCar().then(function(){
@@ -524,6 +523,9 @@ export default class Dashboard extends Component {
       pullNickname().then(function(fData){
         that.setState({
           nickname: fData,
+        });
+        that.setState({
+          header_text: that.state.nickname,
         });
       }).catch(function(error) {
         console.log('Failed to load nickname data into state:', error);
@@ -578,13 +580,6 @@ export default class Dashboard extends Component {
         console.log('Failed to load user permission data into state:', error);
       });
     });
-
-    // after 5 seconds, switch dashboard to the car nickname TODO add animation
-    setTimeout(function(){
-      that.setState({
-        header_text: that.state.nickname,
-      });
-    }, 5000);
   }
 
   /*
@@ -795,7 +790,7 @@ export default class Dashboard extends Component {
           <TouchableOpacity onPress={() => {this.openSettings();}} disabled={!this.state.settingAvailable}>
             <Animated.View style={{opacity: modalBG}}>
                 <Text style={styleguide.dark_title}>
-                  <FontAwesome>{Icons.gear}</FontAwesome>
+                  <FontAwesome>{Icons.bars}</FontAwesome>
                 </Text>
             </Animated.View>
           </TouchableOpacity>
