@@ -237,7 +237,11 @@ function createDateObject(date){
       }
 
     return (
-    <ScrollView horizontal={true} ref="graphScroll">
+    <ScrollView 
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.scrollView}
+      >
       <View style={styles.container}>
         <Surface width={graphWidth} height={graphHeight}>
           <Group x={0} y={0}>
@@ -318,11 +322,17 @@ const styles = StyleSheet.create({
     // if styling does nothing in the stylesheet, do styling in
     // the component itself
   },
+
   container: {
     top: 15,
-    left: 15 + (horizontalPadding / 2),
+    left: (horizontalPadding / 2),
+    right: (horizontalPadding / 2),
   },
-  
+
+  scrollView: {
+    paddingRight: 50,
+  },
+
     tickLabelX: {
     position: 'absolute',
     bottom: -15,
@@ -340,7 +350,7 @@ const styles = StyleSheet.create({
   tickLabelY: {
     position: 'absolute',
     left: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
 
   tickLabelYText: {
@@ -362,29 +372,3 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
 });
-/*
- *
- * render()
- * Renders the graph for display.
- * For now just copied from https://hswolff.com/blog/react-native-art-and-d3/
- *
- */
- /*
-  render() {
-    return (
-      <Surface width={200} height={100}>
-        <Group x={0} y={0}>
-          <Shape
-            d={this.props.linePath}
-            stroke="#000"
-            strokeWidth={1}
-          />
-        </Group>
-      </Surface> 
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-});
-*/
