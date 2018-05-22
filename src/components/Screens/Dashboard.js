@@ -591,6 +591,8 @@ export default class Dashboard extends Component {
       console.log('Failed to load user permiission data into state:', error);
     });
 
+    // detect landscape mode
+    this.isLandscape();
   }
 
   /*
@@ -678,6 +680,20 @@ export default class Dashboard extends Component {
     return returnValue;
   }
 
+    /* Function: isLandscape
+    *  Author: Will Coates
+    *  Detects if the phone is oriented in landscape mode
+    *  Borrowed from: https://shellmonger.com/2017/07/26/handling-orientation-changes-in-react-native/
+    */
+    isLandscape(){
+        let dim = Dimensions.get('screen');
+        let returnVal = (dim.width >= dim.height)
+        console.log(returnVal);
+        console.log("height = " + dim.height);
+        console.log("width = " + dim.width);
+        console.log((returnVal ? "phone is landscape" : "phone is portrait"));
+        return returnVal;
+    }
   /*
    * Function: render()
    * Author: Elton C. Rego
@@ -739,6 +755,7 @@ export default class Dashboard extends Component {
     ))
 
     /* Average MPG Label to attach to horizontal line */
+    
       const AverageLabel = (({ x, y }) => (
       <Text
         key={this.state.averageMPG}aa
@@ -759,6 +776,8 @@ export default class Dashboard extends Component {
     graphProps.data = this.state.textDataArr;
     graphProps.xAccessor = (item) => this.createDateObject(item.date);
     graphProps.yAccessor = (item) => (item.distanceSinceLast / item.gallonsFilled);
+
+
 
     return(
 
