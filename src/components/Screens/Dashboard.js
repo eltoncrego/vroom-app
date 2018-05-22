@@ -787,9 +787,16 @@ export default class Dashboard extends Component {
 
   if(this.state.landscape){
     return(
-      <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
-        <MPGGraph ref="MPGGraph" {...graphProps} />
-      </Animated.View>
+      <View style={
+        [styleguide.container,
+        {
+          backgroundColor: GLOBAL.COLOR.DARKGRAY,
+        }]
+      }>
+        <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+          <MPGGraph ref="MPGGraph" {...graphProps} />
+        </Animated.View>
+      </View>
       );
   }
 
