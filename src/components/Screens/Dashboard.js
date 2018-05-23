@@ -529,6 +529,7 @@ export default class Dashboard extends Component {
         // Use this line in release
         const notif = new Notifications();
         notif.requestPermission();
+        notif.showLocalNotification();
 
         if (fData.length <= 1){
           notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
