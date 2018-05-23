@@ -369,7 +369,7 @@ export default class Dashboard extends Component {
     const mpg = distance/parseFloat(this.state.user_filled);
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
-    const averageDistance = 
+    const averageDistance =
       ((this.state.averageDistanceBtwnFillups * (this.state.textDataArr.length))+distance)/(this.state.textDataArr.length+1);
     const averageCost =
       ((this.state.averageFillupCost * (this.state.textDataArr.length))+totalPrice)/(this.state.textDataArr.length+1);
@@ -727,8 +727,7 @@ export default class Dashboard extends Component {
     /* Average MPG Label to attach to horizontal line */
       const AverageLabel = (({ x, y }) => (
       <Text
-        key={this.state.averageMPG}aa
-        /* Positioning isn't working */
+        key={this.state.averageMPG}
         //x={x(200)}
         //y={y(50)}
         dx={90}
