@@ -95,7 +95,6 @@ export default class MapScreen extends Component {
 
    getFillupData() {
     let fillups = getFillupData();
-    let dist = fillups[fillups.length].
    }
 
    mergeLot(){
@@ -170,8 +169,8 @@ export default class MapScreen extends Component {
             this.setState(
               {
                 mapActive: true,
-                destLatitude: `${details.geometry.location.lat}`,
-                destLongitude: `${details.geometry.location.lng}`,
+                destLatitude: parseFloat(details.geometry.location.lat),
+                destLongitude: parseFloat(details.geometry.location.lng),
               }
             );
           }}
