@@ -400,6 +400,8 @@ export default class Dashboard extends Component {
     ).start(() => {
       this.setState({
         averageMPG: average,
+        averageDistanceBtwnFillups: averageDistance,
+        averageFillupCost: averageCost,
         updatedODO: this.state.user_ODO,
         textDataArr: [newFillup, ...this.state.textDataArr],
         user_paid: "",

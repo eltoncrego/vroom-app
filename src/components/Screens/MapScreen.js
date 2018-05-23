@@ -26,24 +26,13 @@ import {
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
-import {
-  getCurCar,
-  pushFillup,
-  removeFillup,
-  pullFillups,
-  updateMPG,
-  pullAverageMPG,
-  updateODO,
-  pullODOReading,
-  pullUserPermissions,
-  pullOGODOReading,
-} from '../Database/Database.js';
 
 // Our Components
 import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
 import VroomAlert from './../Custom/VroomAlert';
+import { pullFillups } from '../Database/Database.js';
 import { goTo, clearNavStack, goBack } from '../Navigation/Navigation';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
@@ -102,6 +91,11 @@ export default class MapScreen extends Component {
        (error) => this.setState({ error: error.message }),
        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
      );
+   }
+
+   getFillupData() {
+    let fillups = getFillupData();
+    let dist = fillups[fillups.length].
    }
 
    mergeLot(){
@@ -176,6 +170,8 @@ export default class MapScreen extends Component {
             this.setState(
               {
                 mapActive: true,
+                destLatitude: `${details.geometry.location.lat}`,
+                destLongitude: `${details.geometry.location.lng}`,
               }
             );
           }}
