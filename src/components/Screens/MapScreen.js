@@ -76,7 +76,7 @@ export default class MapScreen extends Component {
         this.mergeLot = this.mergeLot.bind(this);
     }
 
-  componentDidMount() {
+  componentWillMount() {
     navigator.geolocation.getCurrentPosition(
        (position) => {
          console.log("Position is:");
@@ -93,9 +93,9 @@ export default class MapScreen extends Component {
      );
    }
 
-   getFillupData() {
-    let fillups = getFillupData();
-   }
+   // getFillupData() {
+   //  let fillups = getFillupData();
+   // }
 
    mergeLot(){
     if (this.state.latitude != null && this.state.longitude != null
@@ -151,7 +151,7 @@ export default class MapScreen extends Component {
                  <Text style={styleguide.dark_title}>
                    <FontAwesome>{Icons.times}</FontAwesome>
                  </Text>
-               </View>
+              </View>
            </TouchableOpacity>
         </View>
 
@@ -209,10 +209,11 @@ export default class MapScreen extends Component {
         />
          {this.state.mapActive ?
           <MapView
+            style={styles.map}
             provider={ PROVIDER_GOOGLE }
             initialRegion={{ 
-                latitude: 37.052155,
-                longitude: -122.013957,
+                latitude: this.state.latitude == null ? 37.052155 : this.state.latitude,
+                longitude: this.state.longitude == null ? -122.013957 : this.state.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             }}>
@@ -224,28 +225,34 @@ export default class MapScreen extends Component {
                 />
             }     
 
-            {!!this.state.destLatitude && !!this.state.destLongitude && <MapView.Marker
-              coordinate={{"latitude":this.state.destLatitude,"longitude":this.state.destLongitude}}
-              title={"Your Destination"}
-            />}
-
-            {!!this.state.latitude && !!this.state.longitude && this.state.x == 'true' && <MapView.Polyline
-                coordinates={this.state.coords}
-                strokeWidth={5}
-                strokeColor="blue"/>
+            {!!this.state.destLatitude && !!this.state.destLongitude && 
+              <MapView.Marker
+                coordinate={{"latitude":this.state.destLatitude,"longitude":this.state.destLongitude}}
+                title={"Your Destination"}
+              />
             }
 
-            {!!this.state.latitude && !!this.state.longitude && this.state.x == 'error' && <MapView.Polyline
-              coordinates={[
+            {!!this.state.latitude && !!this.state.longitude && this.state.x == 'true' && 
+              <MapView.Polyline
+                coordinates={this.state.coords}
+                strokeWidth={5}
+                strokeColor="blue"
+              />
+            }
+
+            {!!this.state.latitude && !!this.state.longitude && this.state.x == 'error' && 
+              <MapView.Polyline
+                coordinates={[
                   {latitude: this.state.latitude, longitude: this.state.longitude},
                   {latitude: this.state.destLatitude, longitude: this.state.destLongitude},
-              ]}
-              strokeWidth={5}
-              strokeColor="blue"/>
+                ]}
+                strokeWidth={5}
+                strokeColor="blue"
+              />
              }
           </MapView> : null}
         </View>
-    </View>
+      </View>
     );
    }
 }
@@ -271,6 +278,13 @@ const styles = StyleSheet.create({
       borderColor: 'rgba(255,255,255,0.50)',
       backgroundColor: GLOBAL.COLOR.DARKBLUE,
     },
+    map: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+  },
 });
 
 
