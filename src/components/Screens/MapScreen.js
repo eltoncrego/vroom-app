@@ -67,8 +67,8 @@ export default class MapScreen extends Component {
             concat: null,
             x: 'false',
             coords: [],
-            destLatitude:36.961828,
-            destLongitude:-122.055607,
+            destLatitude: 36.961828,
+            destLongitude: -122.055607,
             distance: 0,
             destination: null,
             mapActive: false,
@@ -192,7 +192,7 @@ export default class MapScreen extends Component {
               color: '#1faadb'
             },
           }}
-          currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+          currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
           currentLocationLabel="Current location"
           nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
           GoogleReverseGeocodingQuery={{
@@ -212,8 +212,8 @@ export default class MapScreen extends Component {
             style={styles.map}
             provider={ PROVIDER_GOOGLE }
             initialRegion={{ 
-                latitude: this.state.latitude == null ? 37.052155 : this.state.latitude,
-                longitude: this.state.longitude == null ? -122.013957 : this.state.longitude,
+                latitude: /*this.state.latitude == null ? 37.052155 : */this.state.latitude,
+                longitude: /*this.state.longitude == null ? -122.013957 : */this.state.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             }}>
