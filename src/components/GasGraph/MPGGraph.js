@@ -266,7 +266,11 @@ function createDateObject(date){
               d={linePath.path}
               stroke={GLOBAL.COLOR.BRAND}
               strokeWidth={3}
-              strokeDash={linePath.strokeDasharray}
+              //strokeDash={linePath.strokeDasharray}
+              /* If I start with strokeDash[0, 10000] and gradually
+              // increase to [10000, 10000], it animates...but from
+               right to left.  */
+              strokeDash={[2650, 10000]}
             />
             <Shape
               d={fillArea}

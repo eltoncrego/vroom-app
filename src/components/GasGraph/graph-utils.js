@@ -185,8 +185,8 @@ export function createLineGraph({
 
     path: lineShape(data),
     fillArea: fillArea(data),
-    strokeDashoffset: new Animated.Value(width - 100),
-    strokeDasharray: [width - 500, width - 500],
+    strokeDashoffset: new Animated.Value(width),
+    strokeDasharray: [width, width],
 
     /* returning additional information for axes */
     ticks: data.map((datum) => {
