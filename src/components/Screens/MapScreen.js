@@ -155,6 +155,21 @@ export default class MapScreen extends Component {
            </TouchableOpacity>
         </View>
 
+      {this.state.mapActive ?
+      <View style={styles.switcher}>
+        <Button
+          backgroundColor={GLOBAL.COLOR.GREEN}
+          label={"Want to go somewhere else?"}
+          //height={64}
+          //marginTop={16}
+          width={"100%"}
+          onPress={() => {
+            this.setState({mapActive: false});
+          }}
+          title="Open location picker"
+        /> 
+      </View> : null }
+
       <View style={styles.container}>
         <GooglePlacesAutocomplete
           placeholder='Enter your destination!'
@@ -207,6 +222,7 @@ export default class MapScreen extends Component {
           predefinedPlaces={[homePlace, workPlace]}
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         />
+
          {this.state.mapActive ?
           <MapView
             style={styles.map}
@@ -278,6 +294,15 @@ const styles = StyleSheet.create({
       borderColor: 'rgba(255,255,255,0.50)',
       backgroundColor: GLOBAL.COLOR.DARKBLUE,
     },
+
+    switcher: {
+      flex: 1,
+      width: '100%',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+
     map: {
       position: 'absolute',
       top: 0,
