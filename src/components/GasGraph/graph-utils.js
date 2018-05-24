@@ -17,7 +17,8 @@ import * as shape from 'd3-shape';
 import * as d3Array from 'd3-array';
 
 import dateFns from 'date-fns'
-
+// necessary for animation
+import { View, Animated, Dimensions } from 'react-native';
 const d3 = {
   scale,
   shape,
@@ -77,6 +78,31 @@ function createScaleY(minY, maxY, height) {
     .range([height, 0]);
 }
 
+
+export function animateLineGraph(linePath, duration){
+
+  const animation = Animated.sequence([
+            Animated.delay(5000),
+           // Animated.parallel([
+                Animated.timing(linePath.strokeDashoffset, {
+                    toValue: 0,
+                    duration: duration 
+                })
+                /*
+                Animated.stagger(
+                    staggerLength,
+                    this.points.map(point =>
+                        Animated.spring(point.r, {
+                            toValue: radius,
+                            speed
+                        })
+                    )
+                )
+                */
+            //])
+        ]);
+        animation.start();  
+}
 /**
  * Creates a line graph SVG path that we can then use to render in our
  * React Native application with ART.
@@ -159,6 +185,8 @@ export function createLineGraph({
 
     path: lineShape(data),
     fillArea: fillArea(data),
+    strokeDashoffset: new Animated.Value(width - 100),
+    strokeDasharray: [width - 500, width - 500],
 
     /* returning additional information for axes */
     ticks: data.map((datum) => {

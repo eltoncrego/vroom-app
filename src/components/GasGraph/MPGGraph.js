@@ -64,11 +64,11 @@ const verticalPadding = 10;
 // tick width for axes
 const TickWidth = 100 ;
 
-
 const dimensionWindow = Dimensions.get('window');
 
-// pull the average MPG for the average line
-//const averageMPG = Auth.pullAverageMPG();
+// animation variables
+const strokeDashoffsetDuration = 2000;
+
 
 /*
 * Class: MPGGraph 
@@ -79,45 +79,6 @@ const dimensionWindow = Dimensions.get('window');
 * NOT SURE WHAT SHOULD GO HERE YET
 */
 export default class MPGGraph extends Component {
-
-  /*
-  * Method: Constructor()
-  * Author: Elton C. Rego
-  * Purpose: Sets up the component for use
-  *   - sets renderSeparator to it's own name
-  *   - sets delete to it's own name
-  *   - sets setScrollEnabled to it's own name
-  *   - sets state variables
-  *       > enable : whether or not the scrolling is enabled
-  *       > data : the list data passed in as a prop
-  *
-  * @param props - the props passed in from the parent component
-  */
-
-  /* THIS MAY BE OBSELETE, OR IT MAY BE WHAT I NEED TO DO
-     INSTEAD OF THE COPY+PASTING */
-     /*
-  constructor(props) {
-    super(props);
-    // keeping setScrollEnabled, but will likely change implementation
-    // of scrolling
-    this.setScrollEnabled = this.setScrollEnabled.bind(this);
-
-    this.state = {
-      enable: this.props.enable,
-    };
-  }
-*/
-
-  static propTypes = {
-    /*
-    data: PropTypes.array.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    xAccessor: PropTypes.func.isRequired,
-    yAccessor: PropTypes.func.isRequired,
-    */
-  }
 
   static defaultProps = {
     width: Math.round(dimensionWindow.width * 1),
@@ -130,6 +91,7 @@ export default class MPGGraph extends Component {
     linePath: '',
     fillArea: '',
   };
+
 
   componentWillMount() {
     this.computeNextState(this.props);
@@ -160,20 +122,74 @@ export default class MPGGraph extends Component {
       height: graphHeight,
     });
 
+function createLineProps(path) {
+    return {
+        d: path,
+    };
+}
     this.setState({
       graphWidth,
       graphHeight,
-      linePath: lineGraph.path,
+      //linePath: lineGraph.path,
+      linePath: lineGraph,
       // adding fill
       fillArea: lineGraph.fillArea,
       // adding axes
       ticks: lineGraph.ticks,
       scale: lineGraph.scale,
+      strokeDashoffset: lineGraph.strokeDashoffset,
+      strokeDasharray: lineGraph.strokeDasharray,
     });
 
-  //  this.scrollToEnd();
   }
 
+createLineProps(path) {
+    return {
+        d: path,
+        strokeDashoffset: new Animated.Value(length),
+        strokeDasharray: [length, length]
+    };
+}
+    /* IMPORTANT: this.animate is called on componentDidMount. I'll probably need to trigger it
+       differently (the component actually mounts while it's still hidden, I'll need to trigger the animation
+       upon revealing it, as well as when a new point is added and stuff).
+    */
+    componentDidMount() {
+        this.animate();
+    }
+    /* This is where the animation actually happens: 
+       It starts with strokeDashoffset set to the full length, and brings it
+       to 0 over strokeDashoffsetDuration.
+       The parallel just sets a delay so that the two lines can animate
+       independently within the same animation event (not relevant, I just want one line
+       to animate).
+       I think I will ONLY need Animated.delay, not Animated.parallel or Animated.stagger
+      This would need to go in MPGGraph component
+    */
+    animate() {
+        const animation = Animated.sequence([
+            Animated.delay(5000),
+           // Animated.parallel([
+                Animated.timing(this.state.linePath.strokeDashoffset, {
+                    toValue: 0,
+                    duration: strokeDashoffsetDuration
+                })
+                /*
+                Animated.stagger(
+                    staggerLength,
+                    this.points.map(point =>
+                        Animated.spring(point.r, {
+                            toValue: radius,
+                            speed
+                        })
+                    )
+                )
+                */
+            //])
+        ]);
+        animation.start();
+        console.log("the animation should have started, or finished, or something");
+    }
 
   /*
   * I'M KEEPING THIS AROUND BECAUSE WE'LL WANT TO SCROLL
@@ -184,13 +200,13 @@ export default class MPGGraph extends Component {
   *
   * @param: enable: a boolean value for the toggle
   */
-  
+ /* 
   setScrollEnabled(enable) {
     this.setState({
       enable,
     });
   }
-
+*/
   render() {
     const {
       graphWidth,
@@ -246,9 +262,11 @@ function createDateObject(date){
         <Surface width={graphWidth} height={graphHeight}>
           <Group x={0} y={0}>
             <Shape
-              d={linePath}
+              //d={linePath}
+              d={linePath.path}
               stroke={GLOBAL.COLOR.BRAND}
               strokeWidth={3}
+              strokeDash={linePath.strokeDasharray}
             />
             <Shape
               d={fillArea}
