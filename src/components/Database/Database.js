@@ -405,27 +405,28 @@ export function pullMakes(year) {
 }
 
 /*
- * Database function: queryCars()
- * Author: Alec Felt
- *
- * Purpose: gets the years, makes, or models object
- *
- * @param: (path) = string: path to query in database
- *
- * @return: a promise which resolves to an array
- */
-export function queryCars(path){
-    return new Promise((resolve, reject) => {
-        firebaseRef.database().ref(path).once("value")
-        .then(function(snapshot){
-            var arr = [];
-            snapshot.forEach(function(snap){
-                arr[arr.length] = snap.key;
-            });
-            resolve(arr);
-        }).catch( (error) => {
-            console.log("queryCars(): Firebase query error: "+error.message);
-            reject(error);
-        });
+* Database function: pullModels()
+* Author: Connick Shields
+*
+* Purpose: pulls all models of car db from FB
+*
+* @param: year input
+* @return: array of all years
+*/
+export function pullModels(year, make) {
+  if(Auth.checkAuth()) {
+    const query = firebaseRef.database().ref("cars").child(year).child(make);
+
+    return query.once('value').then(function(snapshot){
+      var returnArr = [];
+      snapshot.forEach(function(listItem){
+        var item = listItem.key;
+        returnArr.unshift(item);
+      });
+      return returnArr;
+
+    }).catch(function(error) {
+      console.log('Failed to pull models from firebase:', error);
     });
+  }
 }

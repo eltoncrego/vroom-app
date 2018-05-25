@@ -31,7 +31,7 @@ import {Button} from './../Custom/Button';
 import { goTo, goBack } from '../Navigation/Navigation';
 import VroomAlert from './../Custom/VroomAlert';
 
-import { addCar, pullYears, pullMakes } from '../Database/Database.js';
+import { addCar, pullYears, pullMakes, pullModels } from '../Database/Database.js';
 
 /*
  * Class: AddCar
@@ -61,7 +61,8 @@ export default class AddCar extends Component {
       pageDescriptionSize: new Animated.Value(20),
       topMargin: new Animated.Value(24),
       yearsArr: ['loading'],
-      makesArr: [' select a year first']
+      makesArr: ['select a year first'],
+      modelsArr: ['select a make first'],
     };
   }
 
@@ -72,18 +73,27 @@ export default class AddCar extends Component {
   */
   componentDidMount() {
     pullYears().then(function(fd){
-      console.log(fd);
+      fdn = fd.reverse();
       this.setState({
-        yearsArr: fd,
+        yearsArr: fdn,
       });
     }.bind(this));
   }
 
   updateMakes(year){
     pullMakes(year).then(function(fd){
-      console.log(fd);
+      fdn = fd.reverse();
       this.setState({
-        makesArr: fd,
+        makesArr: fdn,
+      });
+    }.bind(this));
+  }
+
+  updateModels(make){
+    pullMakes(this.state.selectedYear, make).then(function(fd){
+      fdn = fd.reverse();
+      this.setState({
+        makesArr: fdn,
       });
     }.bind(this));
   }
@@ -255,6 +265,10 @@ export default class AddCar extends Component {
             return <Picker.Item key={i} value={s} label={s} />
         });
 
+    let modelItems = this.state.modelsArr.map( (s, i) => {
+            return <Picker.Item key={i} value={s} label={s} />
+        });
+
     return(
       <SafeAreaView style={[
         styleguide.container,
@@ -316,6 +330,7 @@ export default class AddCar extends Component {
               this.setState({selectedYear:year});
               this.updateMakes(year);
             }}
+            style={styles.picker}
           >
             {yearItems}
           </Picker>
@@ -323,10 +338,20 @@ export default class AddCar extends Component {
             selectedValue={this.state.selectedMake}
             onValueChange={ (make) => {
               this.setState({selectedMake:make});
-
+              this.updateModels(make);
             }}
+            style={styles.picker}
           >
             {makeItems}
+          </Picker>
+          <Picker
+            selectedValue={this.state.selectedModel}
+            onValueChange={ (model) => {
+              this.setState({selectedMake:model});
+            }}
+            style={styles.picker}
+          >
+            {modelItems}
           </Picker>
           <Button
              ref="submitButton"
@@ -368,5 +393,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  picker: {
+    height: 50,
+  }
 
 });
