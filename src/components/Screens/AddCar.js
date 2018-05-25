@@ -20,6 +20,7 @@ import {
   Animated,
   TouchableOpacity,
   Keyboard,
+  Picker,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
@@ -30,7 +31,7 @@ import {Button} from './../Custom/Button';
 import { goTo, goBack } from '../Navigation/Navigation';
 import VroomAlert from './../Custom/VroomAlert';
 
-import { initUser, addCar } from '../Database/Database.js';
+import { addCar, pullYears, pullMakes } from '../Database/Database.js';
 
 /*
  * Class: AddCar
@@ -59,15 +60,32 @@ export default class AddCar extends Component {
       pageTextSize: new Animated.Value(25),
       pageDescriptionSize: new Animated.Value(20),
       topMargin: new Animated.Value(24),
+      yearsArr: ['loading'],
+      makesArr: [' select a year first']
     };
   }
 
   /*
   * Function: componentDidMount()
-  * Author: Elton C. Rego
-  * Purpose: nothing right now
+  * Author: Connick Shields
+  * Purpose: load car data from FB
   */
   componentDidMount() {
+    pullYears().then(function(fd){
+      console.log(fd);
+      this.setState({
+        yearsArr: fd,
+      });
+    }.bind(this));
+  }
+
+  updateMakes(year){
+    pullMakes(year).then(function(fd){
+      console.log(fd);
+      this.setState({
+        makesArr: fd,
+      });
+    }.bind(this));
   }
 
  /*
@@ -229,6 +247,14 @@ export default class AddCar extends Component {
 
     var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
 
+    let yearItems = this.state.yearsArr.map( (s, i) => {
+            return <Picker.Item key={i} value={s} label={s} />
+        });
+
+    let makeItems = this.state.makesArr.map( (s, i) => {
+            return <Picker.Item key={i} value={s} label={s} />
+        });
+
     return(
       <SafeAreaView style={[
         styleguide.container,
@@ -284,6 +310,24 @@ export default class AddCar extends Component {
               userNick: text,
             })}}
           />
+          <Picker
+            selectedValue={this.state.selectedYear}
+            onValueChange={ (year) => {
+              this.setState({selectedYear:year});
+              this.updateMakes(year);
+            }}
+          >
+            {yearItems}
+          </Picker>
+          <Picker
+            selectedValue={this.state.selectedMake}
+            onValueChange={ (make) => {
+              this.setState({selectedMake:make});
+
+            }}
+          >
+            {makeItems}
+          </Picker>
           <Button
              ref="submitButton"
              backgroundColor={GLOBAL.COLOR.GREEN}

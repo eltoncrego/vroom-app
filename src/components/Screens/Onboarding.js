@@ -20,6 +20,7 @@ import {
   Animated,
   TouchableOpacity,
   Keyboard,
+  Picker,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';

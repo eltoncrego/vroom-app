@@ -176,7 +176,7 @@ export function setCar(carID) {
 * Database function: pullCars()
 * Author: Connick Shields
 *
-* Purpose: pulls all cars from firebase
+* Purpose: pulls all of a user's cars from firebase
 *
 * @return: array of all cars
 */
@@ -349,6 +349,59 @@ export function removeFillup(i) {
   }).catch(function(error) {
     console.log('Failed to remove fillup data from firebase:', error);
   });
+}
+
+/*
+* Database function: pullYears()
+* Author: Connick Shields
+*
+* Purpose: pulls all years of car db from FB
+*
+* @return: array of all years
+*/
+export function pullYears() {
+  if(Auth.checkAuth()) {
+    const query = firebaseRef.database().ref("cars");
+
+    return query.once('value').then(function(snapshot){
+      var returnArr = [];
+      snapshot.forEach(function(listItem){
+        var item = listItem.key;
+        returnArr.unshift(item);
+      });
+      return returnArr;
+
+    }).catch(function(error) {
+      console.log('Failed to pull years from firebase:', error);
+    });
+  }
+}
+
+/*
+* Database function: pullMakes()
+* Author: Connick Shields
+*
+* Purpose: pulls all makes of car db from FB
+*
+* @param: year input
+* @return: array of all years
+*/
+export function pullMakes(year) {
+  if(Auth.checkAuth()) {
+    const query = firebaseRef.database().ref("cars").child(year);
+
+    return query.once('value').then(function(snapshot){
+      var returnArr = [];
+      snapshot.forEach(function(listItem){
+        var item = listItem.key;
+        returnArr.unshift(item);
+      });
+      return returnArr;
+
+    }).catch(function(error) {
+      console.log('Failed to pull makes from firebase:', error);
+    });
+  }
 }
 
 /*
