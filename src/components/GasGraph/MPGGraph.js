@@ -98,9 +98,27 @@ export default class MPGGraph extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps starts");
+
     this.computeNextState(nextProps);
+    console.log("componentWillReceiveProps has computed next state");
+
+    this.animate(nextProps);
   }
 
+/*
+static getDerivedStateFromProps(newProps){
+  this.computeNextState(newProps);
+  this.animate(newProps);
+
+}
+*/
+/* Causes an infinite loop of computeNextState!
+componentDidUpdate(){
+  this.computeNextState(this.props);
+  this.animate(this.props);
+}
+*/
   computeNextState(nextProps) {
     const {
       data,
@@ -122,16 +140,11 @@ export default class MPGGraph extends Component {
       height: graphHeight,
     });
 
-function createLineProps(path) {
-    return {
-        d: path,
-    };
-}
     this.setState({
       graphWidth,
       graphHeight,
-      //linePath: lineGraph.path,
-      linePath: lineGraph,
+      linePath: lineGraph.path,
+      //linePath: lineGraph,
       // adding fill
       fillArea: lineGraph.fillArea,
       // adding axes
@@ -143,6 +156,18 @@ function createLineProps(path) {
 
   }
 
+  // animation between graph states
+  // borrowed from Mark Kendall at Envy Labs: https://blog.envylabs.com/d3-and-react-cant-we-all-just-be-friends-72075ab1d5ee
+  animate(nextProps){
+    const {
+      data,
+      width,
+      height,
+      xAccessor,
+      yAccessor,
+    } = nextProps;
+  }
+
 createLineProps(path) {
     return {
         d: path,
@@ -150,63 +175,7 @@ createLineProps(path) {
         strokeDasharray: [length, length]
     };
 }
-    /* IMPORTANT: this.animate is called on componentDidMount. I'll probably need to trigger it
-       differently (the component actually mounts while it's still hidden, I'll need to trigger the animation
-       upon revealing it, as well as when a new point is added and stuff).
-    */
-    componentDidMount() {
-        this.animate();
-    }
-    /* This is where the animation actually happens: 
-       It starts with strokeDashoffset set to the full length, and brings it
-       to 0 over strokeDashoffsetDuration.
-       The parallel just sets a delay so that the two lines can animate
-       independently within the same animation event (not relevant, I just want one line
-       to animate).
-       I think I will ONLY need Animated.delay, not Animated.parallel or Animated.stagger
-      This would need to go in MPGGraph component
-    */
-    animate() {
-        const animation = Animated.sequence([
-            Animated.delay(5000),
-           // Animated.parallel([
-                Animated.timing(this.state.linePath.strokeDashoffset, {
-                    toValue: 0,
-                    duration: strokeDashoffsetDuration
-                })
-                /*
-                Animated.stagger(
-                    staggerLength,
-                    this.points.map(point =>
-                        Animated.spring(point.r, {
-                            toValue: radius,
-                            speed
-                        })
-                    )
-                )
-                */
-            //])
-        ]);
-        animation.start();
-        console.log("the animation should have started, or finished, or something");
-    }
 
-  /*
-  * I'M KEEPING THIS AROUND BECAUSE WE'LL WANT TO SCROLL
-  * THE GRAPH AT SOME POINT
-  * function: setScrollEnabled()
-  * Author: Elton C. Rego
-  * Purpose: toggles the availability of the scroll function of this list
-  *
-  * @param: enable: a boolean value for the toggle
-  */
- /* 
-  setScrollEnabled(enable) {
-    this.setState({
-      enable,
-    });
-  }
-*/
   render() {
     const {
       graphWidth,
@@ -248,7 +217,7 @@ function createDateObject(date){
         var mins = date[4];
         var seconds = date[5];
         const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
-        console.log(returnValue);
+        //console.log(returnValue);
         return returnValue;
       }
 
@@ -262,15 +231,16 @@ function createDateObject(date){
         <Surface width={graphWidth} height={graphHeight}>
           <Group x={0} y={0}>
             <Shape
-              //d={linePath}
-              d={linePath.path}
+              d={linePath}
+              //d={linePath.path}
               stroke={GLOBAL.COLOR.BRAND}
               strokeWidth={3}
               //strokeDash={linePath.strokeDasharray}
               /* If I start with strokeDash[0, 10000] and gradually
               // increase to [10000, 10000], it animates...but from
                right to left.  */
-              strokeDash={[2650, 10000]}
+              strokeDash={[10000, 10000]}
+              //strokeDash={[1000, 500]}
             />
             <Shape
               d={fillArea}
@@ -371,7 +341,6 @@ const styles = StyleSheet.create({
 
   tickLabelY: {
     position: 'absolute',
-    left: 0,
     backgroundColor: GLOBAL.COLOR.DARKGRAY,
   },
 

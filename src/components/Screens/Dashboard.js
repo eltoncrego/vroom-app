@@ -419,6 +419,9 @@ export default class Dashboard extends Component {
     pushFillup(newFillup);
     updateMPG(average);
     updateODO(parseFloat(this.state.user_ODO));
+
+    // redraw the graph
+
   }
 
   /*
@@ -436,8 +439,8 @@ export default class Dashboard extends Component {
         return obj.list_i === key;
     });
     const indexOf = this.state.textDataArr.indexOf(itemToRemove);
-    console.log(indexOf);
-    console.log(itemToRemove);
+    //console.log(indexOf);
+    //console.log(itemToRemove);
 
     const mpgRemoved = itemToRemove.distanceSinceLast
       /itemToRemove.gallonsFilled;
@@ -454,7 +457,7 @@ export default class Dashboard extends Component {
     updateODO(ODO);
 
     this.state.textDataArr.pop(itemToRemove);
-    console.log(this.state.textDataArr);
+    //console.log(this.state.textDataArr);
     if(this.state.textDataArr.length == 0){
       Animated.timing(
         this.state.placeholderVisible,
@@ -482,6 +485,8 @@ export default class Dashboard extends Component {
         }
       ).start();
     }
+    // redraw the graph
+
   }
 
   // Call this to test an immediate notification.
@@ -664,7 +669,7 @@ export default class Dashboard extends Component {
     var day = date[2];
     var monthIndex = date[1];
     const returnValue = monthNames[monthIndex] + ' ' + day;
-    console.log(returnValue);
+    //console.log(returnValue);
     return returnValue
   }
 
@@ -684,7 +689,7 @@ export default class Dashboard extends Component {
     var mins = date[4];
     var seconds = date[5];
     const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
-    console.log(returnValue);
+    //console.log(returnValue);
     return returnValue;
   }
 
@@ -696,7 +701,7 @@ export default class Dashboard extends Component {
     isLandscape(){
         let dim = Dimensions.get('screen');
         let returnVal = (dim.width >= dim.height)
-        console.log((returnVal ? "phone is landscape" : "phone is portrait"));
+        //console.log((returnVal ? "phone is landscape" : "phone is portrait"));
         return returnVal;
     }
 

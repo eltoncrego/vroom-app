@@ -16,7 +16,7 @@ import * as scale from 'd3-scale';
 import * as shape from 'd3-shape';
 import * as d3Array from 'd3-array';
 
-import dateFns from 'date-fns'
+import dateFns from 'date-fns';
 // necessary for animation
 import { View, Animated, Dimensions } from 'react-native';
 const d3 = {
@@ -44,7 +44,7 @@ function  createDateObject(date){
     var mins = date[4];
     var seconds = date[5];
     const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
-    console.log(returnValue);
+    //console.log(returnValue);
     return returnValue;
   }
 /**
@@ -123,11 +123,9 @@ export function createLineGraph({
   height,
 }) {
 
-  const lastDatum = data[data.length - 1];
+  console.log("drawing graph!");
 
-  console.log("createLineGraph");
-  console.log("data = " + data);
-  console.log("lastDatum = " + lastDatum);
+  const lastDatum = data[data.length - 1];
 
   /* the x scale should be based on date.
    createLineGraph is sometimes called before fillups are pulled, so have to null check
@@ -165,14 +163,15 @@ export function createLineGraph({
     .x((d) => scaleX(xAccessor(d)))
     .y((d) => scaleY(yAccessor(d)))
     // smooth out the curve
-    .curve(d3.shape.curveMonotoneX);
+    .curve(d3.shape.curveCatmullRom);
 
    // fill in below the graph
    var fillArea = d3.shape.area()
    				.x((d) => scaleX(xAccessor(d)))
    				.y1((d) => scaleY(yAccessor(d)))
    				.y0(scaleY(0))
-   				.curve(d3.shape.curveMonotoneX)
+          .curve(d3.shape.curveCatmullRom)
+
    				;
 
 
