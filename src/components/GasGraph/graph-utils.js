@@ -57,10 +57,6 @@ function  createDateObject(date){
 function createScaleX(start, end, width) {
   console.log("width when creating xScale: " + width);
   return d3.scale.scaleTime()
-    //.domain([new Date(start * 1000), new Date(end * 1000)])
-    // make scale not hardcoded later!
-
-    //.domain([new Date(2018, 0, 1), new Date(2018, 3, 1)])
     .domain([createDateObject(start), createDateObject(end)])
     .range([0, width]);
 }
@@ -152,7 +148,6 @@ export function createLineGraph({
   );
 
   // Collect all y values.
-  
   const allYValues = data.reduce((all, datum) => {
     all.push(yAccessor(datum))
     return all;

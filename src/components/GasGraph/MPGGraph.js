@@ -125,19 +125,6 @@ createDateObject(date){
     //this.animate(nextProps);
   }
 
-/*
-static getDerivedStateFromProps(newProps){
-  this.computeNextState(newProps);
-  this.animate(newProps);
-
-}
-*/
-/* Causes an infinite loop of computeNextState!
-componentDidUpdate(){
-  this.computeNextState(this.props);
-  this.animate(this.props);
-}
-*/
   computeNextState(nextProps) {
     const {
       data,
@@ -154,19 +141,16 @@ componentDidUpdate(){
     if(data[0] != null){
       let lastDate = this.createDateObject(data[0].date);
       let firstDate = this.createDateObject(data[data.length - 1].date);
-
-      console.log("Is the last date a date object?" + isDate(lastDate));
-      console.log("Is the first date a date object?" + isDate(firstDate));
-      //let range = distanceinMilliseconds(data[data.length -1].date, data[0].date);
       range = differenceInCalendarDays(lastDate, firstDate);
 
       console.log(range);
     } 
 
 
-    //const graphWidth = width * (data.length * 0.25);
     console.log("old width: " + width);
-    const graphWidth = width * (range * 0.02);
+    //const graphWidth = (range * 7);
+    const graphWidth = 900;
+
     console.log("new width: " + graphWidth);
 
     const graphHeight = height - verticalPadding * 2;
@@ -189,31 +173,9 @@ componentDidUpdate(){
       // adding axes
       ticks: lineGraph.ticks,
       scale: lineGraph.scale,
-      //strokeDashoffset: lineGraph.strokeDashoffset,
-      //strokeDasharray: lineGraph.strokeDasharray,
     });
 
   }
-
-  // animation between graph states
-  // borrowed from Mark Kendall at Envy Labs: https://blog.envylabs.com/d3-and-react-cant-we-all-just-be-friends-72075ab1d5ee
-  animate(nextProps){
-    const {
-      data,
-      width,
-      height,
-      xAccessor,
-      yAccessor,
-    } = nextProps;
-  }
-
-createLineProps(path) {
-    return {
-        d: path,
-        //strokeDashoffset: new Animated.Value(length),
-        //strokeDasharray: [length, length]
-    };
-}
 
   render() {
     const {
@@ -253,15 +215,8 @@ createLineProps(path) {
           <Group x={0} y={0}>
             <Shape
               d={linePath}
-              //d={linePath.path}
               stroke={GLOBAL.COLOR.BRAND}
               strokeWidth={3}
-              //strokeDash={linePath.strokeDasharray}
-              /* If I start with strokeDash[0, 10000] and gradually
-              // increase to [10000, 10000], it animates...but from
-               right to left.  */
-              //strokeDash={[10000, 10000]}
-              //strokeDash={[1000, 500]}
             />
             <Shape
               d={fillArea}
@@ -371,7 +326,6 @@ const styles = StyleSheet.create({
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
     left: 15,
-    //top: ,
 
   },
   // styling for the dots on the line graph
