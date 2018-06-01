@@ -44,8 +44,8 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
  *
  */
 
-const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+// const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+// const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
 export default class MapScreen extends Component {
 
@@ -72,11 +72,12 @@ export default class MapScreen extends Component {
             distance: 0,
             destination: null,
             mapActive: false,
+            fetched: 'false',
         };
         this.mergeLot = this.mergeLot.bind(this);
     }
 
-  componentWillMount() {
+  componentDidMount() {
     navigator.geolocation.getCurrentPosition(
        (position) => {
          console.log("Position is:");
@@ -86,7 +87,7 @@ export default class MapScreen extends Component {
            longitude: position.coords.longitude,
            error: null,
          });
-         this.mergeLot();
+         //this.mergeLot();
        },
        (error) => this.setState({ error: error.message }),
        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
@@ -99,7 +100,7 @@ export default class MapScreen extends Component {
 
    mergeLot(){
     if (this.state.latitude != null && this.state.longitude != null
-        && this.state.destLatitude != null && this.state.destLatitude != null) {
+        && this.state.destLatitude != null && this.state.destLatitude != null && this.state.fetched) {
       let concated = this.state.latitude + "," + this.state.longitude;
       let dest = this.state.destLatitude + "," + this.state.destLongitude;
       this.setState({
@@ -115,6 +116,7 @@ export default class MapScreen extends Component {
       let resp = await fetch(
         `https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
       let respJson = await resp.json();
+      this.setState({fetched: 'true'});
       let points = polyline.decode(respJson.routes[0].overview_polyline.points);
       let coords = points.map((point, index) => {
         return {
@@ -124,12 +126,9 @@ export default class MapScreen extends Component {
       });
       this.setState({coords: coords});
       this.setState({x: "true"});
-
-      // console.log("Num legs is: " + respJson.routes[0].legs.length);
       let meters = respJson.routes[0].legs[0].distance.value;
       console.log("Distance: " + meters + " meters");
       this.setState({distance: meters});
-
       return coords;
     } catch (error) {
       console.log(error);
@@ -158,7 +157,7 @@ export default class MapScreen extends Component {
       {this.state.mapActive ?
       <View style={styles.switcher}>
         <Button
-          backgroundColor={GLOBAL.COLOR.GREEN}
+          backgroundColor={GLOBAL.COLOR.BRAND}
           label={"Want to go somewhere else?"}
           //height={64}
           //marginTop={16}
@@ -188,6 +187,7 @@ export default class MapScreen extends Component {
                 destLongitude: parseFloat(details.geometry.location.lng),
               }
             );
+            this.mergeLot();
           }}
           getDefaultValue={() => ''}
           query={{
@@ -219,7 +219,7 @@ export default class MapScreen extends Component {
             types: 'food'
           }}
           filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-          predefinedPlaces={[homePlace, workPlace]}
+          //predefinedPlaces={[homePlace, workPlace]}
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
         />
 
@@ -246,17 +246,19 @@ export default class MapScreen extends Component {
                 coordinate={{"latitude":this.state.destLatitude,"longitude":this.state.destLongitude}}
                 title={"Your Destination"}
               />
-            }
+            }            
 
-            {!!this.state.latitude && !!this.state.longitude && this.state.x == 'true' && 
+            {
+              !!this.state.latitude && !!this.state.longitude && this.state.fetched && //this.state.x == 'true' && 
               <MapView.Polyline
                 coordinates={this.state.coords}
                 strokeWidth={5}
-                strokeColor="blue"
+                strokeColor={GLOBAL.COLOR.BLUE}
               />
             }
 
-            {!!this.state.latitude && !!this.state.longitude && this.state.x == 'error' && 
+            {/*
+              !!this.state.latitude && !!this.state.longitude && this.state.x == 'error' && 
               <MapView.Polyline
                 coordinates={[
                   {latitude: this.state.latitude, longitude: this.state.longitude},
@@ -265,7 +267,7 @@ export default class MapScreen extends Component {
                 strokeWidth={5}
                 strokeColor="blue"
               />
-             }
+             */}
           </MapView> : null}
         </View>
       </View>

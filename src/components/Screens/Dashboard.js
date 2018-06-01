@@ -102,8 +102,8 @@ export default class Dashboard extends Component {
       isPremium: false,
 
       // Vars for trip planning
-      // averageDistanceBtwnFillups: 0,
-      // averageFillupCost: 0,
+      averageDistanceBtwnFillups: 0,
+      averageFillupCost: 0,
     };
   }
 
@@ -369,10 +369,10 @@ export default class Dashboard extends Component {
     const mpg = distance/parseFloat(this.state.user_filled);
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
-    // const averageDistance =
-      // ((this.state.averageDistanceBtwnFillups * (this.state.textDataArr.length))+distance)/(this.state.textDataArr.length+1);
-    // const averageCost =
-      // ((this.state.averageFillupCost * (this.state.textDataArr.length))+totalPrice)/(this.state.textDataArr.length+1);
+    const averageDistance =
+      ((this.state.averageDistanceBtwnFillups * (this.state.textDataArr.length))+distance)/(this.state.textDataArr.length+1);
+    const averageCost =
+      ((this.state.averageFillupCost * (this.state.textDataArr.length))+totalPrice)/(this.state.textDataArr.length+1);
     const creationDate = moment().toArray();
 
     this.closeTransaction();
@@ -400,8 +400,8 @@ export default class Dashboard extends Component {
     ).start(() => {
       this.setState({
         averageMPG: average,
-        // averageDistanceBtwnFillups: averageDistance,
-        // averageFillupCost: averageCost,
+        averageDistanceBtwnFillups: averageDistance,
+        averageFillupCost: averageCost,
         updatedODO: this.state.user_ODO,
         textDataArr: [newFillup, ...this.state.textDataArr],
         user_paid: "",
@@ -440,9 +440,21 @@ export default class Dashboard extends Component {
     const mpgRemoved = itemToRemove.distanceSinceLast
       /itemToRemove.gallonsFilled;
 
+    // const distanceRemoved = itemToRemove.
+
     const averageMPG = this.state.textDataArr.length == 1 ? 0 :
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
       /(this.state.textDataArr.length - 1);
+
+    // const averageDistance =
+    //   ((this.state.averageDistanceBtwnFillups * (this.state.textDataArr.length))+distance)/(this.state.textDataArr.length+1);
+    // const averageDistance = this.state.textDataArr.length == 1 ? 0 :
+    //   (this.state.averageDistanceBtwnFillups - this.state.textDataArr.length - distanceRemoved)
+    //   /(this.state.textDataArr.length - 1);
+
+    // const averageCost =
+    //   ((this.state.averageFillupCost * (this.state.textDataArr.length))+totalPrice)/(this.state.textDataArr.length+1);
+
 
     const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO :
       this.state.textDataArr[1].odometer;
@@ -469,6 +481,8 @@ export default class Dashboard extends Component {
       list_i: this.state.list_i - 1,
       graphToggleable: this.state.list_i - 1 >= 5 ? true : false,
       averageMPG: averageMPG,
+      averageDistanceBtwnFillups: averageDistance,
+      averageFillupCost: averageCost,
       updatedODO: ODO,
     });
     if(key == 5){
