@@ -226,6 +226,250 @@ export default class MapScreen extends Component {
          {this.state.mapActive ?
           <MapView
             style={styles.map}
+            customMapStyle={[
+ {
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "color": "#f5f5f5"
+     }
+   ]
+ },
+ {
+   "elementType": "labels",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "elementType": "labels.icon",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "elementType": "labels.text.fill",
+   "stylers": [
+     {
+       "color": "#616161"
+     }
+   ]
+ },
+ {
+   "elementType": "labels.text.stroke",
+   "stylers": [
+     {
+       "color": "#f5f5f5"
+     }
+   ]
+ },
+ {
+   "featureType": "administrative",
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "administrative.land_parcel",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "administrative.land_parcel",
+   "elementType": "labels.text.fill",
+   "stylers": [
+     {
+       "color": "#bdbdbd"
+     }
+   ]
+ },
+ {
+   "featureType": "administrative.neighborhood",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi",
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "color": "#eeeeee"
+     }
+   ]
+ },
+ {
+   "featureType": "poi",
+   "elementType": "labels.text.fill",
+   "stylers": [
+     {
+       "color": "#757575"
+     }
+   ]
+ },
+ {
+   "featureType": "poi.park",
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "color": "#e5e5e5"
+     }
+   ]
+ },
+ {
+   "featureType": "poi.park",
+   "elementType": "labels.text.fill",
+   "stylers": [
+     {
+       "color": "#9e9e9e"
+     }
+   ]
+ },
+ {
+   "featureType": "road",
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "color": "#ffffff"
+     }
+   ]
+ },
+ {
+   "featureType": "road",
+   "elementType": "labels.icon",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road.arterial",
+   "elementType": "labels",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road.arterial",
+   "elementType": "labels.text.fill",
+   "stylers": [
+     {
+       "color": "#757575"
+     }
+   ]
+ },
+ {
+   "featureType": "road.highway",
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "color": "#dadada"
+     }
+   ]
+ },
+ {
+   "featureType": "road.highway",
+   "elementType": "labels",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road.highway",
+   "elementType": "labels.text.fill",
+   "stylers": [
+     {
+       "color": "#616161"
+     }
+   ]
+ },
+ {
+   "featureType": "road.local",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road.local",
+   "elementType": "labels.text.fill",
+   "stylers": [
+     {
+       "color": "#9e9e9e"
+     }
+   ]
+ },
+ {
+   "featureType": "transit",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "transit.line",
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "color": "#e5e5e5"
+     }
+   ]
+ },
+ {
+   "featureType": "transit.station",
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "color": "#eeeeee"
+     }
+   ]
+ },
+ {
+   "featureType": "water",
+   "elementType": "geometry",
+   "stylers": [
+     {
+       "color": "#c9c9c9"
+     }
+   ]
+ },
+ {
+   "featureType": "water",
+   "elementType": "labels.text.fill",
+   "stylers": [
+     {
+       "color": "#9e9e9e"
+     }
+   ]
+ }
+]}
             provider={ PROVIDER_GOOGLE }
             initialRegion={{ 
                 latitude: /*this.state.latitude == null ? 37.052155 : */this.state.latitude,
@@ -238,6 +482,7 @@ export default class MapScreen extends Component {
                 <MapView.Marker
                     coordinate={{"latitude":this.state.latitude,"longitude":this.state.longitude}}
                     title={"Your Location"}
+                    pinColor={GLOBAL.COLOR.BRAND}
                 />
             }     
 
@@ -245,6 +490,7 @@ export default class MapScreen extends Component {
               <MapView.Marker
                 coordinate={{"latitude":this.state.destLatitude,"longitude":this.state.destLongitude}}
                 title={"Your Destination"}
+                pinColor={GLOBAL.COLOR.BRAND}
               />
             }            
 
@@ -253,7 +499,7 @@ export default class MapScreen extends Component {
               <MapView.Polyline
                 coordinates={this.state.coords}
                 strokeWidth={5}
-                strokeColor={GLOBAL.COLOR.BLUE}
+                strokeColor={GLOBAL.COLOR.DARKBLUE}
               />
             }
 
