@@ -421,7 +421,7 @@ export default class Dashboard extends Component {
     updateODO(parseFloat(this.state.user_ODO));
 
     // redraw the graph
-
+    
   }
 
   /*
@@ -604,7 +604,7 @@ export default class Dashboard extends Component {
         }
       });
     }).catch(function(error) {
-      console.log('Failed to load user permiission data into state:', error);
+      console.log('Failed to load user permission data into state:', error);
     });
   }
 

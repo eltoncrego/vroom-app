@@ -55,6 +55,7 @@ function  createDateObject(date){
  * @return {Function} D3 scale instance.
  */
 function createScaleX(start, end, width) {
+  console.log("width when creating xScale: " + width);
   return d3.scale.scaleTime()
     //.domain([new Date(start * 1000), new Date(end * 1000)])
     // make scale not hardcoded later!
@@ -78,7 +79,7 @@ function createScaleY(minY, maxY, height) {
     .range([height, 0]);
 }
 
-
+/*
 export function animateLineGraph(linePath, duration){
 
   const animation = Animated.sequence([
@@ -98,11 +99,11 @@ export function animateLineGraph(linePath, duration){
                         })
                     )
                 )
-                */
             //])
         ]);
         animation.start();  
 }
+*/
 /**
  * Creates a line graph SVG path that we can then use to render in our
  * React Native application with ART.
@@ -124,6 +125,8 @@ export function createLineGraph({
 }) {
 
   console.log("drawing graph!");
+  console.log("New Data: ");
+  console.log(data);
 
   const lastDatum = data[data.length - 1];
 
@@ -173,7 +176,8 @@ export function createLineGraph({
           .curve(d3.shape.curveCatmullRom)
 
    				;
-
+  console.log("new path = ");
+  console.log(lineShape(data));
 
   return {
   	data,
@@ -184,9 +188,10 @@ export function createLineGraph({
 
     path: lineShape(data),
     fillArea: fillArea(data),
+    /*
     strokeDashoffset: new Animated.Value(width),
     strokeDasharray: [width, width],
-
+*/
     /* returning additional information for axes */
     ticks: data.map((datum) => {
     	const date = xAccessor(datum);

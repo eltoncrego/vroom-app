@@ -43,7 +43,7 @@ import {
 } from '../Database/Database.js';
 
 // For formatting dates
-import { format, setHours } from 'date-fns';
+import { format, setHours, differenceInCalendarDays, isDate} from 'date-fns';
 
 const {
   Group,
@@ -92,6 +92,25 @@ export default class MPGGraph extends Component {
     fillArea: '',
   };
 
+  /* SHOULD REALLY IMPORT THIS BUT I COPIED IT FOR NOW
+  * Function: createDateObject()
+  * Author: Elton C. Rego
+  * Purpose: Returns a date objecy based on the given date json
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
+createDateObject(date){
+        var year = date[0];
+        var month = date[1];
+        var day = date[2];
+        var hours = date[3];
+        var mins = date[4];
+        var seconds = date[5];
+        const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
+        //console.log(returnValue);
+        return returnValue;
+      }
 
   componentWillMount() {
     this.computeNextState(this.props);
@@ -103,7 +122,7 @@ export default class MPGGraph extends Component {
     this.computeNextState(nextProps);
     console.log("componentWillReceiveProps has computed next state");
 
-    this.animate(nextProps);
+    //this.animate(nextProps);
   }
 
 /*
@@ -128,8 +147,28 @@ componentDidUpdate(){
       yAccessor,
     } = nextProps;
 
+    // right now this is based on how many fillups there are, which is dumb. It should be based on the dates
+ 
+    var range = 0;
 
-    const graphWidth = width * (data.length * 0.25);
+    if(data[0] != null){
+      let lastDate = this.createDateObject(data[0].date);
+      let firstDate = this.createDateObject(data[data.length - 1].date);
+
+      console.log("Is the last date a date object?" + isDate(lastDate));
+      console.log("Is the first date a date object?" + isDate(firstDate));
+      //let range = distanceinMilliseconds(data[data.length -1].date, data[0].date);
+      range = differenceInCalendarDays(lastDate, firstDate);
+
+      console.log(range);
+    } 
+
+
+    //const graphWidth = width * (data.length * 0.25);
+    console.log("old width: " + width);
+    const graphWidth = width * (range * 0.02);
+    console.log("new width: " + graphWidth);
+
     const graphHeight = height - verticalPadding * 2;
 
     const lineGraph = graphUtils.createLineGraph({
@@ -141,7 +180,7 @@ componentDidUpdate(){
     });
 
     this.setState({
-      graphWidth,
+      graphWidth: graphWidth,
       graphHeight,
       linePath: lineGraph.path,
       //linePath: lineGraph,
@@ -150,8 +189,8 @@ componentDidUpdate(){
       // adding axes
       ticks: lineGraph.ticks,
       scale: lineGraph.scale,
-      strokeDashoffset: lineGraph.strokeDashoffset,
-      strokeDasharray: lineGraph.strokeDasharray,
+      //strokeDashoffset: lineGraph.strokeDashoffset,
+      //strokeDasharray: lineGraph.strokeDasharray,
     });
 
   }
@@ -171,8 +210,8 @@ componentDidUpdate(){
 createLineProps(path) {
     return {
         d: path,
-        strokeDashoffset: new Animated.Value(length),
-        strokeDasharray: [length, length]
+        //strokeDashoffset: new Animated.Value(length),
+        //strokeDasharray: [length, length]
     };
 }
 
@@ -201,25 +240,7 @@ createLineProps(path) {
 
 
 
-  /* SHOULD REALLY IMPORT THIS BUT I COPIED IT FOR NOW
-  * Function: createDateObject()
-  * Author: Elton C. Rego
-  * Purpose: Returns a date objecy based on the given date json
-  *   in an array format
-  *
-  * @param: date - a date object formatted in array scope
-  */
-function createDateObject(date){
-        var year = date[0];
-        var month = date[1];
-        var day = date[2];
-        var hours = date[3];
-        var mins = date[4];
-        var seconds = date[5];
-        const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
-        //console.log(returnValue);
-        return returnValue;
-      }
+
 
     return (
     <ScrollView 
@@ -239,7 +260,7 @@ function createDateObject(date){
               /* If I start with strokeDash[0, 10000] and gradually
               // increase to [10000, 10000], it animates...but from
                right to left.  */
-              strokeDash={[10000, 10000]}
+              //strokeDash={[10000, 10000]}
               //strokeDash={[1000, 500]}
             />
             <Shape
@@ -258,7 +279,7 @@ function createDateObject(date){
             tickStyles.width = TickWidth;
             tickStyles.left = tick.x - (TickWidth / 2);
             // convert the date array for each tick to a Date object
-            let tickDate = createDateObject(tick.datum.date);
+            let tickDate = this.createDateObject(tick.datum.date);
             // convert to string in format: "Feb 12"
             let formattedTickDate = format(tickDate, 'MMM DD');
 
