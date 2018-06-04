@@ -62,7 +62,7 @@ const horizontalPadding = 40;
 const verticalPadding = 10;
 
 // tick width for axes
-const TickWidth = 100 ;
+const TickWidth = 100;
 
 const dimensionWindow = Dimensions.get('window');
 
@@ -108,7 +108,6 @@ createDateObject(date){
         var mins = date[4];
         var seconds = date[5];
         const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
-        //console.log(returnValue);
         return returnValue;
       }
 
@@ -117,12 +116,7 @@ createDateObject(date){
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps starts");
-
     this.computeNextState(nextProps);
-    console.log("componentWillReceiveProps has computed next state");
-
-    //this.animate(nextProps);
   }
 
   computeNextState(nextProps) {
@@ -134,10 +128,24 @@ createDateObject(date){
       yAccessor,
     } = nextProps;
 
-    // right now this is based on how many fillups there are, which is dumb. It should be based on the dates
- 
+    /*
+     *
+     * NOTE: The width of the graph should vary based on the range
+     * between the first and the last fillup. This works, except when
+     * adding a new fillup. Everything except the two paths (path and fillArea)
+     * figures out the new width correctly. However, the paths get "stretched"
+     * to a width much beyond the actual new width...until you reload the app.
+     * Then everything's fine. Console logging the width at several different points in
+     * the code did not provide any clues, the width and even the paths are calculated 
+     * correctly. They're just being displayed wrong. 
+     *
+     * To circumvent these issues (yuck), the graph width remains constant. This makes the line
+     * draw properly for some reason, but will become an issue after enough time (a year?) of fillups,
+     * because the graph will get "squished", with points too close to each other. 
+     *
+     */
+/*
     var range = 0;
-
     if(data[0] != null){
       let lastDate = this.createDateObject(data[0].date);
       let firstDate = this.createDateObject(data[data.length - 1].date);
@@ -145,16 +153,11 @@ createDateObject(date){
 
       console.log(range);
     } 
-
-
-    console.log("old width: " + width);
-    //const graphWidth = (range * 7);
+    console.log("old width: " + width); 
+    const graphWidth = (range * 7);
+*/
     const graphWidth = 900;
-
-    console.log("new width: " + graphWidth);
-
     const graphHeight = height - verticalPadding * 2;
-
     const lineGraph = graphUtils.createLineGraph({
       data,
       xAccessor,
@@ -167,7 +170,6 @@ createDateObject(date){
       graphWidth: graphWidth,
       graphHeight,
       linePath: lineGraph.path,
-      //linePath: lineGraph,
       // adding fill
       fillArea: lineGraph.fillArea,
       // adding axes
@@ -199,10 +201,6 @@ createDateObject(date){
     } = this.props;
 
     const tickYFormat = scaleY.tickFormat(null, '.2f');
-
-
-
-
 
     return (
     <ScrollView 
@@ -317,7 +315,7 @@ const styles = StyleSheet.create({
 
   tickLabelY: {
     position: 'absolute',
-    backgroundColor: GLOBAL.COLOR.DARKGRAY,
+    backgroundColor: 'transparent',
   },
 
   tickLabelYText: {

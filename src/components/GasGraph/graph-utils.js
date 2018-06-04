@@ -17,8 +17,6 @@ import * as shape from 'd3-shape';
 import * as d3Array from 'd3-array';
 
 import dateFns from 'date-fns';
-// necessary for animation
-import { View, Animated, Dimensions } from 'react-native';
 const d3 = {
   scale,
   shape,
@@ -44,7 +42,6 @@ function  createDateObject(date){
     var mins = date[4];
     var seconds = date[5];
     const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
-    //console.log(returnValue);
     return returnValue;
   }
 /**
@@ -75,31 +72,6 @@ function createScaleY(minY, maxY, height) {
     .range([height, 0]);
 }
 
-/*
-export function animateLineGraph(linePath, duration){
-
-  const animation = Animated.sequence([
-            Animated.delay(5000),
-           // Animated.parallel([
-                Animated.timing(linePath.strokeDashoffset, {
-                    toValue: 0,
-                    duration: duration 
-                })
-                /*
-                Animated.stagger(
-                    staggerLength,
-                    this.points.map(point =>
-                        Animated.spring(point.r, {
-                            toValue: radius,
-                            speed
-                        })
-                    )
-                )
-            //])
-        ]);
-        animation.start();  
-}
-*/
 /**
  * Creates a line graph SVG path that we can then use to render in our
  * React Native application with ART.
@@ -119,10 +91,6 @@ export function createLineGraph({
   width,
   height,
 }) {
-
-  console.log("drawing graph!");
-  console.log("New Data: ");
-  console.log(data);
 
   const lastDatum = data[data.length - 1];
 
@@ -183,10 +151,6 @@ export function createLineGraph({
 
     path: lineShape(data),
     fillArea: fillArea(data),
-    /*
-    strokeDashoffset: new Animated.Value(width),
-    strokeDasharray: [width, width],
-*/
     /* returning additional information for axes */
     ticks: data.map((datum) => {
     	const date = xAccessor(datum);
