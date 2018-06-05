@@ -167,7 +167,7 @@ export function pullFillups() {
     var returnArr = [];
     snapshot.forEach(function(listItem){
       var item = listItem.val();
-      console.log(item);
+      //console.log(item);
       returnArr.unshift(item);
     });
     return returnArr;
