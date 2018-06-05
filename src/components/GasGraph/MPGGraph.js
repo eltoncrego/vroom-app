@@ -199,6 +199,24 @@ createDateObject(date){
 
     const tickYFormat = scaleY.tickFormat(null, '.2f');
 
+  /* SHOULD REALLY IMPORT THIS BUT I COPIED IT FOR NOW
+  * Function: createDateObject()
+  * Author: Elton C. Rego
+  * Purpose: Returns a date objecy based on the given date json
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
+function createDateObject(date){
+        var year = date[0];
+        var month = date[1];
+        var day = date[2];
+        var hours = date[3];
+        var mins = date[4];
+        var seconds = date[5];
+        const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
+        return returnValue;
+      }
     return (
     <ScrollView 
       horizontal={true}

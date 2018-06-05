@@ -72,7 +72,6 @@ export default class GasList extends Component {
   * Purpose: renders a separator for each item of the gaslist
   */
   deleted(key) {
-    console.log("Removing value at key: " + key);
     this.props.removeItem(key);
   }
 

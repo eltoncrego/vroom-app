@@ -16,6 +16,7 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 import Login from '../Screens/Login';
 import Dashboard from '../Screens/Dashboard';
 import Onboarding from '../Screens/Onboarding';
+import AddCar from '../Screens/AddCar';
 import ForgotPassword from '../Screens/ForgotPassword';
 import MapScreen from '../Screens/MapScreen';
 
@@ -69,6 +70,13 @@ export const SignedIn = StackNavigator({
       header: null,
       title: "Map Screen",
       gesturesEnabled: false,
+    }
+  },
+  AddCar: {
+    screen: AddCar,
+    navigationOptions: {
+      header: null,
+      title: "Add a Car",
     }
   },
 });

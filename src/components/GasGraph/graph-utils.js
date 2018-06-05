@@ -4,9 +4,9 @@
  * Several functions that use D3 to generate the graph,
  * including the path the line follows, the scales, and anything else
  * that should live in its own utils component.
- * 
+ *
  * AUTHOR: Will Coates
- * (Originally copied from Harry Wolff's WeatherGraph example: 
+ * (Originally copied from Harry Wolff's WeatherGraph example:
  *  https://github.com/hswolff/BetterWeather
  *  I have modified it to fit our needs. )
  *
@@ -91,24 +91,17 @@ export function createLineGraph({
   width,
   height,
 }) {
-
-  const lastDatum = data[data.length - 1];
-
-  /* the x scale should be based on date.
-   createLineGraph is sometimes called before fillups are pulled, so have to null check
-   and start with dummy values */
-  let xScaleStart = dummyDate;
-  let xScaleEnd = dummyDate;
-
-  // if createLineGraph is being called after fillups are pulled, then set the
-  // scale to the proper values  
+  // the x scale should be based on date
+  // createLineGraph is sometimes called before
+  // fillups are pulled, so have to null check
+  // and start with dummy values
+  let xScaleStart = new Date(2018, 0, 1);
+  let xScaleEnd = new Date(2018, 0, 2);
   if(data[0] != null){
   	// counterintuitively, the date scale must be reversed
   	xScaleStart = lastDatum.date;
   	xScaleEnd = data[0].date;
-  } 
- 
-  // actually create the scale 
+  }
   const scaleX = createScaleX(
   	xScaleStart,
   	xScaleEnd,
@@ -120,7 +113,7 @@ export function createLineGraph({
     all.push(yAccessor(datum))
     return all;
   }, []);
-  
+
   // Get the min and max y value.
   const extentY = d3Array.extent(allYValues);
   const scaleY = createScaleY(extentY[0], extentY[1], height);
