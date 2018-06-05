@@ -372,7 +372,7 @@ export default class Dashboard extends Component {
     const averageDistance =
       ((this.state.averageDistanceBtwnFillups * (this.state.textDataArr.length))+distance)/(this.state.textDataArr.length+1);
     const averageCost =
-      ((this.state.averageFillupCost * (this.state.textDataArr.length))+totalPrice)/(this.state.textDataArr.length+1);
+      ((this.state.averageFillupCost * (this.state.textDataArr.length))+this.state.user_paid)/(this.state.textDataArr.length+1);
     const creationDate = moment().toArray();
 
     this.closeTransaction();
