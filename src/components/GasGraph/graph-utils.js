@@ -16,13 +16,16 @@ import * as scale from 'd3-scale';
 import * as shape from 'd3-shape';
 import * as d3Array from 'd3-array';
 
-import dateFns from 'date-fns'
-
+import dateFns from 'date-fns';
 const d3 = {
   scale,
   shape,
 };
 
+// various magic numbers
+const domainPadding = 10;
+const dummyDate = new Date(2018, 0, 1);
+  
 /*
   * Function: createDateObject()
   * Author: Elton C. Rego
@@ -39,7 +42,6 @@ function  createDateObject(date){
     var mins = date[4];
     var seconds = date[5];
     const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
-    console.log(returnValue);
     return returnValue;
   }
 /**
@@ -50,11 +52,8 @@ function  createDateObject(date){
  * @return {Function} D3 scale instance.
  */
 function createScaleX(start, end, width) {
+  console.log("width when creating xScale: " + width);
   return d3.scale.scaleTime()
-    //.domain([new Date(start * 1000), new Date(end * 1000)])
-    // make scale not hardcoded later!
-
-    //.domain([new Date(2018, 0, 1), new Date(2018, 3, 1)])
     .domain([createDateObject(start), createDateObject(end)])
     .range([0, width]);
 }
@@ -68,7 +67,7 @@ function createScaleX(start, end, width) {
  */
 function createScaleY(minY, maxY, height) {
   return d3.scale.scaleLinear()
-    .domain([minY, maxY]).nice()
+    .domain([minY - domainPadding, maxY + domainPadding]).nice()
     // We invert our range so it outputs using the axis that React uses.
     .range([height, 0]);
 }
@@ -76,6 +75,7 @@ function createScaleY(minY, maxY, height) {
 /**
  * Creates a line graph SVG path that we can then use to render in our
  * React Native application with ART.
+ * Author: Will Coates
  * @param {Array.<Object>} options.data Array of data we'll use to create
  *   our graphs from.
  * @param {function} xAccessor Function to access the x value from our data.
@@ -91,33 +91,24 @@ export function createLineGraph({
   width,
   height,
 }) {
+
   const lastDatum = data[data.length - 1];
 
-  console.log("createLineGraph");
-  console.log("data = " + data);
-  console.log("lastDatum = " + lastDatum);
-  
-  
-  if(lastDatum != null){
+  /* the x scale should be based on date.
+   createLineGraph is sometimes called before fillups are pulled, so have to null check
+   and start with dummy values */
+  let xScaleStart = dummyDate;
+  let xScaleEnd = dummyDate;
 
-  	console.log("lastDatum.date = " + lastDatum.date);
-  }
-
-  // the x scale should be based on date
-  // createLineGraph is sometimes called before
-  // fillups are pulled, so have to null check
-  // and start with dummy values
-  let xScaleStart = new Date(2018, 0, 1);
-  let xScaleEnd = new Date(2018, 0, 2);
-  
+  // if createLineGraph is being called after fillups are pulled, then set the
+  // scale to the proper values  
   if(data[0] != null){
-  	// somehow it's backwards!
-  	//xScaleStart = data[0].date;
-  	//xScaleEnd = lastDatum.date;
+  	// counterintuitively, the date scale must be reversed
   	xScaleStart = lastDatum.date;
   	xScaleEnd = data[0].date;
   } 
-  
+ 
+  // actually create the scale 
   const scaleX = createScaleX(
   	xScaleStart,
   	xScaleEnd,
@@ -125,7 +116,6 @@ export function createLineGraph({
   );
 
   // Collect all y values.
-  
   const allYValues = data.reduce((all, datum) => {
     all.push(yAccessor(datum))
     return all;
@@ -134,15 +124,23 @@ export function createLineGraph({
   // Get the min and max y value.
   const extentY = d3Array.extent(allYValues);
   const scaleY = createScaleY(extentY[0], extentY[1], height);
-
+  // create the line generator function, with x/y coordinates for each point
   const lineShape = d3.shape.line()
     .x((d) => scaleX(xAccessor(d)))
     .y((d) => scaleY(yAccessor(d)))
-
     // smooth out the curve
-    //.curve(d3.curveMonotoneX)
-    .curve(d3.shape.curveMonotoneX)
-    ;
+    .curve(d3.shape.curveCatmullRom);
+
+   // fill in below the graph
+   var fillArea = d3.shape.area()
+   				.x((d) => scaleX(xAccessor(d)))
+   				.y1((d) => scaleY(yAccessor(d)))
+   				.y0(scaleY(0))
+          .curve(d3.shape.curveCatmullRom)
+
+   				;
+  console.log("new path = ");
+  console.log(lineShape(data));
 
   return {
   	data,
@@ -152,7 +150,7 @@ export function createLineGraph({
   	},
 
     path: lineShape(data),
-
+    fillArea: fillArea(data),
     /* returning additional information for axes */
     ticks: data.map((datum) => {
     	const date = xAccessor(datum);

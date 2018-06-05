@@ -105,6 +105,14 @@ export default class Dashboard extends Component {
       averageDistanceBtwnFillups: 0,
       averageFillupCost: 0,
     };
+    // event listener to detect orientation changes
+    Dimensions.addEventListener('change', () => {
+      let value = this.isLandscape();
+      this.setState({
+        landscape: value,
+      });
+        console.log("Is the phone now landscape? " + this.state.landscape);
+    });
   }
 
  /*
@@ -417,6 +425,9 @@ export default class Dashboard extends Component {
     pushFillup(newFillup);
     updateMPG(average);
     updateODO(parseFloat(this.state.user_ODO));
+
+    // redraw the graph
+    
   }
 
   /*
@@ -434,8 +445,8 @@ export default class Dashboard extends Component {
         return obj.list_i === key;
     });
     const indexOf = this.state.textDataArr.indexOf(itemToRemove);
-    console.log(indexOf);
-    console.log(itemToRemove);
+    //console.log(indexOf);
+    //console.log(itemToRemove);
 
     const mpgRemoved = itemToRemove.distanceSinceLast
       /itemToRemove.gallonsFilled;
@@ -464,7 +475,7 @@ export default class Dashboard extends Component {
     updateODO(ODO);
 
     this.state.textDataArr.pop(itemToRemove);
-    console.log(this.state.textDataArr);
+    //console.log(this.state.textDataArr);
     if(this.state.textDataArr.length == 0){
       Animated.timing(
         this.state.placeholderVisible,
@@ -494,6 +505,8 @@ export default class Dashboard extends Component {
         }
       ).start();
     }
+    // redraw the graph
+
   }
 
 
@@ -553,6 +566,7 @@ export default class Dashboard extends Component {
         // Use this line in release
         const notif = new Notifications();
         notif.requestPermission();
+        notif.showLocalNotification();
 
         if (fData.length <= 1){
           notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
@@ -590,6 +604,8 @@ export default class Dashboard extends Component {
       }).catch(function(error) {
         console.log('Failed to load user permission data into state:', error);
       });
+    }).catch(function(error) {
+      console.log('Failed to load user permission data into state:', error);
     });
   }
 
@@ -654,7 +670,7 @@ export default class Dashboard extends Component {
     var day = date[2];
     var monthIndex = date[1];
     const returnValue = monthNames[monthIndex] + ' ' + day;
-    console.log(returnValue);
+    //console.log(returnValue);
     return returnValue
   }
 
@@ -674,10 +690,23 @@ export default class Dashboard extends Component {
     var mins = date[4];
     var seconds = date[5];
     const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
-    console.log(returnValue);
+    //console.log(returnValue);
     return returnValue;
   }
 
+    /* Function: isLandscape
+    *  Author: Will Coates
+    *  Detects if the phone is oriented in landscape mode
+    *  Borrowed from: https://shellmonger.com/2017/07/26/handling-orientation-changes-in-react-native/
+    */
+    isLandscape(){
+        let dim = Dimensions.get('screen');
+        let returnVal = (dim.width >= dim.height)
+        //console.log((returnVal ? "phone is landscape" : "phone is portrait"));
+        return returnVal;
+    }
+
+    
   /*
    * Function: render()
    * Author: Elton C. Rego
@@ -739,6 +768,7 @@ export default class Dashboard extends Component {
     ))
 
     /* Average MPG Label to attach to horizontal line */
+    
       const AverageLabel = (({ x, y }) => (
       <Text
         key={this.state.averageMPG}
@@ -758,6 +788,24 @@ export default class Dashboard extends Component {
     graphProps.data = this.state.textDataArr;
     graphProps.xAccessor = (item) => this.createDateObject(item.date);
     graphProps.yAccessor = (item) => (item.distanceSinceLast / item.gallonsFilled);
+
+
+  if(this.state.landscape){
+    return(
+      <View style={
+        [styleguide.container,
+        {
+          backgroundColor: GLOBAL.COLOR.DARKGRAY,
+        }]
+      }>
+        <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+          <MPGGraph ref="MPGGraph" {...graphProps} />
+        </Animated.View>
+      </View>
+      );
+  }
+
+  else{
 
     return(
 
@@ -872,56 +920,8 @@ export default class Dashboard extends Component {
         </Animated.View>
 
         <View style={styles.content}>
-          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
-              <MPGGraph {...graphProps} />
-
-              {/*
-              <AreaChart
-                style={styles.areaGraph}
-                start={0}
-                data={this.state.textDataArr}
-                yAccessor={({item}) => (item.distanceSinceLast / item.gallonsFilled)}
-                xAccessor={({item}) => this.createDateObject(item.date)}
-                // adding a date scale based on month
-                xScale={ scale.scaleTime }
-                curve={shape.curveNatural}
-                contentInset={ { top: 32, bottom: 40, right: -2, left: -2} }
-                numberOfTicks={5}
-                showGrid={false}
-                svg={{
-                  stroke: GLOBAL.COLOR.GREEN,
-                  strokeWidth: 3,
-                  fill: 'rgba(184, 233, 134, 0.2)',
-                }}
-                extras={ [ HorizontalLine, AverageLabel] }
-
-             />
-           */}
-
-            {/* code to set attributes of graph's x axis */}
-            {/*
-              <XAxis
-                style={{marginTop: -16}}
-                contentInset={{right: -2, left: -2}}
-                data={this.state.textDataArr}
-                // the x axis is "accessed" (or indexed) by the date of the datapoints
-                xAccessor={({item}) => this.createDateObject(item.date)}
-                scale={ scale.scaleTime }
-                // for some reason if 5 or higher there are a bunch of ticks,
-                // and if 4 or lower there are only 2
-                numberOfTicks={3}
-                // labels = name of month
-                // location on axis = 1st of the month
-                formatLabel={ (value) => dateFns.format(value, 'MMMM')}
-                svg={{
-                  fill: GLOBAL.COLOR.WHITE,
-                  fontSize: 10,
-                  fontFamily: 'Nunito-Light',
-                  color: 'rgba(255,255,255,0.5)',
-                  backgroundColor: 'transparent',
-                }}
-              />
-            */}
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+              <MPGGraph ref="MPGGraph" {...graphProps} />
         </Animated.View>
             <Animated.View
               style={[
@@ -1004,6 +1004,7 @@ export default class Dashboard extends Component {
       </View>
     );
   }
+}
 
 }
 
