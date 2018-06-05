@@ -26,6 +26,7 @@ import {
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import moment from 'moment';
 import {
+  getCurCar,
   pushFillup,
   removeFillup,
   pullFillups,
@@ -36,19 +37,17 @@ import {
   pullUserPermissions,
   pullOGODOReading,
 } from '../Database/Database.js';
-import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
-import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts'
-import { Line } from 'react-native-svg'
-import * as shape from 'd3-shape'
-import * as scale from 'd3-scale'
-import dateFns from 'date-fns'
+import dateFns from 'date-fns';
 
 // Custom components
 import GasList from '../Custom/GasList';
 import {InputField} from './../Custom/InputField';
 import {Button} from './../Custom/Button';
 import VroomAlert from './../Custom/VroomAlert';
+import Notifications from './../Custom/Notifications';
 import Settings from '../Screens/Settings';
+import {goTo} from '../Navigation/Navigation';
+
 
 // Graph components
 import MPGGraph from '../GasGraph/MPGGraph';
@@ -489,37 +488,7 @@ export default class Dashboard extends Component {
 
   }
 
-  // Call this to test an immediate notification.
-  showLocalNotification() {
-    FCM.presentLocalNotification({
-      id: 'testnotif',
-      vibrate: 500,
-      sound: "default",
-      title: 'Hello',
-      body: 'This is a test',
-      sub_text: 'sub text',
-      priority: "high",
-      show_in_foreground: true,
-      group: 'test',
-    });
-  }
 
-  // Call this to test a scheduled notification
-  scheduleLocalNotification() {
-    FCM.scheduleLocalNotification({
-      id: 'testnotif-scheduled',
-      fire_date: new Date().getTime()+5000,
-      vibrate: 500,
-      sound: "default",
-      title: 'Whats up?',
-      body: 'Test Scheduled Notification',
-      sub_text: 'sub text',
-      priority: "high",
-      show_in_foreground: true,
-      wake_screen: true,
-      group: 'test',
-    });
-  }
 
   /*
    * Function: componentDidMount()
@@ -529,79 +498,90 @@ export default class Dashboard extends Component {
    */
   componentDidMount() {
 
-    FCM.removeAllDeliveredNotifications();
-    FCM.setBadgeNumber(0);
-    // this.showLocalNotification(); //DEBUG: remove comment
-    // this.scheduleLocalNotification(); //DEBUG: remove comment
-
     var that = this;
-    pullAverageMPG().then(function(fData){
-      if(fData){
-        that.setState({
-          averageMPG: fData,
-        });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load average mpg data into state:', error);
-    });
-
-
-    pullOGODOReading().then(function(fData){
-      that.setState({
-        originalODO: fData,
+    getCurCar().then(function(){
+      pullAverageMPG().then(function(fData){
+        if(fData){
+          that.setState({
+            averageMPG: fData,
+          });
+        }
+      }).catch(function(error) {
+        console.log('Failed to load average mpg data into state:', error);
       });
-    }).catch(function(error) {
-      console.log('Failed to load original odometer data into state:', error);
-    });
 
-    pullODOReading().then(function(fData){
-      if(fData != null){
-        that.setState({
-          updatedODO: fData,
-        });
-      } else {
-        that.setState({
-          updatedODO: that.state.originalODO,
-        });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load odometer data into state:', error);
-    });
 
-    pullFillups().then(function(fData){
-      if(fData){
+      pullOGODOReading().then(function(fData){
         that.setState({
-          textDataArr: fData,
-          list_i: fData.length,
-          graphToggleable: fData.length >= 5 ? true : false,
+          originalODO: fData,
         });
-      }
-    }).catch(function(error) {
-      console.log('Failed to load fill up data into state:', error);
-    });
+      }).catch(function(error) {
+        console.log('Failed to load original odometer data into state:', error);
+      });
 
-    pullUserPermissions().then(function(fData){
-      if(fData){
-        that.setState({
-          isPremium: fData,
-        });
-      }
-      Animated.timing(
-        that.state.fadeIn,
-        {
-          toValue: 1,
-          duration: 250,
+      pullODOReading().then(function(fData){
+        if(fData != null){
+          that.setState({
+            updatedODO: fData,
+          });
+        } else {
+          that.setState({
+            updatedODO: that.state.originalODO,
+          });
         }
-      ).start(() => {
-        if(that.state.textDataArr.length == 0){
-          Animated.timing(
-            that.state.placeholderVisible,
-            {
-              toValue: 1,
-              duration: 250,
-            }
-          ).start();
+      }).catch(function(error) {
+        console.log('Failed to load odometer data into state:', error);
+      });
+
+      pullFillups().then(function(fData){
+        if(fData){
+          that.setState({
+            textDataArr: fData,
+            list_i: fData.length,
+            graphToggleable: fData.length >= 5 ? true : false,
+          });
         }
+
+        // Use this line in release
+        const notif = new Notifications();
+        notif.requestPermission();
+        notif.showLocalNotification();
+
+        if (fData.length <= 1){
+          notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
+        } else {
+          console.log("HI " + fData);
+          notif.scheduleAveragedNotification(fData);
+        }
+      }).catch(function(error) {
+        console.log('Failed to load fill up data into state:', error);
+      });
+
+      pullUserPermissions().then(function(fData){
+        if(fData){
+          that.setState({
+            isPremium: fData,
+          });
+        }
+        Animated.timing(
+          that.state.fadeIn,
+          {
+            toValue: 1,
+            duration: 250,
+          }
+        ).start(() => {
+          if(that.state.textDataArr.length == 0){
+            Animated.timing(
+              that.state.placeholderVisible,
+              {
+                toValue: 1,
+                duration: 250,
+              }
+            ).start();
+          }
+        });
+      }).catch(function(error) {
+        console.log('Failed to load user permission data into state:', error);
       });
     }).catch(function(error) {
       console.log('Failed to load user permission data into state:', error);
@@ -776,7 +756,7 @@ export default class Dashboard extends Component {
         //y={y(50)}
         dx={90}
         dy={100}
-        style={[styleguide.dark_body_secondary, {zIndex: 1}]} 
+        style={[styleguide.dark_body_secondary, {zIndex: 1}]}
         textAnchor={'middle'}
       >
         {"Average = " + Math.round(this.state.averageMPG) + " MPG"}
@@ -845,7 +825,7 @@ export default class Dashboard extends Component {
             source={require('../../../assets/images/placeholder.png')}
           />
         <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
-        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet.<Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
+        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
         </Animated.View>
 
         <Animated.View style={[styles.transaction, transformTransaction]}>
@@ -880,7 +860,7 @@ export default class Dashboard extends Component {
                 returnKeyType={'done'}
                 onChangeText={(text) => {this.setState({user_filled: text})}}
               />
-            
+
               <InputField
                 ref="odo"
                 icon={Icons.automobile}
@@ -935,7 +915,7 @@ export default class Dashboard extends Component {
               <TouchableOpacity onPress={() => this.toggleGraph()} disabled={!this.state.graphToggleable}>
                 <View  style={styles.statistics}>
                   <View>
-                  
+
                     <Text style={styleguide.light_subheader2}>{this.state.averageMPG.toFixed(2)}mpg</Text>
                     <Text style={styleguide.light_body_secondary}>Average Efficiency</Text>
                   </View>
@@ -954,6 +934,29 @@ export default class Dashboard extends Component {
             </Animated.View>
         </View>
 
+        <TouchableOpacity style={
+            {
+              width: 56,
+              height: 56,
+              borderRadius: 32,
+              backgroundColor: GLOBAL.COLOR.GREEN,
+              shadowColor: GLOBAL.COLOR.DARKGRAY,
+              shadowOpacity: 0.3,
+              shadowOffset: {x: 0, y: 0},
+              shadowRadius: 30,
+
+              position: 'absolute',
+              zIndex: 1,
+              bottom: 16,
+              right: 80,
+            }
+          } onPress={() => {goTo(this.props.navigation, 'MapScreen');}}>
+          <View style={styles.floating_button}>
+            <Text style={styleguide.dark_title}>
+              <FontAwesome>{Icons.map}</FontAwesome>
+            </Text>
+          </View>
+        </TouchableOpacity>
 
         <TouchableOpacity style={
             {

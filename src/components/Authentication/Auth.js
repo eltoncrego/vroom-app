@@ -249,7 +249,7 @@ export default class Auth extends Component {
        if (user) {
          Auth.auth = user;
          console.log("user is signed in");
-         firebaseRef.database().ref("users").child(Auth.auth.uid).child("originalODO").once('value').then(function(snapshot) {
+         firebaseRef.database().ref("users").child(Auth.auth.uid).child("cars").once('value').then(function(snapshot) {
            if(snapshot.val() !== null) {
              console.log("Database has already been initialized for this user! going to Dashboard");
              that.setState({signedIn: true, checkedSignIn: true, onboardingNeeded: false});
