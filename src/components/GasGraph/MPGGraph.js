@@ -17,6 +17,7 @@ STYLE = require('../../global-styles');
 import {
   TouchableOpacity,
   View,
+  ScrollView,
   StyleSheet,
   Text,
   Animated,
@@ -40,7 +41,7 @@ import {
 } from '../Database/Database.js';
 
 // For formatting dates
-import { format, setHours } from 'date-fns';
+import { format, setHours, differenceInCalendarDays, isDate} from 'date-fns';
 
 const {
   Group,
@@ -59,13 +60,13 @@ const horizontalPadding = 40;
 const verticalPadding = 10;
 
 // tick width for axes
-const TickWidth = 100 ;
-
+const TickWidth = 100;
 
 const dimensionWindow = Dimensions.get('window');
 
-// pull the average MPG for the average line
-//const averageMPG = Auth.pullAverageMPG();
+// animation variables
+const strokeDashoffsetDuration = 2000;
+
 
 /*
 * Class: MPGGraph
@@ -77,45 +78,6 @@ const dimensionWindow = Dimensions.get('window');
 */
 export default class MPGGraph extends Component {
 
-  /*
-  * Method: Constructor()
-  * Author: Elton C. Rego
-  * Purpose: Sets up the component for use
-  *   - sets renderSeparator to it's own name
-  *   - sets delete to it's own name
-  *   - sets setScrollEnabled to it's own name
-  *   - sets state variables
-  *       > enable : whether or not the scrolling is enabled
-  *       > data : the list data passed in as a prop
-  *
-  * @param props - the props passed in from the parent component
-  */
-
-  /* THIS MAY BE OBSELETE, OR IT MAY BE WHAT I NEED TO DO
-     INSTEAD OF THE COPY+PASTING */
-     /*
-  constructor(props) {
-    super(props);
-    // keeping setScrollEnabled, but will likely change implementation
-    // of scrolling
-    this.setScrollEnabled = this.setScrollEnabled.bind(this);
-
-    this.state = {
-      enable: this.props.enable,
-    };
-  }
-*/
-
-  static propTypes = {
-    /*
-    data: PropTypes.array.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    xAccessor: PropTypes.func.isRequired,
-    yAccessor: PropTypes.func.isRequired,
-    */
-  }
-
   static defaultProps = {
     width: Math.round(dimensionWindow.width * 1),
     height: Math.round(dimensionWindow.height * 0.3),
@@ -125,7 +87,27 @@ export default class MPGGraph extends Component {
     graphWidth: 0,
     graphHeight: 0,
     linePath: '',
+    fillArea: '',
   };
+
+  /* SHOULD REALLY IMPORT THIS BUT I COPIED IT FOR NOW
+  * Function: createDateObject()
+  * Author: Elton C. Rego
+  * Purpose: Returns a date objecy based on the given date json
+  *   in an array format
+  *
+  * @param: date - a date object formatted in array scope
+  */
+createDateObject(date){
+        var year = date[0];
+        var month = date[1];
+        var day = date[2];
+        var hours = date[3];
+        var mins = date[4];
+        var seconds = date[5];
+        const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
+        return returnValue;
+      }
 
   componentWillMount() {
     this.computeNextState(this.props);
@@ -144,9 +126,36 @@ export default class MPGGraph extends Component {
       yAccessor,
     } = nextProps;
 
-    const graphWidth = width - horizontalPadding * 2;
-    const graphHeight = height - verticalPadding * 2;
+    /*
+     *
+     * NOTE: The width of the graph should vary based on the range
+     * between the first and the last fillup. This works, except when
+     * adding a new fillup. Everything except the two paths (path and fillArea)
+     * figures out the new width correctly. However, the paths get "stretched"
+     * to a width much beyond the actual new width...until you reload the app.
+     * Then everything's fine. Console logging the width at several different points in
+     * the code did not provide any clues, the width and even the paths are calculated 
+     * correctly. They're just being displayed wrong. 
+     *
+     * To circumvent these issues (yuck), the graph width remains constant. This makes the line
+     * draw properly for some reason, but will become an issue after enough time (a year?) of fillups,
+     * because the graph will get "squished", with points too close to each other. 
+     *
+     */
+/*
+    var range = 0;
+    if(data[0] != null){
+      let lastDate = this.createDateObject(data[0].date);
+      let firstDate = this.createDateObject(data[data.length - 1].date);
+      range = differenceInCalendarDays(lastDate, firstDate);
 
+      console.log(range);
+    } 
+    console.log("old width: " + width); 
+    const graphWidth = (range * 7);
+*/
+    const graphWidth = 900;
+    const graphHeight = height - verticalPadding * 2;
     const lineGraph = graphUtils.createLineGraph({
       data,
       xAccessor,
@@ -156,29 +165,14 @@ export default class MPGGraph extends Component {
     });
 
     this.setState({
-      graphWidth,
+      graphWidth: graphWidth,
       graphHeight,
       linePath: lineGraph.path,
+      // adding fill
+      fillArea: lineGraph.fillArea,
       // adding axes
       ticks: lineGraph.ticks,
       scale: lineGraph.scale,
-    });
-  }
-
-
-  /*
-  * I'M KEEPING THIS AROUND BECAUSE WE'LL WANT TO SCROLL
-  * THE GRAPH AT SOME POINT
-  * function: setScrollEnabled()
-  * Author: Elton C. Rego
-  * Purpose: toggles the availability of the scroll function of this list
-  *
-  * @param: enable: a boolean value for the toggle
-  */
-
-  setScrollEnabled(enable) {
-    this.setState({
-      enable,
     });
   }
 
@@ -187,6 +181,8 @@ export default class MPGGraph extends Component {
       graphWidth,
       graphHeight,
       linePath,
+      area,
+      fillArea,
       // adding axes
       ticks,
       scale,
@@ -221,16 +217,25 @@ function createDateObject(date){
         const returnValue = setHours(new Date(year, month, day), hours, mins, seconds);
         return returnValue;
       }
-
     return (
+    <ScrollView 
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.scrollView}
+      >
       <View style={styles.container}>
         <Surface width={graphWidth} height={graphHeight}>
           <Group x={0} y={0}>
             <Shape
               d={linePath}
-              stroke={GLOBAL.COLOR.GREEN}
-              strokeWidth={1}
+              stroke={GLOBAL.COLOR.BRAND}
+              strokeWidth={3}
             />
+            <Shape
+              d={fillArea}
+              fill={GLOBAL.COLOR.GREEN}
+              opacity={0.2}
+            /> 
           </Group>
         </Surface>
       {/* X Axis */}
@@ -242,7 +247,7 @@ function createDateObject(date){
             tickStyles.width = TickWidth;
             tickStyles.left = tick.x - (TickWidth / 2);
             // convert the date array for each tick to a Date object
-            let tickDate = createDateObject(tick.datum.date);
+            let tickDate = this.createDateObject(tick.datum.date);
             // convert to string in format: "Feb 12"
             let formattedTickDate = format(tickDate, 'MMM DD');
 
@@ -253,7 +258,8 @@ function createDateObject(date){
             );
           })}
         </View>
-
+        
+      {/* The mpg labels for each point */}
         <View key={'ticksY'} style={styles.ticksYContainer}>
           {/* Applies the same style and format across all Y ticks */}
           {ticks.map((tick, index) => {
@@ -263,7 +269,7 @@ function createDateObject(date){
             const tickStyles = {};
             tickStyles.width = TickWidth;
             tickStyles.left = tick.x - Math.round(TickWidth * 0.5);
-            tickStyles.top = tick.y + 2 - Math.round(TickWidth * 0.65) + 40;
+            tickStyles.top = tick.y + 40 - Math.round(TickWidth * 0.65);
 
             return (
               <View key={index} style={[styles.tickLabelY, tickStyles]}>
@@ -281,26 +287,36 @@ function createDateObject(date){
               key={index}
               style={[styles.ticksYDot, {
                 left: tick.x,
-                top: tick.y,
+                top: tick.y - 3.2,
               }]}
             />
           ))}
         </View>
-
-      </View>
+    </View>
+  </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    top: 4,
-    left: 15 + (horizontalPadding / 2),
+  area:{
+    // if styling does nothing in the stylesheet, do styling in
+    // the component itself
   },
 
-  tickLabelX: {
+  container: {
+    top: 15,
+    left: (horizontalPadding / 2),
+    right: (horizontalPadding / 2),
+  },
+
+  scrollView: {
+    paddingRight: 50,
+  },
+
+    tickLabelX: {
     position: 'absolute',
-    bottom: -12,
+    bottom: -15,
     fontSize: 12,
     textAlign: 'center',
     color: GLOBAL.COLOR.WHITE,
@@ -314,7 +330,6 @@ const styles = StyleSheet.create({
 
   tickLabelY: {
     position: 'absolute',
-    left: 0,
     backgroundColor: 'transparent',
   },
 
@@ -324,41 +339,15 @@ const styles = StyleSheet.create({
     color: GLOBAL.COLOR.WHITE,
     backgroundColor: 'transparent',
     left: 15,
-    //top: ,
 
   },
   // styling for the dots on the line graph
   ticksYDot: {
     position: 'absolute',
-    width: 2,
-    height: 2,
+    width: 5,
+    height: 5,
     backgroundColor: GLOBAL.COLOR.WHITE,
+    borderRadius: 100,
     borderRadius: 100,
   },
 });
-/*
- *
- * render()
- * Renders the graph for display.
- * For now just copied from https://hswolff.com/blog/react-native-art-and-d3/
- *
- */
- /*
-  render() {
-    return (
-      <Surface width={200} height={100}>
-        <Group x={0} y={0}>
-          <Shape
-            d={this.props.linePath}
-            stroke="#000"
-            strokeWidth={1}
-          />
-        </Group>
-      </Surface>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-});
-*/

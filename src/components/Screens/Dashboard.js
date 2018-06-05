@@ -102,10 +102,18 @@ export default class Dashboard extends Component {
       list_i: 0,
       textDataArr: [],
       isPremium: false,
-
+      
       // static text
-      header_text: "",
+      header_text: "Dashboard",
     };
+    // event listener to detect orientation changes
+    Dimensions.addEventListener('change', () => {
+      let value = this.isLandscape();
+      this.setState({
+        landscape: value,
+      });
+        console.log("Is the phone now landscape? " + this.state.landscape);
+    });
   }
 
  /*
@@ -370,6 +378,10 @@ export default class Dashboard extends Component {
     const mpg = distance/parseFloat(this.state.user_filled);
     const average =
       ((this.state.averageMPG * (this.state.textDataArr.length))+mpg)/(this.state.textDataArr.length+1);
+    const averageDistance =
+      ((this.state.averageDistanceBtwnFillups * (this.state.textDataArr.length))+distance)/(this.state.textDataArr.length+1);
+    const averageCost =
+      ((this.state.averageFillupCost * (this.state.textDataArr.length))+this.state.user_paid)/(this.state.textDataArr.length+1);
     const creationDate = moment().toArray();
 
     this.closeTransaction();
@@ -397,6 +409,8 @@ export default class Dashboard extends Component {
     ).start(() => {
       this.setState({
         averageMPG: average,
+        averageDistanceBtwnFillups: averageDistance,
+        averageFillupCost: averageCost,
         updatedODO: this.state.user_ODO,
         textDataArr: [newFillup, ...this.state.textDataArr],
         user_paid: "",
@@ -412,6 +426,9 @@ export default class Dashboard extends Component {
     pushFillup(newFillup);
     updateMPG(average);
     updateODO(parseFloat(this.state.user_ODO));
+
+    // redraw the graph
+    
   }
 
   /*
@@ -429,13 +446,24 @@ export default class Dashboard extends Component {
         return obj.list_i === key;
     });
     const indexOf = this.state.textDataArr.indexOf(itemToRemove);
-
     const mpgRemoved = itemToRemove.distanceSinceLast
       /itemToRemove.gallonsFilled;
+
+    // const distanceRemoved = itemToRemove.
 
     const averageMPG = this.state.textDataArr.length == 1 ? 0 :
       (this.state.averageMPG * this.state.textDataArr.length - mpgRemoved)
       /(this.state.textDataArr.length - 1);
+
+    // const averageDistance =
+    //   ((this.state.averageDistanceBtwnFillups * (this.state.textDataArr.length))+distance)/(this.state.textDataArr.length+1);
+    // const averageDistance = this.state.textDataArr.length == 1 ? 0 :
+    //   (this.state.averageDistanceBtwnFillups - this.state.textDataArr.length - distanceRemoved)
+    //   /(this.state.textDataArr.length - 1);
+
+    // const averageCost =
+    //   ((this.state.averageFillupCost * (this.state.textDataArr.length))+totalPrice)/(this.state.textDataArr.length+1);
+
 
     const ODO = this.state.textDataArr.length == 1 ?  this.state.originalODO :
       this.state.textDataArr[1].odometer;
@@ -461,6 +489,8 @@ export default class Dashboard extends Component {
       list_i: this.state.list_i - 1,
       graphToggleable: this.state.list_i - 1 >= 5 ? true : false,
       averageMPG: averageMPG,
+      averageDistanceBtwnFillups: averageDistance,
+      averageFillupCost: averageCost,
       updatedODO: ODO,
     });
     if(key == 5){
@@ -472,6 +502,8 @@ export default class Dashboard extends Component {
         }
       ).start();
     }
+    // redraw the graph
+
   }
 
   /*
@@ -543,6 +575,7 @@ export default class Dashboard extends Component {
         // Use this line in release
         const notif = new Notifications();
         notif.requestPermission();
+        notif.showLocalNotification();
 
         if (fData.length <= 1){
           notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
@@ -579,6 +612,8 @@ export default class Dashboard extends Component {
       }).catch(function(error) {
         console.log('Failed to load user permission data into state:', error);
       });
+    }).catch(function(error) {
+      console.log('Failed to load user permission data into state:', error);
     });
   }
 
@@ -675,6 +710,19 @@ export default class Dashboard extends Component {
     return returnValue;
   }
 
+    /* Function: isLandscape
+    *  Author: Will Coates
+    *  Detects if the phone is oriented in landscape mode
+    *  Borrowed from: https://shellmonger.com/2017/07/26/handling-orientation-changes-in-react-native/
+    */
+    isLandscape(){
+        let dim = Dimensions.get('screen');
+        let returnVal = (dim.width >= dim.height)
+        //console.log((returnVal ? "phone is landscape" : "phone is portrait"));
+        return returnVal;
+    }
+
+    
   /*
    * Function: render()
    * Author: Elton C. Rego
@@ -736,10 +784,10 @@ export default class Dashboard extends Component {
     ))
 
     /* Average MPG Label to attach to horizontal line */
+    
       const AverageLabel = (({ x, y }) => (
       <Text
-        key={this.state.averageMPG}aa
-        /* Positioning isn't working */
+        key={this.state.averageMPG}
         //x={x(200)}
         //y={y(50)}
         dx={90}
@@ -756,6 +804,24 @@ export default class Dashboard extends Component {
     graphProps.data = this.state.textDataArr;
     graphProps.xAccessor = (item) => this.createDateObject(item.date);
     graphProps.yAccessor = (item) => (item.distanceSinceLast / item.gallonsFilled);
+
+
+  if(this.state.landscape){
+    return(
+      <View style={
+        [styleguide.container,
+        {
+          backgroundColor: GLOBAL.COLOR.DARKGRAY,
+        }]
+      }>
+        <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+          <MPGGraph ref="MPGGraph" {...graphProps} />
+        </Animated.View>
+      </View>
+      );
+  }
+
+  else{
 
     return(
 
@@ -962,6 +1028,7 @@ export default class Dashboard extends Component {
       </View>
     );
   }
+}
 
 }
 
