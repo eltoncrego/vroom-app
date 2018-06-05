@@ -95,20 +95,17 @@ export default class Gas extends PureComponent {
     });
 
     if (mpg == this.props.average){
-      //console.log("EQUAL " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.minus,
         color: GLOBAL.COLOR.YELLOW,
       });
     } else if (mpg < this.props.average){
-      //console.log("LESS THAN " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.chevronDown,
         color: GLOBAL.COLOR.RED,
         expandedTitle: "Below Average Fillup",
       });
     } else {
-      //console.log("MORE THAN " + mpg + " vs " + this.props.average);
       this.setState({
         icon: Icons.chevronUp,
         color: GLOBAL.COLOR.GREEN,

@@ -24,43 +24,19 @@ export const firebaseRef = firebase.initializeApp(config);
 var curCar;
 
 /*
-* Database function: pushTask()
-* Author: Alec Felt and Connick Shields
-*
-* Purpose: push Task object to database,
-*          link user with task
-*
-* @param: (ttr) = task type reference
-*         (d) = date string (yyyy-mm-dd)
-* @return: void
-*/
-export function pushTask(ttr, d) {
-  if(Auth.checkAuth()) {
-    var taskObject = {
-        ttRef: ttr,
-        date: d,
-        uid: Auth.getAuth().uid,
-    };
-    firebaseRef.database().ref('tasks').push(taskObject);
-  }
-}
-
-/*
 * Database function: getCurCar()
 * Author: Connick Shields
 *
-* Purpose: gets the current car of the user and stores in locally
+* Purpose: gets the id of the current car of the user and stores it locally
 *
 * @return: promise
 */
 export function getCurCar() {
-  console.log("getCurCar");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     return new Promise((resolve, reject) => {
         firebaseRef.database().ref("users").child(user).child("currentCar").once('value').then(function(snapshot) {
           curCar = snapshot.val();
-          console.log(curCar);
           resolve();
         }).catch(function(error) {
           console.log("Error getting document:", error.message);
@@ -80,7 +56,6 @@ export function getCurCar() {
 * @return: void
 */
 export function pushFillup(fillupData) {
-  console.log("pushFillup");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups").push(fillupData);
@@ -93,25 +68,45 @@ export function pushFillup(fillupData) {
 *
 * Purpose: push the initial data for a user to firebase
 */
-export function initUser(originalODO){
-  console.log("initUser");
+export function initUser(originalODO, nick){
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     var initCar = {
       originalODO: originalODO,
+      nickname: nick,
     };
-    // push the initial car
-    firebaseRef.database().ref("users").child(user).child("cars").push(initCar);
-    firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
-
-    // set the currentCar and curCar
-
-    firebaseRef.database().ref("users").child(user).child("cars").once('value').then(function(snapshot) {
-      curCar = Object.keys(snapshot.val())[0];
-      console.log(curCar);
-      firebaseRef.database().ref("users").child(user).child("currentCar").set(Object.keys(snapshot.val())[0]);
+    // push the initial car, and set currentCar & curCar
+    firebaseRef.database().ref("users").child(user).child("cars").push(initCar).then(function(snapshot){
+      curCar = snapshot.key;
+      firebaseRef.database().ref("users").child(user).child("currentCar").set(snapshot.key);
     }).catch(function(error) {
-      console.log("Error getting document:", error.message);
+      console.log("Error:", error.message);
+    });
+
+    //init as a non-premium user
+    firebaseRef.database().ref("users").child(user).child("premiumUser").set(false);
+  }
+}
+
+/*
+* Database function: addCar()
+* Authors: Connick Shields
+*
+* Purpose: push a new car to firebase
+*/
+export function addCar(originalODO, nick){
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    var initCar = {
+      originalODO: originalODO,
+      nickname: nick,
+    };
+    // push the initial car, and set currentCar & curCar
+    firebaseRef.database().ref("users").child(user).child("cars").push(initCar).then(function(snapshot){
+      curCar = snapshot.key;
+      firebaseRef.database().ref("users").child(user).child("currentCar").set(snapshot.key);
+    }).catch(function(error) {
+      console.log("Error:", error.message);
     });
   }
 }
@@ -125,7 +120,6 @@ export function initUser(originalODO){
 * @param: average - the new MPG average we want to push to firebase
 */
 export function updateMPG(average) {
-  console.log("updateMPG");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("average").set(average);
@@ -141,10 +135,70 @@ export function updateMPG(average) {
 * @param: the new odometer reading to push to firebase
 */
 export function updateODO(newODO) {
-  console.log("updateODO");
   if(Auth.checkAuth()) {
     var user = Auth.getAuth().uid;
     firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("odometer").set(newODO);
+  }
+}
+
+/*
+* Database function: updateNick()
+* Author: Connick Shields
+*
+* Purpose: push new nickname to firebase
+*
+* @param: the new nickname to push to firebase
+*/
+export function updateNick(newNick) {
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("nickname").set(newNick);
+  }
+}
+
+/*
+* Database function: setCar()
+* Author: Connick Shields
+*
+* Purpose: sets (locally and in firebase) the current car
+*
+* @param: the ID of the newly selected car
+*/
+export function setCar(carID) {
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    firebaseRef.database().ref("users").child(user).child("currentCar").set(carID);
+    curCar = carID;
+  }
+}
+
+/*
+* Database function: pullCars()
+* Author: Connick Shields
+*
+* Purpose: pulls all of a user's cars from firebase
+*
+* @return: array of all cars
+*/
+export function pullCars() {
+  if(Auth.checkAuth()) {
+    var user = Auth.getAuth().uid;
+    const query = firebaseRef.database().ref("users").child(user).child("cars");
+
+    return query.once('value').then(function(snapshot){
+      var returnArr = [];
+      snapshot.forEach(function(listItem){
+        var item = {
+          nickname: listItem.val().nickname,
+          key: listItem.key,
+        };
+        returnArr.unshift(item);
+      });
+      return returnArr;
+
+    }).catch(function(error) {
+      console.log('Failed to pull cars from firebase:', error);
+    });
   }
 }
 
@@ -158,8 +212,6 @@ export function updateODO(newODO) {
 * @return returnArr: an array of the fillup data in the filestore
 */
 export function pullFillups() {
-  console.log("pullFillups");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups");
 
@@ -167,7 +219,6 @@ export function pullFillups() {
     var returnArr = [];
     snapshot.forEach(function(listItem){
       var item = listItem.val();
-      //console.log(item);
       returnArr.unshift(item);
     });
     return returnArr;
@@ -186,8 +237,6 @@ export function pullFillups() {
 * @return mpg: a numeric value of the current average MPG of the user
 */
 export function pullAverageMPG() {
-  console.log("pullAverageMPG");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("average");
 
@@ -195,6 +244,26 @@ export function pullAverageMPG() {
     return snapshot.val();
   }).catch(function(error) {
     console.log('Failed to pull average MPG data from firebase:', error);
+  });
+
+}
+
+/*
+* Database function: pullNickname()
+* Author: Connick Shields
+*
+* Purpose: pulls the car nickname stored in the user's database area
+*
+* @return mpg: a string (the car nickname)
+*/
+export function pullNickname() {
+  const user = Auth.getAuth().uid;
+  const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("nickname");
+
+  return query.once('value').then(function(snapshot){
+    return snapshot.val();
+  }).catch(function(error) {
+    console.log('Failed to pull nickname from firebase:', error);
   });
 
 }
@@ -208,8 +277,6 @@ export function pullAverageMPG() {
 * @return odo: a numeric value of the latest ODO reading for the user
 */
 export function pullODOReading() {
-  console.log("pullODOReading");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("odometer");
 
@@ -231,8 +298,6 @@ export function pullODOReading() {
 *   during onboarding
 */
 export function pullOGODOReading() {
-  console.log("pullOGDOReading");
-
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("originalODO");
 
@@ -254,7 +319,6 @@ export function pullOGODOReading() {
 * @return bool - is the user a premium user? t/f
 */
 export function pullUserPermissions(){
-  console.log("Pulling user permissions.");
   const user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("premiumUser");
   return query.once('value').then(function(snapshot){
@@ -274,15 +338,11 @@ export function pullUserPermissions(){
 * @return: void
 */
 export function removeFillup(i) {
-  console.log("removing fillup");
-  console.log(i)
-
   var user = Auth.getAuth().uid;
   const query = firebaseRef.database().ref("users").child(user).child("cars").child(curCar).child("fillups");
   query.once('value').then(function(snapshot){
     snapshot.forEach(function(child) {
       if (child.val().list_i == i) {
-        console.log('Removing child '+child.key);
         child.ref.remove();
       }
     });
@@ -292,27 +352,81 @@ export function removeFillup(i) {
 }
 
 /*
- * Database function: queryCars()
- * Author: Alec Felt
- *
- * Purpose: gets the years, makes, or models object
- *
- * @param: (path) = string: path to query in database
- *
- * @return: a promise which resolves to an array
- */
-export function queryCars(path){
-    return new Promise((resolve, reject) => {
-        firebaseRef.database().ref(path).once("value")
-        .then(function(snapshot){
-            var arr = [];
-            snapshot.forEach(function(snap){
-                arr[arr.length] = snap.key;
-            });
-            resolve(arr);
-        }).catch( (error) => {
-            console.log("queryCars(): Firebase query error: "+error.message);
-            reject(error);
-        });
+* Database function: pullYears()
+* Author: Connick Shields
+*
+* Purpose: pulls all years of car db from FB
+*
+* @return: array of all years
+*/
+export function pullYears() {
+  if(Auth.checkAuth()) {
+    const query = firebaseRef.database().ref("cars");
+
+    return query.once('value').then(function(snapshot){
+      var returnArr = [];
+      snapshot.forEach(function(listItem){
+        var item = listItem.key;
+        returnArr.unshift(item);
+      });
+      return returnArr;
+
+    }).catch(function(error) {
+      console.log('Failed to pull years from firebase:', error);
     });
+  }
+}
+
+/*
+* Database function: pullMakes()
+* Author: Connick Shields
+*
+* Purpose: pulls all makes of car db from FB
+*
+* @param: year input
+* @return: array of all years
+*/
+export function pullMakes(year) {
+  if(Auth.checkAuth()) {
+    const query = firebaseRef.database().ref("cars").child(year);
+
+    return query.once('value').then(function(snapshot){
+      var returnArr = [];
+      snapshot.forEach(function(listItem){
+        var item = listItem.key;
+        returnArr.unshift(item);
+      });
+      return returnArr;
+
+    }).catch(function(error) {
+      console.log('Failed to pull makes from firebase:', error);
+    });
+  }
+}
+
+/*
+* Database function: pullModels()
+* Author: Connick Shields
+*
+* Purpose: pulls all models of car db from FB
+*
+* @param: year input
+* @return: array of all years
+*/
+export function pullModels(year, make) {
+  if(Auth.checkAuth()) {
+    const query = firebaseRef.database().ref("cars").child(year).child(make);
+
+    return query.once('value').then(function(snapshot){
+      var returnArr = [];
+      snapshot.forEach(function(listItem){
+        var item = listItem.key;
+        returnArr.unshift(item);
+      });
+      return returnArr;
+
+    }).catch(function(error) {
+      console.log('Failed to pull models from firebase:', error);
+    });
+  }
 }

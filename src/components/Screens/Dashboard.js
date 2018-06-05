@@ -36,6 +36,8 @@ import {
   pullODOReading,
   pullUserPermissions,
   pullOGODOReading,
+  pullNickname,
+  pullCars,
 } from '../Database/Database.js';
 import dateFns from 'date-fns';
 
@@ -100,10 +102,9 @@ export default class Dashboard extends Component {
       list_i: 0,
       textDataArr: [],
       isPremium: false,
-
-      // Vars for trip planning
-      averageDistanceBtwnFillups: 0,
-      averageFillupCost: 0,
+      
+      // static text
+      header_text: "Dashboard",
     };
     // event listener to detect orientation changes
     Dimensions.addEventListener('change', () => {
@@ -445,9 +446,6 @@ export default class Dashboard extends Component {
         return obj.list_i === key;
     });
     const indexOf = this.state.textDataArr.indexOf(itemToRemove);
-    //console.log(indexOf);
-    //console.log(itemToRemove);
-
     const mpgRemoved = itemToRemove.distanceSinceLast
       /itemToRemove.gallonsFilled;
 
@@ -475,7 +473,6 @@ export default class Dashboard extends Component {
     updateODO(ODO);
 
     this.state.textDataArr.pop(itemToRemove);
-    //console.log(this.state.textDataArr);
     if(this.state.textDataArr.length == 0){
       Animated.timing(
         this.state.placeholderVisible,
@@ -509,17 +506,18 @@ export default class Dashboard extends Component {
 
   }
 
-
-
   /*
-   * Function: componentDidMount()
-   * Author: Elton C. Rego
-   * Purpose: Pulls all the data from firebase and loads it into the view
+   * Function: refreshData()
+   * Author: Elton C. Rego & Connick Shields
+   * Purpose: loads all data from Firebase
    *
    */
-  componentDidMount() {
 
+  refreshData(){
     var that = this;
+    that.setState({
+      averageMPG: 0,
+    });
     getCurCar().then(function(){
       pullAverageMPG().then(function(fData){
         if(fData){
@@ -554,6 +552,17 @@ export default class Dashboard extends Component {
         console.log('Failed to load odometer data into state:', error);
       });
 
+      pullNickname().then(function(fData){
+        that.setState({
+          nickname: fData,
+        });
+        that.setState({
+          header_text: that.state.nickname,
+        });
+      }).catch(function(error) {
+        console.log('Failed to load nickname data into state:', error);
+      });
+
       pullFillups().then(function(fData){
         if(fData){
           that.setState({
@@ -571,7 +580,6 @@ export default class Dashboard extends Component {
         if (fData.length <= 1){
           notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
         } else {
-          console.log("HI " + fData);
           notif.scheduleAveragedNotification(fData);
         }
       }).catch(function(error) {
@@ -607,6 +615,16 @@ export default class Dashboard extends Component {
     }).catch(function(error) {
       console.log('Failed to load user permission data into state:', error);
     });
+  }
+
+  /*
+   * Function: componentDidMount()
+   * Author: Elton C. Rego
+   * Purpose: calls refreshData()
+   *
+   */
+  componentDidMount() {
+    this.refreshData();
   }
 
   /*
@@ -670,7 +688,6 @@ export default class Dashboard extends Component {
     var day = date[2];
     var monthIndex = date[1];
     const returnValue = monthNames[monthIndex] + ' ' + day;
-    //console.log(returnValue);
     return returnValue
   }
 
@@ -690,7 +707,6 @@ export default class Dashboard extends Component {
     var mins = date[4];
     var seconds = date[5];
     const returnValue = dateFns.setHours(new Date(year, month, day), hours, mins, seconds);
-    //console.log(returnValue);
     return returnValue;
   }
 
@@ -819,12 +835,20 @@ export default class Dashboard extends Component {
 
         <VroomAlert ref="vroomAlert"/>
         <Animated.View style={[styles.settings, settingsList]}>
-          <Settings closeCallBack={() => this.closeSettings()} alert={this.refs.vroomAlert}/>
+          <Settings
+            closeCallBack={() => {
+              this.closeSettings();
+              this.refreshData();
+            }}
+            addCallBack={() => {
+              goTo(this.props.navigation, 'AddCar');
+            }}
+            alert={this.refs.vroomAlert}/>
         </Animated.View>
 
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
-            dashboard
+            {this.state.header_text}
             <Text style={styleguide.dark_title2_accent}>
               .
             </Text>
@@ -832,7 +856,7 @@ export default class Dashboard extends Component {
           <TouchableOpacity onPress={() => {this.openSettings();}} disabled={!this.state.settingAvailable}>
             <Animated.View style={{opacity: modalBG}}>
                 <Text style={styleguide.dark_title}>
-                  <FontAwesome>{Icons.gear}</FontAwesome>
+                  <FontAwesome>{Icons.bars}</FontAwesome>
                 </Text>
             </Animated.View>
           </TouchableOpacity>
@@ -920,9 +944,9 @@ export default class Dashboard extends Component {
         </Animated.View>
 
         <View style={styles.content}>
-          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
-              <MPGGraph ref="MPGGraph" {...graphProps} />
-        </Animated.View>
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
+              <MPGGraph {...graphProps} />
+          </Animated.View>
             <Animated.View
               style={[
                 styles.card,

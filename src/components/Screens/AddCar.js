@@ -23,29 +23,26 @@ import {
   Picker,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
-import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 // Our Components
 import Auth from '../Authentication/Auth';
 import {InputField} from './../Custom/InputField'
 import {Button} from './../Custom/Button';
-import { goTo } from '../Navigation/Navigation';
+import { goTo, goBack } from '../Navigation/Navigation';
 import VroomAlert from './../Custom/VroomAlert';
 
-import {
-  initUser,
-} from '../Database/Database.js';
+import { addCar, pullYears, pullMakes, pullModels } from '../Database/Database.js';
 
 /*
- * Class: Onboarding
- * Author: Elton C.  Rego
+ * Class: AddCar
+ * Author: Elton C.  Rego & Connick Shields
  *
  * Purpose: Walks the user through naming their car and then
  *   takes in the make, model, and year of their vehicle.
  *
  */
 
-export default class Onboarding extends Component {
+export default class AddCar extends Component {
 
   /*
    * Method: Constructor
@@ -63,17 +60,42 @@ export default class Onboarding extends Component {
       pageTextSize: new Animated.Value(25),
       pageDescriptionSize: new Animated.Value(20),
       topMargin: new Animated.Value(24),
+      yearsArr: ['loading'],
+      makesArr: ['select a year first'],
+      modelsArr: ['select a make first'],
     };
   }
 
   /*
   * Function: componentDidMount()
-  * Author: Elton C. Rego
-  * Purpose: logs to the console that the user has entered onboarding and
-  *   requests permissions to show notifications
+  * Author: Connick Shields
+  * Purpose: load car data from FB
   */
   componentDidMount() {
-    FCM.requestPermissions().then(()=>console.log('granted')).catch(()=>console.log('notification permission rejected'));
+    pullYears().then(function(fd){
+      fdn = fd.reverse();
+      this.setState({
+        yearsArr: fdn,
+      });
+    }.bind(this));
+  }
+
+  updateMakes(year){
+    pullMakes(year).then(function(fd){
+      fdn = fd.reverse();
+      this.setState({
+        makesArr: fdn,
+      });
+    }.bind(this));
+  }
+
+  updateModels(make){
+    pullMakes(this.state.selectedYear, make).then(function(fd){
+      fdn = fd.reverse();
+      this.setState({
+        makesArr: fdn,
+      });
+    }.bind(this));
   }
 
  /*
@@ -195,20 +217,20 @@ export default class Onboarding extends Component {
   };
 
    /*
-    * Method: submitOnboarding
+    * Method: submitAddCar
     * Author: Elton C. Rego & Connick Shields
     *
-    * Purpose: take the number from the InputField and pushes it to
+    * Purpose: take a couple of fields and pushes them to
     *   firebase after a series of input checks
     */
-   submitOnboarding(){
+   submitAddCar(){
      if(this.state.userODO != null || this.state.userNick != null || !isNaN(this.state.user_ODO)){
        var finalODOInput = this.state.userODO;
        var finalNick = this.state.userNick;
        finalODOInput = finalODOInput.replace(/\,/g,'');
        finalODOInput = parseFloat(finalODOInput, 10);
-       initUser(finalODOInput, finalNick);
-       goTo(this.props.navigation, 'Dashboard');
+       addCar(finalODOInput, finalNick);
+       goBack(this.props.navigation);
      } else if (this.state.userODO < 0){
        this.refs.submitButton.indicateError();
        this.refs.vroomAlert.showAlert('Where did you get your car?',
@@ -235,6 +257,18 @@ export default class Onboarding extends Component {
 
     var keyboardBehavior = Platform.OS === 'ios' ? "position" : null;
 
+    let yearItems = this.state.yearsArr.map( (s, i) => {
+            return <Picker.Item key={i} value={s} label={s} />
+        });
+
+    let makeItems = this.state.makesArr.map( (s, i) => {
+            return <Picker.Item key={i} value={s} label={s} />
+        });
+
+    let modelItems = this.state.modelsArr.map( (s, i) => {
+            return <Picker.Item key={i} value={s} label={s} />
+        });
+
     return(
       <SafeAreaView style={[
         styleguide.container,
@@ -242,10 +276,10 @@ export default class Onboarding extends Component {
       ]}>
       <VroomAlert ref="vroomAlert"/>
       <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => {Auth.logOut();}}>
+        <TouchableOpacity onPress={() => {goBack(this.props.navigation);}}>
           <Animated.View>
               <Text style={styleguide.light_subheader}>
-                <FontAwesome>{Icons.signOut}</FontAwesome> Sign Out
+                <FontAwesome>{Icons.times}</FontAwesome> Cancel
               </Text>
           </Animated.View>
         </TouchableOpacity>
@@ -253,11 +287,11 @@ export default class Onboarding extends Component {
       <View style={styles.content}>
         <Animated.View style={[styles.onboarding_form, {paddingBottom: this.state.keyboardHeight}]}>
           <Animated.Text style={[styleguide.light_headline2, {fontSize: this.state.pageTextSize}]}>
-            Welcome
+            Add a new car
             <Animated.Text style={[styleguide.light_headline2_accent, {fontSize: this.state.pageTextSize}]}>.</Animated.Text>
           </Animated.Text>
           <Animated.Text
-            style={[styleguide.light_title_secondary, {fontSize: this.state.pageDescriptionSize}]}>We just need your mileage and a good nickname!</Animated.Text>
+            style={[styleguide.light_title_secondary, {fontSize: this.state.pageDescriptionSize}]}>We just need to know a couple things.</Animated.Text>
           <InputField
             icon={Icons.mapO}
             label={"Odometer Reading"}
@@ -290,6 +324,35 @@ export default class Onboarding extends Component {
               userNick: text,
             })}}
           />
+          <Picker
+            selectedValue={this.state.selectedYear}
+            onValueChange={ (year) => {
+              this.setState({selectedYear:year});
+              this.updateMakes(year);
+            }}
+            style={styles.picker}
+          >
+            {yearItems}
+          </Picker>
+          <Picker
+            selectedValue={this.state.selectedMake}
+            onValueChange={ (make) => {
+              this.setState({selectedMake:make});
+              this.updateModels(make);
+            }}
+            style={styles.picker}
+          >
+            {makeItems}
+          </Picker>
+          <Picker
+            selectedValue={this.state.selectedModel}
+            onValueChange={ (model) => {
+              this.setState({selectedMake:model});
+            }}
+            style={styles.picker}
+          >
+            {modelItems}
+          </Picker>
           <Button
              ref="submitButton"
              backgroundColor={GLOBAL.COLOR.GREEN}
@@ -297,7 +360,7 @@ export default class Onboarding extends Component {
              height={64}
              marginTop={40}
              shadow={true}
-             onPress={() => {this.submitOnboarding()}}/>
+             onPress={() => {this.submitAddCar()}}/>
          </Animated.View>
       </View>
       </SafeAreaView>
@@ -330,5 +393,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  picker: {
+    height: 50,
+  }
 
 });

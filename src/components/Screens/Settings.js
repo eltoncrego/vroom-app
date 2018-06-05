@@ -21,12 +21,15 @@ import {
   Linking,
   Platform,
   SafeAreaView,
+  FlatList,
+  Animated,
 } from 'react-native';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 // Our Components
 import Auth from '../Authentication/Auth';
-import { goTo, clearNavStack } from '../Navigation/Navigation';
+import { goTo } from '../Navigation/Navigation';
+import { pullCars, setCar } from '../Database/Database';
 
 /*
  * Class: Settings
@@ -38,13 +41,19 @@ export default class Settings extends Component {
 
   /*
    * Method: constructor(props)
-   * Author: Elton C. Rego
+   * Author: Connick Shields
    *
    * Purpose: Sets the state text for the card naming
    * props: the properties passed in from the super class (index.js)
    */
   constructor(props) {
     super(props);
+    this.state = {
+      cars: [],
+      carListShown: false,
+      listToggleable: true,
+      translation: new Animated.Value(0),
+    };
   }
 
   /*
@@ -54,8 +63,54 @@ export default class Settings extends Component {
    * Purpose: When a component specified sucessfully is rendered,
    *   it runs the action
    */
-  componentDidMount() {
-    console.log("Settings component mounted");
+  componentDidMount(){
+    pullCars().then(function(fd){
+      this.setState({
+        cars: fd,
+      });
+    }.bind(this));
+  }
+
+  /*
+  * Function: toggleList()
+  * Author: Connick Shields
+  * Purpose: animates a shift of the car items up and down
+  */
+  toggleList(){
+    const that = this;
+    if (this.state.carListShown){
+      this.setState({
+        listToggleable: false,
+      });
+      Animated.timing(
+        this.state.translation,
+        {
+          toValue: 0,
+          duration: 250,
+        }
+      ).start(() => {
+        that.setState({
+          listToggleable: true,
+          carListShown: false,
+        });
+      });
+    } else {
+      this.setState({
+        listToggleable: false,
+        carListShown: true,
+      });
+      Animated.timing(
+        this.state.translation,
+        {
+          toValue: 1,
+          duration: 250,
+        }
+      ).start(() => {
+        that.setState({
+          listToggleable: true,
+        });
+      });
+    }
   }
 
 
@@ -70,13 +125,31 @@ export default class Settings extends Component {
    */
   render() {
 
+    var car_list = this.state.carListShown ?
+    <FlatList
+      data={this.state.cars}
+      renderItem={({item}) =>
+      <TouchableOpacity onPress={() => {
+        setCar(item.key);
+        this.toggleList();
+        this.props.closeCallBack();
+      }}>
+        <View style={styles.carlist_item}>
+          <Text style={styleguide.dark_body}>
+            {item.nickname}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      }
+    /> : null;
+
     return (
       <View style={[styleguide.container,{
         backgroundColor: GLOBAL.COLOR.DARKBLUE,
       }]}>
         <View style={styles.navbar}>
           <Text style={styleguide.dark_title2}>
-            settings<Text style={styleguide.dark_title2_accent}>.</Text>
+            menu<Text style={styleguide.dark_title2_accent}>.</Text>
           </Text>
           <TouchableOpacity onPress={() => this.props.closeCallBack()}>
             <View>
@@ -89,77 +162,117 @@ export default class Settings extends Component {
         <View style={styles.content}>
           <ScrollView style={{width: '100%',}} showVerticalScrollIndicator={false}>
             <View style={styles.content_wrapper}>
-              <TouchableOpacity onPress={() => {Linking.canOpenURL('mailto:contact@revi.tech?subject=Vroom Feedback').then(supported => {
-                supported && Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback');
-              }, (err) => console.log(err));}}>
-                <View style={styles.setting_item}>
-                  <Text style={styleguide.dark_body}>
-                    Contact Us
-                  </Text>
-                  <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.paperPlane}</FontAwesome></Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
               <TouchableOpacity onPress={() => {
-                Linking.canOpenURL('https://revi.tech/privacy').then(supported => {
-                  supported && Linking.openURL('https://revi.tech/privacy');
-                }, (err) => console.log(err));
-              }}>
+                this.toggleList();
+                pullCars().then(function(fd){
+                  this.setState({
+                    cars: fd,
+                  });
+                }.bind(this));
+              }} disabled={!this.state.listToggleable}>
                 <View style={styles.setting_item}>
                   <Text style={styleguide.dark_body}>
-                    Our Privacy Policy
+                    Switch Cars
                   </Text>
                   <View style={{
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.refresh}</FontAwesome></Text>
                   </View>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {
-                Linking.canOpenURL('https://revi.tech/vroom/eula').then(supported => {
-                  supported && Linking.openURL('https://revi.tech/vroom/eula');
-                }, (err) => console.log(err));
-              }}>
-                <View style={styles.setting_item}>
-                  <Text style={styleguide.dark_body}>
-                    Vroom End User License Agreement
-                  </Text>
-                  <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+              <Animated.View style={{opacity: this.state.translation}}>
+                {car_list}
+              </Animated.View>
+              <Animated.View>
+                <TouchableOpacity onPress={() => {
+                  this.props.addCallBack();
+                }}>
+                  <View style={styles.setting_item}>
+                    <Text style={styleguide.dark_body}>
+                      Add a Car
+                    </Text>
+                    <View style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                      <Text style={styleguide.dark_body}><FontAwesome>{Icons.plus}</FontAwesome></Text>
+                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {
-                  var that = this;
-                  Auth.logOut().then(function(){}).catch(
-                    function(error){
-                      this.props.alert.showAlert("Alert",
-                      error.message,
-                      "Ok");
-                    }
-                  )
-              }}>
-                <View style={styles.setting_item}>
-                  <Text style={styleguide.dark_body}>
-                    Sign Out
-                  </Text>
-                  <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                    <Text style={styleguide.dark_body}><FontAwesome>{Icons.unlockAlt}</FontAwesome></Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {Linking.canOpenURL('mailto:contact@revi.tech?subject=Vroom Feedback').then(supported => {
+                  supported && Linking.openURL('mailto:contact@revi.tech?subject=Vroom Feedback');
+                }, (err) => console.log(err));}}>
+                  <View style={styles.setting_item}>
+                    <Text style={styleguide.dark_body}>
+                      Contact Us
+                    </Text>
+                    <View style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                      <Text style={styleguide.dark_body}><FontAwesome>{Icons.paperPlane}</FontAwesome></Text>
+                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                  Linking.canOpenURL('https://revi.tech/privacy').then(supported => {
+                    supported && Linking.openURL('https://revi.tech/privacy');
+                  }, (err) => console.log(err));
+                }}>
+                  <View style={styles.setting_item}>
+                    <Text style={styleguide.dark_body}>
+                      Our Privacy Policy
+                    </Text>
+                    <View style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                      <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                  Linking.canOpenURL('https://revi.tech/vroom/eula').then(supported => {
+                    supported && Linking.openURL('https://revi.tech/vroom/eula');
+                  }, (err) => console.log(err));
+                }}>
+                  <View style={styles.setting_item}>
+                    <Text style={styleguide.dark_body}>
+                      Vroom End User License Agreement
+                    </Text>
+                    <View style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                      <Text style={styleguide.dark_body}><FontAwesome>{Icons.clipboard}</FontAwesome></Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    var that = this;
+                    Auth.logOut().then(function(){}).catch(
+                      function(error){
+                        this.props.alert.showAlert("Alert",
+                        error.message,
+                        "Ok");
+                      }
+                    )
+                }}>
+                  <View style={styles.setting_item}>
+                    <Text style={styleguide.dark_body}>
+                      Sign Out
+                    </Text>
+                    <View style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                      <Text style={styleguide.dark_body}><FontAwesome>{Icons.lock}</FontAwesome></Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </Animated.View>
             </View>
           </ScrollView>
         </View>
@@ -207,6 +320,17 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: 'rgba(255,255,255,0.50)',
     backgroundColor: 'rgba(255,255,255,0.10)',
+  },
+
+  carlist_item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
+    paddingHorizontal: 24,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderColor: 'rgba(255,255,255,0.50)',
+    backgroundColor: GLOBAL.COLOR.DARKBLUE,
   },
 
   footer: {
