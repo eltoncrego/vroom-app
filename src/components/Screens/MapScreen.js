@@ -166,7 +166,7 @@ export default class MapScreen extends Component {
             this.setState({mapActive: false});
           }}
           title="Open location picker"
-        /> 
+        />
       </View> : null }
 
       <View style={styles.container}>
@@ -471,49 +471,37 @@ export default class MapScreen extends Component {
  }
 ]}
             provider={ PROVIDER_GOOGLE }
-            initialRegion={{ 
+            initialRegion={{
                 latitude: /*this.state.latitude == null ? 37.052155 : */this.state.latitude,
                 longitude: /*this.state.longitude == null ? -122.013957 : */this.state.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             }}>
 
-            {!!this.state.latitude && !!this.state.longitude && 
+            {!!this.state.latitude && !!this.state.longitude &&
                 <MapView.Marker
                     coordinate={{"latitude":this.state.latitude,"longitude":this.state.longitude}}
                     title={"Your Location"}
                     pinColor={GLOBAL.COLOR.BRAND}
                 />
-            }     
+            }
 
-            {!!this.state.destLatitude && !!this.state.destLongitude && 
+            {!!this.state.destLatitude && !!this.state.destLongitude &&
               <MapView.Marker
                 coordinate={{"latitude":this.state.destLatitude,"longitude":this.state.destLongitude}}
                 title={"Your Destination"}
                 pinColor={GLOBAL.COLOR.BRAND}
               />
-            }            
+            }
 
             {
-              !!this.state.latitude && !!this.state.longitude && this.state.fetched && //this.state.x == 'true' && 
+              !!this.state.latitude && !!this.state.longitude && this.state.fetched && //this.state.x == 'true' &&
               <MapView.Polyline
                 coordinates={this.state.coords}
                 strokeWidth={5}
                 strokeColor={GLOBAL.COLOR.DARKBLUE}
               />
             }
-
-            {/*
-              !!this.state.latitude && !!this.state.longitude && this.state.x == 'error' && 
-              <MapView.Polyline
-                coordinates={[
-                  {latitude: this.state.latitude, longitude: this.state.longitude},
-                  {latitude: this.state.destLatitude, longitude: this.state.destLongitude},
-                ]}
-                strokeWidth={5}
-                strokeColor="blue"
-              />
-             */}
           </MapView> : null}
         </View>
       </View>
@@ -559,28 +547,3 @@ const styles = StyleSheet.create({
       bottom: 0,
   },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

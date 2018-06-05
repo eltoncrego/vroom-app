@@ -427,7 +427,7 @@ export default class Dashboard extends Component {
     updateODO(parseFloat(this.state.user_ODO));
 
     // redraw the graph
-    
+
   }
 
   /*
@@ -566,7 +566,6 @@ export default class Dashboard extends Component {
         // Use this line in release
         const notif = new Notifications();
         notif.requestPermission();
-        notif.showLocalNotification();
 
         if (fData.length <= 1){
           notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
@@ -706,7 +705,7 @@ export default class Dashboard extends Component {
         return returnVal;
     }
 
-    
+
   /*
    * Function: render()
    * Author: Elton C. Rego
@@ -768,7 +767,7 @@ export default class Dashboard extends Component {
     ))
 
     /* Average MPG Label to attach to horizontal line */
-    
+
       const AverageLabel = (({ x, y }) => (
       <Text
         key={this.state.averageMPG}
@@ -798,7 +797,7 @@ export default class Dashboard extends Component {
           backgroundColor: GLOBAL.COLOR.DARKGRAY,
         }]
       }>
-        <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+        <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
           <MPGGraph ref="MPGGraph" {...graphProps} />
         </Animated.View>
       </View>
@@ -920,7 +919,7 @@ export default class Dashboard extends Component {
         </Animated.View>
 
         <View style={styles.content}>
-          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}> 
+          <Animated.View style={[styles.graph,{opacity: this.state.translation}]}>
               <MPGGraph ref="MPGGraph" {...graphProps} />
         </Animated.View>
             <Animated.View
