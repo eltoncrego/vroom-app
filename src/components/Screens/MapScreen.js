@@ -23,9 +23,15 @@ import {
   Animated,
   TouchableOpacity,
   Keyboard,
+  Modal,
+  TouchableHighlight
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import {
+  getCurCar,
+  pullAverageMPG,
+} from '../Database/Database.js';
 
 // Our Components
 import Auth from '../Authentication/Auth';
@@ -73,9 +79,14 @@ export default class MapScreen extends Component {
             destination: null,
             mapActive: false,
             fetched: 'false',
+            modalVisible: false,
         };
         this.mergeLot = this.mergeLot.bind(this);
     }
+
+  componentWillMount(){
+    this.setMPG();
+  }
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
@@ -111,6 +122,22 @@ export default class MapScreen extends Component {
     }
    }
 
+  setMPG(){
+    var that = this;
+    getCurCar().then(function(){
+      pullAverageMPG().then(function(fData){
+        if(fData){
+          that.setState({
+            averageMPG: fData,
+          });
+          console.log(fData)
+        }
+      }).catch(function(error) {
+        console.log('Failed to load average mpg data into state:', error);
+      });
+    });
+  }
+
   async getDirections(startLoc, destinationLoc) {
     try {
       let resp = await fetch(
@@ -128,16 +155,17 @@ export default class MapScreen extends Component {
       this.setState({x: "true"});
       let meters = respJson.routes[0].legs[0].distance.value;
       let miles = meters * 0.000621371;
-      this.setState({distance: miles});
+      let gallons_to_be_filled = miles / this.state.averageMPG;
+      this.setState({distance: miles.toFixed(2), gallons_to_be_filled: gallons_to_be_filled.toFixed(2), modalVisible: true});
       return coords;
-
-      // TODO: IMPLIMENT SHOWING OF MODAL
 
     } catch (error) {
       this.setState({x: "error"});
       return error;
     }
   }
+
+
 
    render() {
 
@@ -171,7 +199,7 @@ export default class MapScreen extends Component {
 
       <View style={styles.container}>
         <GooglePlacesAutocomplete
-          placeholder='Enter your destination!'
+          placeholder='Enter your destination to plan a trip!'
           minLength={2} // minimum length of text to search
           autoFocus={false}
           returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
@@ -502,6 +530,31 @@ export default class MapScreen extends Component {
               />
             }
           </MapView>: null}
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.6)'}}>
+              <View style={styles.modal_container}>
+                <Text style={[styleguide.light_subheader,{textAlign: 'center'}]}>This trip is <Text style={styleguide.light_subheader2}>{this.state.distance}miles</Text> long.</Text>
+                <Text style={[styleguide.light_subheader,{textAlign: 'center', marginTop: 16}]}>Based on your records, you will need <Text style={styleguide.light_subheader2}>{this.state.gallons_to_be_filled}gallons</Text> of gas.</Text>
+                <Text style={[styleguide.light_subheader,{textAlign: 'center', marginTop: 16}]}>If you drive, this trip will cost you <Text style={styleguide.light_subheader2}>${this.state.gallons_to_be_filled * 3.50}</Text>.</Text>
+                <Button
+                  backgroundColor={GLOBAL.COLOR.BRAND}
+                  label={"View Route"}
+                  width={"80%"}
+                  height={64}
+                  marginTop={16}
+                  onPress={() => {
+                    this.setState({modalVisible: false});
+                  }}
+                  title="View Map"
+                />
+              </View>
+            </View>
+          </Modal>
+
         </View>
       </View>
     );
@@ -515,6 +568,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+    },
+
+    modal_container: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '80%',
+      backgroundColor: GLOBAL.COLOR.WHITE,
+      paddingVertical: 32,
+      paddingHorizontal: 32,
+      borderRadius: 8,
     },
 
     navbar: {
