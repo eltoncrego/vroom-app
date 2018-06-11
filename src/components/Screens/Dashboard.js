@@ -867,10 +867,10 @@ export default class Dashboard extends Component {
             resizeMethod="scale"
             source={require('../../../assets/images/placeholder.png')}
           />
-        <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
-        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
-        <Text></Text>
-        <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Or you could <Text style={{color: GLOBAL.COLOR.GREEN}}>tap the green map button</Text> to plan a trip</Text>
+          <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
+          <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
+          <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text>
+          <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Or you could <Text style={{color: GLOBAL.COLOR.GREEN}}>tap the green map button</Text> to plan a trip</Text>
         </Animated.View>
 
         <Animated.View style={[styles.transaction, transformTransaction]}>

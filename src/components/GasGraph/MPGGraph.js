@@ -134,12 +134,12 @@ createDateObject(date){
      * figures out the new width correctly. However, the paths get "stretched"
      * to a width much beyond the actual new width...until you reload the app.
      * Then everything's fine. Console logging the width at several different points in
-     * the code did not provide any clues, the width and even the paths are calculated 
-     * correctly. They're just being displayed wrong. 
+     * the code did not provide any clues, the width and even the paths are calculated
+     * correctly. They're just being displayed wrong.
      *
      * To circumvent these issues (yuck), the graph width remains constant. This makes the line
      * draw properly for some reason, but will become an issue after enough time (a year?) of fillups,
-     * because the graph will get "squished", with points too close to each other. 
+     * because the graph will get "squished", with points too close to each other.
      *
      */
 /*
@@ -150,8 +150,8 @@ createDateObject(date){
       range = differenceInCalendarDays(lastDate, firstDate);
 
       console.log(range);
-    } 
-    console.log("old width: " + width); 
+    }
+    console.log("old width: " + width);
     const graphWidth = (range * 7);
 */
     const graphWidth = 900;
@@ -218,7 +218,7 @@ function createDateObject(date){
         return returnValue;
       }
     return (
-    <ScrollView 
+    <ScrollView
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollView}
@@ -235,7 +235,7 @@ function createDateObject(date){
               d={fillArea}
               fill={GLOBAL.COLOR.GREEN}
               opacity={0.2}
-            /> 
+            />
           </Group>
         </Surface>
       {/* X Axis */}
@@ -258,7 +258,7 @@ function createDateObject(date){
             );
           })}
         </View>
-        
+
       {/* The mpg labels for each point */}
         <View key={'ticksY'} style={styles.ticksYContainer}>
           {/* Applies the same style and format across all Y ticks */}
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    top: 15,
+    top: 0,
     left: (horizontalPadding / 2),
     right: (horizontalPadding / 2),
   },
