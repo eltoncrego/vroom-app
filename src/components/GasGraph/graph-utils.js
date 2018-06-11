@@ -25,7 +25,7 @@ const d3 = {
 // various magic numbers
 const domainPadding = 10;
 const dummyDate = new Date(2018, 0, 1);
-  
+
 /*
   * Function: createDateObject()
   * Author: Elton C. Rego
@@ -91,6 +91,9 @@ export function createLineGraph({
   width,
   height,
 }) {
+
+  const lastDatum = data[data.length - 1];
+
   // the x scale should be based on date
   // createLineGraph is sometimes called before
   // fillups are pulled, so have to null check

@@ -159,8 +159,6 @@ export default class MapScreen extends Component {
         <Button
           backgroundColor={GLOBAL.COLOR.BRAND}
           label={"Want to go somewhere else?"}
-          //height={64}
-          //marginTop={16}
           width={"100%"}
           onPress={() => {
             this.setState({mapActive: false});
@@ -502,7 +500,7 @@ export default class MapScreen extends Component {
                 strokeColor={GLOBAL.COLOR.DARKBLUE}
               />
             }
-          </MapView> : null}
+          </MapView>: null}
         </View>
       </View>
     );
@@ -537,13 +535,15 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
+      zIndex: 2,
+      backgroundColor: 'rgba(0,0,0,0)',
     },
 
     map: {
       position: 'absolute',
       top: 0,
       left: 0,
-      right: 0,
       bottom: 0,
+      right: 0,
   },
 });
