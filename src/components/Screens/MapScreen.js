@@ -127,11 +127,13 @@ export default class MapScreen extends Component {
       this.setState({coords: coords});
       this.setState({x: "true"});
       let meters = respJson.routes[0].legs[0].distance.value;
-      console.log("Distance: " + meters + " meters");
-      this.setState({distance: meters});
+      let miles = meters * 0.000621371;
+      this.setState({distance: miles});
       return coords;
+
+      // TODO: IMPLIMENT SHOWING OF MODAL
+
     } catch (error) {
-      console.log(error);
       this.setState({x: "error"});
       return error;
     }
@@ -216,9 +218,8 @@ export default class MapScreen extends Component {
             rankby: 'distance',
             types: 'food'
           }}
-          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-          //predefinedPlaces={[homePlace, workPlace]}
-          debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']}
+          debounce={200}
         />
 
          {this.state.mapActive ?

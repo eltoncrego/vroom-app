@@ -324,7 +324,7 @@ export default class AddCar extends Component {
               userNick: text,
             })}}
           />
-          <Picker
+        {/*}<Picker
             selectedValue={this.state.selectedYear}
             onValueChange={ (year) => {
               this.setState({selectedYear:year});
@@ -352,7 +352,7 @@ export default class AddCar extends Component {
             style={styles.picker}
           >
             {modelItems}
-          </Picker>
+          </Picker>*/}
           <Button
              ref="submitButton"
              backgroundColor={GLOBAL.COLOR.GREEN}
