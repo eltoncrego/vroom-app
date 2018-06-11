@@ -537,8 +537,8 @@ export default class MapScreen extends Component {
             visible={this.state.modalVisible}>
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.6)'}}>
               <View style={styles.modal_container}>
-                <Text style={[styleguide.light_subheader,{textAlign: 'center'}]}>This trip is <Text style={styleguide.light_subheader2}>{this.state.distance}miles</Text> long.</Text>
-                <Text style={[styleguide.light_subheader,{textAlign: 'center', marginTop: 16}]}>Based on your records, you will need <Text style={styleguide.light_subheader2}>{this.state.gallons_to_be_filled}gallons</Text> of gas.</Text>
+                <Text style={[styleguide.light_subheader,{textAlign: 'center'}]}>This trip is <Text style={styleguide.light_subheader2}>{this.state.distance} mi</Text> long.</Text>
+                <Text style={[styleguide.light_subheader,{textAlign: 'center', marginTop: 16}]}>Based on your records, you will need <Text style={styleguide.light_subheader2}>{this.state.gallons_to_be_filled} gal</Text> of gas.</Text>
                 <Text style={[styleguide.light_subheader,{textAlign: 'center', marginTop: 16}]}>If you drive, this trip will cost you <Text style={styleguide.light_subheader2}>${this.state.gallons_to_be_filled * 3.50}</Text>.</Text>
                 <Button
                   backgroundColor={GLOBAL.COLOR.BRAND}
