@@ -607,23 +607,6 @@ export default class Dashboard extends Component {
             isPremium: fData,
           });
         }
-        Animated.timing(
-          that.state.fadeIn,
-          {
-            toValue: 1,
-            duration: 250,
-          }
-        ).start(() => {
-          if(that.state.textDataArr.length == 0){
-            Animated.timing(
-              that.state.placeholderVisible,
-              {
-                toValue: 1,
-                duration: 250,
-              }
-            ).start();
-          }
-        });
       }).catch(function(error) {
         console.log('Failed to load user permission data into state:', error);
       });
