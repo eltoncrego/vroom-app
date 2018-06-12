@@ -572,20 +572,36 @@ export default class Dashboard extends Component {
 
         if(that.state.textDataArr.length == 0){
           Animated.timing(
-            that.state.placeholderVisible,
+            that.state.fadeIn,
             {
               toValue: 1,
               duration: 250,
             }
-          ).start();
+          ).start(() => {
+            Animated.timing(
+              that.state.placeholderVisible,
+              {
+                toValue: 1,
+                duration: 250,
+              }
+            ).start();
+          });
         } else {
           Animated.timing(
-            that.state.placeholderVisible,
+            that.state.fadeIn,
             {
-              toValue: 0,
+              toValue: 1,
               duration: 250,
             }
-          ).start();
+          ).start(() => {
+            Animated.timing(
+              that.state.placeholderVisible,
+              {
+                toValue: 0,
+                duration: 250,
+              }
+            ).start();
+          });
         }
 
         // Use this line in release
@@ -610,6 +626,8 @@ export default class Dashboard extends Component {
             isPremium: fData,
           });
         }
+
+      }).catch(function(error) {
         console.log('Failed to load user permission data into state:', error);
       });
     }).catch(function(error) {
