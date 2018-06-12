@@ -489,8 +489,6 @@ export default class Dashboard extends Component {
       list_i: this.state.list_i - 1,
       graphToggleable: this.state.list_i - 1 >= 5 ? true : false,
       averageMPG: averageMPG,
-      averageDistanceBtwnFillups: averageDistance,
-      averageFillupCost: averageCost,
       updatedODO: ODO,
     });
     if(key == 5){
@@ -570,6 +568,24 @@ export default class Dashboard extends Component {
             list_i: fData.length,
             graphToggleable: fData.length >= 5 ? true : false,
           });
+        }
+
+        if(that.state.textDataArr.length == 0){
+          Animated.timing(
+            that.state.placeholderVisible,
+            {
+              toValue: 1,
+              duration: 250,
+            }
+          ).start();
+        } else {
+          Animated.timing(
+            that.state.placeholderVisible,
+            {
+              toValue: 0,
+              duration: 250,
+            }
+          ).start();
         }
 
         // Use this line in release
@@ -869,7 +885,7 @@ export default class Dashboard extends Component {
           />
           <Text style={styleguide.dark_title2_secondary}>hello there!</Text>
           <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Looks like you haven't added any fill-ups yet. <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text> to add your first!</Text>
-          <Text style={{color: GLOBAL.COLOR.GREEN}}>Tap the green plus button</Text>
+          <Text></Text>
           <Text style={[styleguide.dark_body_secondary, {textAlign: 'center'}]}>Or you could <Text style={{color: GLOBAL.COLOR.GREEN}}>tap the green map button</Text> to plan a trip</Text>
         </Animated.View>
 
