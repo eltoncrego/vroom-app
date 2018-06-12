@@ -592,6 +592,9 @@ export default class Dashboard extends Component {
         const notif = new Notifications();
         notif.requestPermission();
 
+        // DEBUG
+        notif.showLocalNotification();
+
         if (fData.length <= 1){
           notif.scheduleLocalNotification(604800000, 'Running a little dry?', 'Dont forget to add your latest fillup!', 'sub text', 'weekreminder-scheduled');
         } else {
@@ -607,7 +610,6 @@ export default class Dashboard extends Component {
             isPremium: fData,
           });
         }
-      }).catch(function(error) {
         console.log('Failed to load user permission data into state:', error);
       });
     }).catch(function(error) {
