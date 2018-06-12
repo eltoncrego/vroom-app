@@ -116,7 +116,7 @@ export default class GasList extends Component {
     return (
       <FlatList
         style={this.props.style}
-        data={this.props.data.reverse()}
+        data={this.props.data}
         keyExtractor={(item) => item.list_i.toString()}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({item}) => this.renderItem(item)}
