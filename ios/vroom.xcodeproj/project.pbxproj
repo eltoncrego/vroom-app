@@ -839,8 +839,8 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				59F5B26E202ACE5D0000C7B5 /* Embed Frameworks */,
-				54415CA47CFB24FBE76E40AB /* [CP] Embed Pods Frameworks */,
 				B449027C209FD90830E646C9 /* [CP] Copy Pods Resources */,
+				E140ABE71B1BD48248EEA9C5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1352,21 +1352,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		54415CA47CFB24FBE76E40AB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vroom/Pods-vroom-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		B2384EE5D4D77BE8C059F40F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1401,6 +1386,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vroom/Pods-vroom-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E140ABE71B1BD48248EEA9C5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-vroom/Pods-vroom-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1517,7 +1517,7 @@
 				CODE_SIGN_ENTITLEMENTS = vroom/vroom.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Revi Fast (2UK987CMX2)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 24;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 48FK3SRUK7;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1561,7 +1561,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Revi Technologies LLC (48FK3SRUK7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Revi Technologies LLC (48FK3SRUK7)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 48FK3SRUK7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
